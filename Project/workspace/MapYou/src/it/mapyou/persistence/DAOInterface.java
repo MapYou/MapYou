@@ -18,4 +18,5 @@ public interface DAOInterface<T> {
 	public boolean update(T t);
 	
 	public List<T> selectAll();
+	
 }
