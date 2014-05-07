@@ -1,5 +1,0 @@
-INDEX VERSION 1.126+C:\Users\Mentalist\Documents\MapYou\MapYou\Project\workspace\.metadata\.plugins\org.eclipse.jdt.core
-1284074322.index
-190905450.index
-2534159524.index
-2765446282.index
