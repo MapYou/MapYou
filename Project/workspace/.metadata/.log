@@ -260,3 +260,12 @@ Write access not allowed during rendering (user.timezone)
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
+
+!ENTRY org.eclipse.ui 4 4 2014-05-07 12:59:02.454
+!MESSAGE Plug-in 'org.melord.android.adt.ext' contributed an invalid Menu Extension (Path: 'org.melord.android.adt.ext.menu1' is invalid): org.melord.android.adt.ext.newActivity
+
+!ENTRY org.eclipse.ui 4 4 2014-05-07 12:59:27.674
+!MESSAGE Plug-in 'org.melord.android.adt.ext' contributed an invalid Menu Extension (Path: 'org.melord.android.adt.ext.menu1' is invalid): org.melord.android.adt.ext.newActivity
+
+!ENTRY org.eclipse.ui 4 4 2014-05-07 12:59:49.271
+!MESSAGE Plug-in 'org.melord.android.adt.ext' contributed an invalid Menu Extension (Path: 'org.melord.android.adt.ext.menu1' is invalid): org.melord.android.adt.ext.newActivity
