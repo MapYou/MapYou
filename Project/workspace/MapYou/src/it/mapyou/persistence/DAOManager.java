@@ -3,7 +3,10 @@
  */
 package it.mapyou.persistence;
 
-import java.util.Set;
+import it.mapyou.model.MapMe;
+import it.mapyou.model.Notification;
+import it.mapyou.model.User;
+
 
 /**
  * @author mapyou (mapyouu@gmail.com)

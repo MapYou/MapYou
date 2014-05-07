@@ -3,6 +3,8 @@
  */
 package it.mapyou.persistence;
 
+import it.mapyou.model.SubjectModel;
+
 /**
  * @author mapyou (mapyouu@gmail.com)
  *

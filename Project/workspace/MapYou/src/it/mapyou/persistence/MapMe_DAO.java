@@ -3,6 +3,9 @@
  */
 package it.mapyou.persistence;
 
+import it.mapyou.model.Segment;
+import it.mapyou.model.User;
+
 import java.util.List;
 
 /**
