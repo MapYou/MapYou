@@ -7,8 +7,6 @@ package it.mapyou.model;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface ObserverSubject {
+public class Client {
 
-	public void update(Subject s);
-	
 }

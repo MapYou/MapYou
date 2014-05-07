@@ -7,8 +7,7 @@ package it.mapyou.model;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface ObserverSubject {
+public interface ModelCreator {
 
-	public void update(Subject s);
-	
+	public SubjectModel create(String type);
 }
