@@ -7,7 +7,7 @@ package it.mapyou.model;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class User{
+public class User extends SubjectModel{
 	
 	private String nickname;
 	private String firstname;
@@ -15,22 +15,12 @@ public class User{
 	private String password;
 	private String email;
 	
-
-	/**
-	 * @param nickname
-	 * @param firstname
-	 * @param lastname
-	 * @param password
-	 * @param email
-	 */
-	public User(String nickname, String firstname, String lastname,
-			String password, String email) {
-		super();
-		this.nickname = nickname;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.password = password;
-		this.email = email;
+	public User() {
+		this.nickname = "";
+		this.firstname = "";
+		this.lastname = "";
+		this.password = "";
+		this.email = "";
 	}
 	
 	public String getNickname() {

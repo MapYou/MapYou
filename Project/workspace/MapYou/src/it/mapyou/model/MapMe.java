@@ -3,7 +3,8 @@
  */
 package it.mapyou.model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -12,20 +13,20 @@ import java.util.HashMap;
 public class MapMe extends SubjectModel {
 	
 	private User administrator;
-	private HashMap<User, Mapping> mapping;
+	private List<Mapping> mapping;
 	
 	/**
 	 * 
 	 */
 	public MapMe() {
-		mapping= new HashMap<User, Mapping>();
+		mapping= new ArrayList<Mapping>();
 	}
 	
-	public boolean insertMapping(){
+	public boolean insertMapping(Mapping m){
 		return false;
 		
 	}
-	public boolean removeMapping(){
+	public boolean removeMapping(Mapping m){
 		return false;
 		
 	}
