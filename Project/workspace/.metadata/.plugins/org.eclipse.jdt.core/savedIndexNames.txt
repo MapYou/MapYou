@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+C:\Users\Mentalist\Documents\MapYou\MapYou\Project\workspace\.metadata\.plugins\org.eclipse.jdt.core
+190905450.index
