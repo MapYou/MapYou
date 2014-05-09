@@ -9,7 +9,7 @@ package it.mapyou.persistence;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public abstract class DAOManager implements Source {
+public abstract class DAOManager {
 	
 	public abstract boolean commit();
 	
