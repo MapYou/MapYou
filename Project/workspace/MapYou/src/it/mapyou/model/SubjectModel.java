@@ -24,4 +24,11 @@ public abstract class SubjectModel extends Subject{
 	public final void setModelID(int modelID) {
 		this.modelID = modelID;
 	}
+	
+	public boolean equals(Object o){
+		if(o instanceof SubjectModel){
+			return modelID==((SubjectModel)o).getModelID();
+		}else
+			return false;
+	}
 }

@@ -3,30 +3,32 @@
  */
 package it.mapyou.model;
 
-import java.util.List;
+import java.util.Vector;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapRoute extends AbstractSegment {
+public class Route extends AbstractSegment {
 	
-	/**
-	 * 
-	 */
-	public MapRoute() {
-		 
+	private Vector<Segment> segments;
+	
+	public Route(){
+		segments = new Vector<Segment>();
 	}
 	
-	public boolean addSegment(Segment s){
-		return false;
-	}
-	public boolean removeSegment(Segment s){
-		return false;
+	public void addSegment(Segment...segmentss){
+		for(int i=0; i<segmentss.length; i++)
+			segments.add(segmentss[i]);
 	}
 	
-	public List<Segment> getSegments(){
-		return null;
+	public void removeSegment(Segment...s){
+		for(int i=s.length-1; i>=0; i--)
+			segments.remove(s[i]);
+	}
+	
+	public Vector<Segment> getSegments(){
+		return segments;
 		
 	}
 
