@@ -8,5 +8,7 @@ package it.mapyou.model;
  *
  */
 public class Client {
+	
+	//nuhnh
 
 }
