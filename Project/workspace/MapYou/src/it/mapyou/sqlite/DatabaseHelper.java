@@ -30,7 +30,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// Mapme Items
 	public static final String ID_MAPME="id";
+<<<<<<< HEAD
 	public static final String ID_USER_ADMIN="administrator";
+=======
+	public static final String ID_USER_ADMIN="idUser";
+>>>>>>> d33f0a58dc6e5fbd532102d91e80e59a1b94405c
 
 
 	// Mapping Items
@@ -47,9 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String LENGHT="lenght";
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 
 =======
+=======
+>>>>>>> d33f0a58dc6e5fbd532102d91e80e59a1b94405c
 	// Partecipation
 	public static final String ID_PARTECIPATION="id";
 	public static final String ID_USER_PARTECIPATION="idUserP";
@@ -57,6 +64,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String ACCEPTANCE_PARTECIPATION="acceptance";
 	public static final String REQUEST_PARTECIPATION="request";
 	
+<<<<<<< HEAD
+>>>>>>> d33f0a58dc6e5fbd532102d91e80e59a1b94405c
+=======
 >>>>>>> d33f0a58dc6e5fbd532102d91e80e59a1b94405c
 	//Constant
 	public static final String CONSTANTS="ON DELETE CASCADE ON UPDATE CASCADE";
