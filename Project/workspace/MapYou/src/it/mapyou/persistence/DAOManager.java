@@ -11,7 +11,13 @@ package it.mapyou.persistence;
  */
 public abstract class DAOManager {
 	
-	public abstract Source getSource();
+	public abstract boolean commit();
+	
+	public abstract boolean rollback();
+	
+	public abstract boolean connect();
+	
+	public abstract boolean close();
 	
 	public abstract User_DAO getUserDAO();
 

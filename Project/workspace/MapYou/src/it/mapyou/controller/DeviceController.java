@@ -23,8 +23,8 @@ public class DeviceController implements Controller{
 		return dao;
 	}
 	
-	public FactoryModelCreator getCreator() {
-		return FactoryModelCreator.getInstance();
+	public ModelCreator getCreator() {
+		return ModelCreator.getInstance();
 	}
 
 	@Override

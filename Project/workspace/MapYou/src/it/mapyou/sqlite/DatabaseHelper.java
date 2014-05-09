@@ -18,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String MAPPING="mapping";
 	public static final String USER="user";
 	public static final String SEGMENT="segment";
+	public static final String PARTECIPATION="partecipation";
 
 	// User Items
 	public static final String ID_USER="id"; 
@@ -44,7 +45,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String START_LON="startLon";
 	public static final String END_LON="endLon";
 	public static final String LENGHT="lenght";
-
+	
+	// Partecipation
+	public static final String ID_PARTECIPATION="id";
+	public static final String ID_USER_PARTECIPATION="idUserP";
+	public static final String ID_MAPME_PARTECIPATION="idMapmeP";
+	public static final String ACCEPTANCE_PARTECIPATION="acceptance";
+	public static final String REQUEST_PARTECIPATION="request";
+	
 	//Constant
 	public static final String CONSTANTS="ON DELETE CASCADE ON UPDATE CASCADE";
 
@@ -84,6 +92,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ DatabaseHelper.END_LON+ " double not null, "
 			+ DatabaseHelper.LENGHT+ " double not null);";
 	 
+	private static final String PARTECIPATION_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
+			+ DatabaseHelper.PARTECIPATION + " (" 
+			+ DatabaseHelper.ID_PARTECIPATION+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+			+ DatabaseHelper.ID_USER_PARTECIPATION+ " int not null, "
+			+ DatabaseHelper.ID_MAPME_PARTECIPATION+ " int not null, "
+			+ DatabaseHelper.ACCEPTANCE_PARTECIPATION+ " int not null DEFAULT 0, "
+			+ DatabaseHelper.REQUEST_PARTECIPATION+ " int not null DEFAULT 0, "
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME_PARTECIPATION+") REFERENCES "+DatabaseHelper.MAPME+" ("+DatabaseHelper.ID_MAPME+") "+DatabaseHelper.CONSTANTS+","
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_USER_PARTECIPATION+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+");";
 
 	public DatabaseHelper(Context context){
 		super(context, NAME_DB, null, 1);
@@ -96,6 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(MAPME_TAB_CREATE);
 		db.execSQL(SEGMENT_TAB_CREATE);
 		db.execSQL(MAPPING_TAB_CREATE);
+		db.execSQL(PARTECIPATION_TAB_CREATE);
 
 	}
 	@Override
