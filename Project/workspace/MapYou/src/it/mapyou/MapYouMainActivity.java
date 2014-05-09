@@ -1,6 +1,7 @@
 package it.mapyou;
 
 import it.mapyou.model.User;
+import it.mapyou.sqlite.TestOpenDb;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,9 @@ public class MapYouMainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
+		
+		Intent in = new Intent(this, TestOpenDb.class);
+		startActivity(in);
 
 	}
 
