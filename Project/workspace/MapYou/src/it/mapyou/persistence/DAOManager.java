@@ -10,7 +10,7 @@ package it.mapyou.persistence;
  *
  */
 public abstract class DAOManager {
-
+	
 	public abstract Source getSource();
 	
 	public abstract User_DAO getUserDAO();

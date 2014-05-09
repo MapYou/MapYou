@@ -10,12 +10,26 @@ package it.mapyou.model;
 public class FactoryModelCreator implements ModelCreator {
 
 	/* (non-Javadoc)
-	 * @see it.mapyou.model.ModelCreator#create(java.lang.String)
+	 * @see it.mapyou.model.ModelCreator#create(java.lang.Class)
 	 */
 	@Override
-	public SubjectModel create(String type) {
+	public SubjectModel create(Class<? extends SubjectModel> clazz) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			return clazz.newInstance().getClass().cast(clazz);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new FactoryModelCreator().create(User.class).getClass().getSimpleName());
 	}
 
 }
