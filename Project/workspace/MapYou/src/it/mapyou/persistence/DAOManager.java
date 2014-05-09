@@ -9,9 +9,15 @@ package it.mapyou.persistence;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public abstract class DAOManager {
+public abstract class DAOManager implements Source {
 	
-	public abstract Source getSource();
+	public abstract boolean commit();
+	
+	public abstract boolean rollback();
+	
+	public abstract boolean connect();
+	
+	public abstract boolean close();
 	
 	public abstract User_DAO getUserDAO();
 

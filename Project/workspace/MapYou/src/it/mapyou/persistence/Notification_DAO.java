@@ -10,6 +10,7 @@ import it.mapyou.model.Notification;
  *
  */
 public interface Notification_DAO extends DAOSubjectModelInterface<Notification> {
-
+	
+	
 
 }

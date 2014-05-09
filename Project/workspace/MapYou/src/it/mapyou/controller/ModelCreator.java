@@ -9,9 +9,20 @@ import it.mapyou.model.SubjectModel;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface ModelCreator {
+public class ModelCreator extends AbstractCreator<SubjectModel> {
 
-	public SubjectModel create(Class<? extends SubjectModel> clazz);
+	private static ModelCreator instance;
 	
-	public SubjectModel create(String type);
+	private ModelCreator(){
+		
+	}
+	
+	/**
+	 * @return the instance
+	 */
+	public static ModelCreator getInstance() {
+		if(instance == null)
+			instance = new ModelCreator();
+		return instance;
+	}
 }

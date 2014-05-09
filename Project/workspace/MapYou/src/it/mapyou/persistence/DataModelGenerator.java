@@ -21,6 +21,7 @@ public class DataModelGenerator {
 	
 	public void generateUsers(int numUser, int mappingForUser, int numSegmentForMapping,
 			int numMapMeForUser){
+		
 		Random r = new Random();
 		for(int i=0; i<numUser; i++){
 			User u = new User();

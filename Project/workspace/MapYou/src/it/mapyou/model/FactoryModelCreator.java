@@ -18,11 +18,11 @@ public class FactoryModelCreator implements ModelCreator {
 		try {
 			return clazz.newInstance().getClass().cast(clazz);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return null;
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return null;
 		}
