@@ -17,9 +17,18 @@ public class SqlLyteDaoManager extends DAOManager {
 	 
 	public SqlLyteDaoManager() {
 		
+		
 		 
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.persistence.Source#commit()
+	 */
+	@Override
+	public boolean commit() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	 
 	@Override
 	public Source getSource() {
