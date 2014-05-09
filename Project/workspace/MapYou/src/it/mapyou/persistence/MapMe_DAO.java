@@ -17,4 +17,5 @@ public interface MapMe_DAO extends DAOSubjectModelInterface<MapMe> {
 
 	public List<Segment> selectSegmentByUser(User user);
 	public List<MapMe> selectByUser(User user);
+	
 }
