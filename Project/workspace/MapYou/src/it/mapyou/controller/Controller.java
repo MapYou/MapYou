@@ -3,7 +3,6 @@
  */
 package it.mapyou.controller;
 
-import it.mapyou.model.Point;
 import it.mapyou.model.User;
 
 /**
@@ -21,5 +20,7 @@ public interface Controller {
 	public boolean disconnet();
 	
 	public void partecipate();
+	
+	public void init();
 
 }
