@@ -26,13 +26,8 @@ public class SQLiteDAOManager extends DAOManager {
 	private DatabaseHelper conn;
 	
 	private SQLiteDAOManager(Context c){
-<<<<<<< HEAD
 		sql_mapme = new SQLiteMapMeDAO(db);
-		sql_user = new SQLiteUserDAO();
-=======
-		sql_mapme = new SQLiteMapMeDAO();
 		sql_user = new SQLiteUserDAO(db);
->>>>>>> 55e875f1d72039ff4989f7a35599e49d3ab01632
 		conn=new DatabaseHelper(c);
 	}
 	
