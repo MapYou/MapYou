@@ -20,10 +20,6 @@ public interface Controller {
 	
 	public boolean disconnet();
 	
-	public boolean deleteUser(User user);
-	
-	public Point getPosition(GeoController geo);
-	
-	public boolean notifyUser(User user);
+	public void partecipate();
 
 }

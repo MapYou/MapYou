@@ -26,8 +26,13 @@ public class SQLiteDAOManager extends DAOManager {
 	private DatabaseHelper conn;
 	
 	private SQLiteDAOManager(Context c){
+<<<<<<< HEAD
 		sql_mapme = new SQLiteMapMeDAO(db);
 		sql_user = new SQLiteUserDAO();
+=======
+		sql_mapme = new SQLiteMapMeDAO();
+		sql_user = new SQLiteUserDAO(db);
+>>>>>>> 55e875f1d72039ff4989f7a35599e49d3ab01632
 		conn=new DatabaseHelper(c);
 	}
 	
@@ -109,12 +114,11 @@ public class SQLiteDAOManager extends DAOManager {
 	 */
 	@Override
 	public boolean connect() {
-		// TODO Auto-generated method stub
+		
 		try {
 			db=conn.getWritableDatabase();
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
@@ -124,12 +128,11 @@ public class SQLiteDAOManager extends DAOManager {
 	 */
 	@Override
 	public boolean close() {
-		// TODO Auto-generated method stub
+		
 		try {
 			conn.close();
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}

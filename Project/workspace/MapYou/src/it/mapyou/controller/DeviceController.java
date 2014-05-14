@@ -3,7 +3,6 @@
  */
 package it.mapyou.controller;
 
-import it.mapyou.model.Point;
 import it.mapyou.model.User;
 import it.mapyou.persistence.DAOManager;
 
@@ -29,50 +28,48 @@ public class DeviceController implements Controller{
 
 	@Override
 	public boolean login(User user) {
-		// TODO Auto-generated method stub
+		
 		try {
 			return dao.getUserDAO().selectByNickname(user.getNickname()).equals(user);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
 
 	@Override
 	public boolean registration(User user) {
-		// TODO Auto-generated method stub
+	
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#forgotPassword(it.mapyou.model.User)
+	 */
 	@Override
 	public boolean forgotPassword(User user) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#disconnet()
+	 */
 	@Override
 	public boolean disconnet() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#partecipate()
+	 */
 	@Override
-	public boolean deleteUser(User user) {
+	public void partecipate() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
 
-	@Override
-	public Point getPosition(GeoController geo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean notifyUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+ 
 	
 	
 
