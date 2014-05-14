@@ -29,18 +29,17 @@ public class DeviceController implements Controller{
 
 	@Override
 	public boolean login(User user) {
-		// TODO Auto-generated method stub
+		
 		try {
 			return dao.getUserDAO().selectByNickname(user.getNickname()).equals(user);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
 
 	@Override
 	public boolean registration(User user) {
-		// TODO Auto-generated method stub
+	
 		return false;
 	}
 

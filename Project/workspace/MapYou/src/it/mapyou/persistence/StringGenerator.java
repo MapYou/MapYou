@@ -14,11 +14,14 @@ public class StringGenerator {
 
 	public static String generateString(){
 		Random r = new Random();
+		
 		int dim = r.nextInt(10)+4;
 		StringBuilder s = new StringBuilder();
 		for(int i=0; i<dim; i++)
 			s.append(alp[r.nextInt(26)]);
 		return s.toString();
 	}
+	
+	
 
 }
