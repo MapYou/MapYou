@@ -25,12 +25,10 @@ public class SQLiteDAOManager extends DAOManager {
 	private SQLiteDatabase db;
 	private DatabaseHelper conn;
 	
-<<<<<<< HEAD
+ 
 	public SQLiteDAOManager(Context c){
-		
-=======
-	private SQLiteDAOManager(Context c){
->>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
+
+ 
 		conn=new DatabaseHelper(c);
 	}
 	
@@ -128,14 +126,13 @@ public class SQLiteDAOManager extends DAOManager {
 	public boolean close() {
 		
 		try {
-<<<<<<< HEAD
 			conn.delete(db);
 			conn.close();
-=======
-			db.execSQL("drop database "+DatabaseHelper.NAME_DB);
+ 
+			//db.execSQL("drop database "+DatabaseHelper.NAME_DB);
 			//db.close();
 			//conn.close();
->>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
+ 
 			return true;
 		} catch (Exception e) {
 			return false;

@@ -6,10 +6,7 @@ package it.mapyou.sqlite;
 
 import java.io.File;
 
-<<<<<<< HEAD
-=======
 import android.annotation.SuppressLint;
->>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -147,9 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			onCreate(db);
 	}
 	
-	public boolean delete(SQLiteDatabase db){
-		return SQLiteDatabase.deleteDatabase(new File(db.getPath()));
-	}
+	 
 	
 	@Override
 	public void onOpen(SQLiteDatabase db) {
