@@ -4,6 +4,7 @@
 package it.mapyou.controller;
 
 import it.mapyou.model.User;
+import it.mapyou.network.NotificationServerInterface;
 import it.mapyou.network.ServerInterface;
 import it.mapyou.persistence.DAOManager;
 
@@ -16,9 +17,18 @@ public class DeviceController implements Controller{
 	private DAOManager dao;
 	private ServerInterface server;
 	private GeoController geoController;
+	private NotificationServerInterface notificationServer;
+	private StringSecurityController security;
 
 	public DAOManager getDao() {
 		return dao;
+	}
+	
+	/**
+	 * @return the security
+	 */
+	public StringSecurityController getSecurity() {
+		return security;
 	}
 	
 	public ModelCreator getCreator() {
@@ -87,6 +97,27 @@ public class DeviceController implements Controller{
 	public void init() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * @return the server
+	 */
+	public ServerInterface getServer() {
+		return server;
+	}
+
+	/**
+	 * @return the geoController
+	 */
+	public GeoController getGeoController() {
+		return geoController;
+	}
+
+	/**
+	 * @return the notificationServer
+	 */
+	public NotificationServerInterface getNotificationServer() {
+		return notificationServer;
 	}
 
 

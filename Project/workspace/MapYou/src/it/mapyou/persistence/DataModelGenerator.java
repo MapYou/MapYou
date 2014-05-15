@@ -61,7 +61,7 @@ public class DataModelGenerator {
 						s.addSegment(s1);
 					}
 					mp.setUser(u);
-					mp.setSegment(s);
+					mp.setRoute(s);
 					m.insertMapping(mp);
 				}
 				dao.getMapMeDAO().insert(m);

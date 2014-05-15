@@ -12,14 +12,20 @@ import java.util.Vector;
 public class Route extends AbstractSegment {
 	
 	private Vector<Segment> segments;
+	private double length;
 	
 	public Route(){
 		segments = new Vector<Segment>();
+		length = 0.0;
 	}
 	
 	public void addSegment(Segment...segmentss){
 		for(int i=0; i<segmentss.length; i++)
-			segments.add(segmentss[i]);
+			{
+			Segment s = segmentss[i];
+			length+=s.getLenght();
+			segments.add(s);
+			}
 	}
 	
 	public void removeSegment(Segment...s){
@@ -38,7 +44,7 @@ public class Route extends AbstractSegment {
 	@Override
 	public double getLenght() {
 		// TODO Auto-generated method stub
-		return 0;
+		return length;
 	}
 
 }

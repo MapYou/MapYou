@@ -4,35 +4,94 @@
 package it.mapyou.model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMe extends SubjectModel {
+public class MapMe extends SubjectModel implements Notificable{
 	
 	private User administrator;
 	private List<Mapping> mapping;
+	private GregorianCalendar creationDate;
+	private int numUsers, maxNumUsers;
 	
 	/**
 	 * 
 	 */
 	public MapMe() {
 		mapping= new ArrayList<Mapping>();
+		creationDate = new GregorianCalendar();
 	}
 	
-	public boolean insertMapping(Mapping m){
-		return mapping.add(m);
-		
+	/**
+	 * @return the creationDate
+	 */
+	public GregorianCalendar getCreationDate() {
+		return creationDate;
 	}
-	public boolean removeMapping(Mapping m){
-		return false;
-		
+	
+	/**
+	 * @return the maxNumUsers
+	 */
+	public int getMaxNumUsers() {
+		return maxNumUsers;
 	}
+	
+	/**
+	 * @return the numUsers
+	 */
+	public int getNumUsers() {
+		return numUsers;
+	}
+	
+	/**
+	 * @param creationDate the creationDate to set
+	 */
+	public void setCreationDate(GregorianCalendar creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	/**
+	 * @param maxNumUsers the maxNumUsers to set
+	 */
+	public void setMaxNumUsers(int maxNumUsers) {
+		this.maxNumUsers = maxNumUsers;
+	}
+	
+	/**
+	 * @param numUsers the numUsers to set
+	 */
+	public void setNumUsers(int numUsers) {
+		this.numUsers = numUsers;
+	}
+	
+	public boolean insertMapping(Mapping...m){
+		try {
+			for(int i=0; i<m.length; i++)
+				mapping.add(m[i]);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+	
+	public boolean removeMapping(Mapping...m){
+		try {
+			for(int i=0; i<m.length; i++)
+				mapping.remove(m[i]);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+	
 	public boolean removeAllMapping(){
-		return false;
-		
+		return mapping.removeAll(mapping);
 	}
 
 	/**
