@@ -4,13 +4,17 @@
 package it.mapyou.network;
 
 
+
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface ServerInterface {
+public interface ServerInterface<T extends Resource> {
 
-	public Connection getConnection();
+
+	public boolean close();
 	
-	public void disconnect();
+	public boolean open();
+	
+	public Response<T> request(Request<T> req);
 }
