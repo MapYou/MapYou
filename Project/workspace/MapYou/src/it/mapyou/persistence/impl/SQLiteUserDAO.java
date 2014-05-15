@@ -90,7 +90,20 @@ public class SQLiteUserDAO implements User_DAO {
 	@Override
 	public List<User> selectAll() {
 		// TODO Auto-generated method stub
-		return null;
+		List<User> li = new ArrayList<User>();
+		String query= "SELECT * FROM "+DatabaseHelper.USER+";";
+		Cursor c=db.rawQuery(query, null);
+		while(c.moveToNext()){
+			User user= new User();
+			user.setModelID(c.getInt(0));
+			user.setNickname(c.getString(1));
+			user.setPassword(c.getString(2));
+			user.setEmail(c.getString(3));
+			user.setFirstname(c.getString(4));
+			user.setLastname(c.getString(5));
+			li.add(user);
+		}
+		return li;
 	}
 
 	/* (non-Javadoc)

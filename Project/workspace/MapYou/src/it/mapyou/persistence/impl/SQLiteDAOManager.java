@@ -26,8 +26,6 @@ public class SQLiteDAOManager extends DAOManager {
 	private DatabaseHelper conn;
 	
 	private SQLiteDAOManager(Context c){
-		sql_mapme = new SQLiteMapMeDAO(db);
-		sql_user = new SQLiteUserDAO(db);
 		conn=new DatabaseHelper(c);
 	}
 	
@@ -103,10 +101,19 @@ public class SQLiteDAOManager extends DAOManager {
 		
 		try {
 			db=conn.getWritableDatabase();
+			sql_mapme = new SQLiteMapMeDAO(db);
+			sql_user = new SQLiteUserDAO(db);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	 /**
+	 * @return the db
+	 */
+	public SQLiteDatabase getDb() {
+		return db;
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +123,9 @@ public class SQLiteDAOManager extends DAOManager {
 	public boolean close() {
 		
 		try {
-			conn.close();
+			db.execSQL("drop database "+DatabaseHelper.NAME_DB);
+			//db.close();
+			//conn.close();
 			return true;
 		} catch (Exception e) {
 			return false;
