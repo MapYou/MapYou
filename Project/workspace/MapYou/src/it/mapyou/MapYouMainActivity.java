@@ -11,8 +11,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
+import org.apache.http.protocol.HttpRequestExecutor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +27,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 public class MapYouMainActivity extends Activity {
@@ -45,11 +48,11 @@ public class MapYouMainActivity extends Activity {
 	}
 
 	public void test (View v){
-		SQLiteDAOManager s = SQLiteDAOManager.getInstance(getApplicationContext());
-		s.connect();
-		s.getDb().execSQL("drop database "+DatabaseHelper.NAME_DB+";");
-		Toast.makeText(getApplicationContext(), s.getDb().getPath(), Toast.LENGTH_LONG).show();
-		//new ConnTest().execute();
+//		SQLiteDAOManager s = SQLiteDAOManager.getInstance(getApplicationContext());
+//		s.connect();
+//		s.getDb().execSQL("drop database "+DatabaseHelper.NAME_DB+";");
+//		Toast.makeText(getApplicationContext(), s.getDb().getPath(), Toast.LENGTH_LONG).show();
+		new ConnTest().execute();
 	}
 
 
@@ -84,10 +87,9 @@ public class MapYouMainActivity extends Activity {
 
 			boolean isLogin=false;
 			try {
-				url= new URL("http://mapyou.altervista.org/myMapYou/test_user.php?user="+user+"&"+"password="+password);
+				url= new URL("https://mapyou.altervista.org/myMapYou/test_user.php?user="+user+"&"+"password="+password);
 				urlConn = (HttpURLConnection) url.openConnection();
 				reader= new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-
 				while((line=reader.readLine()) !=null){
 					if(!line.equalsIgnoreCase("NotUserRegister")){
 						isLogin=true;
