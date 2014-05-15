@@ -48,7 +48,7 @@ public class SQLiteUserDAO implements User_DAO {
 		try {
 			db.beginTransaction();
 			ContentValues values= new ContentValues();
-			values.put(DatabaseHelper.ID_USER, n.getModelID());
+			//values.put(DatabaseHelper.ID_USER, n.getModelID());
 			values.put(DatabaseHelper.NICKNAME, n.getNickname().toString());
 			values.put(DatabaseHelper.PASSWORD, n.getPassword().toString());
 			values.put(DatabaseHelper.EMAIL, n.getEmail().toString());
