@@ -11,7 +11,7 @@ package it.mapyou.model;
 public class Mapping {
 
 	private User user;
-	private Segment segment;
+	private Route route;
 	
 	/**
 	 * @return the user
@@ -19,24 +19,26 @@ public class Mapping {
 	public User getUser() {
 		return user;
 	}
+
 	/**
 	 * @param user the user to set
 	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
 	/**
-	 * @return the segment
+	 * @return the route
 	 */
-	public Segment getSegment() {
-		return segment;
-	}
-	/**
-	 * @param segment the segment to set
-	 */
-	public void setSegment(Segment segment) {
-		this.segment = segment;
+	public Route getRoute() {
+		return route;
 	}
 	
+	/**
+	 * @param route the route to set
+	 */
+	public void setRoute(Route route) {
+		this.route = route;
+	}
 
 }

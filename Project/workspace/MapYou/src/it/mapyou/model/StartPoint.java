@@ -9,22 +9,4 @@ package it.mapyou.model;
  */
 public class StartPoint extends AbstractPoint {
 
-	/* (non-Javadoc)
-	 * @see it.mapyou.model.Point#getLatitude()
-	 */
-	@Override
-	public double getLatitude() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see it.mapyou.model.Point#getLongitude()
-	 */
-	@Override
-	public double getLongitude() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

@@ -1,18 +1,24 @@
 package it.mapyou;
 
 import it.mapyou.model.User;
+import it.mapyou.persistence.DataModelGenerator;
+import it.mapyou.persistence.impl.SQLiteDAOManager;
+import it.mapyou.sqlite.DatabaseCreator;
+import it.mapyou.sqlite.DatabaseHelper;
 import it.mapyou.sqlite.TestOpenDb;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteCursorDriver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,14 +39,17 @@ public class MapYouMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
 		
-		Intent in = new Intent(this, TestOpenDb.class);
-		startActivity(in);
+//		Intent in = new Intent(this, TestOpenDb.class);
+//		startActivity(in);
 
 	}
 
 	public void test (View v){
-
-		new ConnTest().execute();
+		SQLiteDAOManager s = SQLiteDAOManager.getInstance(getApplicationContext());
+		s.connect();
+		s.getDb().execSQL("drop database "+DatabaseHelper.NAME_DB+";");
+		Toast.makeText(getApplicationContext(), s.getDb().getPath(), Toast.LENGTH_LONG).show();
+		//new ConnTest().execute();
 	}
 
 

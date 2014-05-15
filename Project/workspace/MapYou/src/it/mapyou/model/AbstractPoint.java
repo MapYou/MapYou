@@ -9,7 +9,7 @@ package it.mapyou.model;
  */
 public abstract class AbstractPoint extends SubjectModel implements Point{
 
-	private double latitude, longitude;
+	protected double latitude, longitude;
 	
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
@@ -17,5 +17,23 @@ public abstract class AbstractPoint extends SubjectModel implements Point{
 	
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+	
+	/* (non-Javadoc)
+	 * @see it.mapyou.model.Point#getLatitude()
+	 */
+	@Override
+	public double getLatitude() {
+		// TODO Auto-generated method stub
+		return latitude;
+	}
+	
+	/* (non-Javadoc)
+	 * @see it.mapyou.model.Point#getLongitude()
+	 */
+	@Override
+	public double getLongitude() {
+		// TODO Auto-generated method stub
+		return longitude;
 	}
 }

@@ -8,7 +8,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import it.mapyou.persistence.DAOManager;
 import it.mapyou.persistence.MapMe_DAO;
-import it.mapyou.persistence.Notification_DAO;
+import it.mapyou.persistence.Partecipation_DAO;
 import it.mapyou.persistence.Point_DAO;
 import it.mapyou.persistence.User_DAO;
 import it.mapyou.sqlite.DatabaseHelper;
@@ -25,8 +25,12 @@ public class SQLiteDAOManager extends DAOManager {
 	private SQLiteDatabase db;
 	private DatabaseHelper conn;
 	
+<<<<<<< HEAD
 	public SQLiteDAOManager(Context c){
 		
+=======
+	private SQLiteDAOManager(Context c){
+>>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
 		conn=new DatabaseHelper(c);
 	}
 	
@@ -55,15 +59,6 @@ public class SQLiteDAOManager extends DAOManager {
 	public MapMe_DAO getMapMeDAO() {
 		// TODO Auto-generated method stub
 		return sql_mapme;
-	}
-
-	/* (non-Javadoc)
-	 * @see it.mapyou.persistence.DAOManager#getNotificationDAO()
-	 */
-	@Override
-	public Notification_DAO getNotificationDAO() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -118,6 +113,13 @@ public class SQLiteDAOManager extends DAOManager {
 			return false;
 		}
 	}
+	
+	 /**
+	 * @return the db
+	 */
+	public SQLiteDatabase getDb() {
+		return db;
+	}
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.persistence.DAOManager#close()
@@ -126,12 +128,27 @@ public class SQLiteDAOManager extends DAOManager {
 	public boolean close() {
 		
 		try {
+<<<<<<< HEAD
 			conn.delete(db);
 			conn.close();
+=======
+			db.execSQL("drop database "+DatabaseHelper.NAME_DB);
+			//db.close();
+			//conn.close();
+>>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.persistence.DAOManager#getPartecipationDAO()
+	 */
+	@Override
+	public Partecipation_DAO getPartecipationDAO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

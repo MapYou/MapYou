@@ -6,6 +6,10 @@ package it.mapyou.sqlite;
 
 import java.io.File;
 
+<<<<<<< HEAD
+=======
+import android.annotation.SuppressLint;
+>>>>>>> 9f46e58f39422bcea99011e277032fb3ba47a786
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -64,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String USER_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
 			+ DatabaseHelper.USER + " (" 
 			+ DatabaseHelper.ID_USER+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.NICKNAME+ " text not null, "
+			+ DatabaseHelper.NICKNAME+ " text not null unique, "
 			+ DatabaseHelper.PASSWORD+ " text not null, "
 			+ DatabaseHelper.EMAIL+ " text not null, "
 			+ DatabaseHelper.FIRSTANAME + " text, "
@@ -132,6 +136,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onDowngrade(android.database.sqlite.SQLiteDatabase, int, int)
+	 */
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+		if(db.getVersion()==newVersion && delete(db))
+			onCreate(db);
+	}
+	
+	public boolean delete(SQLiteDatabase db){
+		return SQLiteDatabase.deleteDatabase(new File(db.getPath()));
+	}
+	
 	@Override
 	public void onOpen(SQLiteDatabase db) {
 		if(!db.isReadOnly())
