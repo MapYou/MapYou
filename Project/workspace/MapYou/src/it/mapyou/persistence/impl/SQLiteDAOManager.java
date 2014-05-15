@@ -25,9 +25,8 @@ public class SQLiteDAOManager extends DAOManager {
 	private SQLiteDatabase db;
 	private DatabaseHelper conn;
 	
-	private SQLiteDAOManager(Context c){
-		sql_mapme = new SQLiteMapMeDAO(db);
-		sql_user = new SQLiteUserDAO(db);
+	public SQLiteDAOManager(Context c){
+		
 		conn=new DatabaseHelper(c);
 	}
 	
@@ -112,6 +111,8 @@ public class SQLiteDAOManager extends DAOManager {
 		
 		try {
 			db=conn.getWritableDatabase();
+			sql_mapme = new SQLiteMapMeDAO(db);
+			sql_user = new SQLiteUserDAO(db);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -125,6 +126,7 @@ public class SQLiteDAOManager extends DAOManager {
 	public boolean close() {
 		
 		try {
+			conn.delete(db);
 			conn.close();
 			return true;
 		} catch (Exception e) {

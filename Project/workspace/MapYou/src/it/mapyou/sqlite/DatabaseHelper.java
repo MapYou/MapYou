@@ -4,6 +4,8 @@
 package it.mapyou.sqlite;
 
 
+import java.io.File;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -31,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// Mapme Items
 	public static final String ID_MAPME="id";
 	public static final String ID_USER_ADMIN="administrator";
+	public static final String NAME_MAPME="name";
+	public static final String NUM_MAX_USERS="numMaxUsers";
 
 
 	// Mapping Items
@@ -70,6 +74,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ DatabaseHelper.MAPME + " (" 
 			+ DatabaseHelper.ID_MAPME+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
 			+ DatabaseHelper.ID_USER_ADMIN+ " int not null, "
+			+ DatabaseHelper.NAME_MAPME+ " text not null, "
+			+ DatabaseHelper.NUM_MAX_USERS+ " int not null DEFAULT 10, "
 			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+");";
 
 
@@ -106,7 +112,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		super(context, NAME_DB, null, 1);
 
 	}
-
+	
+	public boolean delete (SQLiteDatabase db){
+		return SQLiteDatabase.deleteDatabase(new File(db.getPath()));
+	}
+	 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(USER_TAB_CREATE);
@@ -119,6 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		onCreate(db);
+	
 
 	}
 	@Override
@@ -126,5 +137,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if(!db.isReadOnly())
 			db.execSQL("PRAGMA foreign_keys=ON;");
 	}
+ 
 }
 

@@ -46,7 +46,8 @@ public class SQLiteMapMeDAO implements MapMe_DAO {
 		// TODO Auto-generated method stub
 		db.beginTransaction();
 		try {
-			String query= "SELECT "+DatabaseHelper.ID_USER+" FROM "+DatabaseHelper.USER+" where "+DatabaseHelper.NICKNAME+"="+t.getAdministrator().getNickname()+";";
+			String query= "SELECT "+DatabaseHelper.ID_USER+" FROM "+DatabaseHelper.USER+" WHERE "+DatabaseHelper.NICKNAME+"="+0+";";
+		
 			Cursor c=db.rawQuery(query, null);
 			if(c.getCount()==1 && c.moveToFirst()){
 				ContentValues values= new ContentValues();

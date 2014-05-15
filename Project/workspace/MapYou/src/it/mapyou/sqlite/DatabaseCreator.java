@@ -26,6 +26,12 @@ public class DatabaseCreator {
 		conn=new DatabaseHelper(c);
 	}
 
+	/**
+	 * @return the db
+	 */
+	public SQLiteDatabase getDb() {
+		return db;
+	}
 	public void open(){
 		db=conn.getWritableDatabase();
 	}
@@ -34,6 +40,10 @@ public class DatabaseCreator {
 		conn.close();
 	}
 	
+	public void delete(){
+		conn.delete(db);
+	}
+
 	public void insertUser (User n){
 
 		ContentValues values= new ContentValues();
@@ -42,7 +52,7 @@ public class DatabaseCreator {
 		values.put(DatabaseHelper.EMAIL, n.getEmail().toString());
 		values.put(DatabaseHelper.FIRSTANAME, n.getFirstname().toString());
 		values.put(DatabaseHelper.LASTNAME, n.getLastname().toString());
-	 
+
 		db.insert(DatabaseHelper.USER, null, values);
 	}
 

@@ -4,16 +4,16 @@
  */
 package it.mapyou.persistence.impl;
 
+import it.mapyou.model.User;
+import it.mapyou.persistence.User_DAO;
+import it.mapyou.sqlite.DatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import it.mapyou.model.User;
-import it.mapyou.persistence.User_DAO;
-import it.mapyou.sqlite.DatabaseHelper;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -47,6 +47,7 @@ public class SQLiteUserDAO implements User_DAO {
 		try {
 			db.beginTransaction();
 			ContentValues values= new ContentValues();
+			values.put(DatabaseHelper.ID_USER, n.getModelID());
 			values.put(DatabaseHelper.NICKNAME, n.getNickname().toString());
 			values.put(DatabaseHelper.PASSWORD, n.getPassword().toString());
 			values.put(DatabaseHelper.EMAIL, n.getEmail().toString());
@@ -71,7 +72,10 @@ public class SQLiteUserDAO implements User_DAO {
 	 */
 	@Override
 	public boolean delete(User t) {
-		// TODO Auto-generated method stub
+
+
+
+
 		return false;
 	}
 
@@ -89,8 +93,25 @@ public class SQLiteUserDAO implements User_DAO {
 	 */
 	@Override
 	public List<User> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+
+
+		ArrayList<User> users= new ArrayList<User>();
+		String query= "SELECT * FROM "+DatabaseHelper.USER+";";
+		Cursor c=db.rawQuery(query, null);
+		User user= new User();
+		if(c.moveToFirst())
+			while(!c.isAfterLast()){
+				user.setNickname(c.getString(1));
+				user.setPassword(c.getString(2));
+				user.setEmail(c.getString(3));
+				user.setFirstname(c.getString(4));
+				user.setLastname(c.getString(5));
+				users.add(user);
+				c.moveToNext();
+			}
+		c.close();
+		return users;
+
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +156,10 @@ public class SQLiteUserDAO implements User_DAO {
 	 */
 	@Override
 	public boolean deleteByNickname(User user) {
-		// TODO Auto-generated method stub
+
+
+
+
 		return false;
 	}
 
