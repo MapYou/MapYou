@@ -7,7 +7,7 @@ package it.mapyou.network;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface Connection {
+public interface Connection<T> {
 
 	public boolean close();
 	

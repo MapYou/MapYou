@@ -23,8 +23,6 @@ import android.widget.Toast;
 public class TestOpenDb extends Activity {
 	
 	
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
