@@ -19,6 +19,8 @@ public abstract class DAOManager {
 	
 	public abstract boolean close();
 	
+	public abstract boolean delete();
+	
 	public abstract User_DAO getUserDAO();
 
 	public abstract MapMe_DAO getMapMeDAO();
@@ -26,4 +28,6 @@ public abstract class DAOManager {
 	public abstract Partecipation_DAO getPartecipationDAO();
 	
 	public abstract Point_DAO getPointDAO();
+	
+	public abstract void updateDB();
 }

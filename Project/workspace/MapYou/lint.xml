@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="NewApi">
+        <ignore path="src/it/mapyou/persistence/impl/SQLiteDAOManager.java" />
         <ignore path="src/it/mapyou/sqlite/DatabaseHelper.java" />
     </issue>
 </lint>

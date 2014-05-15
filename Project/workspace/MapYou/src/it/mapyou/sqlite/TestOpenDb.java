@@ -12,6 +12,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
  
 
@@ -33,29 +34,34 @@ public class TestOpenDb extends Activity {
 		 
 		DAOCreator factory= DAOCreator.getInstance();
 		SQLiteDAOManager s=((SQLiteDAOManager) factory.create(SQLiteDAOManager.class)).getInstance(getApplicationContext());
-		 
 		s.connect();
-		s.close(); //close
+		 
+		 
+//		int a=s.getDb().getVersion();
+//		//Toast.makeText(getApplicationContext(), String.valueOf(a), 100000).show();
+//		Log.v("PATH DB",String.valueOf(a));
+//		s.delete();
+	//	s.close(); //close
 //		
-		 
 	 
-		s.connect();
-		User u= new User();
-		u.setModelID(6);
-		u.setEmail("@");
-		u.setFirstname("BASILIO");
-		u.setLastname("Fusco2");
-		u.setPassword("1234");
-		u.setNickname("peppeCixiiiiiii");
-		s.getUserDAO().insert(u);
-		
+		 
+//		User u= new User();
+//		u.setModelID(9);
+//		u.setEmail("@");
+//		u.setFirstname("BASILIO");
+//		u.setLastname("Fusco2");
+//		u.setPassword("1234");
+//		u.setNickname("peppeCixiiiiiii");
+//		s.getUserDAO().insert(u);
+//		
 		StringBuffer ss= new StringBuffer();
 		List<User> prova= s.getUserDAO().selectAll();
 		for(User uu: prova)
 			ss.append(uu.getModelID()+"\n"+uu.getEmail()+"\n"+uu.getFirstname()+"\n"+uu.getLastname()+"\n"+uu.getPassword()+"\n"+uu.getNickname()+"\n");
 	
-		//Log.v("PATH DB",db_map_you.getDb().getPath());
+		Log.v("PATH DB",ss.toString());
 		Toast.makeText(getApplicationContext(),ss, 100000).show();
+		 
 		
 //		db_map_you.insertUser(u);
 ////		

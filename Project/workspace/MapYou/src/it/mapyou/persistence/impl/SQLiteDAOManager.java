@@ -126,7 +126,7 @@ public class SQLiteDAOManager extends DAOManager {
 	public boolean close() {
 		
 		try {
-			conn.delete(db);
+			
 			conn.close();
  
 			//db.execSQL("drop database "+DatabaseHelper.NAME_DB);
@@ -138,6 +138,18 @@ public class SQLiteDAOManager extends DAOManager {
 			return false;
 		}
 	}
+	/* (non-Javadoc)
+	 * @see it.mapyou.persistence.DAOManager#delete()
+	 */
+	@Override
+	public boolean delete() {
+		try{
+		conn.delete(db);
+		return true;
+		}catch (Exception e) {
+			return false;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.persistence.DAOManager#getPartecipationDAO()
@@ -146,6 +158,16 @@ public class SQLiteDAOManager extends DAOManager {
 	public Partecipation_DAO getPartecipationDAO() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.persistence.DAOManager#updateDB()
+	 */
+	@Override
+	public void updateDB() {
+		// TODO Auto-generated method stub
+		//conn.onDowngrade(db, db.getVersion(), db.getVersion()+1);
+		//conn.onUpgrade(db, db.getVersion(), db.getVersion()+1);
 	}
 
 }

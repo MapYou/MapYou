@@ -39,8 +39,8 @@ public class MapYouMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
 		
-//		Intent in = new Intent(this, TestOpenDb.class);
-//		startActivity(in);
+		Intent in = new Intent(this, TestOpenDb.class);
+		startActivity(in);
 
 	}
 

@@ -74,9 +74,6 @@ public class SQLiteUserDAO implements User_DAO {
 	@Override
 	public boolean delete(User t) {
 
-
-
-
 		return false;
 	}
 
@@ -99,9 +96,11 @@ public class SQLiteUserDAO implements User_DAO {
 		ArrayList<User> users= new ArrayList<User>();
 		String query= "SELECT * FROM "+DatabaseHelper.USER+";";
 		Cursor c=db.rawQuery(query, null);
-		User user= new User();
+		
 		if(c.moveToFirst())
 			while(!c.isAfterLast()){
+				User user= new User();
+				user.setModelID(c.getInt(0));
 				user.setNickname(c.getString(1));
 				user.setPassword(c.getString(2));
 				user.setEmail(c.getString(3));

@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String USER_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
 			+ DatabaseHelper.USER + " (" 
 			+ DatabaseHelper.ID_USER+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.NICKNAME+ " text not null unique, "
+			+ DatabaseHelper.NICKNAME+ " text not null UNIQUE , "
 			+ DatabaseHelper.PASSWORD+ " text not null, "
 			+ DatabaseHelper.EMAIL+ " text not null, "
 			+ DatabaseHelper.FIRSTANAME + " text, "
@@ -127,9 +127,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(PARTECIPATION_TAB_CREATE);
 
 	}
+	
+//	public void onDelete(SQLiteDatabase db) {
+//		db.execSQL("DROP TABLE IF EXISTS "+USER+";");
+//		db.execSQL("DROP TABLE IF EXISTS "+MAPME+";");
+//		db.execSQL("DROP TABLE IF EXISTS "+SEGMENT+";");
+//		db.execSQL("DROP TABLE IF EXISTS "+MAPPING+";");
+//		db.execSQL("DROP TABLE IF EXISTS "+PARTECIPATION+";");
+//
+//	}
+	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		
 		onCreate(db);
+		
 	
 
 	}
@@ -140,8 +152,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
-		if(db.getVersion()==newVersion && delete(db))
-			onCreate(db);
+		//delete(db);
+			//onCreate(db);
 	}
 	
 	 
