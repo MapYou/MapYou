@@ -4,8 +4,8 @@
 package it.mapyou.controller;
 
 import it.mapyou.model.User;
-import it.mapyou.network.NotificationServerInterface;
-import it.mapyou.network.ServerInterface;
+import it.mapyou.network.NotificationServer;
+import it.mapyou.network.Server;
 import it.mapyou.persistence.DAOManager;
 
 /**
@@ -15,9 +15,9 @@ import it.mapyou.persistence.DAOManager;
 public class DeviceController implements Controller{
 
 	private DAOManager dao;
-	private ServerInterface server;
-	private GeoController geoController;
-	private NotificationServerInterface notificationServer;
+	private Server server;
+	private AndroidGeoController geoController;
+	private NotificationServer notificationServer;
 	private StringSecurityController security;
 
 	public DAOManager getDao() {
@@ -102,21 +102,21 @@ public class DeviceController implements Controller{
 	/**
 	 * @return the server
 	 */
-	public ServerInterface getServer() {
+	public Server getServer() {
 		return server;
 	}
 
 	/**
 	 * @return the geoController
 	 */
-	public GeoController getGeoController() {
+	public AndroidGeoController getGeoController() {
 		return geoController;
 	}
 
 	/**
 	 * @return the notificationServer
 	 */
-	public NotificationServerInterface getNotificationServer() {
+	public NotificationServer getNotificationServer() {
 		return notificationServer;
 	}
 

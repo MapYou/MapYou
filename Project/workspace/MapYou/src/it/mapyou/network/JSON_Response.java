@@ -7,7 +7,6 @@ package it.mapyou.network;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public abstract class Resource {
+public class JSON_Response implements Request<JSON_Resource>{
 
-	
 }
