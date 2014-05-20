@@ -9,6 +9,8 @@ package it.mapyou.util;
  */
 public interface Settings {
 
-	public static String SERVER_ADDRESS = "";
+	public static final String SERVER_ADDRESS = "http://mapyou.altervista.org/myMapYou/Dao/";
+	
+	public static final String LOGIN_PAGE = "login.php";
 	
 }

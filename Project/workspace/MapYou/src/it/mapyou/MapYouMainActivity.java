@@ -38,23 +38,38 @@ public class MapYouMainActivity extends Activity {
 	private String user="Peppe";
 	private String password="1234";
 	private User userr;
+<<<<<<< HEAD
 	EditText nicknameTextView;
 	EditText passwordTextView; 
+=======
+	private EditText passwordTextView;
+	private EditText nicknameTextView;
+>>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
+<<<<<<< HEAD
 		nicknameTextView = (EditText) findViewById(R.id.nickname);
 		passwordTextView = (EditText) findViewById(R.id.password);
 
 
 		//		Intent in = new Intent(this, TestOpenDb.class);
 		//		startActivity(in);
+=======
+
+		nicknameTextView = (EditText) findViewById(R.id.nickname);
+		passwordTextView = (EditText) findViewById(R.id.password);
+		
+//		Intent in = new Intent(this, TestOpenDb.class);
+//		startActivity(in);
+>>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
 
 	}
 
 	public void test (View v){
+<<<<<<< HEAD
 		new ConnTest().execute();
 		//		SQLiteDAOManager s = SQLiteDAOManager.getInstance(getApplicationContext());
 		//		s.connect();
@@ -82,6 +97,13 @@ public class MapYouMainActivity extends Activity {
 		//			// TODO Auto-generated catch block
 		//			e.printStackTrace();
 		//		}
+=======
+//		SQLiteDAOManager s = SQLiteDAOManager.getInstance(getApplicationContext());
+//		s.connect();
+//		s.getDb().execSQL("drop database "+DatabaseHelper.NAME_DB+";");
+//		Toast.makeText(getApplicationContext(), s.getDb().getPath(), Toast.LENGTH_LONG).show();
+		new ConnTest().execute();
+>>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
 	}
 
 
@@ -104,6 +126,7 @@ public class MapYouMainActivity extends Activity {
 	class ConnTest extends AsyncTask<Void, Void, String>{
 
 		@Override
+<<<<<<< HEAD
 		protected String doInBackground(Void... params) {
 
 			return conn();
@@ -180,6 +203,105 @@ public class MapYouMainActivity extends Activity {
 			//			//			else
 			//			//				return isLogin;
 			//			return isLogin;
+=======
+		protected Boolean doInBackground(Void... params) {
+
+			user = nicknameTextView.getText().toString();
+			password = passwordTextView.getText().toString();
+			
+			boolean isLogin=false;
+			
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HttpPost post = new HttpPost("http://mapyou.altervista.org/myMapYou/Dao/login.php");
+				List<NameValuePair> param = new ArrayList<NameValuePair>();
+				param.add(new BasicNameValuePair("nickname", user));
+				param.add(new BasicNameValuePair("password", password));
+				post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
+				HttpResponse response = client.execute(post);
+				Log.w("http response", EntityUtils.toString(response.getEntity()));
+				Toast.makeText(getApplicationContext(), response.getEntity().toString(), Toast.LENGTH_LONG).show();
+				isLogin = true;
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+//			URL url=null;
+//			HttpURLConnection urlConn=null;
+//			BufferedReader reader=null;
+//			JSONObject jsonObject=null;
+//			JSONArray json=null;
+//			String line=null;
+//			
+//			EditText nicknameTextView = (EditText) findViewById(R.id.nickname);
+//			EditText passwordTextView = (EditText) findViewById(R.id.password);
+//			user = nicknameTextView.getText().toString();
+//			password = passwordTextView.getText().toString();
+//			
+//			boolean isLogin=false;
+//			
+//			try {
+//				HttpClient client = new DefaultHttpClient();
+//				HttpPost post = new HttpPost("http://mapyou.altervista.org/myMapYou/Dao/login.php");
+//				List<NameValuePair> param = new ArrayList<NameValuePair>();
+//				param.add(new BasicNameValuePair("nickname", user));
+//				param.add(new BasicNameValuePair("password", password));
+//				post.setEntity(new UrlEncodedFormEntity(param));
+//				HttpResponse response = client.execute(post);
+//				Log.w("http response", response.getEntity().toString());
+//				Toast.makeText(getApplicationContext(), response.getEntity().toString(), Toast.LENGTH_LONG).show();
+//			} catch (ClientProtocolException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			if(user!=null && password!=null && user.length()>0 && password.length()>0){
+//				try {
+//					url= new URL("http://mapyou.altervista.org/myMapYou/Dao/login.php?nickname="+user+"&"+"password="+password);
+//					urlConn = (HttpURLConnection) url.openConnection();
+//					reader= new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+//					StringBuffer str = new StringBuffer();
+//					while((line=reader.readLine()) !=null){
+//						str.append(line);
+////						if(!line.equalsIgnoreCase("NotUserRegister")){
+////							isLogin=true;
+////							try {
+////								jsonObject= new JSONObject(line);
+////
+////								json= jsonObject.getJSONArray("User"); 
+////								Log.v("jsonObj",json.toString());
+////
+////								for(int i=0; i<json.length(); i++){
+////									JSONObject o = json.getJSONObject(i); 
+////									userr=new User();
+////									userr.setNickname(o.getString("nickname"));	
+////
+////								}
+////								
+////							}catch (Exception e) {
+////								e.printStackTrace();
+//////								Toast.makeText(getApplicationContext(), e.getMessage(), 10000).show();
+////							}
+////						}
+//					}
+//					
+//					Toast.makeText(getApplicationContext(), str.toString(), Toast.LENGTH_LONG).show();
+//				}catch (Exception e) {
+//					e.printStackTrace();
+////					Toast.makeText(getApplicationContext(), e.getMessage(), 10000).show();
+////					return false;
+//				}
+//			}
+//			else
+//				return isLogin;
+			return isLogin;
+>>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
 		}
 
 

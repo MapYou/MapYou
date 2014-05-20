@@ -152,8 +152,6 @@ public class DeviceController implements Controller{
 		
 	}
 
- 
-
 	/**
 	 * @return the geoController
 	 */
