@@ -26,7 +26,13 @@ public class DeviceController implements Controller{
 	public DAOManager getDao() {
 		return localDao;
 	}
+<<<<<<< HEAD
+	
+	 
+	
+=======
 
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	/**
 	 * @return the security
 	 */
@@ -144,8 +150,14 @@ public class DeviceController implements Controller{
 	/**
 	 * @return the server
 	 */
+<<<<<<< HEAD
+	public Server getServer() {
+		
+		return server;
+=======
 	public DAOManager getServer() {
 		return serverDao;
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	}
 
 	/**

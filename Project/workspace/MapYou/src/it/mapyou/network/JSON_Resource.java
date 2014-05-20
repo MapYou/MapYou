@@ -8,5 +8,7 @@ package it.mapyou.network;
  *
  */
 public class JSON_Resource extends Resource{
+	
+	
 
 }

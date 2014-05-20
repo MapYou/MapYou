@@ -3,6 +3,8 @@
  */
 package it.mapyou.network;
 
+import org.json.JSONArray;
+
 
 
 /**
@@ -14,7 +16,9 @@ public interface ServerInterface<T extends Resource> {
 
 	public boolean close();
 	
-	public boolean open();
+	public boolean open(String conn, String parameter);
 	
-	public Response<T> request(Request<T> req);
+	public JSONArray request(String parameters,String url, String jsonObject);
+	
+	public StringBuffer request(String parameters,String url);
 }

@@ -17,15 +17,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="it.mapyou.MapYouMainActivity"
+            android:name="it.mapyou.Login"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".sqlite.TestOpenDb"></activity>
+       
+       
       
          
     </application>
