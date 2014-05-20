@@ -7,8 +7,10 @@ package it.mapyou;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
@@ -17,6 +19,7 @@ import it.mapyou.util.UrlUtility;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,17 +56,30 @@ public class Login extends Activity {
 
 	}
 
-	class ConnTest extends AsyncTask<Void, Void, StringBuffer>{
+
+
+	class ConnTest extends AsyncTask<Void, Void, String>{
+
+		String parameter;
 
 		@Override
-		protected StringBuffer doInBackground(Void... params) {
-
-			parameter="?nickname="+user.getText().toString()+"&password="+password.getText().toString();
+		protected String doInBackground(Void... params) {
 
 
-			StringBuffer b=isLogin(UrlUtility.LOGIN,parameter);
+			try {
+				parameter = "nickname=" + URLEncoder.encode(user.getText().toString(), "UTF-8") +
+						"&password=" + URLEncoder.encode(password.getText().toString(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 
+
+			String b=isLogin(UrlUtility.LOGIN,parameter);
+
+
+			
 			return b;
 
 
@@ -71,21 +87,23 @@ public class Login extends Activity {
 
 
 		@Override
-		protected void onPostExecute(StringBuffer result) {
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
-			String isLogin= result.toString();
-			if(isLogin.equalsIgnoreCase("true")){
+			Log.v("Result", ""+result.length());
+			Log.v("Result", ""+result);
+			if(result.toString().equalsIgnoreCase("\ttrue")){
 				Toast.makeText(getApplicationContext(), "Accesso consentito", 4000).show();
-			}
-			Toast.makeText(getApplicationContext(), "Accesso non consentito", 4000).show();
+			}else{
+				Toast.makeText(getApplicationContext(), "Accesso non consentito", 4000).show();
 
+
+			}
 
 		}
-
 	}
 
-	public StringBuffer isLogin (String urlPath, String parameters){
+	public String isLogin (String urlPath, String parameters){
 		URL url;
 		StringBuffer response = new StringBuffer();
 		HttpURLConnection urlConnection;
@@ -93,7 +111,16 @@ public class Login extends Activity {
 			url = new URL(urlPath);
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("POST");
-			
+//			urlConnection.setRequestProperty("Content-Type", 
+//					"application/x-www-form-urlencoded");
+
+//			urlConnection.setRequestProperty("Content-Length", "" + 
+//					Integer.toString(parameters.getBytes().length));
+//			urlConnection.setRequestProperty("Content-Language", "en-US");  
+
+		//	urlConnection.setUseCaches (false);
+			//urlConnection.setDoInput(true);
+			//urlConnection.setDoOutput(true);
 
 			// Send post request
 			urlConnection.setDoOutput(true);
@@ -115,6 +142,6 @@ public class Login extends Activity {
 		} catch (Exception e) {
 			return null;
 		}
-		return response;
+		return response.toString();
 	}
 }
