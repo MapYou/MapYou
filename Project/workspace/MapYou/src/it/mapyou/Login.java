@@ -4,18 +4,12 @@
 package it.mapyou;
 
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.network.Server;
 import it.mapyou.util.UrlUtility;
+
+import java.net.URLEncoder;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;

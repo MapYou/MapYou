@@ -64,22 +64,21 @@ public class Server implements ServerInterface<JSON_Resource> {
 
 	@Override
 	public boolean open(String conn, String parameters) {
-<<<<<<< HEAD
-=======
-		// TODO Auto-generated method stub
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
+ 
+ 
+	 
 		isOpened = true;
 		return isOpened;
 	
 	}
-<<<<<<< HEAD
+ 
 	
-=======
+ 
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.network.ServerInterface#request(java.lang.String, java.lang.String)
 	 */
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
+ 
 	@Override
 	public JSONArray request(String parameters,String urlPath,String jsonOb) {
 
@@ -116,14 +115,9 @@ public class Server implements ServerInterface<JSON_Resource> {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public String request(String urlPath,String parameters) {
-		
-		URL url;
-=======
+ 
 	public String request(String page, String parameters) {
 
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
 		StringBuffer response = new StringBuffer();
 		
 		try {
@@ -134,14 +128,7 @@ public class Server implements ServerInterface<JSON_Resource> {
 			wr.writeBytes(parameters);
 			wr.flush();
 			wr.close();
-<<<<<<< HEAD
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			String inputLine=null;
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-=======
+ 
 			int responseCode = urlConnection.getResponseCode();
 
 			if(responseCode == 200){
@@ -152,7 +139,7 @@ public class Server implements ServerInterface<JSON_Resource> {
 					response.append(inputLine);
 				}
 				in.close();
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
+ 
 			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -163,10 +150,8 @@ public class Server implements ServerInterface<JSON_Resource> {
 			e.printStackTrace();
 			return null;
 		}
-<<<<<<< HEAD
-		return response.toString();
-=======
+ 
 		return response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", "");
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
+ 
 	}
 }

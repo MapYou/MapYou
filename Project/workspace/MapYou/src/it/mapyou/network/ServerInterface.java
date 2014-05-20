@@ -20,9 +20,7 @@ public interface ServerInterface<T extends Resource> {
 	
 	public JSONArray request(String parameters,String url, String jsonObject);
 	
-<<<<<<< HEAD
-	public String request(String parameters,String url);
-=======
+ 
 	public String request(String page,String parameters);
->>>>>>> 2da9ce03c71eec28d676bf1c5e4f61a40af35892
+ 
 }
