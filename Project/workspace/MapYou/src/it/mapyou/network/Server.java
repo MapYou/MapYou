@@ -74,21 +74,11 @@ public class Server implements ServerInterface<JSON_Resource> {
 	@Override
  
 	public boolean open(String conn, String parameters) {
+		isOpened = true;
 		return isOpened;
 	
 	}
- 
-	public boolean open() {
-		// TODO Auto-generated method stub
-		isOpened = true;
- 
-		return true;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see it.mapyou.network.ServerInterface#request(java.lang.String, java.lang.String)
-	 */
+	
 	@Override
 	public JSONArray request(String parameters,String urlPath,String jsonOb) {
 
@@ -98,7 +88,6 @@ public class Server implements ServerInterface<JSON_Resource> {
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("POST");
 
-			// Send post request
 			urlConnection.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
 			wr.writeBytes(parameters);
@@ -126,26 +115,24 @@ public class Server implements ServerInterface<JSON_Resource> {
 	}
 
 	@Override
-	public StringBuffer request(String parameters, String urlPath) {
+	public String request(String urlPath,String parameters) {
+		
 		URL url;
 		StringBuffer response = new StringBuffer();
+		
 		try {
 			url = new URL(urlPath);
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("POST");
-
-			// Send post request
 			urlConnection.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
 			wr.writeBytes(parameters);
 			wr.flush();
 			wr.close();
 
-			//int responseCode = urlConnection.getResponseCode();
-
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			String inputLine;
-		
+			String inputLine=null;
+
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -154,6 +141,6 @@ public class Server implements ServerInterface<JSON_Resource> {
 		} catch (Exception e) {
 			return null;
 		}
-		return response;
+		return response.toString();
 	}
 }

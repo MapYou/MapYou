@@ -33,11 +33,10 @@ public class Login extends Activity {
 
 	private DeviceController controller;
 	private Server server;
-
-
 	private EditText user;
 	private EditText password;
 	private String parameter;
+	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,45 +45,42 @@ public class Login extends Activity {
 
 		user=(EditText) findViewById(R.id.user_login);
 		password=(EditText) findViewById(R.id.user_password);
-		server=Server.getServer();
+		controller= new DeviceController();
+		try {
+			controller.init(getApplicationContext());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void login (View v){
-
 
 		new ConnTest().execute();
 
 	}
 
-
-
 	class ConnTest extends AsyncTask<Void, Void, String>{
 
 		String parameter;
+		String b;
 
 		@Override
 		protected String doInBackground(Void... params) {
 
 
 			try {
-				parameter = "nickname=" + URLEncoder.encode(user.getText().toString(), "UTF-8") +
-						"&password=" + URLEncoder.encode(password.getText().toString(), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				parameter = "nickname=" + URLEncoder.encode(user.getText().toString(), "UTF-8") + "&password=" + URLEncoder.encode(password.getText().toString(), "UTF-8");
+				b=controller.getServer().request(UrlUtility.LOGIN, parameter);
+				return b;
+
+
+			} catch (Exception e) {
+				return null;
 			}
 
 
-
-			String b=isLogin(UrlUtility.LOGIN,parameter);
-
-
-			
-			return b;
-
-
 		}
-
 
 		@Override
 		protected void onPostExecute(String result) {
@@ -92,6 +88,7 @@ public class Login extends Activity {
 
 			Log.v("Result", ""+result.length());
 			Log.v("Result", ""+result);
+			
 			if(result.toString().equalsIgnoreCase("\ttrue")){
 				Toast.makeText(getApplicationContext(), "Accesso consentito", 4000).show();
 			}else{
@@ -101,47 +98,5 @@ public class Login extends Activity {
 			}
 
 		}
-	}
-
-	public String isLogin (String urlPath, String parameters){
-		URL url;
-		StringBuffer response = new StringBuffer();
-		HttpURLConnection urlConnection;
-		try {
-			url = new URL(urlPath);
-			urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setRequestMethod("POST");
-//			urlConnection.setRequestProperty("Content-Type", 
-//					"application/x-www-form-urlencoded");
-
-//			urlConnection.setRequestProperty("Content-Length", "" + 
-//					Integer.toString(parameters.getBytes().length));
-//			urlConnection.setRequestProperty("Content-Language", "en-US");  
-
-		//	urlConnection.setUseCaches (false);
-			//urlConnection.setDoInput(true);
-			//urlConnection.setDoOutput(true);
-
-			// Send post request
-			urlConnection.setDoOutput(true);
-			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-			wr.writeBytes(parameters);
-			wr.flush();
-			wr.close();
-
-			//int responseCode = urlConnection.getResponseCode();
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			String inputLine;
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-
-		} catch (Exception e) {
-			return null;
-		}
-		return response.toString();
 	}
 }

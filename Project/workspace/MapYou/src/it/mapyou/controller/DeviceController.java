@@ -3,14 +3,14 @@
  */
 package it.mapyou.controller;
 
-import android.content.Context;
 import it.mapyou.execption.LocalDBConnectionNotFoundException;
 import it.mapyou.execption.ServerConnectionNotFoundException;
 import it.mapyou.model.User;
 import it.mapyou.network.NotificationServer;
+import it.mapyou.network.Server;
 import it.mapyou.persistence.DAOManager;
 import it.mapyou.persistence.impl.SQLiteDAOManager;
-import it.mapyou.persistence.impl.ServerDAOManager;
+import android.content.Context;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -18,14 +18,25 @@ import it.mapyou.persistence.impl.ServerDAOManager;
  */
 public class DeviceController implements Controller{
 
-	private DAOManager localDao, serverDao;
+	private DAOManager localDao;
+	private Server serverDao;
 	private AndroidGeoController geoController;
 	private NotificationServer notificationServer;
 	private StringSecurityController security;
+	 
 
+	public DeviceController() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public DAOManager getDao() {
 		return localDao;
 	}
+	
+	public Server getServer(){
+		return serverDao;
+	}
+	
 
 	/**
 	 * @return the security
@@ -40,22 +51,24 @@ public class DeviceController implements Controller{
 
 	@Override
 	public boolean login(User user) {
+		return false;
 
-		try {
-			return localDao.getUserDAO().selectByNickname(user.getNickname()).equals(user)
-					|| serverDao.getUserDAO().selectByNickname(user.getNickname()).equals(user);
-		} catch (Exception e) {
-			return false;
-		}
+//		try {
+//			return localDao.getUserDAO().selectByNickname(user.getNickname()).equals(user)
+//	//				|| serverDao.getUserDAO().selectByNickname(user.getNickname()).equals(user);
+//		} catch (Exception e) {
+//			return false;
+//		}
 	}
 
 	@Override
 	public boolean registration(User user) {
-		try {
-			return serverDao.getUserDAO().insert(user);
-		} catch (Exception e) {
-			return false;
-		}
+		return false;
+//		try {
+//			return serverDao.getUserDAO().insert(user);
+//		} catch (Exception e) {
+//			return false;
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -63,23 +76,24 @@ public class DeviceController implements Controller{
 	 */
 	@Override
 	public String forgotPassword(User user) {
+		return null;
 		// TODO Auto-generated method stub
-		try {
-			if(user.getNickname()!=null){
-				User u = localDao.getUserDAO().selectByNickname(user.getNickname());
-				if(u!=null)
-					return null;
-				else{
-					u = serverDao.getUserDAO().selectByNickname(user.getNickname());
-					return (u!=null && u.getEmail()!=null
-							&& user.getEmail()!=null && u.getEmail().equals(user.getEmail()))?
-									u.getPassword():null;
-				}
-			}else
-				return null;
-		} catch (Exception e) {
-			return null;
-		}
+//		try {
+//			if(user.getNickname()!=null){
+//				User u = localDao.getUserDAO().selectByNickname(user.getNickname());
+//				if(u!=null)
+//					return null;
+//				else{
+//					u = serverDao.getUserDAO().selectByNickname(user.getNickname());
+//					return (u!=null && u.getEmail()!=null
+//							&& user.getEmail()!=null && u.getEmail().equals(user.getEmail()))?
+//									u.getPassword():null;
+//				}
+//			}else
+//				return null;
+//		} catch (Exception e) {
+//			return null;
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +104,6 @@ public class DeviceController implements Controller{
 		// TODO Auto-generated method stub
 		try {
 			if(applyCommit){
-				serverDao.commit();
 				localDao.commit();
 			}
 
@@ -103,21 +116,18 @@ public class DeviceController implements Controller{
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see it.mapyou.controller.Controller#partecipate()
-	 */
+
 	@Override
 	public void partecipate() {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see it.mapyou.controller.Controller#init(java.lang.Object[])
-	 */
+	
 	@Override
 	public void init(Object... parameters) throws Exception {
-		// TODO Auto-generated method stub
+		
+		
 		try {
 			for(int i=0; i<parameters.length; i++){
 				Object pi = parameters[i];
@@ -125,10 +135,11 @@ public class DeviceController implements Controller{
 					localDao = SQLiteDAOManager.getInstance((Context) pi);
 			}
 			
-			serverDao = ServerDAOManager.getInstance();
+			serverDao = Server.getServer();
+			serverDao.open(null, null);
 			
 			boolean localDaoConnected = localDao.connect();
-			boolean serverDaoConnected = serverDao.connect();
+			boolean serverDaoConnected = serverDao.isOpened();
 			
 			if(!serverDaoConnected)
 				throw new ServerConnectionNotFoundException("server connection not opened.");
