@@ -26,7 +26,7 @@ public class SQLiteDAOManager extends DAOManager {
 	private DatabaseHelper conn;
 
 
-	public SQLiteDAOManager(Context c){
+	private SQLiteDAOManager(Context c){
 
 
 		conn=new DatabaseHelper(c);

@@ -11,9 +11,17 @@ package it.mapyou.network;
 public class Server implements ServerInterface<JSON_Resource> {
 
 	private static Server server;
+	private boolean isOpened;
 	
 	private Server(){
 		
+	}
+	
+	/**
+	 * @return the isOpened
+	 */
+	public boolean isOpened() {
+		return isOpened;
 	}
 	
 	/**
@@ -31,7 +39,8 @@ public class Server implements ServerInterface<JSON_Resource> {
 	@Override
 	public boolean close() {
 		// TODO Auto-generated method stub
-		return false;
+		isOpened = false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -40,7 +49,8 @@ public class Server implements ServerInterface<JSON_Resource> {
 	@Override
 	public boolean open() {
 		// TODO Auto-generated method stub
-		return false;
+		isOpened = true;
+		return true;
 	}
 
 	/* (non-Javadoc)
