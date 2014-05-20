@@ -13,12 +13,12 @@ public interface Controller {
 	
 	public boolean registration(User user);
 	
-	public boolean forgotPassword(User user);
+	public String forgotPassword(User user);
 	
-	public boolean disconnet();
+	public boolean disconnet(boolean applyCommit);
 	
 	public void partecipate();
 	
-	public void init();
+	public void init(Object...parameters) throws Exception;
 
 }

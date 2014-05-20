@@ -22,11 +22,30 @@ import android.util.Log;
 public class Server implements ServerInterface<JSON_Resource> {
 
 	private static Server server;
+<<<<<<< HEAD
 	private HttpURLConnection urlConnection;
 
+=======
+	private boolean isOpened;
+	
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	private Server(){
 	}
+<<<<<<< HEAD
 
+=======
+	
+	/**
+	 * @return the isOpened
+	 */
+	public boolean isOpened() {
+		return isOpened;
+	}
+	
+	/**
+	 * @return the server
+	 */
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	public static Server getServer() {
 		if(server==null)
 			server = new Server();
@@ -36,6 +55,7 @@ public class Server implements ServerInterface<JSON_Resource> {
 
 	@Override
 	public boolean close() {
+<<<<<<< HEAD
 
 		try {
 			urlConnection.disconnect();
@@ -43,11 +63,22 @@ public class Server implements ServerInterface<JSON_Resource> {
 		} catch (Exception e) {
 			return false;
 		}
+=======
+		// TODO Auto-generated method stub
+		isOpened = false;
+		return true;
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	}
 
 
 	@Override
+<<<<<<< HEAD
 	public boolean open(String conn, String parameters) {
+=======
+	public boolean open() {
+		// TODO Auto-generated method stub
+		isOpened = true;
+>>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 		return true;
 	}
 
