@@ -20,5 +20,5 @@ public interface ServerInterface<T extends Resource> {
 	
 	public JSONArray request(String parameters,String url, String jsonObject);
 	
-	public StringBuffer request(String parameters,String url);
+	public String request(String page,String parameters);
 }

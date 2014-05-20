@@ -39,12 +39,16 @@ public class MapYouMainActivity extends Activity {
 	private String user="Peppe";
 	private String password="1234";
 	private User userr;
+	private EditText passwordTextView;
+	private EditText nicknameTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
-		
+
+		nicknameTextView = (EditText) findViewById(R.id.nickname);
+		passwordTextView = (EditText) findViewById(R.id.password);
 		
 //		Intent in = new Intent(this, TestOpenDb.class);
 //		startActivity(in);
@@ -56,30 +60,7 @@ public class MapYouMainActivity extends Activity {
 //		s.connect();
 //		s.getDb().execSQL("drop database "+DatabaseHelper.NAME_DB+";");
 //		Toast.makeText(getApplicationContext(), s.getDb().getPath(), Toast.LENGTH_LONG).show();
-		EditText nicknameTextView = (EditText) findViewById(R.id.nickname);
-		EditText passwordTextView = (EditText) findViewById(R.id.password);
-		user = nicknameTextView.getText().toString();
-		password = passwordTextView.getText().toString();
-		
-		boolean isLogin=false;
-		
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost("http://mapyou.altervista.org/myMapYou/Dao/login.php");
-			List<NameValuePair> param = new ArrayList<NameValuePair>();
-			param.add(new BasicNameValuePair("nickname", user));
-			param.add(new BasicNameValuePair("password", password));
-			post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
-			HttpResponse response = client.execute(post);
-			Log.w("http response", EntityUtils.toString(response.getEntity()));
-			Toast.makeText(getApplicationContext(), response.getEntity().toString(), Toast.LENGTH_LONG).show();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new ConnTest().execute();
 	}
 
 
@@ -104,15 +85,6 @@ public class MapYouMainActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 
-			URL url=null;
-			HttpURLConnection urlConn=null;
-			BufferedReader reader=null;
-			JSONObject jsonObject=null;
-			JSONArray json=null;
-			String line=null;
-			
-			EditText nicknameTextView = (EditText) findViewById(R.id.nickname);
-			EditText passwordTextView = (EditText) findViewById(R.id.password);
 			user = nicknameTextView.getText().toString();
 			password = passwordTextView.getText().toString();
 			
@@ -124,10 +96,11 @@ public class MapYouMainActivity extends Activity {
 				List<NameValuePair> param = new ArrayList<NameValuePair>();
 				param.add(new BasicNameValuePair("nickname", user));
 				param.add(new BasicNameValuePair("password", password));
-				post.setEntity(new UrlEncodedFormEntity(param));
+				post.setEntity(new UrlEncodedFormEntity(param, HTTP.UTF_8));
 				HttpResponse response = client.execute(post);
-				Log.w("http response", response.getEntity().toString());
+				Log.w("http response", EntityUtils.toString(response.getEntity()));
 				Toast.makeText(getApplicationContext(), response.getEntity().toString(), Toast.LENGTH_LONG).show();
+				isLogin = true;
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -135,6 +108,38 @@ public class MapYouMainActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+//			URL url=null;
+//			HttpURLConnection urlConn=null;
+//			BufferedReader reader=null;
+//			JSONObject jsonObject=null;
+//			JSONArray json=null;
+//			String line=null;
+//			
+//			EditText nicknameTextView = (EditText) findViewById(R.id.nickname);
+//			EditText passwordTextView = (EditText) findViewById(R.id.password);
+//			user = nicknameTextView.getText().toString();
+//			password = passwordTextView.getText().toString();
+//			
+//			boolean isLogin=false;
+//			
+//			try {
+//				HttpClient client = new DefaultHttpClient();
+//				HttpPost post = new HttpPost("http://mapyou.altervista.org/myMapYou/Dao/login.php");
+//				List<NameValuePair> param = new ArrayList<NameValuePair>();
+//				param.add(new BasicNameValuePair("nickname", user));
+//				param.add(new BasicNameValuePair("password", password));
+//				post.setEntity(new UrlEncodedFormEntity(param));
+//				HttpResponse response = client.execute(post);
+//				Log.w("http response", response.getEntity().toString());
+//				Toast.makeText(getApplicationContext(), response.getEntity().toString(), Toast.LENGTH_LONG).show();
+//			} catch (ClientProtocolException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 //			if(user!=null && password!=null && user.length()>0 && password.length()>0){
 //				try {
 //					url= new URL("http://mapyou.altervista.org/myMapYou/Dao/login.php?nickname="+user+"&"+"password="+password);

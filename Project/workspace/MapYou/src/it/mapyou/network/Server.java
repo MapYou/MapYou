@@ -3,10 +3,14 @@
  */
 package it.mapyou.network;
 
+import it.mapyou.util.Settings;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.JSONArray;
@@ -22,18 +26,12 @@ import android.util.Log;
 public class Server implements ServerInterface<JSON_Resource> {
 
 	private static Server server;
-<<<<<<< HEAD
 	private HttpURLConnection urlConnection;
 
-=======
 	private boolean isOpened;
 	
->>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	private Server(){
 	}
-<<<<<<< HEAD
-
-=======
 	
 	/**
 	 * @return the isOpened
@@ -45,7 +43,6 @@ public class Server implements ServerInterface<JSON_Resource> {
 	/**
 	 * @return the server
 	 */
->>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	public static Server getServer() {
 		if(server==null)
 			server = new Server();
@@ -55,7 +52,6 @@ public class Server implements ServerInterface<JSON_Resource> {
 
 	@Override
 	public boolean close() {
-<<<<<<< HEAD
 
 		try {
 			urlConnection.disconnect();
@@ -63,23 +59,27 @@ public class Server implements ServerInterface<JSON_Resource> {
 		} catch (Exception e) {
 			return false;
 		}
-=======
-		// TODO Auto-generated method stub
-		isOpened = false;
-		return true;
->>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 	}
 
 
 	@Override
-<<<<<<< HEAD
 	public boolean open(String conn, String parameters) {
-=======
-	public boolean open() {
 		// TODO Auto-generated method stub
 		isOpened = true;
->>>>>>> 3f3ebe31f9f9a330b89bf5d10db4106e4f5530f4
 		return true;
+//		try {
+//			urlConnection = (HttpURLConnection) new URL(Settings.SERVER_ADDRESS).openConnection();
+//			isOpened = true;
+//			return true;
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		}
 	}
 
 
@@ -123,12 +123,11 @@ public class Server implements ServerInterface<JSON_Resource> {
 	}
 
 	@Override
-	public StringBuffer request(String parameters, String urlPath) {
-		URL url;
+	public String request(String page, String parameters) {
+
 		StringBuffer response = new StringBuffer();
 		try {
-			url = new URL(urlPath);
-			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection = (HttpURLConnection) new URL(Settings.SERVER_ADDRESS+page).openConnection();
 			urlConnection.setRequestMethod("POST");
 
 			// Send post request
@@ -137,20 +136,26 @@ public class Server implements ServerInterface<JSON_Resource> {
 			wr.writeBytes(parameters);
 			wr.flush();
 			wr.close();
+			int responseCode = urlConnection.getResponseCode();
 
-			//int responseCode = urlConnection.getResponseCode();
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			String inputLine;
-		
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
+			if(responseCode == 200){
+				BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+				String inputLine;
+			
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
 			}
-			in.close();
-
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return null;
 		}
-		return response;
+		return response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", "");
 	}
 }
