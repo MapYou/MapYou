@@ -25,12 +25,8 @@ public class DeviceController implements Controller{
 
 	public DAOManager getDao() {
 		return localDao;
-<<<<<<< HEAD
-	}
-=======
 	}
 
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
 	/**
 	 * @return the security
 	 */
@@ -145,11 +141,6 @@ public class DeviceController implements Controller{
 		
 	}
 
-<<<<<<< HEAD
-=======
- 
-
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
 	/**
 	 * @return the geoController
 	 */

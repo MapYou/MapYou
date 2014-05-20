@@ -25,29 +25,14 @@ import android.util.Log;
  */
 public class Server implements ServerInterface<JSON_Resource> {
 
-<<<<<<< HEAD
 	private static Server server;
 	private HttpURLConnection urlConnection;
-
-	private boolean isOpened;
-	
-	private Server(){
-	}
-=======
-	private static Server server;
- 
-	private HttpURLConnection urlConnection;
-
- 
 	private boolean isOpened;
 	
  
 	private Server(){
 	}
  
-
- 
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
 	
 	/**
 	 * @return the isOpened
@@ -58,12 +43,7 @@ public class Server implements ServerInterface<JSON_Resource> {
 	
 	/**
 	 * @return the server
-<<<<<<< HEAD
 	 */
-=======
-	 */
- 
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
 	public static Server getServer() {
 		if(server==null)
 			server = new Server();
@@ -72,19 +52,12 @@ public class Server implements ServerInterface<JSON_Resource> {
 
 
 	@Override
-<<<<<<< HEAD
 	public boolean close() {
-=======
-	public boolean close() {
-
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
-
 		try {
 			urlConnection.disconnect();
 			return true;
 		} catch (Exception e) {
 			return false;
-<<<<<<< HEAD
 		}
 	}
 
@@ -93,44 +66,9 @@ public class Server implements ServerInterface<JSON_Resource> {
 	public boolean open(String conn, String parameters) {
 		// TODO Auto-generated method stub
 		isOpened = true;
-=======
-		}
- 
-		// TODO Auto-generated method stub
-		//isOpened = false;
-		//return true;
- 
-	}
-
-
-	@Override
- 
-	public boolean open(String conn, String parameters) {
 		return isOpened;
 	
 	}
- 
-	public boolean open() {
-		// TODO Auto-generated method stub
-		isOpened = true;
- 
->>>>>>> facd501a27d7fccac96e09f0016bd4554d2b7530
-		return true;
-//		try {
-//			urlConnection = (HttpURLConnection) new URL(Settings.SERVER_ADDRESS).openConnection();
-//			isOpened = true;
-//			return true;
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return false;
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return false;
-//		}
-	}
-
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.network.ServerInterface#request(java.lang.String, java.lang.String)
