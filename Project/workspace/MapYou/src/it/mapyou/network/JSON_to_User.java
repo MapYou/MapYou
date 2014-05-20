@@ -23,7 +23,7 @@ public class JSON_to_User extends JSON_to_Model<User> {
 	 */
 	@Override
 	public List<User> getFromJSON(JSONArray array) {
-		// TODO Auto-generated method stub
+		 
 		List<User> li = new ArrayList<User>();
 		for(int i=0; i<array.length(); i++){
 			JSONObject o;
@@ -33,8 +33,6 @@ public class JSON_to_User extends JSON_to_Model<User> {
 				userr.setNickname(o.getString("nickname"));
 				li.add(userr);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				continue;
 			} 
 		}

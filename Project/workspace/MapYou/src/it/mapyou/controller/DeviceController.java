@@ -24,6 +24,8 @@ public class DeviceController implements Controller{
 		return dao;
 	}
 	
+	 
+	
 	/**
 	 * @return the security
 	 */
@@ -103,6 +105,7 @@ public class DeviceController implements Controller{
 	 * @return the server
 	 */
 	public Server getServer() {
+		
 		return server;
 	}
 
