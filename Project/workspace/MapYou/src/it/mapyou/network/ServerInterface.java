@@ -3,6 +3,8 @@
  */
 package it.mapyou.network;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 
 
@@ -11,7 +13,7 @@ import org.json.JSONArray;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface ServerInterface<T extends Resource> {
+public interface ServerInterface {
 
 
 	public boolean close();
@@ -20,7 +22,8 @@ public interface ServerInterface<T extends Resource> {
 	
 	public JSONArray request(String parameters,String url, String jsonObject);
 	
- 
 	public String request(String page,String parameters);
+	
+	public String setParameters(HashMap<String, String> parameters);
  
 }

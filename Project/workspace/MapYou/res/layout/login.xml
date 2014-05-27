@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll_user"
+    android:id="@+id/scroll_login"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/AliceBlue" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/user_login"
-            android:layout_width="108dp"
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="152dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.29"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/welcomeTextView_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.29"
+            android:text="@string/welcome"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/user_login_Login"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@color/LightBlue"
             android:ems="10"
             android:gravity="center"
-            android:hint="user"
+            android:hint="@string/nickname_login"
             android:inputType="textPersonName" >
 
             <requestFocus />
         </EditText>
 
         <EditText
-            android:id="@+id/user_password"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/user_password_Login"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@color/LightBlue"
             android:ems="10"
             android:gravity="center"
-            android:hint="password"
+            android:hint="@string/password_login"
             android:inputType="textPassword" />
 
         <LinearLayout
@@ -38,17 +61,67 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/button1"
+            <ImageView
+                android:id="@+id/button_login_Login"
+                android:layout_width="wrap_content"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/login" />
+
+            <LinearLayout
+                android:id="@+id/orizzontale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" >
+
+                <TextView
+                    android:id="@+id/register_textView_Login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/register_login"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orizzontaleFooter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Login"
-                android:onClick="login" />
+                android:layout_marginTop="15dp" >
+
+                <TextView
+                    android:id="@+id/textviewLoginWith_Login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/facebook_login"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageView
+                    android:id="@+id/buttonLoginFacebook_Login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/facebook" />
+
+                <ImageView
+                    android:id="@+id/buttonForgot_Login"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="0.12"
+                    android:src="@drawable/forgot" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>

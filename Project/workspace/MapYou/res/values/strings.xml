@@ -4,5 +4,12 @@
     <string name="app_name">MapYou</string>
     <string name="action_settings">Settings</string>
     
+    <!-- **** String used for Login **** -->
+    <string name="welcome">Welcome to MapYou</string>
+    <string name="nickname_login">nickname</string>
+    <string name="password_login">password</string>
+    <string name="register_login">Register to MapYou</string>
+    <string name="facebook_login">Login with:</string>
+    
 
 </resources>

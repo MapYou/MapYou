@@ -19,7 +19,7 @@ import android.content.Context;
 public class DeviceController implements Controller{
 
 	private DAOManager localDao;
-	private Server serverDao;
+	private Server server;
 	private AndroidGeoController geoController;
 	private NotificationServer notificationServer;
 	private StringSecurityController security;
@@ -34,7 +34,7 @@ public class DeviceController implements Controller{
 	}
 	
 	public Server getServer(){
-		return serverDao;
+		return server;
 	}
 	
 
@@ -55,7 +55,7 @@ public class DeviceController implements Controller{
 
 //		try {
 //			return localDao.getUserDAO().selectByNickname(user.getNickname()).equals(user)
-//	//				|| serverDao.getUserDAO().selectByNickname(user.getNickname()).equals(user);
+//	//				|| server.getUserDAO().selectByNickname(user.getNickname()).equals(user);
 //		} catch (Exception e) {
 //			return false;
 //		}
@@ -65,7 +65,7 @@ public class DeviceController implements Controller{
 	public boolean registration(User user) {
 		return false;
 //		try {
-//			return serverDao.getUserDAO().insert(user);
+//			return server.getUserDAO().insert(user);
 //		} catch (Exception e) {
 //			return false;
 //		}
@@ -84,7 +84,7 @@ public class DeviceController implements Controller{
 //				if(u!=null)
 //					return null;
 //				else{
-//					u = serverDao.getUserDAO().selectByNickname(user.getNickname());
+//					u = server.getUserDAO().selectByNickname(user.getNickname());
 //					return (u!=null && u.getEmail()!=null
 //							&& user.getEmail()!=null && u.getEmail().equals(user.getEmail()))?
 //									u.getPassword():null;
@@ -107,7 +107,7 @@ public class DeviceController implements Controller{
 				localDao.commit();
 			}
 
-			serverDao.close();
+			server.close();
 			localDao.close();
 			return true;
 		} catch (Exception e) {
@@ -135,16 +135,16 @@ public class DeviceController implements Controller{
 					localDao = SQLiteDAOManager.getInstance((Context) pi);
 			}
 			
-			serverDao = Server.getServer();
-			serverDao.open(null, null);
+			server = Server.getServer();
+			server.open(null, null);
 			
 			boolean localDaoConnected = localDao.connect();
-			boolean serverDaoConnected = serverDao.isOpened();
+			boolean serverConnected = server.isOpened();
 			
-			if(!serverDaoConnected)
-				throw new ServerConnectionNotFoundException("server connection not opened.");
+			if(!serverConnected)
+				throw new ServerConnectionNotFoundException("Server connection not opened.");
 			if(!localDaoConnected)
-				throw new LocalDBConnectionNotFoundException("sqlite not connected.");
+				throw new LocalDBConnectionNotFoundException("Sqlite not connected.");
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new Exception(e.getMessage());

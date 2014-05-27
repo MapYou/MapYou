@@ -26,7 +26,7 @@ public class TestOpenDb extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_map_you_main);
+		//setContentView(R.layout.fragment_map_you_main);
 	
  
 		 
