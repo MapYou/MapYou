@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_weight="0.29"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo2" />
 
         <TextView
             android:id="@+id/welcomeTextView_login"
@@ -26,13 +26,13 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_weight="0.29"
-            android:text="@string/welcome"
+            android:text="@string/login_name"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/user_login_Login"
             android:layout_width="160dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:background="@color/LightBlue"
@@ -47,10 +47,10 @@
         <EditText
             android:id="@+id/user_password_Login"
             android:layout_width="160dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:background="@color/LightBlue"
+            android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/password_login"
@@ -67,7 +67,9 @@
                 android:layout_height="53dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/login" />
+                android:src="@drawable/login"
+                android:clickable="true"
+                android:onClick="login" />
 
             <LinearLayout
                 android:id="@+id/orizzontale"
@@ -83,7 +85,9 @@
                     android:gravity="center"
                     android:text="@string/register_login"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:onClick="registerMapYou"
+                    android:clickable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -117,7 +121,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="0.12"
-                    android:src="@drawable/forgot" />
+                    android:src="@drawable/forgot"
+                    android:clickable="true"
+                    android:onClick="forgot" />
 
             </LinearLayout>
 

@@ -3,13 +3,32 @@
 
     <string name="app_name">MapYou</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- **** String used for Login **** -->
-    <string name="welcome">Welcome to MapYou</string>
+    <string name="login_name">Login to MapYou</string>
     <string name="nickname_login">nickname</string>
     <string name="password_login">password</string>
     <string name="register_login">Register to MapYou</string>
     <string name="facebook_login">Login with:</string>
+    <string name="welcome_mapyou">Welcome to MapYou</string>
+    <string name="New_MapMe">New MapMe</string>
+    <string name="Send_Partecipation">Send partecipation</string>
+    <string name="Request_Partecipation">Request partecipation</string>
+    <string name="View_MapMe">Your MapMe</string>
+    <string name="Info">About</string>
+    <string name="Help">Help</string>
+    <string name="Menu">MapYou</string>
+
+    <!-- **** String used for Registration **** -->
+    <string name="Register_to_MapYou">Register to MapYou</string>
+    <string name="email">email</string>
+    <string name="confirmPass">confirm pass</string>
+
+      <!-- **** String used for Forgot **** -->
+    <string name="forgotPass">Forgot pass</string>
+        <string name="forgotP">Forgot password</string>
     
+    <!-- **** String used for Menu **** -->
+ 
 
 </resources>

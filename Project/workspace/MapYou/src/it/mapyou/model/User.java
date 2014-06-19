@@ -14,6 +14,7 @@ public class User extends SubjectModel{
 	private String lastname;
 	private String password;
 	private String email;
+	private String idNotification;
 	
 	public User() {
 		this.nickname = "";
@@ -21,6 +22,19 @@ public class User extends SubjectModel{
 		this.lastname = "";
 		this.password = "";
 		this.email = "";
+		this.idNotification="";
+	}
+	/**
+	 * @return the idNotification
+	 */
+	public String getIdNotification() {
+		return idNotification;
+	}
+	/**
+	 * @param idNotification the idNotification to set
+	 */
+	public void setIdNotification(String idNotification) {
+		this.idNotification = idNotification;
 	}
 	
 	public String getNickname() {
