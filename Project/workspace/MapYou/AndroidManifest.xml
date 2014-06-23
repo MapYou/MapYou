@@ -28,6 +28,7 @@
         <activity android:name=".sqlite.TestOpenDb"></activity>
         <activity android:name=".view.MapMeMenu"></activity>
         <activity android:name=".view.Register"></activity>
+        <activity android:name=".view.Forgot"></activity>
        
        
        

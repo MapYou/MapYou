@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- **** String used for Login **** -->
-    <string name="login_name">Login to MapYou</string>
+    <string name="login_name">Login</string>
     <string name="nickname_login">nickname</string>
     <string name="password_login">password</string>
     <string name="register_login">Register to MapYou</string>
@@ -20,7 +20,7 @@
     <string name="Menu">MapYou</string>
 
     <!-- **** String used for Registration **** -->
-    <string name="Register_to_MapYou">Register to MapYou</string>
+    <string name="Register_to_MapYou">Register</string>
     <string name="email">email</string>
     <string name="confirmPass">confirm pass</string>
 

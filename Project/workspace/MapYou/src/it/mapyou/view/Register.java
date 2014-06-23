@@ -138,6 +138,15 @@ public class Register extends Activity{
 
 		return correct;
 	}
+	
+ 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent intent=new Intent(Register.this,Login.class);  
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
 
 
 }

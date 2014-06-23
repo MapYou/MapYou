@@ -49,12 +49,19 @@ public class Login extends Activity {
 	}
 
 	public void login (View v){
-		new  LoginTask().execute();
+		if(verifyField())
+			new  LoginTask().execute();
 	}
 
 	public void registerMapYou(View v){
 		Intent intent=new Intent(Login.this,Register.class);  
 		startActivityForResult(intent, 2);
+	}
+
+	public void forgotMapYou(View v){
+		Intent intent=new Intent(Login.this,Forgot.class);  
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(intent);
 	}
 
 	@Override  
@@ -109,5 +116,28 @@ public class Login extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
 			}
 		}
+	}
+
+	public boolean verifyField(){
+
+		boolean verify=false;
+		String nick = user.getText().toString().replace(" ", "");
+		String pass = password.getText().toString().replace(" ", "");
+
+		if(nick.equalsIgnoreCase("")){
+			UtilAndroid.makeToast(getApplicationContext(), "User cannot be empty!", 5000);
+			verify=false;}
+		else if(pass.equalsIgnoreCase("")){
+			UtilAndroid.makeToast(getApplicationContext(), "Password cannot be empty!", 5000);
+			verify=false;}
+		else if(pass.length() >30){ 
+			UtilAndroid.makeToast(getApplicationContext(), "Password is not valid!", 5000);
+			verify=false;}
+		else if(nick.length() >30){ 
+			UtilAndroid.makeToast(getApplicationContext(), "User is not valid!", 5000);
+			verify=false;}
+		else 
+			verify=true;
+		return verify;
 	}
 }
