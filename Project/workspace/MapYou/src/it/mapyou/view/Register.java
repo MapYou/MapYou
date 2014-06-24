@@ -5,7 +5,10 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.gcm.Gcm;
+
 import it.mapyou.util.EmailValidator;
+import it.mapyou.util.SettingsNotificationServer;
 import it.mapyou.util.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
@@ -19,6 +22,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -48,6 +54,7 @@ public class Register extends Activity{
 		password= (EditText) findViewById(R.id.user_password_registration);
 		confirmP= (EditText) findViewById(R.id.userconfirm_password);
 		email= (EditText) findViewById(R.id.user_email);
+
 	}
 
 	public void register (View v){
@@ -62,6 +69,8 @@ public class Register extends Activity{
 				}
 			}).start();
 	}
+
+
 
 	class Registration extends AsyncTask<Void, Void, String>{
 		private String b;
@@ -138,14 +147,19 @@ public class Register extends Activity{
 
 		return correct;
 	}
-	
- 
+
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 		Intent intent=new Intent(Register.this,Login.class);  
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
+	}
+	
+	public void gcmm (View v){
+		Intent i = new Intent(Register.this, Gcm.class);
+		startActivity(i);
 	}
 
 

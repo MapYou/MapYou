@@ -82,7 +82,7 @@
                 android:layout_marginTop="55dp"
                 android:layout_weight="0.08"
                 android:clickable="true"
-                android:onClick="f"
+                android:onClick="forgot"
                 android:src="@drawable/login" />
 
         </LinearLayout>

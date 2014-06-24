@@ -1,6 +1,4 @@
-/**
- * 
- */
+ 
 package it.mapyou.view;
 
 import it.mapyou.R;
