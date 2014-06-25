@@ -57,10 +57,10 @@ public class Login extends Activity {
 		Intent intent=new Intent(Login.this,Register.class);  
 		startActivityForResult(intent, 2);
 	}
-	public void face(View v){
-		Intent intent=new Intent(Login.this,LoginFacebook.class);  
-		startActivity(intent);
-	}
+//	public void face(View v){
+//		Intent intent=new Intent(Login.this,LoginFacebook.class);  
+//		startActivity(intent);
+//	}
 
 
 	public void forgotMapYou(View v){
