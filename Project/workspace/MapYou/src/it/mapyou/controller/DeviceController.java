@@ -5,7 +5,6 @@ package it.mapyou.controller;
 
 import it.mapyou.execption.LocalDBConnectionNotFoundException;
 import it.mapyou.execption.ServerConnectionNotFoundException;
-import it.mapyou.model.User;
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.Server;
 import it.mapyou.persistence.DAOManager;
@@ -49,52 +48,7 @@ public class DeviceController implements Controller{
 		return ModelCreator.getInstance();
 	}
 
-	@Override
-	public boolean login(User user) {
-		return false;
-
-//		try {
-//			return localDao.getUserDAO().selectByNickname(user.getNickname()).equals(user)
-//	//				|| server.getUserDAO().selectByNickname(user.getNickname()).equals(user);
-//		} catch (Exception e) {
-//			return false;
-//		}
-	}
-
-	@Override
-	public boolean registration(User user) {
-		return false;
-//		try {
-//			return server.getUserDAO().insert(user);
-//		} catch (Exception e) {
-//			return false;
-//		}
-	}
-
-	/* (non-Javadoc)
-	 * @see it.mapyou.controller.Controller#forgotPassword(it.mapyou.model.User)
-	 */
-	@Override
-	public String forgotPassword(User user) {
-		return null;
-		// TODO Auto-generated method stub
-//		try {
-//			if(user.getNickname()!=null){
-//				User u = localDao.getUserDAO().selectByNickname(user.getNickname());
-//				if(u!=null)
-//					return null;
-//				else{
-//					u = server.getUserDAO().selectByNickname(user.getNickname());
-//					return (u!=null && u.getEmail()!=null
-//							&& user.getEmail()!=null && u.getEmail().equals(user.getEmail()))?
-//									u.getPassword():null;
-//				}
-//			}else
-//				return null;
-//		} catch (Exception e) {
-//			return null;
-//		}
-	}
+	 
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.controller.Controller#disconnet(boolean)
@@ -136,6 +90,7 @@ public class DeviceController implements Controller{
 			}
 			
 			server = Server.getServer();
+			notificationServer= NotificationServer.getNotificationServer();
 			server.open(null, null);
 			
 			boolean localDaoConnected = localDao.connect();
