@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.mapyou"
+<manifest package="it.mapyou"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -72,6 +71,7 @@
         <service android:name="it.mapyou.GCMIntentService" />
         <activity android:name=".gcm.Gcm"></activity>
         <activity android:name=".view.GcmTest"></activity>
+        <activity android:name=".view.LoginFacebook"></activity>
     </application>
 
 </manifest>

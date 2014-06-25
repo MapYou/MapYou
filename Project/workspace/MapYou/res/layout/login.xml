@@ -127,7 +127,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/facebook" />
+                    android:src="@drawable/facebook"
+                    android:clickable="true"
+                    android:onClick="face"  />
 
                 <ImageView
                     android:id="@+id/buttonForgot_Login"
