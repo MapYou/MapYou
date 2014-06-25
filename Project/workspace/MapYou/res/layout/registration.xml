@@ -43,7 +43,9 @@
             android:layout_marginTop="20dp"
             android:layout_weight="0.29"
             android:text="@string/Register_to_MapYou"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:clickable="true"
+            android:onClick="gcmm" />
 
         <EditText
             android:id="@+id/user_registration"

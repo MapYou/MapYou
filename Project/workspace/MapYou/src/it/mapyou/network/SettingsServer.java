@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.util;
+package it.mapyou.network;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

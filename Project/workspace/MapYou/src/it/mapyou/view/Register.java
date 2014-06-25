@@ -5,11 +5,8 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.gcm.Gcm;
-
+import it.mapyou.network.SettingsServer;
 import it.mapyou.util.EmailValidator;
-import it.mapyou.util.SettingsNotificationServer;
-import it.mapyou.util.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
@@ -22,9 +19,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -59,8 +53,7 @@ public class Register extends Activity{
 
 	public void register (View v){
 
-		boolean isCorrect= verifyItems();
-		if(isCorrect)
+		if(verifyItems())
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -156,9 +149,9 @@ public class Register extends Activity{
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
-	
+
 	public void gcmm (View v){
-		Intent i = new Intent(Register.this, Gcm.class);
+		Intent i = new Intent(Register.this, GcmTest.class);
 		startActivity(i);
 	}
 

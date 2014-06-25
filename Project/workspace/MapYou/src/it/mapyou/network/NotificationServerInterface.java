@@ -1,7 +1,8 @@
-/**
- * 
- */
+
 package it.mapyou.network;
+
+import it.mapyou.model.User;
+import android.content.Context;
 
 
 /**
@@ -11,4 +12,10 @@ package it.mapyou.network;
 public interface NotificationServerInterface {
 
 	 public String request(String page, String parameters);
+	 
+	 public void register (Context c, User u);
+	 
+	 public void unregister (Context c, String name);
+	 
+	 public void acquireWakeLock (Context c);
 }

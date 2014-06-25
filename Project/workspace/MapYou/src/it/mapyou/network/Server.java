@@ -3,7 +3,6 @@
  */
 package it.mapyou.network;
 
-import it.mapyou.util.SettingsServer;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

@@ -3,8 +3,8 @@
  */
 package it.mapyou.network;
 
-import it.mapyou.util.SettingsNotificationServer;
-import it.mapyou.util.SettingsServer;
+
+import it.mapyou.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,18 +15,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Map.Entry;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.app.Application;
+import android.content.Context;
+import android.os.PowerManager;
+import android.util.Log;
 
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
+
 public class NotificationServer extends Application  implements NotificationServerInterface {
 
 	public static NotificationServer instance;
+	private  final int MAX = 5;
+	private  final int BACKOFF = 2000;
+	private  final Random random = new Random();
+	private PowerManager.WakeLock wakeLock;
 
 	public static NotificationServer getNotificationServer() {
 		if(instance==null)
@@ -58,7 +69,6 @@ public class NotificationServer extends Application  implements NotificationServ
 					response.append(inputLine);
 				}
 				in.close();
-
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -72,6 +82,73 @@ public class NotificationServer extends Application  implements NotificationServ
 				response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", "")
 				:response.toString();
 
+	}
+
+	@Override
+	public void register(Context context, User u) {
+		String serverURL= SettingsNotificationServer.PAGE_REGISTER;
+
+		HashMap<String, String> params= new HashMap<String, String>();
+		params.put("name", u.getNickname());
+		params.put("email", u.getEmail());
+		params.put("regId", u.getIdNotification());
+
+		long backoff = BACKOFF + random.nextInt(1000);
+		for (int i = 1; i <= MAX; i++) {
+			Log.d(SettingsNotificationServer.TAG, "Attempt #" + i + " to register");
+
+			try {
+				String parameters= setParameters(params);
+				request(serverURL, parameters);
+				GCMRegistrar.setRegisteredOnServer(context, true);
+				return;
+
+			} catch (Exception e) {
+
+				if (i == MAX) {
+					break;
+				}
+				try {
+					Thread.sleep(backoff);
+				} catch (InterruptedException e1) {
+					Thread.currentThread().interrupt();
+					return;
+				}
+				backoff *= 2;
+			}
+		}
+	}
+
+	@Override
+	public void unregister(Context context, String name) {
+
+		String serverUnreg= SettingsNotificationServer.PAGE_UNREGISTER;
+		HashMap<String, String> params= new HashMap<String, String>();
+		params.put("name", name);
+		request(serverUnreg, setParameters(params));
+		GCMRegistrar.setRegisteredOnServer(context, false);
+	}
+
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void acquireWakeLock(Context c) {
+		if (wakeLock != null) 
+			wakeLock.release();
+
+		PowerManager pm = (PowerManager) c.getSystemService(Context.POWER_SERVICE);
+
+		wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK |
+				PowerManager.ACQUIRE_CAUSES_WAKEUP |
+				PowerManager.ON_AFTER_RELEASE, "WakeLock");
+
+		wakeLock.acquire();
+	}
+	
+	public  void releaseWakeLock() {
+		if (wakeLock != null) 
+			wakeLock.release(); 
+		wakeLock = null;
 	}
 
 

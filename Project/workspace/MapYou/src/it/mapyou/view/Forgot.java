@@ -3,8 +3,8 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.network.SettingsServer;
 import it.mapyou.util.EmailValidator;
-import it.mapyou.util.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.util.HashMap;
