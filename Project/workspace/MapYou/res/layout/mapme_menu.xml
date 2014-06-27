@@ -45,7 +45,8 @@
             android:layout_marginRight="3dp"
             android:layout_weight="0.28"
             android:background="@color/LightBlue"
-            android:text="@string/New_MapMe" />
+            android:text="@string/New_MapMe"
+            />
 
         <Button
             android:id="@+id/button2"

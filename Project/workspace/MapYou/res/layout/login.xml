@@ -32,7 +32,6 @@
                 android:layout_height="92dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/logo2" />
-
         </LinearLayout>
 
         <TextView
@@ -43,7 +42,8 @@
             android:layout_marginTop="35dp"
             android:layout_weight="0.29"
             android:text="@string/login_name"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+             />
 
         <EditText
             android:id="@+id/user_login_Login"
@@ -83,9 +83,9 @@
                 android:layout_height="53dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/login"
                 android:clickable="true"
-                android:onClick="login" />
+                android:onClick="login"
+                android:src="@drawable/login" />
 
             <LinearLayout
                 android:id="@+id/orizzontale"
@@ -98,12 +98,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:clickable="true"
                     android:gravity="center"
+                    android:onClick="registerMapYou"
                     android:text="@string/register_login"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="18sp"
-                    android:onClick="registerMapYou"
-                    android:clickable="true" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -127,9 +127,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/facebook"
                     android:clickable="true"
-                    android:onClick="face"  />
+                    android:onClick="face"
+                    android:src="@drawable/facebook" />
 
                 <ImageView
                     android:id="@+id/buttonForgot_Login"
@@ -139,13 +139,13 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="0.12"
-                    android:src="@drawable/forgot"
                     android:clickable="true"
-                    android:onClick="forgotMapYou" />
-
+                    android:onClick="forgotMapYou"
+                    android:src="@drawable/forgot" />
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

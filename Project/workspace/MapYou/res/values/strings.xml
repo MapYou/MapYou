@@ -18,17 +18,42 @@
     <string name="Info">About</string>
     <string name="Help">Help</string>
     <string name="Menu">MapYou</string>
+    <string name="Home">Home</string>
+    <string name="Profile">Profile</string>
 
     <!-- **** String used for Registration **** -->
     <string name="Register_to_MapYou">Register</string>
     <string name="email">email</string>
     <string name="confirmPass">confirm pass</string>
 
-      <!-- **** String used for Forgot **** -->
+    <!-- **** String used for Forgot **** -->
     <string name="forgotPass">Forgot pass</string>
-        <string name="forgotP">Forgot password</string>
-    
-    <!-- **** String used for Menu **** -->
- 
+    <string name="forgotP">Forgot password</string>
 
+    <!-- **** String used for Menu **** -->
+
+
+    <!-- **** String Face **** -->
+    <string name="appId">1516574998563667</string>
+
+     <!-- **** List of String for Drawer **** -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/home</item>
+        <item>@drawable/profile</item>
+        <item>@drawable/help</item>
+        <item>@drawable/info</item>
+      
+    </array>
+    <array name="nav_drawer_items">
+        <item>@string/Home</item>
+        <item>@string/Profile</item>
+        <item>@string/Help</item>
+        <item>@string/Info</item>
+    </array>
+
+     <!-- **** String Profile **** -->
+        <string name="logout">Log out</string>
+         <string name="yourprofil">Profile:</string>
+      
+     
 </resources>

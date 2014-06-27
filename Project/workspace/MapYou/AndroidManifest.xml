@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="it.mapyou"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.mapyou"
     android:versionCode="1"
-    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -44,7 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name=".sqlite.TestOpenDb" >
         </activity>
         <activity android:name=".view.MapMeMenu" >
@@ -55,7 +55,7 @@
         </activity>
 
         <!-- ************************************************************** -->
-         <!-- Section Permission GCM requires a Google account. -->
+        <!-- Section Permission GCM requires a Google account. -->
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -69,9 +69,17 @@
         </receiver>
 
         <service android:name="it.mapyou.GCMIntentService" />
-        <activity android:name=".gcm.Gcm"></activity>
-        <activity android:name=".view.GcmTest"></activity>
-        <activity android:name=".view.LoginFacebook"></activity>
+
+        <activity android:name=".gcm.Gcm" >
+        </activity>
+        <activity android:name=".view.GcmTest" >
+        </activity>
+        <activity android:name=".view.FacebookLogin" >
+        </activity>
+        <activity android:name=".view.DrawerMain"></activity>
+         <activity android:name=".view.ProfileFacebook"></activity>
+         
+        
     </application>
 
 </manifest>

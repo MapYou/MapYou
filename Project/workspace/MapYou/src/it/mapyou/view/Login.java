@@ -8,7 +8,6 @@ import it.mapyou.util.UtilAndroid;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -23,7 +22,7 @@ import android.widget.EditText;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class Login extends Activity {
+public class Login extends FacebookController {
 
 	private DeviceController controller;
 	private EditText user;
@@ -46,6 +45,8 @@ public class Login extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		logoutFacebookSession2();
 	}
 
 	public void login (View v){
@@ -57,10 +58,10 @@ public class Login extends Activity {
 		Intent intent=new Intent(Login.this,Register.class);  
 		startActivityForResult(intent, 2);
 	}
-//	public void face(View v){
-//		Intent intent=new Intent(Login.this,LoginFacebook.class);  
-//		startActivity(intent);
-//	}
+	public void face(View v){
+		setConnection();
+		getID();
+	}
 
 
 	public void forgotMapYou(View v){
@@ -114,7 +115,7 @@ public class Login extends Activity {
 				Editor ed = sp.edit();
 				ed.putString("nickname", user.getText().toString());
 				ed.commit();
-				Intent intent= new Intent(Login.this,MapMeMenu.class);
+				Intent intent= new Intent(Login.this,DrawerMain.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				startActivity(intent);
 			}else{
