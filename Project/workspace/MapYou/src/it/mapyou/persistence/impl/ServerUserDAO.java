@@ -59,9 +59,7 @@ public class ServerUserDAO implements User_DAO {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see it.mapyou.persistence.User_DAO#selectByNickname(java.lang.String)
-	 */
+	
 	@Override
 	public User selectByNickname(String nickname) {
 		// TODO Auto-generated method stub

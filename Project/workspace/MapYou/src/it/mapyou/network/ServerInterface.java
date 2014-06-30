@@ -5,7 +5,7 @@ package it.mapyou.network;
 
 import java.util.HashMap;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 
@@ -20,7 +20,7 @@ public interface ServerInterface {
 	
 	public boolean open(String conn, String parameter);
 	
-	public JSONArray request(String parameters,String url, String jsonObject);
+	public JSONObject requestJson(String parameters,String url);
 	
 	public String request(String page,String parameters);
 	

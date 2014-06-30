@@ -68,20 +68,18 @@ public class Server implements ServerInterface {
 	}
 
 	@Override
-	public JSONArray request(String parameters,String urlPath,String jsonOb) {
+	public JSONObject requestJson(String urlPath,String parameters) {
 
 		URL url;
 		try {
-			url = new URL(urlPath);
+			url = new URL(SettingsServer.SERVER_ADDRESS+urlPath);
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("POST");
-			urlConnection.setConnectTimeout(10);
 			urlConnection.setDoOutput(true);
 
-			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-			wr.writeBytes(parameters);
-			wr.flush();
-			wr.close();
+			OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream()); 
+			wr.write(parameters); 
+			wr.flush(); 
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 			String inputLine;
@@ -91,12 +89,13 @@ public class Server implements ServerInterface {
 				response.append(inputLine);
 			}
 			in.close();
-			JSONObject jsonObject= new JSONObject(response.toString());
+			String r="";
+			if(response.length()>0)
+				r=response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", "");
+			JSONObject jsonObject= new JSONObject(r);
+			 
 
-			JSONArray json= jsonObject.getJSONArray(jsonOb); 
-			//Log.v("jsonObj",json.toString());
-
-			return json;
+			return jsonObject;
 
 		} catch (Exception e) {
 			Log.v("exception class name", e.getClass().getSimpleName());
@@ -148,18 +147,18 @@ public class Server implements ServerInterface {
 
 	}
 
- 
+
 	@Override
 	public String setParameters(HashMap<String, String> params) {
-		
+
 		Iterator<Entry<String, String>> iterator=params.entrySet().iterator();
 		StringBuilder parameters= new StringBuilder();
-		
+
 		while(iterator.hasNext()){
-			
+
 			Entry<String, String> p= iterator.next();
 			parameters.append(p.getKey()).append('=').append(p.getValue());
-			
+
 			if(iterator.hasNext())
 				parameters.append('&');
 		}

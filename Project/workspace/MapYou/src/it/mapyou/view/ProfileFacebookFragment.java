@@ -1,5 +1,5 @@
 /**
- * 
+ * Profile User
  */
 package it.mapyou.view;
 
@@ -43,8 +43,10 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 		final String name=sp.getString("nameFace","");
 
 		String u=sp.getString("nickname", "") ;
+		String emailUser=sp.getString("email", "");
 		if(!u.equalsIgnoreCase("")){
 			nameUser.setText(u);
+			mailUser.setText(emailUser);
 			img.setImageResource(R.drawable.usersimple);
 			logout.setOnClickListener(new OnClickListener()
 			{
@@ -53,7 +55,7 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 				{
 					logoutSimple();
 					sp.edit().clear();
-					
+
 				}
 			}); 
 		}else{
@@ -79,8 +81,8 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 		nameUser.setText(n);
 		mailUser.setText(e);
 	}
-	
-	 
+
+
 	@SuppressWarnings("deprecation")
 	public void logoutFacebook (){
 
@@ -107,7 +109,6 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 
 			}
 		});
-
 		alert2.show();
 	}
 

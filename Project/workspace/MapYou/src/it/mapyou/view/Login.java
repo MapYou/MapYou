@@ -2,11 +2,15 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,19 +49,23 @@ public class Login extends FacebookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		logoutFacebookSession2();
 	}
 
+	// onclick Login
 	public void login (View v){
 		if(verifyField())
 			new  LoginTask().execute();
 	}
 
+	// onclick Registration
 	public void registerMapYou(View v){
 		Intent intent=new Intent(Login.this,Register.class);  
 		startActivityForResult(intent, 2);
 	}
+
+	// onclick Facebook login
 	public void face(View v){
 		setConnection();
 		getID();
@@ -70,6 +78,7 @@ public class Login extends FacebookController {
 		startActivity(intent);
 	}
 
+	// Result activity registration for set user && password 
 	@Override  
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){  
 		super.onActivityResult(requestCode, resultCode, data);  
@@ -81,8 +90,9 @@ public class Login extends FacebookController {
 		}  
 	}  
 
-	class LoginTask extends AsyncTask<Void, Void, String>{
-		private String b;
+
+	class LoginTask extends AsyncTask<Void, Void, JSONObject>{
+		private JSONObject jobj;
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
 		@Override
@@ -93,27 +103,29 @@ public class Login extends FacebookController {
 		}
 
 		@Override
-		protected String doInBackground(Void... params) {
+		protected JSONObject doInBackground(Void... params) {
 
 			try {
 				parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
 				parameters.put("password",  URLEncoder.encode(password.getText().toString(), "UTF-8"));
-				b=controller.getServer().request(SettingsServer.LOGIN_PAGE, controller.getServer().setParameters(parameters));
+				jobj=controller.getServer().requestJson(SettingsServer.LOGIN_PAGE, controller.getServer().setParameters(parameters));
 
-				return b;
+				return jobj;
 			} catch (Exception e) {
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-			if(result.toString().equalsIgnoreCase("true")){
+			if(result!=null){
+				User userLogin=getUserLogin(result);
 				UtilAndroid.makeToast(getApplicationContext(), "Login", 5000);
 				Editor ed = sp.edit();
-				ed.putString("nickname", user.getText().toString());
+				ed.putString("nickname", userLogin.getNickname());
+				ed.putString("email", userLogin.getEmail());
 				ed.commit();
 				Intent intent= new Intent(Login.this,DrawerMain.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -146,4 +158,23 @@ public class Login extends FacebookController {
 			verify=true;
 		return verify;
 	}
+
+
+	public User getUserLogin (JSONObject json){
+
+		User user= new User();
+		try {
+			JSONArray jsonArr= json.getJSONArray("User");
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json=jsonArr.getJSONObject(i);
+				user.setNickname(json.getString("nickname"));
+				user.setEmail(json.getString("email"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	return user;
+}
 }

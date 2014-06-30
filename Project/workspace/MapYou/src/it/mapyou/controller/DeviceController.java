@@ -21,7 +21,7 @@ public class DeviceController implements Controller{
 	private Server server;
 	private AndroidGeoController geoController;
 	private NotificationServer notificationServer;
-	private StringSecurityController security;
+ 
 	 
 
 	public DeviceController() {
@@ -36,14 +36,6 @@ public class DeviceController implements Controller{
 		return server;
 	}
 	
-
-	/**
-	 * @return the security
-	 */
-	public StringSecurityController getSecurity() {
-		return security;
-	}
-
 	public ModelCreator getCreator() {
 		return ModelCreator.getInstance();
 	}

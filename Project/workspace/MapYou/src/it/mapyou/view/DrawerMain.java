@@ -63,49 +63,35 @@ public class DrawerMain extends Activity {
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
-		// adding nav drawer items to array
-		// Home
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		// Find People
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-		// Pages
-//		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-//		// What's hot, We  will add a counter here
-//		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 
-
-		// Recycle the typed array
 		navMenuIcons.recycle();
-
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
-		// setting the nav drawer list adapter
-		adapter = new DrawerListAdapter(getApplicationContext(),
-				navDrawerItems);
+		adapter = new DrawerListAdapter(getApplicationContext(),navDrawerItems);
 		mDrawerList.setAdapter(adapter);
 
-		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer1, //nav menu toggle icon
-				R.string.app_name, // nav drawer open - description for accessibility
-				R.string.app_name // nav drawer close - description for accessibility
+				R.drawable.ic_drawer1, 
+				R.string.app_name, 
+				R.string.app_name 
 				) {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
-				// calling onPrepareOptionsMenu() to show action bar icons
+
 				invalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
-				// calling onPrepareOptionsMenu() to hide action bar icons
+
 				invalidateOptionsMenu();
 			}
 		};
@@ -129,7 +115,7 @@ public class DrawerMain extends Activity {
 		}
 	}
 
- 
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -147,18 +133,18 @@ public class DrawerMain extends Activity {
 	}
 
 	private void displayView(int position) {
-		
+
 		Fragment fragment = null;
 		switch (position) {
 		case 0:
 			fragment = new MapMenuFragment();
 			break;
-			
+
 		case 1:
 			fragment= new ProfileFacebookFragment();
 			break;
-			
-		 
+
+
 		default:
 			break;
 		}
@@ -168,7 +154,6 @@ public class DrawerMain extends Activity {
 			fragmentManager.beginTransaction()
 			.replace(R.id.frame_container, fragment).commit();
 
-			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);
 			setTitle(navMenuTitles[position]);

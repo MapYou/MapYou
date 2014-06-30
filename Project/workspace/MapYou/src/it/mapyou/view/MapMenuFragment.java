@@ -42,7 +42,7 @@ public class MapMenuFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState) {  
 		super.onActivityCreated(savedInstanceState);  
 
-		//Toast.makeText(getActivity(), "hey", 5000).show();
+		
 	}
 }
 
