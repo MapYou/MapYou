@@ -41,6 +41,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -112,7 +113,7 @@ public abstract class FacebookController extends Activity {
 
 			@Override
 			protected void onPostExecute(Boolean result){
-
+				
 				if (result == null|| result == false){
 					UtilAndroid.makeToast(mContext, "Not_logout", 5000);
 					return;
@@ -145,7 +146,6 @@ public abstract class FacebookController extends Activity {
 
 			@Override
 			protected void onPostExecute(Boolean result){
-
 				return;
 				
 			}
