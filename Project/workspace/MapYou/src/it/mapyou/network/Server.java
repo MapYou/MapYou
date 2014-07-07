@@ -120,6 +120,7 @@ public class Server implements ServerInterface {
 			OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream()); 
 			wr.write(parameters); 
 			wr.flush(); 
+			wr.close();
 
 			int responseCode = urlConnection.getResponseCode();
 
@@ -139,6 +140,9 @@ public class Server implements ServerInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return response.toString();
+		}
+		finally{
+			urlConnection.disconnect();
 		}
 
 		return response.length()>0?

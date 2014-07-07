@@ -24,10 +24,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static final String TAG = "GCMIntentServiceCix";
 	private NotificationServer notificationController = null;
 
+
 	public GCMIntentService() {
 		super(SettingsNotificationServer.GOOGLE_SENDER_ID);
 
 		notificationController= NotificationServer.getNotificationServer();
+
 	}
 
 
@@ -39,13 +41,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notificationController = (NotificationServer) getApplicationContext();
 
 		Log.i(TAG, "Device registereddddddddddddddddddddd: regId = " + registrationId);
-		User u = new User();
-		u.setNickname("Silvana");
-		u.setEmail("Silvana@hotmail.it");
-		u.setIdNotification(registrationId);
+		 
 
 		// GCMRegistrar.setRegisteredOnServer(context, true); // register on server GCM
-		notificationController.register(context, u); // register user 
+		notificationController.register(context); // register user 
 	}
 
 

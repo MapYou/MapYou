@@ -13,7 +13,7 @@ public interface NotificationServerInterface {
 
 	 public String request(String page, String parameters);
 	 
-	 public void register (Context c, User u);
+	 public void register (Context c);
 	 
 	 public void unregister (Context c, String name);
 	 

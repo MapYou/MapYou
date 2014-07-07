@@ -85,21 +85,13 @@ public class NotificationServer extends Application  implements NotificationServ
 	}
 
 	@Override
-	public void register(Context context, User u) {
-		String serverURL= SettingsNotificationServer.PAGE_REGISTER;
-
-		HashMap<String, String> params= new HashMap<String, String>();
-		params.put("name", u.getNickname());
-		params.put("email", u.getEmail());
-		params.put("regId", u.getIdNotification());
-
+	public void register(Context context) {
+	 
 		long backoff = BACKOFF + random.nextInt(1000);
 		for (int i = 1; i <= MAX; i++) {
 			Log.d(SettingsNotificationServer.TAG, "Attempt #" + i + " to register");
 
 			try {
-				String parameters= setParameters(params);
-				request(serverURL, parameters);
 				GCMRegistrar.setRegisteredOnServer(context, true);
 				return;
 
