@@ -151,10 +151,7 @@ public class Register extends Activity{
 		startActivity(intent);
 	}
 
-	public void gcmm (View v){
-		Intent i = new Intent(Register.this, GcmTest.class);
-		startActivity(i);
-	}
+	 
 
 
 }

@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 
@@ -37,6 +38,7 @@ public class Login extends FacebookController {
 	private EditText password;
 	private SharedPreferences sp;
 	private String resultID="";
+	private User userLogin=null;
 
 
 	@Override
@@ -121,68 +123,69 @@ public class Login extends FacebookController {
 			}
 		}
 
+	 
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-			if(result!=null){
+			if(result!=null && !result.toString().equalsIgnoreCase("false")){
 
-
-				User userLogin=getUserLogin(result);
+				userLogin=getUserLogin(result);
 				UtilAndroid.makeToast(getApplicationContext(), "Login", 5000);
-
 				GCMRegistrar.checkDevice(Login.this);
 				GCMRegistrar.checkManifest(Login.this);
+
+				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
+					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+				} else;
+				final String regId = GCMRegistrar.getRegistrationId(Login.this);
 				try {
 
-					String regId = GCMRegistrar.getRegistrationId(Login.this);
-
-					//do{
-					if (regId.equals("")) {
-
-						GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
-						Log.v("code", regId);
-						regId = GCMRegistrar.getRegistrationId(Login.this);
-
-					}else;
-					//while(regId.equals(""));
-					regId="12345";
+					Log.v("code", regId);
 					parameters.clear();
 					parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
 					parameters.put("idNot", regId);
-
-					new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							resultID=controller.getServer().request(SettingsServer.UPDATE_ID_NOT, controller.getServer().setParameters(parameters));
-
-						}
-					}).start();
-
-
-					if(resultID.equalsIgnoreCase("1")){
-						Editor ed = sp.edit();
-						ed.putString("nickname", userLogin.getNickname());
-						ed.putString("email", userLogin.getEmail());
-						ed.putString("idNotification", regId);
-						ed.commit();
-
-						Intent intent= new Intent(Login.this,DrawerMain.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-						startActivity(intent);
-
-					}else
-						UtilAndroid.makeToast(getApplicationContext(), "Query not found", 5000);
+					Editor ed = sp.edit();
+					ed.putString("idNotification", regId);
+					ed.commit(); 
+					new UpdateTask().execute(parameters);
 				} catch (Exception e) {
 				}
-			}
-			else{
+			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
-			}
 		}
 	}
 
+	class UpdateTask extends AsyncTask<HashMap<String, String> , Void, String>{
+
+
+		@Override
+		protected String doInBackground(HashMap<String, String>... params) {
+			resultID=controller.getServer().request(SettingsServer.UPDATE_ID_NOT, controller.getServer().setParameters(params[0]));
+			return resultID;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+
+			UtilAndroid.makeToast(getApplicationContext(), resultID, 5000);
+			if(result.equalsIgnoreCase("true")){
+
+				Editor ed = sp.edit();
+				ed.putString("nickname", userLogin.getNickname());
+				ed.putString("email", userLogin.getEmail());
+				ed.commit();
+
+				Intent intent= new Intent(Login.this,DrawerMain.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				startActivity(intent);
+
+			}else
+				UtilAndroid.makeToast(getApplicationContext(), "Please Log in!", 5000);
+		}
+
+	}
 
 	public boolean verifyField(){
 

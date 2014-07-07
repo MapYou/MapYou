@@ -42,9 +42,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notificationController = (NotificationServer) getApplicationContext();
 
 		Log.i(TAG, "Device registereddddddddddddddddddddd: regId = " + registrationId);
-		 
-
-		// GCMRegistrar.setRegisteredOnServer(context, true); // register on server GCM
 		notificationController.register(context); // register user 
 	}
 
@@ -62,8 +59,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.i(TAG, "Device unregistered");
 		notificationController.unregister(context, registrationId);
 	}
-	
-	
+
+
 
 	/**
 	 * Method called on Receiving a new message from GCM server
@@ -72,14 +69,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context context, Intent intent) {
 
-
+	
 		if(notificationController == null)
 			notificationController = (NotificationServer) getApplicationContext();
 
 		Log.i(TAG, "Received messageEEEEEEEEEEEEEEEEEEEEEEEE");
-		String message = "heyyyy";
-		// notifies user
-		generateNotification(context, message);
+		
+		generateNotification(context);
 	}
 
 	/**
@@ -93,7 +89,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		Log.i(TAG, "Received deleted messages notification");
 
-		generateNotification(context, "delete");
+		generateNotification(context);
 	}
 
 	/**
@@ -101,7 +97,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	public void onError(Context context, String errorId) {
-		
+
 		int sec=6000;
 		if(notificationController == null)
 			notificationController = (NotificationServer) getApplicationContext();
@@ -124,16 +120,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * Create a notification to inform the user that server has sent a message.
 	 */
 	@SuppressWarnings("deprecation")
-	private static void generateNotification(Context context, String message) {
+	private static void generateNotification(Context context) {
 
 		SharedPreferences sp=PreferenceManager.getDefaultSharedPreferences(context);
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(icon, "Messaggio da "+sp.getString("uu", "")+"" , when);
+		Notification notification = new Notification(icon, "Messaggio da MapYou" , when);
 
-		String title =sp.getString("uu", "");
+		String title ="MapYou";
 
 		Intent notificationIntent = new Intent(context, Login.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -141,7 +137,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 
 		PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, title, message, intent);
+		String mess="MapYou";
+		notification.setLatestEventInfo(context, title, mess, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.defaults |= Notification.DEFAULT_VIBRATE;

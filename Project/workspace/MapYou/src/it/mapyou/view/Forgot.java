@@ -13,8 +13,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -28,13 +30,13 @@ public class Forgot extends Activity {
 
 	private EditText email;
 	private DeviceController controller;
-
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.forgot);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-
+		 
 		controller= new DeviceController();
 		try {
 			controller.init(getApplicationContext());
@@ -85,9 +87,11 @@ public class Forgot extends Activity {
 
 			if(result.equalsIgnoreCase("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "Please check your e-mail address", 5000);
+				 
 				Intent i = new Intent(Forgot.this, Login.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
+				
 			}else{
 				UtilAndroid.makeToast(getApplicationContext(), "Email or User not registred", 5000);
 			}

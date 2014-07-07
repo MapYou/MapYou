@@ -5,7 +5,6 @@ package it.mapyou.network;
 
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -103,6 +101,9 @@ public class Server implements ServerInterface {
 				Log.v("socketTimeout", "connessione scaduta: "+e.getMessage());
 			}
 			return null;
+		}
+		finally{
+			urlConnection.disconnect();
 		}
 	}
 

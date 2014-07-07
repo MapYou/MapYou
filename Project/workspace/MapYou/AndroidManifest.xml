@@ -72,8 +72,7 @@
 
         <activity android:name=".gcm.Gcm" >
         </activity>
-        <activity android:name=".view.GcmTest" >
-        </activity>
+       
         <activity android:name=".view.FacebookLogin" >
         </activity>
         <activity android:name=".view.DrawerMain"></activity>
