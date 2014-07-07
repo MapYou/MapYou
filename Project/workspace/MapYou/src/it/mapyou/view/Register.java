@@ -12,6 +12,8 @@ import it.mapyou.util.UtilAndroid;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -83,7 +85,6 @@ public class Register extends Activity{
 				parameters.put("nickname", URLEncoder.encode(nickname.getText().toString(), "UTF-8"));
 				parameters.put("password",  URLEncoder.encode(password.getText().toString(), "UTF-8"));
 				parameters.put("email", email.getText().toString());
-
 				b=controller.getServer().request(SettingsServer.REGISTER_PAGE, controller.getServer().setParameters(parameters));
 
 				return b;
