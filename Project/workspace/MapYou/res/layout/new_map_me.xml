@@ -145,9 +145,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="7dp"
                 android:background="@color/LightGreen"
-                android:text="Clean map" 
-                android:onClick="cleanMap"
-                />
+                android:text="Settings" />
 
         </LinearLayout>
     </LinearLayout>

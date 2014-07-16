@@ -7,10 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ParserDataFromGeocodingApi extends ParserDataExternalServer {
+public class ParserDataFromGeocoding {
 
 
-	public ParserDataFromGeocodingApi() {
+	public ParserDataFromGeocoding() {
 
 	}
 
@@ -18,17 +18,11 @@ public class ParserDataFromGeocodingApi extends ParserDataExternalServer {
 
 		JSONArray jPlaces = null;
 		try {
-			if(jObject.getString("status").equalsIgnoreCase("ZERO_RESULTS"))
-			{
-				return null;
-			}
-			else{
-				jPlaces = jObject.getJSONArray("results");
-				return getPlaces(jPlaces);
-			}
+			jPlaces = jObject.getJSONArray("results");
 		} catch (JSONException e) {
-			return null;
+			e.printStackTrace();
 		}
+		return getPlaces(jPlaces);
 	}
 
 	private List<HashMap<String, String>> getPlaces(JSONArray jPlaces){
@@ -42,7 +36,7 @@ public class ParserDataFromGeocodingApi extends ParserDataExternalServer {
 				placesList.add(place);
 
 			} catch (JSONException e) {
-				return null;
+				e.printStackTrace();
 			}
 		}
 
@@ -69,7 +63,7 @@ public class ParserDataFromGeocodingApi extends ParserDataExternalServer {
 			place.put("lng", lng);
 
 		}catch (JSONException e) {
-			return null;
+			e.printStackTrace();
 		}
 		return place;
 	}
