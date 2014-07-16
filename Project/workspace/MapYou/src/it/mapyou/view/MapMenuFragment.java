@@ -4,14 +4,15 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.navigator.MapsProva;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -29,9 +30,9 @@ public class MapMenuFragment extends Fragment{
 			@Override
 			public void onClick(View v)
 			{
-				Toast.makeText(getActivity(), "Hey", 5000).show();
-//				Intent i= new Intent(getActivity(), Login.class);
-//				startActivity(i);
+				
+				Intent i= new Intent(getActivity(), MapsProva.class);
+				startActivity(i);
 				
 			}
 		}); 

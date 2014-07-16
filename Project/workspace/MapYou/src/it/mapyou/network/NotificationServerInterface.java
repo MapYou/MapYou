@@ -1,7 +1,6 @@
 
 package it.mapyou.network;
 
-import it.mapyou.model.User;
 import android.content.Context;
 
 

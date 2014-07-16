@@ -25,6 +25,7 @@ public abstract class SubjectModel extends Subject{
 		this.modelID = modelID;
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(o instanceof SubjectModel){
 			return modelID==((SubjectModel)o).getModelID();

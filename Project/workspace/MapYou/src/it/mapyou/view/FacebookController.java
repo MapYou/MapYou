@@ -41,7 +41,6 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
-import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -196,6 +195,7 @@ public abstract class FacebookController extends Activity {
 				final String name = json.getString("name");
 				final String email = json.getString("email");
 				FacebookController.this.runOnUiThread(new Runnable() {
+					@Override
 					public void run() {
 						editor.putString("idface", id);
 						editor.putString("emailFace", email);
@@ -254,7 +254,7 @@ public abstract class FacebookController extends Activity {
 					URL aURL = new URL("http://graph.facebook.com/"+id+"/picture?type=large");
 					HttpGet httpRequest = new HttpGet(URI.create(aURL.toString()) ); 
 					HttpClient httpclient = new DefaultHttpClient(); 
-					HttpResponse response = (HttpResponse) httpclient.execute(httpRequest); 
+					HttpResponse response = httpclient.execute(httpRequest); 
 					HttpEntity entrty = response.getEntity(); 
 					BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entrty); 
 					bm = BitmapFactory.decodeStream(bufHttpEntity.getContent());
@@ -263,6 +263,7 @@ public abstract class FacebookController extends Activity {
 				}
 				return bm;
 			}
+			@Override
 			protected void onPostExecute(Bitmap result) {
 
 				try {

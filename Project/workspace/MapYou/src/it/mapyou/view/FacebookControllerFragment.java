@@ -168,6 +168,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 				final String name = json.getString("name");
 				final String email = json.getString("email");
 				getActivity().runOnUiThread(new Runnable() {
+					@Override
 					public void run() {
 						editor.putString("idface", id);
 						editor.putString("emailFace", email);
@@ -175,7 +176,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 						editor.commit();
 
 						Intent i = new Intent(getActivity(), DrawerMain.class);
-						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						//i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(i);
 					}
 				});
@@ -223,7 +224,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 					URL aURL = new URL("http://graph.facebook.com/"+id+"/picture?type=large");
 					HttpGet httpRequest = new HttpGet(URI.create(aURL.toString()) ); 
 					HttpClient httpclient = new DefaultHttpClient(); 
-					HttpResponse response = (HttpResponse) httpclient.execute(httpRequest); 
+					HttpResponse response = httpclient.execute(httpRequest); 
 					HttpEntity entrty = response.getEntity(); 
 					BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entrty); 
 					bm = BitmapFactory.decodeStream(bufHttpEntity.getContent());
@@ -232,6 +233,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 				}
 				return bm;
 			}
+			@Override
 			protected void onPostExecute(Bitmap result) {
 
 				try {

@@ -4,8 +4,6 @@
 package it.mapyou.network;
 
 
-import it.mapyou.model.User;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

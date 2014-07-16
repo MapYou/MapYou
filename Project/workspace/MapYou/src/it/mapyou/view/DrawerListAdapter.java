@@ -49,7 +49,7 @@ public class DrawerListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = mInflater.inflate(R.layout.custom_drawer, null);
 		}
 		ImageView imgIcon = (ImageView) convertView.findViewById(R.id.imageView1);

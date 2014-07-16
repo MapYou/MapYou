@@ -83,12 +83,14 @@ public class DrawerMain extends Activity {
 				R.string.app_name, 
 				R.string.app_name 
 				) {
+			@Override
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
 
 				invalidateOptionsMenu();
 			}
 
+			@Override
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
 

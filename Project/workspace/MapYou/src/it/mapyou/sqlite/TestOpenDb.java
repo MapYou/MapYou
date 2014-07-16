@@ -3,7 +3,6 @@
  */
 package it.mapyou.sqlite;
 
-import it.mapyou.R;
 import it.mapyou.model.User;
 import it.mapyou.persistence.DAOCreator;
 import it.mapyou.persistence.impl.SQLiteDAOManager;
@@ -31,7 +30,7 @@ public class TestOpenDb extends Activity {
  
 		 
 		DAOCreator factory= DAOCreator.getInstance();
-		SQLiteDAOManager s=((SQLiteDAOManager) factory.create(SQLiteDAOManager.class)).getInstance(getApplicationContext());
+		SQLiteDAOManager s=SQLiteDAOManager.getInstance(getApplicationContext());
 		s.connect();
 		 
 		 

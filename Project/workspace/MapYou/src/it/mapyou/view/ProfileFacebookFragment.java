@@ -92,12 +92,14 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 		alert2.setIcon(R.drawable.ic_launcher);
 		alert2.setButton2("No", new DialogInterface.OnClickListener() {
 
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
 		});
 		alert2.setButton("Yes", new DialogInterface.OnClickListener() {
 
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				new Thread(new Runnable() {
 
