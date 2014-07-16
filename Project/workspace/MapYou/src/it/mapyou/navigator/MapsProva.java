@@ -21,14 +21,14 @@ public class MapsProva extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		setContentView(R.layout.map);
+		setContentView(R.layout.new_map_me);
 		
 		initilizeMap();
 	}
 	
 	private void initilizeMap() {
 		if (googleMap == null) {
-			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map2)).getMap();
 			googleMap.setMyLocationEnabled(true);
 
 			if (googleMap == null) {

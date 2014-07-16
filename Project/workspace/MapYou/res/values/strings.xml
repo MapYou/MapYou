@@ -13,7 +13,7 @@
     <string name="welcome_mapyou">Welcome to MapYou</string>
     <string name="New_MapMe">New MapMe</string>
     <string name="Send_Partecipation">Send partecipation</string>
-    <string name="Request_Partecipation">Request partecipation</string>
+    <string name="Request_Partecipation">Invite MapMe</string>
     <string name="View_MapMe">Your MapMe</string>
     <string name="Menu">MapYou</string>
     <string name="Home">Home</string>
@@ -41,7 +41,6 @@
         <item>@drawable/rate</item>
         <item>@drawable/help</item>
         <item>@drawable/info</item>
-        <item>@drawable/logout</item>
     </array>
     <array name="nav_drawer_items">
         <item>@string/Home</item>
@@ -49,7 +48,6 @@
         <item>@string/Rate</item>
         <item>@string/Help</item>
         <item>@string/Info</item>
-        <item>@string/logout</item>
     </array>
 
     <!-- **** String Profile **** -->
