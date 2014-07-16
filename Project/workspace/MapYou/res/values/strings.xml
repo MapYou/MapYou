@@ -41,6 +41,7 @@
         <item>@drawable/rate</item>
         <item>@drawable/help</item>
         <item>@drawable/info</item>
+        <item>@drawable/logout</item>
     </array>
     <array name="nav_drawer_items">
         <item>@string/Home</item>
@@ -48,6 +49,7 @@
         <item>@string/Rate</item>
         <item>@string/Help</item>
         <item>@string/Info</item>
+        <item>@string/logout</item>
     </array>
 
     <!-- **** String Profile **** -->
