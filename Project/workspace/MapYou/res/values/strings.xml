@@ -58,5 +58,10 @@
     <string name="Rate">Rate</string>
     <string name="Info">About</string>
     <string name="Help">Help</string>
+    <string name="mapme_name">Name</string>
+    <string name="start_location_mapme_on_gps">Current location</string>
+    <string name="start_mapme">MapMe start location</string>
+    <string name="end_mapme">MapMe end location</string>
+    <string name="view_mapme_on_google_map">View map</string>
 
 </resources>
