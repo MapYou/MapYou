@@ -5,7 +5,7 @@ public abstract class ConfigurationGeocodingApi {
 	
 	
 	
-	protected static String getUrlFrom(String address){
+	public static String getUrlFrom(String address){
 
 		String url="https://maps.googleapis.com/maps/api/geocode/json?";
 		String add = "address="+address;
