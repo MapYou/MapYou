@@ -1,0 +1,4 @@
+New keystore C:\Users\Mentalist\Documents\MapYou\MapYou\MapYou.apk has been created.
+[2014-07-16 10:12:20 - MapYou] Certificate fingerprints:
+[2014-07-16 10:12:20 - MapYou]   MD5 : 05:29:77:8A:3A:63:2D:62:6E:41:91:18:E0:0F:91:47
+[2014-07-16 10:12:20 - MapYou]   SHA1: D8:F0:95:E6:54:3E:9C:97:86:62:23:5A:D9:70:95:41:69:10:24:BF
