@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package it.mapyou.navigator;
 
 import it.mapyou.R;

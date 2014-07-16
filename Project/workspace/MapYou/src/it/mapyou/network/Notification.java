@@ -3,7 +3,7 @@
  */
 package it.mapyou.network;
 
-import it.mapyou.model.Notificable;
+
 import it.mapyou.model.User;
 
 /**
@@ -13,7 +13,7 @@ import it.mapyou.model.User;
 public class Notification {
 
 	private User sender, receiver;
-	private Notificable notificableObject;
+	
 	
 	
 	
@@ -35,13 +35,6 @@ public class Notification {
 	}
 	
 	
-	public Notificable getNotificableObject() {
-		return notificableObject;
-	}
-	
-	public void setNotificableObject(Notificable notificableObject) {
-		this.notificableObject = notificableObject;
-	}
-	
+ 
 	
 }

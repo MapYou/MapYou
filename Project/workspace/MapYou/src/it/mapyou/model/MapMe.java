@@ -11,19 +11,20 @@ import java.util.List;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMe extends SubjectModel implements Notificable{
+public class MapMe extends SubjectModel {
 	
 	private User administrator;
 	private List<Mapping> mapping;
 	private GregorianCalendar creationDate;
 	private int numUsers, maxNumUsers;
+	private String name;
 	
 	/**
 	 * 
 	 */
 	public MapMe() {
 		mapping= new ArrayList<Mapping>();
-		creationDate = new GregorianCalendar();
+		//creationDate = new GregorianCalendar();
 	}
 	
 	/**
@@ -31,6 +32,18 @@ public class MapMe extends SubjectModel implements Notificable{
 	 */
 	public GregorianCalendar getCreationDate() {
 		return creationDate;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 	
 	/**
