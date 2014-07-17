@@ -15,6 +15,7 @@ import it.mapyou.util.UtilAndroid;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -48,6 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class NewMapMe extends FragmentActivity {
 
+	private static final int DIALOG = 0;
 	private GoogleMap googleMap;
 	private EditText start;
 	private EditText dest;
@@ -58,6 +63,8 @@ public class NewMapMe extends FragmentActivity {
 	private SharedPreferences sp;
 	private Activity act;
 	private DeviceController controller;
+	CharSequence[] elements=null;
+	String address="";
 
 
 
@@ -157,27 +164,15 @@ public class NewMapMe extends FragmentActivity {
 			super.onPostExecute(result);
 
 			if(result!=null && response.contains("1")){
-				
+
 				Intent i = new Intent(act, MapMeLayoutHome.class);
 				i.putExtra("mapme", result);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				startActivity(i);
-
-
-
 			}
 			else
 				UtilAndroid.makeToast(act, "MapMe doesn't create", 3000);
 		}
-
-
-
-
-
-
-
-
-
 	}
 
 
@@ -252,42 +247,78 @@ public class NewMapMe extends FragmentActivity {
 
 			String lat="";
 			String lon="";
-			String address="";
+			
+			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
 
 			if(result!=null && result.size()>0){
 
-				for(HashMap<String, String> maps: result){
-					lat=maps.get("lat");
-					lon=maps.get("lng");
-					address=maps.get("formatted_address");
+				if(result.size()==1){
+
+					for(HashMap<String, String> m: result){
+
+						lat=m.get("lat");
+						lon=m.get("lng");
+						address=m.get("formatted_address");
+					}
+				}else;
+				if(result.size()>0){
+					for(int i=0; i<result.size(); i++){
+						HashMap<String, String> ele= result.get(i);
+
+						lat=ele.get("lat");
+						lon=ele.get("lng");
+						address=ele.get("formatted_address");
+						allElements.add(ele);
+					}
+					if(result.size()>0){
+						elements=getAllElements(allElements);
+						showDialog(DIALOG);
+
+					}
+				}else;
+
+					double latitude= Double.parseDouble(""+lat);
+					double longitude= Double.parseDouble(""+lon);
+
+
+					MarkerOptions opt= new MarkerOptions();
+					opt.title(isStart?"Partenza":"Arrivo");
+					opt.snippet(address);
+					opt.position(new LatLng(latitude, longitude));
+
+					if(isStart)
+					{
+						opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+						startMarker = googleMap.addMarker(opt);
+					}
+					else
+					{
+						opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+						endMarker = googleMap.addMarker(opt);
+					}
+
+					CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(8).build();
+					googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 				}
-
-				double latitude= Double.parseDouble(""+lat);
-				double longitude= Double.parseDouble(""+lon);
-
-
-				MarkerOptions opt= new MarkerOptions();
-				opt.title(isStart?"Partenza":"Arrivo");
-				opt.snippet(address);
-				opt.position(new LatLng(latitude, longitude));
-
-				if(isStart)
-				{
-					opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-					startMarker = googleMap.addMarker(opt);
-				}
-				else
-				{
-					opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-					endMarker = googleMap.addMarker(opt);
-				}
-
-				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(8).build();
-				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
-			}
+			
 			else
 				UtilAndroid.makeToast(getApplicationContext(), "Address not valid.", 5000);
 		}
+
+	}
+
+	public CharSequence[] getAllElements (List<HashMap<String, String>> maps){
+
+		HashMap<String, String> map=null;
+		List<String> listItems = new ArrayList<String>();
+		CharSequence[] charSequenceItems =null;
+
+		for(int i=0; i<maps.size(); i++){
+			map=maps.get(i);
+			listItems.add(map.get("formatted_address"));
+		}
+		charSequenceItems = listItems.toArray(new CharSequence[listItems.size()]);
+		return charSequenceItems;
 
 	}
 
@@ -304,6 +335,75 @@ public class NewMapMe extends FragmentActivity {
 			}
 		}
 	}
+
+	@SuppressWarnings("deprecation")
+	public void helpForgot (StringBuffer b){
+
+		AlertDialog	alert2= new AlertDialog.Builder(this).create();
+		alert2.setTitle("Elements Retrived!");
+		alert2.setMessage(b);
+		alert2.setIcon(R.drawable.ic_launcher);
+		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		alert2.show();
+	}
+	public Dialog customDialogSelected(){
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Select your address");
+		builder.setSingleChoiceItems(elements, -1, new DialogInterface.OnClickListener(){
+			//private static final CharSequence cat[]={"Win","Lose"};
+
+
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+
+				
+				if(elements[whichButton] != null){
+					address=elements[whichButton].toString();
+					
+				}
+				
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+
+				dialog.cancel();
+			}
+		});
+		builder.setPositiveButton("New", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+
+
+
+			}
+		});
+		return builder.create();
+
+	}
+	@Override
+	protected Dialog onCreateDialog(int id) {
+
+		switch (id) {
+		case DIALOG:
+			return customDialogSelected();
+
+		default:
+			return null;
+		}
+	}
+
 
 
 }
