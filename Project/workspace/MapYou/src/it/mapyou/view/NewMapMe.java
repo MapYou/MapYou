@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -156,6 +157,11 @@ public class NewMapMe extends FragmentActivity {
 			super.onPostExecute(result);
 
 			if(result!=null && response.equalsIgnoreCase("1")){
+				
+				Intent i = new Intent(act, MapMeLayoutHome.class);
+				i.putExtra("mapme", result);
+				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				startActivity(i);
 
 
 
