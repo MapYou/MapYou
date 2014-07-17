@@ -3,6 +3,7 @@
  */
 package it.mapyou.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -11,20 +12,62 @@ import java.util.List;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMe extends SubjectModel {
+public class MapMe extends SubjectModel implements Serializable {
 	
+	 
+	private static final long serialVersionUID = 1L;
 	private User administrator;
 	private List<Mapping> mapping;
 	private GregorianCalendar creationDate;
 	private int numUsers, maxNumUsers;
 	private String name;
+	private Route route;
+	private String startAddress;
+	private String endAddress;
 	
-	/**
-	 * 
-	 */
+	
+	 
 	public MapMe() {
 		mapping= new ArrayList<Mapping>();
 		//creationDate = new GregorianCalendar();
+	}
+	
+	/**
+	 * @return the startAddress
+	 */
+	public String getStartAddress() {
+		return startAddress;
+	}
+	/**
+	 * @return the endAddress
+	 */
+	public String getEndAddress() {
+		return endAddress;
+	}
+	/**
+	 * @param endAddress the endAddress to set
+	 */
+	public void setEndAddress(String endAddress) {
+		this.endAddress = endAddress;
+	}
+	/**
+	 * @param startAddress the startAddress to set
+	 */
+	public void setStartAddress(String startAddress) {
+		this.startAddress = startAddress;
+	}
+	/**
+	 * @return the route
+	 */
+	public Route getRoute() {
+		return route;
+	}
+	
+	/**
+	 * @param route the route to set
+	 */
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 	
 	/**
