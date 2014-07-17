@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="311dp"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
@@ -42,7 +42,7 @@
             android:orientation="horizontal" >
 
             <EditText
-                android:id="@+id/EditTextNameMapMe"
+                android:id="@+id/EditTextNameMapMe2"
                 android:layout_width="254dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -136,6 +136,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="7dp"
                 android:background="@color/LightBlue"
+                android:onClick="save"
                 android:text="Save" />
 
             <Button

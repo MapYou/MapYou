@@ -73,7 +73,7 @@ public class NewMapMe extends FragmentActivity {
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
-		nameMapMe= (EditText) findViewById(R.id.editTextMapMeName);
+		nameMapMe= (EditText) findViewById(R.id.EditTextNameMapMe2);
 
 		controller= new DeviceController();
 		try {
@@ -133,7 +133,7 @@ public class NewMapMe extends FragmentActivity {
 
 			try {
 				Route r= params[0].getRoute();
-				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().toString(), "UTF-8"));
+				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().getNickname().toString(), "UTF-8"));
 
 				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
 				parameters.put("slat", ""+r.getStartPoint().getLatitude());
@@ -156,7 +156,7 @@ public class NewMapMe extends FragmentActivity {
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
 
-			if(result!=null && response.equalsIgnoreCase("1")){
+			if(result!=null && response.contains("1")){
 				
 				Intent i = new Intent(act, MapMeLayoutHome.class);
 				i.putExtra("mapme", result);
