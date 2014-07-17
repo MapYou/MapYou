@@ -46,7 +46,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="it.mapyou.view.DrawerMain"
+            android:name="it.mapyou.view.Login"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,7 +92,7 @@
         </activity>
         <activity android:name=".view.FacebookLogin" >
         </activity>
-        <activity android:name=".view.Login" >
+        <activity android:name=".view.DrawerMain" >
         </activity>
         <activity android:name=".view.ProfileFacebook" >
         </activity>
