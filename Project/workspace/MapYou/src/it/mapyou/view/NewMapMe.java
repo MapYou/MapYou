@@ -3,10 +3,18 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.model.EndPoint;
+import it.mapyou.model.MapMe;
+import it.mapyou.model.Route;
+import it.mapyou.model.StartPoint;
+import it.mapyou.model.User;
 import it.mapyou.navigator.ConfigurationGeocodingApi;
 import it.mapyou.navigator.ParserDataFromGeocoding;
+import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,14 +66,14 @@ public class NewMapMe extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.new_map_me);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
+
 		act=this;
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
 		nameMapMe= (EditText) findViewById(R.id.editTextMapMeName);
-		
+
 		controller= new DeviceController();
 		try {
 			controller.init(getApplicationContext());
@@ -75,24 +83,95 @@ public class NewMapMe extends FragmentActivity {
 
 		initilizeMap();
 	}
-	
+
 	public void save (View v){
-		
+
 		String nickname= sp.getString("nickname", "");
 		String nameMapMee= nameMapMe.getText().toString();
 		if(nickname.length()>0 && nameMapMee!=null && nameMapMee.length()>0 && startMarker!=null && endMarker!=null){
 			double slat = startMarker.getPosition().latitude;
 			double slong = startMarker.getPosition().longitude;
 			String sadd = startMarker.getSnippet();
-			
+
 			double elat = endMarker.getPosition().latitude;
 			double elong = endMarker.getPosition().longitude;
 			String eadd = endMarker.getSnippet();
-			
-			
+
+			MapMe mapMe = new MapMe();
+			Route route = new Route();
+			User admin = new User();
+			admin.setNickname(nickname);
+			StartPoint startPoint= new StartPoint();
+			EndPoint endPoint = new EndPoint();
+			startPoint.setLatitude(slat);
+			startPoint.setLongitude(slong);
+			endPoint.setLatitude(elat);
+			endPoint.setLongitude(elong);
+			route.setStartPoint(startPoint);
+			route.setEndPoint(endPoint);
+			mapMe.setRoute(route);
+			mapMe.setName(nameMapMee);
+			mapMe.setAdministrator(admin);
+			mapMe.setStartAddress(sadd);
+			mapMe.setEndAddress(eadd);
+
+			new SaveMapMe().execute(mapMe);
 		}else
 			UtilAndroid.makeToast(getApplicationContext(), "Please insert all required information.", 5000);
-			
+
+	}
+
+	class SaveMapMe extends AsyncTask<MapMe, Void, MapMe>{
+
+		String response="";
+		HashMap<String, String> parameters= new HashMap<String, String>();
+
+		@Override
+		protected MapMe doInBackground(MapMe... params) {
+
+
+			try {
+				Route r= params[0].getRoute();
+				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().toString(), "UTF-8"));
+
+				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
+				parameters.put("slat", ""+r.getStartPoint().getLatitude());
+				parameters.put("slon", ""+r.getStartPoint().getLongitude());
+				parameters.put("elat", ""+r.getEndPoint().getLatitude());
+				parameters.put("elon", ""+r.getEndPoint().getLongitude());
+				parameters.put("sadd", URLEncoder.encode(params[0].getStartAddress().toString(), "UTF-8"));
+				parameters.put("eadd", URLEncoder.encode(params[0].getEndAddress().toString(), "UTF-8"));
+				response=controller.getServer().request(SettingsServer.NEW_MAPME, controller.getServer().setParameters(parameters));
+
+				return params[0];
+			} catch (UnsupportedEncodingException e) {
+				return null;
+			}
+
+		}
+
+
+		@Override
+		protected void onPostExecute(MapMe result) {
+			super.onPostExecute(result);
+
+			if(result!=null && response.equalsIgnoreCase("1")){
+
+
+
+			}
+			else
+				UtilAndroid.makeToast(act, "MapMe doesn't create", 3000);
+		}
+
+
+
+
+
+
+
+
+
 	}
 
 
@@ -147,7 +226,7 @@ public class NewMapMe extends FragmentActivity {
 		@Override
 		protected List<HashMap<String, String>> doInBackground(String... params) {
 
-			
+
 			try {
 				List<HashMap<String, String>> listOfpoints= null;
 				ParserDataFromGeocoding parser= new ParserDataFromGeocoding();
@@ -207,11 +286,12 @@ public class NewMapMe extends FragmentActivity {
 	}
 
 
+
 	private void initilizeMap() {
 		if (googleMap == null) {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map2)).getMap();
 			googleMap.setMyLocationEnabled(true);
-			
+
 
 			if (googleMap == null) {
 				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
