@@ -4,7 +4,6 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.navigator.MapsProva;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +30,7 @@ public class MapMenuFragment extends Fragment{
 			public void onClick(View v)
 			{
 				
-				Intent i= new Intent(getActivity(), MapsProva.class);
+				Intent i= new Intent(getActivity(), NewMapMe.class);
 				startActivity(i);
 				
 			}

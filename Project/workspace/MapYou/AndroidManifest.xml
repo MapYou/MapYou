@@ -97,7 +97,7 @@
         <activity android:name=".view.ProfileFacebook" >
         </activity>
         
-        <activity android:name="it.mapyou.navigator.MapsProva" >
+        <activity android:name="it.mapyou.view.NewMapMe" >
         </activity>
        
     </application>

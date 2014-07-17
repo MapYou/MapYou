@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ParserDataFromGeocoding {
+public class ParserDataFromGeocoding extends ParserDataFromExternalServer {
 
 
 	public ParserDataFromGeocoding() {
@@ -16,13 +16,17 @@ public class ParserDataFromGeocoding {
 
 	public List<HashMap<String,String>> parse(JSONObject jObject){
 
-		JSONArray jPlaces = null;
+		JSONArray jarray=null;
 		try {
-			jPlaces = jObject.getJSONArray("results");
+			jarray=jObject.getJSONArray("results");
+
+			return getPlaces(jarray);
+
 		} catch (JSONException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return getPlaces(jPlaces);
+		
+
 	}
 
 	private List<HashMap<String, String>> getPlaces(JSONArray jPlaces){
@@ -36,7 +40,7 @@ public class ParserDataFromGeocoding {
 				placesList.add(place);
 
 			} catch (JSONException e) {
-				e.printStackTrace();
+				return null;
 			}
 		}
 
@@ -45,12 +49,13 @@ public class ParserDataFromGeocoding {
 
 	private HashMap<String, String> getPlace(JSONObject jPlace){
 
-		HashMap<String, String> place = new HashMap<String, String>();
-		String formatted_address = "-NA-";
-		String lat="";
-		String lng="";
+		
 
 		try {
+			HashMap<String, String> place = new HashMap<String, String>();
+			String formatted_address = "-NA-";
+			String lat="";
+			String lng="";
 			if(!jPlace.isNull("formatted_address")){
 				formatted_address = jPlace.getString("formatted_address");
 			}
@@ -62,10 +67,10 @@ public class ParserDataFromGeocoding {
 			place.put("lat", lat);
 			place.put("lng", lng);
 
+			return place;
 		}catch (JSONException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return place;
 	}
 
 
