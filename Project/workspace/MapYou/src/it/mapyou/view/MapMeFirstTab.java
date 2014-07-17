@@ -44,7 +44,7 @@ public class MapMeFirstTab extends Activity {
 		textNickname = (TextView) findViewById(R.id.textViewNickname);
 		textStart = (TextView) findViewById(R.id.textViewStartLocation);
 		textend = (TextView) findViewById(R.id.textViewEndLocation);
-		mapme = (MapMe) getIntent().getSerializableExtra("mapme");
+		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		initilizeMap();
 	}
 

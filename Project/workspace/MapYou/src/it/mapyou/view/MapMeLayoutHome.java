@@ -25,11 +25,10 @@ public class MapMeLayoutHome extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_layout);
 		TabHost tabHost = getTabHost();
-		
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
         photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
         Intent photosIntent = new Intent(this, MapMeFirstTab.class);
-        photosIntent.putExtra("mapme", getIntent().getSerializableExtra("mapme"));
+        photosIntent.putExtras(getIntent().getExtras());
         photospec.setContent(photosIntent);
          
         TabSpec songspec = tabHost.newTabSpec("Users");        

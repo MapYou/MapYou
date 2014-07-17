@@ -3,19 +3,20 @@
  */
 package it.mapyou.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMe extends SubjectModel implements Serializable {
+public class MapMe extends SubjectModel implements Parcelable {
 	
 	 
-	private static final long serialVersionUID = 1L;
 	private User administrator;
 	private List<Mapping> mapping;
 	private GregorianCalendar creationDate;
@@ -24,6 +25,20 @@ public class MapMe extends SubjectModel implements Serializable {
 	private Route route;
 	private String startAddress;
 	private String endAddress;
+	public static final Parcelable.Creator<MapMe> CREATOR = new Creator<MapMe>() {
+		
+		@Override
+		public MapMe[] newArray(int size) {
+			// TODO Auto-generated method stub
+			return new MapMe[size];
+		}
+		
+		@Override
+		public MapMe createFromParcel(Parcel source) {
+			// TODO Auto-generated method stub
+			return new MapMe(source);
+		}
+	};
 	
 	
 	 
@@ -32,6 +47,55 @@ public class MapMe extends SubjectModel implements Serializable {
 		//creationDate = new GregorianCalendar();
 	}
 	
+	public MapMe(Parcel source){
+		mapping= new ArrayList<Mapping>();
+		readFromParcel(source);
+	}
+	
+	/**
+	 * @param source
+	 */
+	public void readFromParcel(Parcel source) {
+		// TODO Auto-generated method stub
+		String nickname = source.readString();
+		double slat = source.readDouble();
+		double slong = source.readDouble();
+		double elat = source.readDouble();
+		double elong = source.readDouble();
+		name = source.readString();
+		startAddress  =source.readString();
+		endAddress = source.readString();
+		administrator = new User();
+		administrator.setNickname(nickname);
+		StartPoint sp = new StartPoint();
+		EndPoint ep = new EndPoint();
+		sp.setLatitude(slat);
+		sp.setLongitude(slong);
+		ep.setLatitude(elat);
+		ep.setLongitude(elong);
+		route = new Route();
+		route.setEndPoint(ep);
+		route.setStartPoint(sp);
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	 */
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeString(administrator.getNickname());
+		StartPoint sp = route.getStartPoint();
+		EndPoint ep = route.getEndPoint();
+		dest.writeDouble(sp.getLatitude());
+		dest.writeDouble(sp.getLongitude());
+		dest.writeDouble(ep.getLatitude());
+		dest.writeDouble(ep.getLongitude());
+		dest.writeString(name);
+		dest.writeString(startAddress);
+		dest.writeString(endAddress);
+	}
+
 	/**
 	 * @return the startAddress
 	 */
@@ -178,4 +242,14 @@ public class MapMe extends SubjectModel implements Serializable {
 		this.mapping = mapping;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.Parcelable#describeContents()
+	 */
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 }
