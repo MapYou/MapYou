@@ -13,14 +13,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.29" >
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.29"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text="@string/Menu"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -28,22 +31,13 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="115dp"
-                android:layout_height="92dp"
+                android:layout_width="95dp"
+                android:layout_height="76dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/logo2" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/welcomeTextView_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="35dp"
-            android:layout_weight="0.29"
-            android:text="@string/login_name"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-             />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/user_login_Login"
@@ -51,7 +45,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:background="@color/LightBlue"
+            android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/nickname_login"
@@ -77,33 +71,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/button_login_Login"
-                android:layout_width="wrap_content"
-                android:layout_height="53dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:clickable="true"
-                android:onClick="login"
-                android:src="@drawable/login" />
-
             <LinearLayout
-                android:id="@+id/orizzontale"
-                android:layout_width="match_parent"
+                android:id="@+id/orizzz"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" >
+                android:layout_gravity="center"
+                android:layout_marginBottom="35dp"
+                android:layout_marginTop="25dp" >
 
-                <TextView
-                    android:id="@+id/register_textView_Login"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:gravity="center"
+                <Button
+                    android:id="@+id/Button01"
+                    android:layout_width="94dp"
+                    android:layout_height="41dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/button"
+                    android:onClick="login"
+                    android:text="Login" />
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="94dp"
+                    android:layout_height="41dp"
+                    android:background="@drawable/button"
                     android:onClick="registerMapYou"
-                    android:text="@string/register_login"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="18sp" />
+                    android:text="Register" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,9 +134,7 @@
                     android:onClick="forgotMapYou"
                     android:src="@drawable/forgot" />
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>
