@@ -2,10 +2,6 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.EndPoint;
-import it.mapyou.model.MapMe;
-import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
@@ -13,7 +9,6 @@ import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
