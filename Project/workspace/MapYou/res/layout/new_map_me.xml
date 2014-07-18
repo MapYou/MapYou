@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="225dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
@@ -43,10 +43,9 @@
 
             <EditText
                 android:id="@+id/EditTextNameMapMe2"
-                android:layout_width="254dp"
+                android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1.29"
                 android:ems="10"
                 android:gravity="left"
                 android:hint="name"
@@ -71,10 +70,10 @@
 
             <Button
                 android:id="@+id/ButtonStartMapme2"
-                android:layout_width="wrap_content"
+                android:layout_width="68dp"
                 android:layout_height="37dp"
                 android:layout_marginRight="5dp"
-                android:background="@color/LightBlue"
+                android:background="@drawable/button"
                 android:onClick="start"
                 android:text="Set" />
         </LinearLayout>
@@ -100,10 +99,10 @@
 
             <Button
                 android:id="@+id/buttonStartDestinat"
-                android:layout_width="wrap_content"
+                android:layout_width="67dp"
                 android:layout_height="36dp"
                 android:layout_marginRight="5dp"
-                android:background="@color/LightGreen"
+                android:background="@drawable/mybuttongreen"
                 android:onClick="dest"
                 android:text="Set" />
         </LinearLayout>
@@ -131,11 +130,11 @@
 
             <Button
                 android:id="@+id/Button01"
-                android:layout_width="wrap_content"
+                android:layout_width="108dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/LightBlue"
+                android:background="@drawable/button"
                 android:onClick="save"
                 android:text="Save" />
 
@@ -145,8 +144,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="7dp"
-                android:layout_weight="2.84"
-                android:background="@color/LightGreen"
+                android:layout_weight="5.55"
+                android:background="@drawable/mybuttongreen"
                 android:onClick="cleanMap"
                 android:text="Clean Map" />
         </LinearLayout>
