@@ -3,7 +3,10 @@
  */
 package it.mapyou.view;
 
+import java.util.List;
+
 import it.mapyou.R;
+import it.mapyou.model.MapMe;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,7 +67,8 @@ public class MapMeLayoutHome extends TabActivity {
 //		
 //		Bundle bu = new Bundle();
 //		bu.putParcelable("mapme", mapMe);
-		Bundle bu = getIntent().getBundleExtra("mapme"); 
+		Intent it = getIntent();
+		Bundle bu = it.getExtras();
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
         photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));

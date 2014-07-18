@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,8 +31,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -70,6 +73,7 @@ public class NewMapMe extends FragmentActivity {
 	String lat="";
 	String lon="";
 	boolean isStart=false;
+	private MapMe mapmeNew;
 
 
 	@Override
@@ -126,7 +130,9 @@ public class NewMapMe extends FragmentActivity {
 			mapMe.setStartAddress(sadd);
 			mapMe.setEndAddress(eadd);
 
-			new SaveMapMe().execute(mapMe);
+			SaveMapMe sv = new SaveMapMe();
+			sv.execute(mapMe);
+
 		}else
 			UtilAndroid.makeToast(getApplicationContext(), "Please insert all required information.", 5000);
 
@@ -167,16 +173,18 @@ public class NewMapMe extends FragmentActivity {
 
 			if(result!=null && response.contains("1")){
 
-				Intent i = new Intent(act, MapMeLayoutHome.class);
+				mapmeNew = result;
 				Bundle b = new Bundle();
-				b.putParcelable("mapme", result);
+				b.putParcelable("mapme", mapmeNew);
+				Intent i = new Intent(act, MapMeLayoutHome.class);
 				i.putExtras(b);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				startActivity(i);
+				act.startActivity(i);
 			}
 			else
 				UtilAndroid.makeToast(act, "MapMe doesn't create", 3000);
 		}
+		
 	}
 
 
