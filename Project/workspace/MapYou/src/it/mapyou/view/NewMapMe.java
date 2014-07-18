@@ -168,7 +168,9 @@ public class NewMapMe extends FragmentActivity {
 			if(result!=null && response.contains("1")){
 
 				Intent i = new Intent(act, MapMeLayoutHome.class);
-				i.putExtra("mapme", result);
+				Bundle b = new Bundle();
+				b.putParcelable("mapme", result);
+				i.putExtras(b);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				startActivity(i);
 			}
