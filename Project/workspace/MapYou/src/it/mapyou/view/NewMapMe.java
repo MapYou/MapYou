@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +67,9 @@ public class NewMapMe extends FragmentActivity {
 	private DeviceController controller;
 	CharSequence[] elements=null;
 	String address="";
+	String lat="";
+	String lon="";
+	boolean isStart=false;
 
 
 	@Override
@@ -157,7 +161,6 @@ public class NewMapMe extends FragmentActivity {
 
 		}
 
-
 		@Override
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
@@ -213,10 +216,7 @@ public class NewMapMe extends FragmentActivity {
 	}
 
 
-
 	class SettingsTask extends AsyncTask<String, Void, List<HashMap<String,String>>>{
-
-		boolean isStart=false;
 
 		SettingsTask(boolean isStartt) {
 			isStart=isStartt;
@@ -225,7 +225,6 @@ public class NewMapMe extends FragmentActivity {
 
 		@Override
 		protected List<HashMap<String, String>> doInBackground(String... params) {
-
 
 			try {
 				List<HashMap<String, String>> listOfpoints= null;
@@ -240,21 +239,18 @@ public class NewMapMe extends FragmentActivity {
 			}
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected void onPostExecute(List<HashMap<String, String>> result) {
 			super.onPostExecute(result);
 
-			String lat="";
-			String lon="";
-			
 			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
-
 			if(result!=null && result.size()>0){
 
 //				if(result.size()==1){
 
+				if(result.size()==1){
 					for(HashMap<String, String> m: result){
-
 						lat=m.get("lat");
 						lon=m.get("lng");
 						address=m.get("formatted_address");
@@ -275,10 +271,24 @@ public class NewMapMe extends FragmentActivity {
 //
 //					}
 //				}else;
+				}else;
+				if(result.size()>0 && result.size()!=1){
+					for(int i=0; i<result.size(); i++){
+						HashMap<String, String> ele= result.get(i);
+						lat=ele.get("lat");
+						lon=ele.get("lng");
+						address=ele.get("formatted_address");
+						allElements.add(ele);
+					}
+					address=null;
+					elements=getAllElements(allElements);
+				}else;
+				if(address==null){
+					showDialog(DIALOG);
+				}else{
 
 					double latitude= Double.parseDouble(""+lat);
 					double longitude= Double.parseDouble(""+lon);
-
 
 					MarkerOptions opt= new MarkerOptions();
 					opt.title(isStart?"Partenza":"Arrivo");
@@ -299,10 +309,35 @@ public class NewMapMe extends FragmentActivity {
 					CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(8).build();
 					googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 				}
-			
-			else
+			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Address not valid.", 5000);
+
 		}
+	}
+
+	public void setAddress(String add, String lat, String lon){
+
+		googleMap.clear();
+		StringTokenizer address= new StringTokenizer(add,"_");
+		double latitude= Double.parseDouble(""+lat);
+		double longitude= Double.parseDouble(""+lon);
+
+		MarkerOptions opt= new MarkerOptions();
+		opt.title(isStart?"Partenza":"Arrivo");
+		opt.snippet(address.nextToken());
+		opt.position(new LatLng(latitude, longitude));
+
+		if(isStart){
+			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+			startMarker = googleMap.addMarker(opt);
+		}
+		else{
+			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+			endMarker = googleMap.addMarker(opt);
+		}
+		CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(8).build();
+		googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
+
 
 	}
 
@@ -314,13 +349,25 @@ public class NewMapMe extends FragmentActivity {
 
 		for(int i=0; i<maps.size(); i++){
 			map=maps.get(i);
-			listItems.add(map.get("formatted_address"));
+			listItems.add(map.get("formatted_address")+"_"+map.get("lat")+"_"+map.get("lng"));
 		}
 		charSequenceItems = listItems.toArray(new CharSequence[listItems.size()]);
 		return charSequenceItems;
 
 	}
 
+	public CharSequence[] viewElements(CharSequence[] elements){
+		CharSequence[] items=null;
+		List<String> listItems = new ArrayList<String>();
+		for(int i=0; i<elements.length; i++){
+			CharSequence ele= elements[i];
+			StringTokenizer t= new StringTokenizer(ele.toString(), "_");
+			listItems.add(t.nextToken());
+
+		}
+		items=listItems.toArray(new CharSequence[listItems.size()]);
+		return items;
+	}
 
 
 	private void initilizeMap() {
@@ -328,64 +375,41 @@ public class NewMapMe extends FragmentActivity {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map2)).getMap();
 			googleMap.setMyLocationEnabled(true);
 
-
 			if (googleMap == null) {
 				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	public void helpForgot (StringBuffer b){
-
-		AlertDialog	alert2= new AlertDialog.Builder(this).create();
-		alert2.setTitle("Elements Retrived!");
-		alert2.setMessage(b);
-		alert2.setIcon(R.drawable.ic_launcher);
-		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		alert2.show();
-	}
 	public Dialog customDialogSelected(){
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Select your address");
-		builder.setSingleChoiceItems(elements, -1, new DialogInterface.OnClickListener(){
-			//private static final CharSequence cat[]={"Win","Lose"};
-
+		builder.setCancelable(false);
+		builder.setSingleChoiceItems(viewElements(elements), -1, new DialogInterface.OnClickListener(){
 
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 
-				
 				if(elements[whichButton] != null){
+					lat=null;
+					lon=null;
 					address=elements[whichButton].toString();
-					
+					StringTokenizer t= new StringTokenizer(address, "_");
+					t.nextToken();
+					while(t.hasMoreTokens()){
+						lat=t.nextToken().toString();
+						lon=t.nextToken().toString();
+					}
 				}
-				
 			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 
-				dialog.cancel();
-			}
-		});
-		builder.setPositiveButton("New", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int whichButton) {
-
-
-
+				setAddress(address, lat,lon);
 			}
 		});
 		return builder.create();
@@ -402,9 +426,6 @@ public class NewMapMe extends FragmentActivity {
 			return null;
 		}
 	}
-
-
-
 }
 
 
