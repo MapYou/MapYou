@@ -3,13 +3,19 @@
  */
 package it.mapyou.model;
 
+import java.io.Serializable;
+
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class User extends SubjectModel{
+public class User extends SubjectModel implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4972158577677211216L;
 	private String nickname;
 	private String firstname;
 	private String lastname;
@@ -25,6 +31,31 @@ public class User extends SubjectModel{
 		this.email = "";
 		this.idNotification="";
 	}
+	
+	
+	
+	/**
+	 * @param nickname
+	 * @param email
+	 */
+	public User(String nickname, String email) {
+		super();
+		this.nickname = nickname;
+		this.email = email;
+	}
+
+
+
+	/**
+	 * @param nickname
+	 */
+	public User(String nickname) {
+		super();
+		this.nickname = nickname;
+	}
+
+
+
 	/**
 	 * @return the idNotification
 	 */

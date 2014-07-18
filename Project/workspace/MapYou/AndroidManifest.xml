@@ -65,8 +65,8 @@
          <activity android:name=".view.MapMeSecondTab_User" >
         </activity>
          <activity android:name=".view.MapMeFirstTab" >
-        </activity>
-          <activity android:name=".view.MapMeLayoutHome" >
+       </activity>
+    	<activity android:name=".view.MapMeLayoutHome" >
         </activity>
        
 
@@ -105,6 +105,8 @@
         </activity>
         
         <activity android:name="it.mapyou.view.NewMapMe" >
+        </activity>
+        <activity android:name="it.mapyou.view.YourMapMeActivity" >
         </activity>
        
     </application>

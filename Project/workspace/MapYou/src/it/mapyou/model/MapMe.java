@@ -34,9 +34,9 @@ public class MapMe extends SubjectModel implements Parcelable {
 		}
 		
 		@Override
-		public MapMe createFromParcel(Parcel source) {
+		public MapMe createFromParcel(Parcel s) {
 			// TODO Auto-generated method stub
-			return new MapMe(source);
+			return new MapMe(s);
 		}
 	};
 	
@@ -44,12 +44,26 @@ public class MapMe extends SubjectModel implements Parcelable {
 	 
 	public MapMe() {
 		mapping= new ArrayList<Mapping>();
-		//creationDate = new GregorianCalendar();
+		creationDate = new GregorianCalendar();
 	}
 	
-	public MapMe(Parcel source){
+	public MapMe(String name) {
+		this.name = name;
 		mapping= new ArrayList<Mapping>();
-		readFromParcel(source);
+		creationDate = new GregorianCalendar();
+	}
+	
+	public MapMe(Parcel s){
+		mapping = new ArrayList<Mapping>();
+		setName(s.readString());
+		setStartAddress(s.readString());
+		setEndAddress(s.readString());
+		setNumUsers(s.readInt());
+		setMaxNumUsers(s.readInt());
+//		setCreationDate((GregorianCalendar) s.readSerializable());
+		setAdministrator((User) s.readSerializable());
+		setRoute((Route) s.readParcelable(null));
+		s.readList(mapping, null);;
 	}
 	
 	/**
@@ -57,25 +71,25 @@ public class MapMe extends SubjectModel implements Parcelable {
 	 */
 	public void readFromParcel(Parcel source) {
 		// TODO Auto-generated method stub
-		String nickname = source.readString();
-		double slat = source.readDouble();
-		double slong = source.readDouble();
-		double elat = source.readDouble();
-		double elong = source.readDouble();
-		name = source.readString();
-		startAddress  =source.readString();
-		endAddress = source.readString();
-		administrator = new User();
-		administrator.setNickname(nickname);
-		StartPoint sp = new StartPoint();
-		EndPoint ep = new EndPoint();
-		sp.setLatitude(slat);
-		sp.setLongitude(slong);
-		ep.setLatitude(elat);
-		ep.setLongitude(elong);
-		route = new Route();
-		route.setEndPoint(ep);
-		route.setStartPoint(sp);
+//		String nickname = source.readString();
+//		double slat = source.readDouble();
+//		double slong = source.readDouble();
+//		double elat = source.readDouble();
+//		double elong = source.readDouble();
+//		name = source.readString();
+//		startAddress  =source.readString();
+//		endAddress = source.readString();
+//		administrator = new User();
+//		administrator.setNickname(nickname);
+//		StartPoint sp = new StartPoint();
+//		EndPoint ep = new EndPoint();
+//		sp.setLatitude(slat);
+//		sp.setLongitude(slong);
+//		ep.setLatitude(elat);
+//		ep.setLongitude(elong);
+//		route = new Route();
+//		route.setEndPoint(ep);
+//		route.setStartPoint(sp);
 	}
 	
 	/* (non-Javadoc)
@@ -84,16 +98,22 @@ public class MapMe extends SubjectModel implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
-		dest.writeString(administrator.getNickname());
-		StartPoint sp = route.getStartPoint();
-		EndPoint ep = route.getEndPoint();
-		dest.writeDouble(sp.getLatitude());
-		dest.writeDouble(sp.getLongitude());
-		dest.writeDouble(ep.getLatitude());
-		dest.writeDouble(ep.getLongitude());
+//		dest.writeString(administrator.getNickname());
+//		StartPoint sp = route.getStartPoint();
+//		EndPoint ep = route.getEndPoint();
+//		dest.writeDouble(sp.getLatitude());
+//		dest.writeDouble(sp.getLongitude());
+//		dest.writeDouble(ep.getLatitude());
+//		dest.writeDouble(ep.getLongitude());
 		dest.writeString(name);
 		dest.writeString(startAddress);
 		dest.writeString(endAddress);
+		dest.writeInt(numUsers);
+		dest.writeInt(maxNumUsers);
+//		dest.writeValue(creationDate);
+		dest.writeSerializable(administrator);
+		dest.writeParcelable(route, flags);
+		dest.writeList(mapping);
 	}
 
 	/**

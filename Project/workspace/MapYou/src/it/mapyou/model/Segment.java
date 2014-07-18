@@ -12,5 +12,6 @@ public interface Segment {
 	public StartPoint getStartPoint();
 	public EndPoint getEndPoint();
 	public double getLenght();
+	public void setLenght(double l);
 
 }

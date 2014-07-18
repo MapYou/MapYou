@@ -9,5 +9,10 @@ package it.mapyou.model;
  */
 public class EndPoint extends AbstractPoint {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 217725661582870629L;
+
 
 }

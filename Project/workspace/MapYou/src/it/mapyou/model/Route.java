@@ -5,14 +5,47 @@ package it.mapyou.model;
 
 import java.util.Vector;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class Route extends AbstractSegment {
+public class Route extends AbstractSegment implements Parcelable{
 	
 	private Vector<Segment> segments;
-	private double length;
+	public static final Parcelable.Creator<Route> CREATOR = new Creator<Route>() {
+		
+		@Override
+		public Route[] newArray(int size) {
+			// TODO Auto-generated method stub
+			return new Route[size];
+		}
+		
+		@Override
+		public Route createFromParcel(Parcel source) {
+			// TODO Auto-generated method stub
+			return new Route(source);
+		}
+	};
+	
+	public Route(Parcel s){
+		segments = new Vector<Segment>();
+		s.readList(segments, null);
+		length = s.readDouble();
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	 */
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeDouble(length);
+		dest.writeList(segments);
+	}
 	
 	public Route(){
 		segments = new Vector<Segment>();
@@ -39,12 +72,12 @@ public class Route extends AbstractSegment {
 	}
 
 	/* (non-Javadoc)
-	 * @see it.mapyou.model.Segment#getLenght()
+	 * @see android.os.Parcelable#describeContents()
 	 */
 	@Override
-	public double getLenght() {
+	public int describeContents() {
 		// TODO Auto-generated method stub
-		return length;
+		return 0;
 	}
 
 }

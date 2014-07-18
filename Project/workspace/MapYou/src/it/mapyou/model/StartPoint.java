@@ -9,4 +9,9 @@ package it.mapyou.model;
  */
 public class StartPoint extends AbstractPoint {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4737176021826311501L;
+
 }

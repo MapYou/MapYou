@@ -6,10 +6,11 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="7dp"
         android:src="@drawable/profile" />
 
     <TextView
@@ -18,21 +19,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="25dp"
         android:layout_toRightOf="@+id/imageView1"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="25sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
         android:layout_alignLeft="@+id/textViewNickname"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewNickname"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="italic" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
