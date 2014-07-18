@@ -72,21 +72,21 @@ public class MapMeFirstTab extends Activity {
 				textNickname.setText(mapme.getAdministrator().getNickname());
 				textend.setText(mapme.getEndAddress());
 				textStart.setText(mapme.getStartAddress());
-//				Route route = mapme.getRoute();
-//				StartPoint sp = route.getStartPoint();
-//				EndPoint ep = route.getEndPoint();
-//				MarkerOptions optStart = new MarkerOptions();
-//				MarkerOptions optEnd = new MarkerOptions();
-//				optStart.snippet(mapme.getStartAddress());
-//				optStart.position(new LatLng(sp.getLatitude(), sp.getLongitude()));
-//				optStart.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-//
-//				optEnd.snippet(mapme.getEndAddress());
-//				optEnd.position(new LatLng(ep.getLatitude(), ep.getLongitude()));
-//				optEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//				
-//				googleMap.addMarker(optStart);
-//				googleMap.addMarker(optEnd);
+				Route route = mapme.getRoute();
+				StartPoint sp = route.getStartPoint();
+				EndPoint ep = route.getEndPoint();
+				MarkerOptions optStart = new MarkerOptions();
+				MarkerOptions optEnd = new MarkerOptions();
+				optStart.snippet(mapme.getStartAddress());
+				optStart.position(new LatLng(sp.getLatitude(), sp.getLongitude()));
+				optStart.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+				optEnd.snippet(mapme.getEndAddress());
+				optEnd.position(new LatLng(ep.getLatitude(), ep.getLongitude()));
+				optEnd.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+				
+				googleMap.addMarker(optStart);
+				googleMap.addMarker(optEnd);
 			}
 		}
 	}

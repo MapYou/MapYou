@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true" >
+
+    <GridView
+        android:id="@+id/dashboard_grid"
+        style="@style/dashboardPort"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Khaki"
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="vertical"
+        android:smoothScrollbar="true"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="20.0dip" />
+
+</ScrollView>

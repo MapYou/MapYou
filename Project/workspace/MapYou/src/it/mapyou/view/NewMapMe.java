@@ -68,8 +68,6 @@ public class NewMapMe extends FragmentActivity {
 	String address="";
 
 
-
-
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -253,7 +251,7 @@ public class NewMapMe extends FragmentActivity {
 
 			if(result!=null && result.size()>0){
 
-				if(result.size()==1){
+//				if(result.size()==1){
 
 					for(HashMap<String, String> m: result){
 
@@ -261,22 +259,22 @@ public class NewMapMe extends FragmentActivity {
 						lon=m.get("lng");
 						address=m.get("formatted_address");
 					}
-				}else;
-				if(result.size()>0){
-					for(int i=0; i<result.size(); i++){
-						HashMap<String, String> ele= result.get(i);
-
-						lat=ele.get("lat");
-						lon=ele.get("lng");
-						address=ele.get("formatted_address");
-						allElements.add(ele);
-					}
-					if(result.size()>0){
-						elements=getAllElements(allElements);
-						showDialog(DIALOG);
-
-					}
-				}else;
+//				}else;
+//				if(result.size()>0){
+//					for(int i=0; i<result.size(); i++){
+//						HashMap<String, String> ele= result.get(i);
+//
+//						lat=ele.get("lat");
+//						lon=ele.get("lng");
+//						address=ele.get("formatted_address");
+//						allElements.add(ele);
+//					}
+//					if(result.size()>0){
+//						elements=getAllElements(allElements);
+//						showDialog(DIALOG);
+//
+//					}
+//				}else;
 
 					double latitude= Double.parseDouble(""+lat);
 					double longitude= Double.parseDouble(""+lon);
@@ -725,8 +723,4 @@ public class NewMapMe extends FragmentActivity {
 //
 //
 //}
-
-
-
-
 

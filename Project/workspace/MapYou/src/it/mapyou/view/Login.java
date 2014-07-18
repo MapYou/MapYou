@@ -52,10 +52,10 @@ public class Login extends FacebookController {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		Editor ed = sp.edit();
-		ed.putString("nickname", "peppe");
-		ed.putString("email", "peppe");
-		ed.commit();
+//		Editor ed = sp.edit();
+//		ed.putString("nickname", "peppe");
+//		ed.putString("email", "peppe");
+//		ed.commit();
 		
 		Intent intent= new Intent(Login.this,DrawerMain.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

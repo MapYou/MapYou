@@ -17,4 +17,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    
+   <style name="dashboardPort">
+        <item name="android:numColumns">2</item>
+    </style>
+    <style name="dashboardLand">
+        <item name="android:numColumns">3</item>
+    </style>
 </resources>

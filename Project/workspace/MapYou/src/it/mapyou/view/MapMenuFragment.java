@@ -59,6 +59,20 @@ public class MapMenuFragment extends Fragment{
 				
 			}
 		}); 
+		
+		Button button3 = (Button) view.findViewById(R.id.button3);
+		button3.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				
+				Intent i= new Intent(getActivity(), DashBoardActivity.class);
+				startActivity(i);
+				
+			}
+		}); 
+		
 		return view;
 	}
 

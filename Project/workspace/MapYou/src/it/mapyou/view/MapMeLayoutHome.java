@@ -44,10 +44,10 @@ public class MapMeLayoutHome extends TabActivity {
 //		admin.setEmail("admin@gmail.com");
 //		StartPoint startPoint= new StartPoint();
 //		EndPoint endPoint = new EndPoint();
-//		startPoint.setLatitude(r.nextDouble());
-//		startPoint.setLongitude(r.nextDouble());
-//		endPoint.setLatitude(r.nextDouble());
-//		endPoint.setLongitude(r.nextDouble());
+//		startPoint.setLatitude(45.4640704);
+//		startPoint.setLongitude(9.1719064);
+//		endPoint.setLatitude(45.070139);
+//		endPoint.setLongitude(7.6700892);
 //		route.setStartPoint(startPoint);
 //		route.setEndPoint(endPoint);
 //		mapMe.setRoute(route);
@@ -72,9 +72,9 @@ public class MapMeLayoutHome extends TabActivity {
 //			mps.add(m);
 //		}
 //		mapMe.setMapping(mps);
-		
-//		Bundle b = new Bundle();
-//		b.putParcelable("mapme", mapMe);
+//		
+//		Bundle bu = new Bundle();
+//		bu.putParcelable("mapme", mapMe);
 		Bundle bu = getIntent().getBundleExtra("mapme"); 
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
