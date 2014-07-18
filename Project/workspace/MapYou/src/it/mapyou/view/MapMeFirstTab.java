@@ -3,25 +3,16 @@
  */
 package it.mapyou.view;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import it.mapyou.R;
-import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
