@@ -32,7 +32,7 @@ public class Route extends AbstractSegment implements Parcelable{
 	
 	public Route(Parcel s){
 		segments = new Vector<Segment>();
-		s.readList(segments, null);
+		s.readList(segments, AbstractSegment.class.getClassLoader());
 		length = s.readDouble();
 		
 	}
@@ -43,8 +43,8 @@ public class Route extends AbstractSegment implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
-		dest.writeDouble(length);
 		dest.writeList(segments);
+		dest.writeDouble(length);
 	}
 	
 	public Route(){

@@ -14,7 +14,7 @@ import android.os.Parcelable;
 public class Mapping implements Parcelable{
 
 	private User user;
-	private Route route;
+	private double latitude, longitude;
 	public static final Parcelable.Creator<Mapping> CREATOR = new Creator<Mapping>() {
 		
 		@Override
@@ -28,7 +28,8 @@ public class Mapping implements Parcelable{
 			// TODO Auto-generated method stub
 			Mapping m = new Mapping();
 			m.setUser((User) source.readSerializable());
-			m.setRoute((Route) source.readParcelable(null));
+			m.setLatitude(source.readDouble());
+			m.setLongitude(source.readDouble());
 			return m;
 		}
 	};
@@ -48,19 +49,33 @@ public class Mapping implements Parcelable{
 	}
 	
 	/**
-	 * @return the route
+	 * @return the latitude
 	 */
-	public Route getRoute() {
-		return route;
+	public double getLatitude() {
+		return latitude;
 	}
 	
 	/**
-	 * @param route the route to set
+	 * @return the longitude
 	 */
-	public void setRoute(Route route) {
-		this.route = route;
+	public double getLongitude() {
+		return longitude;
 	}
-
+	
+	/**
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	
+	/**
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.os.Parcelable#describeContents()
 	 */
@@ -77,7 +92,8 @@ public class Mapping implements Parcelable{
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
 		dest.writeSerializable(user);
-		dest.writeParcelable(route, flags);
+		dest.writeDouble(latitude);
+		dest.writeDouble(longitude);
 	}
 
 }

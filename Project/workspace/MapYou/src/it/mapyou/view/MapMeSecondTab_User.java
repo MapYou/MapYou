@@ -14,14 +14,24 @@ import it.mapyou.model.User;
 import java.util.List;
 import java.util.Random;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +46,7 @@ import android.widget.Toast;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMeSecondTab_User extends Activity {
+public class MapMeSecondTab_User extends FragmentActivity {
 
 	private MapMe mapme;
 	private List<Mapping> mapping;
@@ -70,18 +80,12 @@ public class MapMeSecondTab_User extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
-				Mapping m = mapping.get(position);
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-//			    Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-//			    if (prev != null) {
-//			        ft.remove(prev);
-//			    }
-			    ft.addToBackStack(null);
-
-			    UserDialogOnMapMe uf = UserDialogOnMapMe.getInstance();
-			    uf.changeMapping(m);
-			    uf.show(ft, "dialog");
+				Bundle b = new Bundle();
+				b.putParcelable("mapping", mapping.get(position));
+				Intent i = new Intent(act, UserOnMapMe.class);
+//				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				i.putExtras(b);
+				startActivity(i);
 			}
 		});
 
@@ -128,16 +132,8 @@ public class MapMeSecondTab_User extends Activity {
 					User u = new User(t, "email@email.com");
 					Mapping m = new Mapping();
 					m.setUser(u);
-					Route rr = new Route();
-					StartPoint sp= new StartPoint();
-					EndPoint ep = new EndPoint();
-					sp.setLatitude(45.4640704);
-					sp.setLongitude(9.1719064);
-					ep.setLatitude(45.070139);
-					ep.setLongitude(7.6700892);
-					rr.setStartPoint(sp);
-					rr.setEndPoint(ep);
-					m.setRoute(rr);
+					m.setLatitude(45.4640704);
+					m.setLongitude(7.6700892);
 					mapping.add(m);
 				}else
 					Toast.makeText(getApplicationContext(), "Please insert correct nickname.", 4000).show();
