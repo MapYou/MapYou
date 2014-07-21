@@ -177,7 +177,7 @@ public class NewMapMe extends FragmentActivity {
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
 
-			if(result!=null /*&& response.contains("1")*/){
+			if(result!=null && response.contains("1")){
 
 				mapmeNew = result;
 				Bundle b = new Bundle();
