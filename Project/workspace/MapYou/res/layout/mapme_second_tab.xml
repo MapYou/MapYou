@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="0dp"
-                android:text="Send partecipation" />
+                android:text="Send partecipation" 
+                android:onClick="sendPartecipation"/>
         </LinearLayout>
     </LinearLayout>
 

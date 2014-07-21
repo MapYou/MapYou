@@ -4,20 +4,14 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-<<<<<<< HEAD
-=======
 import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Mapping;
 import it.mapyou.model.Route;
 import it.mapyou.model.StartPoint;
 import it.mapyou.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
->>>>>>> origin/master
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -39,7 +39,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(notificationController == null)
 			notificationController = (NotificationServer) getApplicationContext();
 
-		Log.i(TAG, "Device registereddddddddddddddddddddd: regId = " + registrationId);
+		Log.i(TAG, "Device registered: regId = " + registrationId);
 		notificationController.register(context); // register user 
 	}
 
@@ -120,14 +120,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context) {
 
-		SharedPreferences sp=PreferenceManager.getDefaultSharedPreferences(context);
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = new Notification(icon, "Messaggio da MapYou" , when);
 
-		String title ="MapYou";
+		String title ="MapMe Partecipation";
 
 		Intent notificationIntent = new Intent(context, Login.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
