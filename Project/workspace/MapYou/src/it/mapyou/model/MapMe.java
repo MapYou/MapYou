@@ -62,8 +62,8 @@ public class MapMe extends SubjectModel implements Parcelable {
 		setMaxNumUsers(s.readInt());
 //		setCreationDate((GregorianCalendar) s.readSerializable());
 		setAdministrator((User) s.readSerializable());
-		setRoute((Route) s.readParcelable(null));
-		s.readList(mapping, null);;
+		setRoute((Route) s.readParcelable(Route.class.getClassLoader()));
+		s.readList(mapping, Mapping.class.getClassLoader());
 	}
 	
 	/**

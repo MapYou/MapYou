@@ -52,7 +52,7 @@ public class Login extends FacebookController {
 		ed.putString("email", "peppe");
 		ed.commit();
 		
-		Intent intent= new Intent(Login.this,MapMeLayoutHome.class);
+		Intent intent= new Intent(Login.this,DrawerMain.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
 //		user=(EditText) findViewById(R.id.user_login_Login);
