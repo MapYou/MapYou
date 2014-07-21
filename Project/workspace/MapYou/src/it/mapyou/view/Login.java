@@ -47,24 +47,24 @@ public class Login extends FacebookController {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//		Editor ed = sp.edit();
-//		ed.putString("nickname", "peppe");
-//		ed.putString("email", "peppe");
-//		ed.commit();
-//		
-//		Intent intent= new Intent(Login.this,DrawerMain.class);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//		startActivity(intent);
-		user=(EditText) findViewById(R.id.user_login_Login);
-		password=(EditText) findViewById(R.id.user_password_Login);
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		logoutFacebookSession2();
+		Editor ed = sp.edit();
+		ed.putString("nickname", "peppe");
+		ed.putString("email", "peppe");
+		ed.commit();
+		
+		Intent intent= new Intent(Login.this,MapMeLayoutHome.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(intent);
+//		user=(EditText) findViewById(R.id.user_login_Login);
+//		password=(EditText) findViewById(R.id.user_password_Login);
+//		controller= new DeviceController();
+//		try {
+//			controller.init(getApplicationContext());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		logoutFacebookSession2();
 	}
 
 	// onclick Login
