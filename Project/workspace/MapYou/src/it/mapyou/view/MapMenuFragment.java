@@ -3,11 +3,12 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.R;
+import it.mapyou.model.MapMe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import it.mapyou.R;
-import it.mapyou.model.MapMe;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;

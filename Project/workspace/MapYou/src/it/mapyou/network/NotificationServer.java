@@ -13,15 +13,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Map.Entry;
-
-import com.google.android.gcm.GCMRegistrar;
+import java.util.Random;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.PowerManager;
 import android.util.Log;
+
+import com.google.android.gcm.GCMRegistrar;
 
 
 /**

@@ -6,7 +6,6 @@ import it.mapyou.model.Route;
 import it.mapyou.model.SimpleSegment;
 import it.mapyou.model.StartPoint;
 import it.mapyou.model.User;
-import it.mapyou.persistence.DAOManager;
 
 import java.util.Random;
 

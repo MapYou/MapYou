@@ -3,10 +3,7 @@
  */
 package it.mapyou.view;
 
-import java.util.List;
-
 import it.mapyou.R;
-import it.mapyou.model.MapMe;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;

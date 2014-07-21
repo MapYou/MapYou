@@ -3,12 +3,12 @@
  */
 package it.mapyou.persistence.impl;
 
-import java.util.List;
-
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.persistence.MapMe_DAO;
+
+import java.util.List;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

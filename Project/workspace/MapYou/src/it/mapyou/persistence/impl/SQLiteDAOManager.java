@@ -4,14 +4,14 @@
  */
 package it.mapyou.persistence.impl;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import it.mapyou.persistence.DAOManager;
 import it.mapyou.persistence.MapMe_DAO;
 import it.mapyou.persistence.Partecipation_DAO;
 import it.mapyou.persistence.Point_DAO;
 import it.mapyou.persistence.User_DAO;
 import it.mapyou.sqlite.DatabaseHelper;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

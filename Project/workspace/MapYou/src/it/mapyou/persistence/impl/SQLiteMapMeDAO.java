@@ -4,17 +4,17 @@
  */
 package it.mapyou.persistence.impl;
 
-import java.util.List;
-
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.persistence.MapMe_DAO;
 import it.mapyou.sqlite.DatabaseHelper;
+
+import java.util.List;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

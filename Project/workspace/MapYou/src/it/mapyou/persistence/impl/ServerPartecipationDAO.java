@@ -3,10 +3,10 @@
  */
 package it.mapyou.persistence.impl;
 
-import java.util.List;
-
 import it.mapyou.model.Partecipation;
 import it.mapyou.persistence.Partecipation_DAO;
+
+import java.util.List;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

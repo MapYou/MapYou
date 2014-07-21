@@ -1,9 +1,9 @@
 package it.mapyou.view;
-import java.util.List;
-
 import it.mapyou.R;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Mapping;
+
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
