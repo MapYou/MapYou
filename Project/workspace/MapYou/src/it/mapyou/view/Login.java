@@ -51,7 +51,7 @@ public class Login extends FacebookController {
 //		ed.putString("nickname", "peppe");
 //		ed.putString("email", "peppe");
 //		ed.commit();
-		
+//		
 //		Intent intent= new Intent(Login.this,DrawerMain.class);
 //		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 //		startActivity(intent);

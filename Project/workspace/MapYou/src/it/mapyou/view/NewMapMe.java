@@ -73,8 +73,14 @@ public class NewMapMe extends FragmentActivity {
 	String lat="";
 	String lon="";
 	boolean isStart=false;
-	private MapMe mapmeNew;
+	private static MapMe mapmeNew;
 
+	/**
+	 * @return the mapmeNew
+	 */
+	public static MapMe getMapmeNew() {
+		return mapmeNew;
+	}
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -171,7 +177,7 @@ public class NewMapMe extends FragmentActivity {
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
 
-			if(result!=null && response.contains("1")){
+			if(result!=null /*&& response.contains("1")*/){
 
 				mapmeNew = result;
 				Bundle b = new Bundle();

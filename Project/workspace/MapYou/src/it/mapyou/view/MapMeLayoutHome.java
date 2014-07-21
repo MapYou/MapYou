@@ -69,17 +69,21 @@ public class MapMeLayoutHome extends TabActivity {
 //		bu.putParcelable("mapme", mapMe);
 		Intent it = getIntent();
 		Bundle bu = it.getExtras();
+		
+		Bundle bbb = new Bundle();
+		bbb.putParcelable("mapme", NewMapMe.getMapmeNew());
+		
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
         photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
         Intent photosIntent = new Intent(this, MapMeFirstTab.class);
-        photosIntent.putExtras(bu);
+        photosIntent.putExtras(bbb);
         photospec.setContent(photosIntent);
          
         TabSpec songspec = tabHost.newTabSpec("Users");        
         songspec.setIndicator("Users", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
         Intent songsIntent = new Intent(this, MapMeSecondTab_User.class);
-        songsIntent.putExtras(bu);
+        songsIntent.putExtras(bbb);
         songspec.setContent(songsIntent);
          
         tabHost.addTab(photospec);
