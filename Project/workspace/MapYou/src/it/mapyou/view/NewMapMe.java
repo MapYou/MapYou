@@ -181,7 +181,7 @@ public class NewMapMe extends FragmentActivity {
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
 
-			if(result!=null && response.contains("1")){
+			if(result!=null && response.contains("added") && response!=""){
 
 				mapmeNew = result;
 				Bundle b = new Bundle();
@@ -189,7 +189,7 @@ public class NewMapMe extends FragmentActivity {
 				Intent i = new Intent(act, MapMeLayoutHome.class);
 				i.putExtras(b);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				act.startActivity(i);
+				startActivity(i);
 			}
 			else
 				UtilAndroid.makeToast(act, "MapMe doesn't create", 3000);

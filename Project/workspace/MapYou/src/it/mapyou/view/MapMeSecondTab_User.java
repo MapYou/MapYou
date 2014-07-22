@@ -25,11 +25,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-<<<<<<< HEAD
-=======
+ 
 import android.app.Fragment;
 import android.app.FragmentManager;
->>>>>>> origin/master
+
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
