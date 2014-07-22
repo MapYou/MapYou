@@ -7,17 +7,12 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Mapping;
-import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-
-import com.facebook.android.Util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,14 +21,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -50,10 +43,8 @@ public class MapMeSecondTab_User extends Activity {
 	private EditText ed;
 	private AdapterUsersMapMe adapter;
 	private GridView gridview;
-<<<<<<< HEAD
 	private DeviceController controller;
-=======
->>>>>>> origin/master
+ 
 
 
 	@Override
@@ -61,7 +52,7 @@ public class MapMeSecondTab_User extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-<<<<<<< HEAD
+ 
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 
@@ -73,11 +64,10 @@ public class MapMeSecondTab_User extends Activity {
 		}
 
 		mapping = mapme.getMapping();
-		adapter = new AdapterUsersMapMe(mapping);
+		//adapter = new AdapterUsersMapMe(mapping);
 		gridview.setAdapter(adapter);
-=======
-		r = new Random();
->>>>>>> origin/master
+ 
+		//r = new Random();
 
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		mapping = mapme.getDistinctMapping();
@@ -114,7 +104,7 @@ public class MapMeSecondTab_User extends Activity {
 
 	private void sendDialog(){
 
-<<<<<<< HEAD
+ 
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Insert nickname");
 		builder.setCancelable(true);
@@ -157,46 +147,46 @@ public class MapMeSecondTab_User extends Activity {
 		sendDialog = builder.create();
 	}
 
-=======
-		if(sendDialog==null){
-			Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Insert nickname");
-			builder.setCancelable(true);
-			LayoutInflater inflater = act.getLayoutInflater();
-			sendView = inflater.inflate(R.layout.send_partecipation_dialog, null);
-			ed = (EditText)sendView.findViewById(R.id.editTextNickname);
-			builder.setView(sendView);
-			builder.setPositiveButton("Send invite", new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int whichButton) {
-					String t = ed.getText().toString();
-					if(t!=null && t.length()>0){
-						Toast.makeText(getApplicationContext(), "Invito corretto", 4000).show();
-						User u = new User(t, "email@email.com");
-						Mapping m = new Mapping();
-						m.setUser(u);
-						m.setLatitude(45.4640704);
-						m.setLongitude(7.6700892);
-						//						mapping.add(m);
-						adapter.addItem(m);
-					}else
-						Toast.makeText(getApplicationContext(), "Please insert correct nickname.", 4000).show();
-					ed.setText("");
-
-				}
-			});
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}
-			});
-			sendDialog = builder.create();
-		}
->>>>>>> origin/master
+ 
+//		if(sendDialog==null){
+//			Builder builder = new AlertDialog.Builder(this);
+//			builder.setTitle("Insert nickname");
+//			builder.setCancelable(true);
+//			LayoutInflater inflater = act.getLayoutInflater();
+//			sendView = inflater.inflate(R.layout.send_partecipation_dialog, null);
+//			ed = (EditText)sendView.findViewById(R.id.editTextNickname);
+//			builder.setView(sendView);
+//			builder.setPositiveButton("Send invite", new DialogInterface.OnClickListener() {
+//
+//				@Override
+//				public void onClick(DialogInterface dialog, int whichButton) {
+//					String t = ed.getText().toString();
+//					if(t!=null && t.length()>0){
+//						Toast.makeText(getApplicationContext(), "Invito corretto", 4000).show();
+//						User u = new User(t, "email@email.com");
+//						Mapping m = new Mapping();
+//						m.setUser(u);
+//						m.setLatitude(45.4640704);
+//						m.setLongitude(7.6700892);
+//						//						mapping.add(m);
+//						adapter.addItem(m);
+//					}else
+//						Toast.makeText(getApplicationContext(), "Please insert correct nickname.", 4000).show();
+//					ed.setText("");
+//
+//				}
+//			});
+//			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					// TODO Auto-generated method stub
+//					dialog.dismiss();
+//				}
+//			});
+//			sendDialog = builder.create();
+//		}
+//>>>>>>> origin/master
 
 	class DownloadUser extends AsyncTask<String, Void, String>{
 
@@ -236,8 +226,5 @@ public class MapMeSecondTab_User extends Activity {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
+ 
 }
