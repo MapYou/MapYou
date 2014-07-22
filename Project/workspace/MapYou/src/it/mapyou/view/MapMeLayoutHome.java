@@ -33,25 +33,25 @@ public class MapMeLayoutHome extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_layout);
 		
-		Random r = new Random();
-		MapMe mapMe = new MapMe();
-		Route route = new Route();
-		User admin = new User();
-		admin.setNickname("admin");
-		admin.setEmail("admin@gmail.com");
-		StartPoint startPoint= new StartPoint();
-		EndPoint endPoint = new EndPoint();
-		startPoint.setLatitude(45.4640704);
-		startPoint.setLongitude(9.1719064);
-		endPoint.setLatitude(45.070139);
-		endPoint.setLongitude(7.6700892);
-		route.setStartPoint(startPoint);
-		route.setEndPoint(endPoint);
-		mapMe.setRoute(route);
-		mapMe.setName("mapme name");
-		mapMe.setAdministrator(admin);
-		mapMe.setStartAddress("start address");
-		mapMe.setEndAddress("end address");
+//		Random r = new Random();
+//		MapMe mapMe = new MapMe();
+//		Route route = new Route();
+//		User admin = new User();
+//		admin.setNickname("admin");
+//		admin.setEmail("admin@gmail.com");
+//		StartPoint startPoint= new StartPoint();
+//		EndPoint endPoint = new EndPoint();
+//		startPoint.setLatitude(45.4640704);
+//		startPoint.setLongitude(9.1719064);
+//		endPoint.setLatitude(45.070139);
+//		endPoint.setLongitude(7.6700892);
+//		route.setStartPoint(startPoint);
+//		route.setEndPoint(endPoint);
+//		mapMe.setRoute(route);
+//		mapMe.setName("mapme name");
+//		mapMe.setAdministrator(admin);
+//		mapMe.setStartAddress("start address");
+//		mapMe.setEndAddress("end address");
 //		List<Mapping> mps = new ArrayList<Mapping>();
 //		for(int i=1; i<6; i++){
 //			Mapping m = new Mapping();
@@ -70,11 +70,11 @@ public class MapMeLayoutHome extends TabActivity {
 //		}
 //		mapMe.setMapping(mps);
 		
-//		Bundle bbb = new Bundle();
-//		bbb.putParcelable("mapme", NewMapMe.getMapmeNew());
+		Bundle bbb = new Bundle();
+		bbb.putParcelable("mapme", NewMapMe.getMapmeNew());
 //		bbb.putParcelable("mapme", mapMe);
 	
-		Bundle bbb = getIntent().getExtras();
+//		Bundle bbb = getIntent().getExtras();
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
         photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));

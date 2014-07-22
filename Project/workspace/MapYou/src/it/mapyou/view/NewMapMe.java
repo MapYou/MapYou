@@ -401,7 +401,7 @@ public class NewMapMe extends FragmentActivity {
 
 		builder = new AlertDialog.Builder(act);
 		builder.setTitle("Select your address");
-		builder.setCancelable(isDestroyed());
+		builder.setCancelable(false);
 		builder.setSingleChoiceItems(viewElements(elements), -1, new DialogInterface.OnClickListener(){
 
 			@Override
@@ -443,7 +443,7 @@ public class NewMapMe extends FragmentActivity {
 
 		builder2 = new AlertDialog.Builder(act);
 		builder2.setTitle("Select your address");
-		builder2.setCancelable(isDestroyed());
+		builder2.setCancelable(false);
 		builder2.setSingleChoiceItems(viewElements(elements2), -1, new DialogInterface.OnClickListener(){
 
 			@Override

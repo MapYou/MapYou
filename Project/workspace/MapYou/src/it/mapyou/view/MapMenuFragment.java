@@ -134,52 +134,6 @@ public class MapMenuFragment extends Fragment{
 				}
 			}
 		});
-
-		//		Button button = (Button) view.findViewById(R.id.button1);
-		//		button.setOnClickListener(new OnClickListener()
-		//		{
-		//			@Override
-		//			public void onClick(View v)
-		//			{
-		//
-		//				Intent i= new Intent(getActivity(), NewMapMe.class);
-		//				startActivity(i);
-		//
-		//			}
-		//		}); 
-		//
-		//		Button button2 = (Button) view.findViewById(R.id.button2);
-		//		button2.setOnClickListener(new OnClickListener()
-		//		{
-		//			@Override
-		//			public void onClick(View v)
-		//			{
-		//
-		//				Intent i= new Intent(getActivity(), YourMapMeActivity.class);
-		//				Bundle b = new Bundle();
-		//				List<MapMe> l = new ArrayList<MapMe>();
-		//				for(int k=1; k<7; k++)
-		//					l.add(new MapMe("mapme_"+k));
-		//				b.putParcelableArrayList("listmapme", (ArrayList<? extends Parcelable>) l);
-		//				i.putExtras(b);
-		//				startActivity(i);
-		//
-		//			}
-		//		}); 
-		//
-		//		Button button3 = (Button) view.findViewById(R.id.button3);
-		//		button3.setOnClickListener(new OnClickListener()
-		//		{
-		//			@Override
-		//			public void onClick(View v)
-		//			{
-		//
-		//				Intent i= new Intent(getActivity(), DashBoardActivity.class);
-		//				startActivity(i);
-		//
-		//			}
-		//		}); 
-
 		return view;
 	}
 
