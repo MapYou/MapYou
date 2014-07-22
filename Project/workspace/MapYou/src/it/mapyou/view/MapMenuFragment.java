@@ -49,7 +49,7 @@ public class MapMenuFragment extends Fragment{
 		new LauncherIcon(R.drawable.community, "New MapMe", NewMapMe.class),
 		new LauncherIcon(R.drawable.mymapme, "My MapMe", YourMapMeActivity.class),
 		new LauncherIcon(R.drawable.invite, "Invite your friends", null),
-		new LauncherIcon(R.drawable.settings, "Settings", null),
+		new LauncherIcon(R.drawable.settings, "Settings", MyMapMe.class),
 		new LauncherIcon(R.drawable.logout2, "Logout", null)
 	};
 

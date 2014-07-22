@@ -182,7 +182,7 @@ public class NewMapMe extends FragmentActivity {
 			super.onPostExecute(result);
 
 			if(result!=null && response!=null && response!="" && !response.equalsIgnoreCase("0")){
-				int idmapme=Integer.parseInt(response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", ""));
+				int idmapme=Integer.parseInt(response.toString().replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "").replaceAll("\r", ""));
 				result.setIdmapme(idmapme);
 				mapmeNew = result;
 				Bundle b = new Bundle();
