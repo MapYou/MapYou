@@ -142,6 +142,7 @@ public class DrawerMain extends Activity {
 		switch (position) {
 		case 0:
 			fragment = new MapMenuFragment();
+//			fragment = new DashBoardActivity();
 			break;
 
 		case 1:

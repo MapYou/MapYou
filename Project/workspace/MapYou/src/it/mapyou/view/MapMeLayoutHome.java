@@ -74,7 +74,7 @@ public class MapMeLayoutHome extends TabActivity {
 //		bbb.putParcelable("mapme", NewMapMe.getMapmeNew());
 //		bbb.putParcelable("mapme", mapMe);
 	
-		Bundle bbb = getIntent().getExtras().getParcelable("mapme");
+		Bundle bbb = getIntent().getExtras();
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
         photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));

@@ -4,20 +4,18 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.MapMe;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -25,55 +23,163 @@ import android.widget.Button;
  */
 public class MapMenuFragment extends Fragment{
 
+	static final String EXTRA_MAP = "map";
+
+	static final LauncherIcon[] ICONS = {
+		new LauncherIcon(R.drawable.community, "New MapMe", NewMapMe.class),
+		new LauncherIcon(R.drawable.mymapme, "My MapMe", YourMapMeActivity.class),
+		new LauncherIcon(R.drawable.invite, "Invite your friends", null),
+		new LauncherIcon(R.drawable.settings, "Settings", null),
+		new LauncherIcon(R.drawable.logout2, "Logout", null)
+	};
+
+	static class LauncherIcon {
+		String text;
+		int imgId;
+		Class<?> clazz;
+
+		public LauncherIcon(int imgId, String text, Class<?> c) {
+			this.imgId = imgId;
+			this.text = text;
+			this.clazz = c;
+		}
+
+		/**
+		 * @return the clazz
+		 */
+		public Class<?> getClazz() {
+			return clazz;
+		}
+		
+		/**
+		 * @return the imgId
+		 */
+		public int getImgId() {
+			return imgId;
+		}
+		
+		/**
+		 * @return the text
+		 */
+		public String getText() {
+			return text;
+		}
+	}
+
+	class ImageAdapter extends BaseAdapter {
+		private Context mContext;
+
+		public ImageAdapter(Context c) {
+			mContext = c;
+		}
+
+		@Override
+		public int getCount() {
+			return ICONS.length;
+		}
+
+		@Override
+		public LauncherIcon getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		class ViewHolder {
+			public ImageView icon;
+			public TextView text;
+		}
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			ViewHolder holder;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater) mContext.getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
+
+				v = vi.inflate(R.layout.dashboard_icon, null);
+				holder = new ViewHolder();
+				holder.text = (TextView) v.findViewById(R.id.dashboard_icon_text);
+				holder.icon = (ImageView) v.findViewById(R.id.dashboard_icon_img);
+				v.setTag(holder);
+			} else {
+				holder = (ViewHolder) v.getTag();
+			}
+
+			holder.icon.setImageResource(ICONS[position].imgId);
+			holder.text.setText(ICONS[position].text);
+
+			return v;
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.mapme_menu, container, false);
-		Button button = (Button) view.findViewById(R.id.button1);
-		button.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				
-				Intent i= new Intent(getActivity(), NewMapMe.class);
-				startActivity(i);
-				
-			}
-		}); 
+		View view = inflater.inflate(R.layout.dashboard, container, false);
+
+		GridView gridview = (GridView) view.findViewById(R.id.dashboard_grid);
+		gridview.setAdapter(new ImageAdapter(getActivity()));
 		
-		Button button2 = (Button) view.findViewById(R.id.button2);
-		button2.setOnClickListener(new OnClickListener()
-		{
+		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onClick(View v)
-			{
-				
-				Intent i= new Intent(getActivity(), YourMapMeActivity.class);
-				Bundle b = new Bundle();
-				List<MapMe> l = new ArrayList<MapMe>();
-				for(int k=1; k<7; k++)
-					l.add(new MapMe("mapme_"+k));
-				b.putParcelableArrayList("listmapme", (ArrayList<? extends Parcelable>) l);
-				i.putExtras(b);
-				startActivity(i);
-				
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Class<?> c = ICONS[position].getClazz();
+				if(c!=null){
+					getActivity().startActivity(new Intent(getActivity(), c));
+				}
 			}
-		}); 
-		
-		Button button3 = (Button) view.findViewById(R.id.button3);
-		button3.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				
-				Intent i= new Intent(getActivity(), DashBoardActivity.class);
-				startActivity(i);
-				
-			}
-		}); 
-		
+		});
+
+		//		Button button = (Button) view.findViewById(R.id.button1);
+		//		button.setOnClickListener(new OnClickListener()
+		//		{
+		//			@Override
+		//			public void onClick(View v)
+		//			{
+		//
+		//				Intent i= new Intent(getActivity(), NewMapMe.class);
+		//				startActivity(i);
+		//
+		//			}
+		//		}); 
+		//
+		//		Button button2 = (Button) view.findViewById(R.id.button2);
+		//		button2.setOnClickListener(new OnClickListener()
+		//		{
+		//			@Override
+		//			public void onClick(View v)
+		//			{
+		//
+		//				Intent i= new Intent(getActivity(), YourMapMeActivity.class);
+		//				Bundle b = new Bundle();
+		//				List<MapMe> l = new ArrayList<MapMe>();
+		//				for(int k=1; k<7; k++)
+		//					l.add(new MapMe("mapme_"+k));
+		//				b.putParcelableArrayList("listmapme", (ArrayList<? extends Parcelable>) l);
+		//				i.putExtras(b);
+		//				startActivity(i);
+		//
+		//			}
+		//		}); 
+		//
+		//		Button button3 = (Button) view.findViewById(R.id.button3);
+		//		button3.setOnClickListener(new OnClickListener()
+		//		{
+		//			@Override
+		//			public void onClick(View v)
+		//			{
+		//
+		//				Intent i= new Intent(getActivity(), DashBoardActivity.class);
+		//				startActivity(i);
+		//
+		//			}
+		//		}); 
+
 		return view;
 	}
 
@@ -81,7 +187,7 @@ public class MapMenuFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState) {  
 		super.onActivityCreated(savedInstanceState);  
 
-		
+
 	}
 }
 

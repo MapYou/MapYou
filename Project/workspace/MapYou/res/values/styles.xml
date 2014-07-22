@@ -24,4 +24,5 @@
     <style name="dashboardLand">
         <item name="android:numColumns">3</item>
     </style>
+    
 </resources>

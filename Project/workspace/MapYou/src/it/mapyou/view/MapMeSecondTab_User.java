@@ -4,42 +4,23 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Mapping;
-import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
 import it.mapyou.model.User;
 
 import java.util.List;
 import java.util.Random;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-<<<<<<< HEAD
-=======
-import android.app.Fragment;
-import android.app.FragmentManager;
->>>>>>> origin/master
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -59,6 +40,7 @@ public class MapMeSecondTab_User extends FragmentActivity {
 	private View sendView;
 	private EditText ed;
 	private Random r;
+	private AdapterUsersMapMe adapter;
 	
 
 	/* (non-Javadoc)
@@ -73,24 +55,12 @@ public class MapMeSecondTab_User extends FragmentActivity {
 		GridView gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		mapping = mapme.getMapping();
-		UserAdapter adpter = new UserAdapter(this, R.layout.user_profile_mapme_grid, mapping);
-		gridview.setAdapter(adpter);
+		adapter = new AdapterUsersMapMe(mapping);
+		gridview.setAdapter(adapter);
 
 		sendDialog();
 
-		gridview.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Bundle b = new Bundle();
-				b.putParcelable("mapping", mapping.get(position));
-				Intent i = new Intent(act, UserOnMapMe.class);
-//				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				i.putExtras(b);
-				startActivity(i);
-			}
-		});
+		gridview.setOnItemClickListener(new OnClickUsersMapMe(act, mapping));
 
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
 		send.setOnClickListener(new OnClickListener() {
@@ -137,7 +107,8 @@ public class MapMeSecondTab_User extends FragmentActivity {
 					m.setUser(u);
 					m.setLatitude(45.4640704);
 					m.setLongitude(7.6700892);
-					mapping.add(m);
+//					mapping.add(m);
+					adapter.addItem(m);
 				}else
 					Toast.makeText(getApplicationContext(), "Please insert correct nickname.", 4000).show();
 				ed.setText("");
