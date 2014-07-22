@@ -78,14 +78,14 @@ public class YourMapMeActivity extends  Activity {
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 			
-			List<MapMe> allMapme= getUserLogin(result);
+			List<MapMe> allMapme= getAllMapMe(result);
 			grid.setAdapter(new YourMapMeAdapter(act,allMapme));
 			grid.setOnItemClickListener(new OnClickMapMe(act, allMapme));
 			
 		}
 	}
 
-	public List<MapMe> getUserLogin (JSONObject json){
+	public List<MapMe> getAllMapMe (JSONObject json){
 
 		List<MapMe> allmapme= new ArrayList<MapMe>();
 		try {

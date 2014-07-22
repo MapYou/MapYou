@@ -4,6 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+
 import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Mapping;
@@ -35,12 +36,14 @@ public class MapMeLayoutHome extends TabActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_layout);
+ 
 		
 		Bundle bbb = new Bundle();
 		bbb.putParcelable("mapme", OnClickMapMe.getMapme());
 //		bbb.putParcelable("mapme", mapMe);
 	
 	//	Bundle bbb = getIntent().getExtras();
+ 
 		Bundle bund = getIntent().getExtras();
 		MapMe mapMe = (MapMe) (bund==null?null:bund.isEmpty()?null:bund.getParcelable("mapme"));
 		if(bund==null)
@@ -91,6 +94,7 @@ public class MapMeLayoutHome extends TabActivity {
 			bund.putParcelable("mapme", mapMe);
 		}else;
 
+ 
 		TabHost tabHost = getTabHost();
 		TabSpec photospec = tabHost.newTabSpec("MapMe");
 		photospec.setIndicator("MapMe", getResources().getDrawable(R.drawable.icon_mepme_first_tab));

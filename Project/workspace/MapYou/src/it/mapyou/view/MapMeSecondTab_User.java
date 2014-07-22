@@ -7,17 +7,12 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Mapping;
-import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-
-import com.facebook.android.Util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,14 +21,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -52,14 +45,11 @@ public class MapMeSecondTab_User extends Activity {
 	private GridView gridview;
 	private DeviceController controller;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
-		mapme = (MapMe) getIntent().getExtras().get("mapme");
 
 		controller= new DeviceController();
 		try {
@@ -67,10 +57,6 @@ public class MapMeSecondTab_User extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		mapping = mapme.getMapping();
-		adapter = new AdapterUsersMapMe(this, mapping);
-		gridview.setAdapter(adapter);
 
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		mapping = mapme.getDistinctMapping();
@@ -106,7 +92,6 @@ public class MapMeSecondTab_User extends Activity {
 	}
 
 	private void sendDialog(){
-
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Insert nickname");
 		builder.setCancelable(true);
@@ -149,7 +134,6 @@ public class MapMeSecondTab_User extends Activity {
 		sendDialog = builder.create();
 	}
 
-
 	class DownloadUser extends AsyncTask<String, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
@@ -188,5 +172,4 @@ public class MapMeSecondTab_User extends Activity {
 			}
 		}
 	}
-
 }

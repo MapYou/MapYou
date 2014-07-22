@@ -49,25 +49,25 @@ public class Login extends FacebookController {
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
 		
-		Editor ed = sp.edit();
-		ed.putString("nickname", "beppe");
-		ed.putString("email", "slimshady2011@live.it");
-		ed.commit();
+//		Editor ed = sp.edit();
+//		ed.putString("nickname", "beppe");
+//		ed.putString("email", "slimshady2011@live.it");
+//		ed.commit();
+//		
+//		Intent intent= new Intent(Login.this,MapMeLayoutHome.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//		startActivity(intent);
 		
-		Intent intent= new Intent(Login.this,MapMeLayoutHome.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(intent);
-		
-//		user=(EditText) findViewById(R.id.user_login_Login);
-//		password=(EditText) findViewById(R.id.user_password_Login);
-//		controller= new DeviceController();
-//		try {
-//			controller.init(getApplicationContext());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		logoutFacebookSession2();
+		user=(EditText) findViewById(R.id.user_login_Login);
+		password=(EditText) findViewById(R.id.user_password_Login);
+		controller= new DeviceController();
+		try {
+			controller.init(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		logoutFacebookSession2();
 	}
 
 	// onclick Login
