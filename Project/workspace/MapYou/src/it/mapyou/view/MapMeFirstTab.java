@@ -10,7 +10,6 @@ import it.mapyou.model.Route;
 import it.mapyou.model.StartPoint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;

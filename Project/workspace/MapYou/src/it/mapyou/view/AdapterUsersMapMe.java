@@ -5,6 +5,7 @@ import it.mapyou.model.Mapping;
 
 import java.util.List;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 public class AdapterUsersMapMe extends BaseAdapter {
 
 	private List<Mapping> map;
+	private Context cont;
 
-	public AdapterUsersMapMe(List<Mapping> map) {
+	public AdapterUsersMapMe(Context cont, List<Mapping> map) {
+		this.cont = cont;
 		this.map = map;
 	}
 	@Override
@@ -42,7 +45,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if(convertView==null){
-			convertView=View.inflate(parent.getContext(), R.layout.user_profile_mapme_grid, parent);
+			convertView=View.inflate(cont, R.layout.user_profile_mapme_grid, null);
 		}
 
 		TextView n= (TextView) convertView.findViewById(R.id.textViewNickname);

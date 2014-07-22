@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/framemapme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollmapme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="horizontal|vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/AliceBlue"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/EditTextNameMapMe2"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:gravity="left"
+                    android:hint="name MapMe"
+                    android:inputType="textPostalAddress" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/EditTextStartMapme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.56"
+                    android:ems="10"
+                    android:hint="start"
+                    android:inputType="textPostalAddress" />
+
+                <Button
+                    android:id="@+id/ButtonStartMapme2"
+                    android:layout_width="68dp"
+                    android:layout_height="37dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/button"
+                    android:text="Set" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/editTextDestinazione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:ems="10"
+                    android:hint="destination"
+                    android:inputType="textPostalAddress" >
+
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/buttonStartDestinat"
+                    android:layout_width="67dp"
+                    android:layout_height="36dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/mybuttongreen"
+                    android:text="Set" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp" >
+
+                <fragment
+                    android:id="@+id/map2"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearsavemapme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/Button01"
+                    android:layout_width="108dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/button"
+                    android:text="Save" />
+
+                <Button
+                    android:id="@+id/buttonSave"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="5.55"
+                    android:background="@drawable/mybuttongreen"
+                    android:text="Clean Map" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
