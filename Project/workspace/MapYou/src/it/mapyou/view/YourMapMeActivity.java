@@ -23,12 +23,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.GridView;
+import android.widget.ListView;
 
 public class YourMapMeActivity extends  Activity {
 
 	
 	private Activity act;
-	private GridView grid;
+	private ListView listView;
 	private DeviceController controller;
 	private SharedPreferences sp;
 	private String admin;
@@ -37,10 +38,10 @@ public class YourMapMeActivity extends  Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.you_mapme_layout);
+		setContentView(R.layout.mapme_list);
 		setTitle("Your MapMe");
 		act = this;
-		grid = (GridView) findViewById(R.id.gridViewYourMapMe);
+		listView = (ListView) findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		controller= new DeviceController();
 		try {
@@ -76,8 +77,8 @@ public class YourMapMeActivity extends  Activity {
 			super.onPostExecute(result);
 			
 			List<MapMe> allMapme= getAllMapMe(result);
-			grid.setAdapter(new YourMapMeAdapter(act,allMapme));
-			grid.setOnItemClickListener(new OnClickMapMe(act, allMapme));
+			listView.setAdapter(new YourMapMeAdapter(act,allMapme));
+			listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
 			
 		}
 	}

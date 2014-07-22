@@ -46,11 +46,12 @@ public class MapMenuFragment extends Fragment{
 	static final String EXTRA_MAP = "map";
 
 	static final LauncherIcon[] ICONS = {
-		new LauncherIcon(R.drawable.community, "New MapMe", NewMapMe.class),
-		new LauncherIcon(R.drawable.mymapme, "My MapMe", YourMapMeActivity.class),
-		new LauncherIcon(R.drawable.invite, "Invite your friends", null),
-		new LauncherIcon(R.drawable.settings, "Settings", MyMapMe.class),
-		new LauncherIcon(R.drawable.logout2, "Logout", null)
+		new LauncherIcon(R.drawable.mappp, "New MapMe", NewMapMe.class),
+		new LauncherIcon(R.drawable.comm2, "My MapMe", YourMapMeActivity.class),
+		new LauncherIcon(R.drawable.invites, "Invite your friends", null),
+		new LauncherIcon(R.drawable.comment, "Send comment", null),
+		new LauncherIcon(R.drawable.settings, "Settings", null),
+		new LauncherIcon(R.drawable.logoooouttt, "Logout", null)
 	};
 
 	static class LauncherIcon {
@@ -163,11 +164,7 @@ public class MapMenuFragment extends Fragment{
 						getActivity().startActivity(new Intent(getActivity(), c));
 					}
 				}
-				//				Fragment t = new TabFragment();
-				//				FragmentManager m = getFragmentManager();
-				//				m.beginTransaction()
-				//	               .replace(R.id.FrameLayout1, t)
-				//	               .commit();
+				 
 			}
 		});
 		return view;

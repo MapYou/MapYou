@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="0.29"
             android:orientation="vertical" >
 
@@ -26,24 +27,26 @@
                 android:gravity="center"
                 android:text="@string/Menu"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="45sp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="95dp"
-                android:layout_height="76dp"
+                android:layout_width="145dp"
+                android:layout_height="116dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/logo2" />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/mappp" />
+
         </LinearLayout>
 
         <EditText
             android:id="@+id/user_registration"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="220dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@color/LightBlue"
+            android:layout_marginTop="12dp"
+            android:layout_weight="0.08"
+            android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/nickname_login"
@@ -54,10 +57,11 @@
 
         <EditText
             android:id="@+id/user_password_registration"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="220dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_weight="0.09"
             android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
@@ -66,12 +70,12 @@
 
         <EditText
             android:id="@+id/userconfirm_password"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="220dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0.29"
-            android:background="@color/LightBlue"
+            android:layout_marginTop="7dp"
+            android:layout_weight="0.10"
+            android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/confirmPass"
@@ -79,10 +83,10 @@
 
         <EditText
             android:id="@+id/user_email"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="220dp"
+            android:layout_height="38dp"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="7dp"
             android:layout_weight="0.29"
             android:background="@color/LightGreen"
             android:ems="10"
@@ -92,12 +96,12 @@
 
         <Button
             android:id="@+id/button_register"
-            android:layout_width="89dp"
+            android:layout_width="130dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button"
             android:clickable="true"
             android:onClick="register"
