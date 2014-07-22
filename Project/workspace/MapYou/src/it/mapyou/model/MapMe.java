@@ -114,12 +114,9 @@ public class MapMe extends SubjectModel implements Parcelable {
 		dest.writeString(endAddress);
 		dest.writeInt(numUsers);
 		dest.writeInt(maxNumUsers);
-<<<<<<< HEAD
 		dest.writeInt(idmapme);
 //		dest.writeValue(creationDate);
-=======
 		//		dest.writeValue(creationDate);
->>>>>>> origin/master
 		dest.writeSerializable(administrator);
 		dest.writeParcelable(route, flags);
 		dest.writeList(mapping);
