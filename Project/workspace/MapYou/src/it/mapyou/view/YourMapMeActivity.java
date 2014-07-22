@@ -1,47 +1,126 @@
 package it.mapyou.view;
 import it.mapyou.R;
+import it.mapyou.controller.DeviceController;
+import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
+import it.mapyou.model.Route;
+import it.mapyou.model.StartPoint;
+import it.mapyou.model.User;
+import it.mapyou.network.SettingsServer;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.preference.PreferenceManager;
 import android.widget.GridView;
-import android.widget.Toast;
 
-/**
- * 
- */
+public class YourMapMeActivity extends  Activity {
 
-/**
- * @author mapyou (mapyouu@gmail.com)
- *
- */
-public class YourMapMeActivity extends FragmentActivity {
-
-	private List<MapMe> mapmes;
+	
 	private Activity act;
 	private GridView grid;
+	private DeviceController controller;
+	private SharedPreferences sp;
+	private String admin;
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.you_mapme_layout);
+		setTitle("Your MapMe");
 		act = this;
 		grid = (GridView) findViewById(R.id.gridViewYourMapMe);
-		mapmes = getIntent().getExtras().getParcelableArrayList("listmapme");
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		controller= new DeviceController();
+		try {
+			controller.init(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		MapMeAdapter adpter = new MapMeAdapter(this, R.layout.mapme_grid_view, mapmes);
-		grid.setAdapter(adpter);
+		admin=sp.getString("nickname", "");
+		
+		new DownloadYourMapMe().execute(admin);
+	}
+
+
+	class DownloadYourMapMe extends AsyncTask<String, Void, JSONObject>{
+
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+
+		@Override
+		protected JSONObject doInBackground(String... params) {
+
+			try {
+				JSONObject json=null;
+				parameters.put("nickname", URLEncoder.encode(admin, "UTF-8"));
+				json=controller.getServer().requestJson(SettingsServer.YOUR_MAPME, controller.getServer().setParameters(parameters));
+
+				return json;
+			} catch (UnsupportedEncodingException e) {
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+			
+			List<MapMe> allMapme= getUserLogin(result);
+			grid.setAdapter(new YourMapMeAdapter(act,allMapme));
+			grid.setOnItemClickListener(new OnClickMapMe(act, allMapme));
+			
+		}
+	}
+
+	public List<MapMe> getUserLogin (JSONObject json){
+
+		List<MapMe> allmapme= new ArrayList<MapMe>();
+		try {
+			JSONArray jsonArr= json.getJSONArray("MapMe");
+			for(int i=0; i<jsonArr.length(); i++){
+				json=jsonArr.getJSONObject(i);
+				MapMe mapme= new MapMe();
+				Route route = new Route();
+				StartPoint startPoint= new StartPoint();
+				EndPoint endPoint = new EndPoint();
+				startPoint.setLatitude(Double.parseDouble(json.getString("startLat")));
+				startPoint.setLongitude(Double.parseDouble(json.getString("startLon")));
+				endPoint.setLatitude(Double.parseDouble(json.getString("endLat")));
+				endPoint.setLongitude(Double.parseDouble(json.getString("endLon")));
+				route.setStartPoint(startPoint);
+				route.setEndPoint(endPoint);
+				mapme.setRoute(route);
+				mapme.setIdmapme(Integer.parseInt(json.getString("idmapme")));
+				mapme.setAdministrator(new User((json.getString("admin"))));
+				mapme.setName((json.getString("name")));
+				mapme.setNumUsers((Integer.parseInt(json.getString("max_user"))));
+				mapme.setStartAddress((json.getString("startAddress")));
+				mapme.setEndAddress((json.getString("endAddress")));
+				allmapme.add(mapme);
+			}
+			
+		} catch (Exception e) {
+			return null;
+		}
+		return allmapme;
+	}
+}
+
+/*
+ * 	grid.setAdapter(adpter);
 		grid.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -58,10 +137,4 @@ public class YourMapMeActivity extends FragmentActivity {
 				startActivity(i);
 			}
 		});
-	
-	}
-	
-	private void initGrid(){
-		
-	}
-}
+ */

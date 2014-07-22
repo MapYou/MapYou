@@ -181,8 +181,9 @@ public class NewMapMe extends FragmentActivity {
 		protected void onPostExecute(MapMe result) {
 			super.onPostExecute(result);
 
-			if(result!=null && response.contains("added") && response!=""){
-
+			if(result!=null && response!=null && response!="" && !response.equalsIgnoreCase("0")){
+				int idmapme=Integer.parseInt(response.toString().replaceFirst("\t", "").replaceFirst("\n", "").replaceFirst("\r", ""));
+				result.setIdmapme(idmapme);
 				mapmeNew = result;
 				Bundle b = new Bundle();
 				b.putParcelable("mapme", mapmeNew);

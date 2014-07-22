@@ -75,6 +75,8 @@
         </activity>
         <activity android:name=".view.DashBoardActivity" >
         </activity>
+        <activity android:name=".view.YourMapMeActivity" >
+        </activity>
         
         
        
@@ -115,12 +117,10 @@
         
         <activity android:name="it.mapyou.view.NewMapMe" >
         </activity>
-        <activity android:name="it.mapyou.view.YourMapMeActivity" >
-        </activity>
+     
          <activity android:name="it.mapyou.view.MapActivity" >
         </activity>
-         <activity android:name="it.mapyou.view.UserOnMapMe" >
-        </activity>
+         
         
        
     </application>

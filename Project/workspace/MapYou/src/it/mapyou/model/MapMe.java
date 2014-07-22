@@ -25,6 +25,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 	private Route route;
 	private String startAddress;
 	private String endAddress;
+	private int idmapme;
 	public static final Parcelable.Creator<MapMe> CREATOR = new Creator<MapMe>() {
 		
 		@Override
@@ -55,6 +56,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 	
 	public MapMe(Parcel s){
 		mapping = new ArrayList<Mapping>();
+		setIdmapme(s.readInt());
 		setName(s.readString());
 		setStartAddress(s.readString());
 		setEndAddress(s.readString());
@@ -110,10 +112,25 @@ public class MapMe extends SubjectModel implements Parcelable {
 		dest.writeString(endAddress);
 		dest.writeInt(numUsers);
 		dest.writeInt(maxNumUsers);
+		dest.writeInt(idmapme);
 //		dest.writeValue(creationDate);
 		dest.writeSerializable(administrator);
 		dest.writeParcelable(route, flags);
 		dest.writeList(mapping);
+	}
+	
+	/**
+	 * @return the idmapme
+	 */
+	public int getIdmapme() {
+		return idmapme;
+	}
+	
+	/**
+	 * @param idmapme the idmapme to set
+	 */
+	public void setIdmapme(int idmapme) {
+		this.idmapme = idmapme;
 	}
 
 	/**

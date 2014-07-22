@@ -16,5 +16,7 @@ public interface SettingsServer {
 	public static final String FORGOT_PAGE = "forgot.php";
 	public static final String UPDATE_ID_NOT = "updateIdNotification.php";
 	public static final String NEW_MAPME = "newmapme.php";
+	public static final String SEND_PARTECIPATION = "sendPartecipation.php";
+	public static final String YOUR_MAPME = "yourmapme.php";
 	
 }
