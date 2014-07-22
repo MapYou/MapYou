@@ -3,6 +3,8 @@
  */
 package it.mapyou.model;
 
+import java.util.GregorianCalendar;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,6 +17,7 @@ public class Mapping implements Parcelable{
 
 	private User user;
 	private double latitude, longitude;
+	private GregorianCalendar date;
 	public static final Parcelable.Creator<Mapping> CREATOR = new Creator<Mapping>() {
 		
 		@Override
@@ -30,15 +33,39 @@ public class Mapping implements Parcelable{
 			m.setUser((User) source.readSerializable());
 			m.setLatitude(source.readDouble());
 			m.setLongitude(source.readDouble());
+			GregorianCalendar g = new GregorianCalendar();
+			g.setTimeInMillis(source.readLong());
+			m.setDate(g);
 			return m;
 		}
 	};
+	
+	/**
+	 * 
+	 */
+	public Mapping() {
+		date = new GregorianCalendar();
+	}
 	
 	/**
 	 * @return the user
 	 */
 	public User getUser() {
 		return user;
+	}
+	
+	/**
+	 * @return the date
+	 */
+	public GregorianCalendar getDate() {
+		return date;
+	}
+	
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(GregorianCalendar date) {
+		this.date = date;
 	}
 
 	/**
@@ -94,6 +121,7 @@ public class Mapping implements Parcelable{
 		dest.writeSerializable(user);
 		dest.writeDouble(latitude);
 		dest.writeDouble(longitude);
+		dest.writeLong(date.getTimeInMillis());
 	}
 
 }

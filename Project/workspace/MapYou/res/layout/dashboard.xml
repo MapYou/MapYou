@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView1"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameLayout1"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/LightBlue"
-    android:fillViewport="true" >
+    android:layout_height="fill_parent" >
 
-    <GridView
-        android:id="@+id/dashboard_grid"
-        style="@style/dashboardPort"
+    <ScrollView
+        android:id="@+id/frameL"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@color/LightBlue"
-        android:fastScrollEnabled="true"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="vertical"
-        android:smoothScrollbar="true"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="20.0dip" />
+        android:fillViewport="true" >
 
-</ScrollView>
+        <GridView
+            android:id="@+id/dashboard_grid"
+            style="@style/dashboardPort"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/LightBlue"
+            android:fastScrollEnabled="true"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="vertical"
+            android:smoothScrollbar="true"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="20.0dip" />
+
+    </ScrollView>
+
+</FrameLayout>

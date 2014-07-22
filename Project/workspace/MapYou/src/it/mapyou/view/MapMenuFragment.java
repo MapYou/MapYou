@@ -4,10 +4,16 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.util.UtilAndroid;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +23,25 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.Session;
+import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.Facebook;
+
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
 public class MapMenuFragment extends Fragment{
+	
+	public static final String TAG = "FACEBOOK";
+	private Facebook mFacebook;
+	public static final String APP_ID = "1516574998563667";
+
+	private AsyncFacebookRunner mAsyncRunner;
+	private static final String[] PERMS = new String[] { "read_stream" };
+	public SharedPreferences sharedPrefs;
+	private Context mContext;
+
 
 	static final String EXTRA_MAP = "map";
 
@@ -50,14 +70,14 @@ public class MapMenuFragment extends Fragment{
 		public Class<?> getClazz() {
 			return clazz;
 		}
-		
+
 		/**
 		 * @return the imgId
 		 */
 		public int getImgId() {
 			return imgId;
 		}
-		
+
 		/**
 		 * @return the text
 		 */
@@ -115,6 +135,13 @@ public class MapMenuFragment extends Fragment{
 			return v;
 		}
 	}
+	
+	public void setConnection() {
+		mContext = getActivity();
+		mFacebook = new Facebook(APP_ID);
+		mAsyncRunner = new AsyncFacebookRunner(mFacebook);
+		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -123,18 +150,74 @@ public class MapMenuFragment extends Fragment{
 
 		GridView gridview = (GridView) view.findViewById(R.id.dashboard_grid);
 		gridview.setAdapter(new ImageAdapter(getActivity()));
-		
+
 		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Class<?> c = ICONS[position].getClazz();
-				if(c!=null){
-					getActivity().startActivity(new Intent(getActivity(), c));
+					int position, long idd) {
+				if(position==ICONS.length-1){
+					logout();
+				}else{
+					Class<?> c = ICONS[position].getClazz();
+					if(c!=null){
+						getActivity().startActivity(new Intent(getActivity(), c));
+					}
 				}
+				//				Fragment t = new TabFragment();
+				//				FragmentManager m = getFragmentManager();
+				//				m.beginTransaction()
+				//	               .replace(R.id.FrameLayout1, t)
+				//	               .commit();
 			}
 		});
 		return view;
+	}
+	
+	private void logout(){
+		sharedPrefs=PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		final String id=sharedPrefs.getString("idface","");
+		final String email=sharedPrefs.getString("emailFace","");
+		final String name=sharedPrefs.getString("nameFace","");
+
+		String u=sharedPrefs.getString("nickname", "") ;
+		String emailUser=sharedPrefs.getString("email", "");
+		if(!u.equalsIgnoreCase("")){
+			sharedPrefs.edit().clear();
+			Intent i = new Intent(getActivity(), Login.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
+		}else{
+			new AsyncTask<Void, Void, Boolean>(){
+
+				@Override
+				protected Boolean doInBackground(Void... params){
+					setConnection();
+					if (Session.getActiveSession() != null)
+						Session.getActiveSession().closeAndClearTokenInformation();
+
+					Editor  editor = sharedPrefs.edit();
+					editor.clear();
+					editor.commit(); 
+
+					Log.v("accesscix", sharedPrefs.getString("access_token", "x"));
+					return true;
+				}
+
+				@Override
+				protected void onPostExecute(Boolean result){
+					
+					if (result == null|| result == false){
+						UtilAndroid.makeToast(mContext, "Not_logout", 5000);
+						return;
+					}else{
+						Intent i = new Intent(getActivity(), Login.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(i);
+					}
+				}
+			}.execute();
+		}
 	}
 
 	@Override 
