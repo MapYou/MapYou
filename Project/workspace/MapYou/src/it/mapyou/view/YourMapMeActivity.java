@@ -48,9 +48,7 @@ public class YourMapMeActivity extends  Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		admin=sp.getString("nickname", "");
-		
 		new DownloadYourMapMe().execute(admin);
 	}
 
@@ -58,7 +56,6 @@ public class YourMapMeActivity extends  Activity {
 	class DownloadYourMapMe extends AsyncTask<String, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-
 
 		@Override
 		protected JSONObject doInBackground(String... params) {
@@ -119,22 +116,3 @@ public class YourMapMeActivity extends  Activity {
 	}
 }
 
-/*
- * 	grid.setAdapter(adpter);
-		grid.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Toast.makeText(getApplicationContext(), 
-		                "Selezionato "+position, Toast.LENGTH_LONG).show();
-				MapMe m = mapmes.get(position);
-				Intent i = new Intent(act, MapMeLayoutHome.class);
-				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//				Bundle b = new Bundle();
-//				b.putParcelable("mapme", m);
-//				i.putExtras(b);
-				startActivity(i);
-			}
-		});
- */

@@ -180,7 +180,7 @@ public class Login extends FacebookController {
 			super.onPostExecute(result);
 
 			UtilAndroid.makeToast(getApplicationContext(), resultID, 5000);
-			if(result.equalsIgnoreCase("true")){
+			if(result.contains("true")){
 
 				Editor ed = sp.edit();
 				ed.putString("nickname", userLogin.getNickname());
