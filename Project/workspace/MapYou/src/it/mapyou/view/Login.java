@@ -38,7 +38,7 @@ public class Login extends FacebookController {
 	private SharedPreferences sp;
 	private String resultID="";
 	private User userLogin=null;
-
+	private boolean notification=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +47,22 @@ public class Login extends FacebookController {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		
-		
-//		Editor ed = sp.edit();
-//		ed.putString("nickname", "cixino");
-//		ed.putString("email", "ggioo91@hotmail.it");
-//		ed.commit();
-//		
-//		Intent intent= new Intent(Login.this,DrawerMain.class);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//		startActivity(intent);
-		
+/*
+		Editor ed = sp.edit();
+		ed.putString("nickname", "cixino");
+		ed.putString("email", "ggioo91@hotmail.it");
+		ed.commit();
+
+		Intent intent= new Intent(Login.this,DrawerMain.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(intent);
+*/
+
+		// Code use for notifications (Alert)
+		Intent i = getIntent();
+		if(i.getStringExtra("notification") != null)
+			notification=true;
+
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
 		controller= new DeviceController();
@@ -68,6 +73,14 @@ public class Login extends FacebookController {
 		}
 
 		logoutFacebookSession2();
+
+	}
+
+	public void goToNotificationActivity(){
+		Intent i = new Intent(Login.this, NotificationActivity.class);
+		i.putExtra("viewnotification", "viewnotification");
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(i);
 	}
 
 	// onclick Login
@@ -133,7 +146,7 @@ public class Login extends FacebookController {
 			}
 		}
 
-	 
+
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
@@ -182,14 +195,22 @@ public class Login extends FacebookController {
 			UtilAndroid.makeToast(getApplicationContext(), resultID, 5000);
 			if(result.contains("true")){
 
-				Editor ed = sp.edit();
-				ed.putString("nickname", userLogin.getNickname());
-				ed.putString("email", userLogin.getEmail());
-				ed.commit();
+				if(!notification){
+					Editor ed = sp.edit();
+					ed.putString("nickname", userLogin.getNickname());
+					ed.putString("email", userLogin.getEmail());
+					ed.commit();
 
-				Intent intent= new Intent(Login.this,DrawerMain.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				startActivity(intent);
+					Intent intent= new Intent(Login.this,DrawerMain.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					startActivity(intent);
+				}else{
+					Editor ed = sp.edit();
+					ed.putString("nickname", userLogin.getNickname());
+					ed.commit();
+					goToNotificationActivity();
+				}
+
 
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Please Log in!", 5000);

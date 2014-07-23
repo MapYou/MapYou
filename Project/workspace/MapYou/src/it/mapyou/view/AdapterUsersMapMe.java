@@ -6,19 +6,26 @@ import it.mapyou.model.Mapping;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AdapterUsersMapMe extends BaseAdapter {
 
 	private List<Mapping> map;
 	private Context cont;
+	private SharedPreferences sp;
+	private String admin="";
 
 	public AdapterUsersMapMe(Context cont, List<Mapping> map) {
 		this.cont = cont;
 		this.map = map;
+		sp=PreferenceManager.getDefaultSharedPreferences(cont.getApplicationContext());
+		admin=sp.getString("nickname", "");
 	}
 	@Override
 	public int getCount() {
@@ -49,10 +56,15 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		}
 
 		TextView n= (TextView) convertView.findViewById(R.id.textViewNickname);
-		TextView e= (TextView) convertView.findViewById(R.id.textViewEmail);
+		ImageView icon=(ImageView) convertView.findViewById(R.id.imageView1);
+
 		Mapping m = map.get(position);
-		n.setText(m.getUser().getNickname());
-		e.setText(m.getUser().getEmail());
+
+		if(m.getUser().getNickname().equalsIgnoreCase(admin)){
+			icon.setImageResource(R.drawable.admin);
+			n.setText("Admin:\n"+m.getUser().getNickname());
+		}else
+			n.setText(m.getUser().getNickname());
 		return convertView;
 	} 
 

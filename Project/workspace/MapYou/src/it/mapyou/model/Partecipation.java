@@ -9,20 +9,33 @@ package it.mapyou.model;
  */
 public class Partecipation extends SubjectModel{
 
-	private User user;
+	private User userInvited;
+	private User userInvite;
 	private MapMe mapme;
-	private boolean acceptance, isRequest;
+	private String type;
 	/**
-	 * @return the user
+	 * @return the userInvited
 	 */
-	public User getUser() {
-		return user;
+	public User getUserInvited() {
+		return userInvited;
 	}
 	/**
-	 * @param user the user to set
+	 * @param userInvited the userInvited to set
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserInvited(User userInvited) {
+		this.userInvited = userInvited;
+	}
+	/**
+	 * @return the userInvite
+	 */
+	public User getUserInvite() {
+		return userInvite;
+	}
+	/**
+	 * @param userInvite the userInvite to set
+	 */
+	public void setUserInvite(User userInvite) {
+		this.userInvite = userInvite;
 	}
 	/**
 	 * @return the mapme
@@ -37,29 +50,19 @@ public class Partecipation extends SubjectModel{
 		this.mapme = mapme;
 	}
 	/**
-	 * @return the acceptance
+	 * @return the type
 	 */
-	public boolean isAcceptance() {
-		return acceptance;
+	public String getType() {
+		return type;
 	}
 	/**
-	 * @param acceptance the acceptance to set
+	 * @param type the type to set
 	 */
-	public void setAcceptance(boolean acceptance) {
-		this.acceptance = acceptance;
+	public void setType(String type) {
+		this.type = type;
 	}
-	/**
-	 * @return the isRequest
-	 */
-	public boolean isRequest() {
-		return isRequest;
-	}
-	/**
-	 * @param isRequest the isRequest to set
-	 */
-	public void setRequest(boolean isRequest) {
-		this.isRequest = isRequest;
-	}
+	
+	
 	
 	
 }

@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.GridView;
 import android.widget.ListView;
 
 public class YourMapMeActivity extends  Activity {
