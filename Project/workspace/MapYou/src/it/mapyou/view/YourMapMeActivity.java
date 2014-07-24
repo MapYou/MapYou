@@ -22,13 +22,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.GridView;
+import android.widget.ListView;
 
 public class YourMapMeActivity extends  Activity {
 
 	
 	private Activity act;
-	private GridView grid;
+	private ListView listView;
 	private DeviceController controller;
 	private SharedPreferences sp;
 	private String admin;
@@ -37,10 +37,10 @@ public class YourMapMeActivity extends  Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.you_mapme_layout);
+		setContentView(R.layout.mapme_list);
 		setTitle("Your MapMe");
 		act = this;
-		grid = (GridView) findViewById(R.id.gridViewYourMapMe);
+		listView = (ListView) findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		controller= new DeviceController();
 		try {
@@ -48,9 +48,7 @@ public class YourMapMeActivity extends  Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		admin=sp.getString("nickname", "");
-		
 		new DownloadYourMapMe().execute(admin);
 	}
 
@@ -58,7 +56,6 @@ public class YourMapMeActivity extends  Activity {
 	class DownloadYourMapMe extends AsyncTask<String, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-
 
 		@Override
 		protected JSONObject doInBackground(String... params) {
@@ -79,8 +76,8 @@ public class YourMapMeActivity extends  Activity {
 			super.onPostExecute(result);
 			
 			List<MapMe> allMapme= getAllMapMe(result);
-			grid.setAdapter(new YourMapMeAdapter(act,allMapme));
-			grid.setOnItemClickListener(new OnClickMapMe(act, allMapme));
+			listView.setAdapter(new YourMapMeAdapter(act,allMapme));
+			listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
 			
 		}
 	}
@@ -119,22 +116,3 @@ public class YourMapMeActivity extends  Activity {
 	}
 }
 
-/*
- * 	grid.setAdapter(adpter);
-		grid.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Toast.makeText(getApplicationContext(), 
-		                "Selezionato "+position, Toast.LENGTH_LONG).show();
-				MapMe m = mapmes.get(position);
-				Intent i = new Intent(act, MapMeLayoutHome.class);
-				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//				Bundle b = new Bundle();
-//				b.putParcelable("mapme", m);
-//				i.putExtras(b);
-				startActivity(i);
-			}
-		});
- */

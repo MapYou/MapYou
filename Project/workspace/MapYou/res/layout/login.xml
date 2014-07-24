@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="0.29"
             android:orientation="vertical" >
 
@@ -27,24 +28,24 @@
                 android:gravity="center"
                 android:text="@string/Menu"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="45sp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="95dp"
-                android:layout_height="76dp"
+                android:layout_width="145dp"
+                android:layout_height="116dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/logo2" />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/mappp" />
 
         </LinearLayout>
 
         <EditText
             android:id="@+id/user_login_Login"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="187dp"
+            android:layout_height="42dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="22dp"
             android:background="@color/LightGreen"
             android:ems="10"
             android:gravity="center"
@@ -56,8 +57,8 @@
 
         <EditText
             android:id="@+id/user_password_Login"
-            android:layout_width="160dp"
-            android:layout_height="35dp"
+            android:layout_width="189dp"
+            android:layout_height="42dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@color/LightGreen"
@@ -84,6 +85,7 @@
                     android:layout_width="94dp"
                     android:layout_height="41dp"
                     android:layout_marginRight="5dp"
+                    android:layout_weight="4.07"
                     android:background="@drawable/button"
                     android:onClick="login"
                     android:text="Login" />
@@ -92,9 +94,11 @@
                     android:id="@+id/button1"
                     android:layout_width="94dp"
                     android:layout_height="41dp"
+                    android:layout_weight="6.71"
                     android:background="@drawable/button"
                     android:onClick="registerMapYou"
                     android:text="Register" />
+
             </LinearLayout>
 
             <LinearLayout

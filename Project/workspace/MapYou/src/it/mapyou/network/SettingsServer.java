@@ -18,5 +18,8 @@ public interface SettingsServer {
 	public static final String NEW_MAPME = "newmapme.php";
 	public static final String SEND_PARTECIPATION = "sendPartecipation.php";
 	public static final String YOUR_MAPME = "yourmapme.php";
+	public static final String SELECT_PARTECIPATION = "retrieveInformationByInvite.php";
+	public static final String INSERT_MAPPING = "insertMappingAfterAcceptPart.php";
+	public static final String GET_ALL_USER = "getAllUserInMapMe.php";
 	
 }

@@ -18,9 +18,9 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="match_parent"
-            android:layout_height="84dp"
-            android:src="@drawable/logo2" />
+            android:layout_width="90dp"
+            android:layout_height="151dp"
+            android:src="@drawable/mappp" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|left"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -44,18 +44,9 @@
             android:id="@+id/textViewMapMeinvito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="per la MapMe:"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textViewUentiiscritti"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="20dp"
-            android:text="Utenti iscritti:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +63,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/mybuttongreen"
             android:text="Accetta"
-            android:onClick="accetta" />
+            android:onClick="accept" />
 
         <Button
             android:id="@+id/button2"
@@ -80,7 +71,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/mybuttongreen"
             android:text="Rifiuta"
-            android:onClick="rifiuta" />
+            android:onClick="refused" />
 
     </LinearLayout>
 

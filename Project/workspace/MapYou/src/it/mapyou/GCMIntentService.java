@@ -4,6 +4,7 @@ package it.mapyou;
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.view.Login;
+import it.mapyou.view.NotificationActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -122,11 +123,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		long when = System.currentTimeMillis();
 
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(icon, "Dipenta è gay" , when);
+		Notification notification = new Notification(icon, "Messaggio da MapYou" , when);
 
-		String title ="Sei un gay";
+		String title ="Invite for MapMe";
 
-		Intent notificationIntent = new Intent(context, Login.class);
+		Intent notificationIntent = new Intent(context, NotificationActivity.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
