@@ -84,43 +84,20 @@
         android:layout_below="@+id/image_sa"
         android:src="@drawable/endlocation" />
 
-    <HorizontalScrollView
-        android:id="@+id/hsa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/image_ea"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/image_sa"
-        android:fillViewport="true"
-         >
 
         <TextView
             android:id="@+id/textViewSA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textLongMessage"
             android:text="Benevento"
             android:textSize="14sp" />
-    </HorizontalScrollView>
 
-    <HorizontalScrollView
-        android:id="@+id/hea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image_ea"
-        android:layout_alignLeft="@+id/hsa"
-        android:layout_alignParentRight="true"
-        android:fillViewport="true"
-        >
 
         <TextView
             android:id="@+id/textViewEA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textLongMessage"
             android:text="viale ceccarini"
             android:textSize="14sp" />
-    </HorizontalScrollView>
 
 </RelativeLayout>

@@ -123,7 +123,7 @@ public class MyMapMe extends Activity{
 				mapme.setIdmapme(Integer.parseInt(json.getString("idmapme")));
 				mapme.setAdministrator(new User((json.getString("admin"))));
 				mapme.setName((json.getString("name")));
-				mapme.setNumUsers((Integer.parseInt(json.getString("max_user"))));
+				mapme.setMaxNumUsers((Integer.parseInt(json.getString("max_user"))));
 				mapme.setStartAddress((json.getString("startAddress")));
 				mapme.setEndAddress((json.getString("endAddress")));
 				allmapme.add(mapme);
