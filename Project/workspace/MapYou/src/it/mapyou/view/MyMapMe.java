@@ -96,7 +96,7 @@ public class MyMapMe extends Activity{
 			for(int i=0; i<allMapme.size(); i++){
 				numUsr.add(new Integer(5));
 			}
-			listView.setAdapter(new MapMeAdapter(act,allMapme,numUsr));
+//			listView.setAdapter(new MapMeAdapter(act,allMapme,numUsr));
 			listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
 			
 		}
