@@ -14,6 +14,7 @@ import android.widget.Toast;
  */
 public class UtilAndroid {
 
+	public static final int MAX_NUM_USERS_FOR_MAPME = 15;
 
 	public static boolean findConnection(Context c){
 		//check Internet conenction.

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

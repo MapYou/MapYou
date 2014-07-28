@@ -77,10 +77,10 @@ public class Login extends FacebookController {
 	}
 
 	public void goToNotificationActivity(){
-		Intent i = new Intent(Login.this, NotificationActivity.class);
-		i.putExtra("viewnotification", "viewnotification");
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(i);
+//		Intent i = new Intent(Login.this, NotificationActivity.class);
+//		i.putExtra("viewnotification", "viewnotification");
+//		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//		startActivity(i);
 	}
 
 	// onclick Login
@@ -114,9 +114,10 @@ public class Login extends FacebookController {
 		super.onActivityResult(requestCode, resultCode, data);  
 		if(requestCode==2){  
 			String u=data.getStringExtra("user");
-			String p=data.getStringExtra("password");   
+			String p=data.getStringExtra("password");
 			user.setText(u);  
 			password.setText(p);
+			
 		}  
 	}  
 
@@ -154,26 +155,37 @@ public class Login extends FacebookController {
 			if(result!=null && !result.toString().equalsIgnoreCase("false")){
 
 				userLogin=getUserLogin(result);
-				UtilAndroid.makeToast(getApplicationContext(), "Login", 5000);
-				GCMRegistrar.checkDevice(Login.this);
-				GCMRegistrar.checkManifest(Login.this);
-
-				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
-					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
-				} else;
-				final String regId = GCMRegistrar.getRegistrationId(Login.this);
-				try {
-
-					Log.v("code", regId);
-					parameters.clear();
-					parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
-					parameters.put("idNot", regId);
+				if(userLogin!=null){
 					Editor ed = sp.edit();
-					ed.putString("idNotification", regId);
-					ed.commit(); 
-					new UpdateTask().execute(parameters);
-				} catch (Exception e) {
+					ed.putString("nickname_user_logged", userLogin.getNickname());
+					ed.putString("email_user_logged", userLogin.getEmail());
+					ed.putInt("id_user_logged", userLogin.getModelID());
+					UtilAndroid.makeToast(getApplicationContext(), "Login", 5000);
+					Intent intent= new Intent(Login.this,DrawerMain.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					startActivity(intent);
+				}else{
+					UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
 				}
+//				GCMRegistrar.checkDevice(Login.this);
+//				GCMRegistrar.checkManifest(Login.this);
+
+//				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
+//					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+//				} else;
+//				final String regId = GCMRegistrar.getRegistrationId(Login.this);
+//				try {
+
+//					Log.v("code", regId);
+//					parameters.clear();
+//					parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
+//					parameters.put("idNot", regId);
+//					Editor ed = sp.edit();
+//					ed.putString("idNotification", regId);
+//					ed.commit(); 
+//					new UpdateTask().execute(parameters);
+//				} catch (Exception e) {
+//				}
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
 		}
@@ -244,19 +256,21 @@ public class Login extends FacebookController {
 
 	public User getUserLogin (JSONObject json){
 
-		User user= new User();
 		try {
+			User user= new User();
 			JSONArray jsonArr= json.getJSONArray("User");
 			for(int i=0; i<jsonArr.length(); i++){
 
 				json=jsonArr.getJSONObject(i);
 				user.setNickname(json.getString("nickname"));
 				user.setEmail(json.getString("email"));
+				user.setModelID(json.getInt("id"));
 			}
+			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		return user;
 	}
 }

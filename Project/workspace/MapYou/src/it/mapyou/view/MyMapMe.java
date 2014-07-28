@@ -3,6 +3,14 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.R;
+import it.mapyou.controller.DeviceController;
+import it.mapyou.model.MapMe;
+import it.mapyou.model.Point;
+import it.mapyou.model.Route;
+import it.mapyou.model.User;
+import it.mapyou.network.SettingsServer;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,21 +20,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import it.mapyou.R;
-import it.mapyou.controller.DeviceController;
-import it.mapyou.model.EndPoint;
-import it.mapyou.model.MapMe;
-import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
-import it.mapyou.model.User;
-import it.mapyou.network.SettingsServer;
-import it.mapyou.view.YourMapMeActivity.DownloadYourMapMe;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.GridView;
 import android.widget.ListView;
 
 /**
@@ -111,21 +109,21 @@ public class MyMapMe extends Activity{
 				json=jsonArr.getJSONObject(i);
 				MapMe mapme= new MapMe();
 				Route route = new Route();
-				StartPoint startPoint= new StartPoint();
-				EndPoint endPoint = new EndPoint();
+				Point startPoint= new Point();
+				Point endPoint = new Point();
 				startPoint.setLatitude(Double.parseDouble(json.getString("startLat")));
 				startPoint.setLongitude(Double.parseDouble(json.getString("startLon")));
 				endPoint.setLatitude(Double.parseDouble(json.getString("endLat")));
 				endPoint.setLongitude(Double.parseDouble(json.getString("endLon")));
+				startPoint.setLocation((json.getString("startAddress")));
+				endPoint.setLocation((json.getString("endAddress")));
 				route.setStartPoint(startPoint);
 				route.setEndPoint(endPoint);
-				mapme.setRoute(route);
-				mapme.setIdmapme(Integer.parseInt(json.getString("idmapme")));
+				mapme.setSegment(route);
+				mapme.setModelID(Integer.parseInt(json.getString("idmapme")));
 				mapme.setAdministrator(new User((json.getString("admin"))));
 				mapme.setName((json.getString("name")));
 				mapme.setMaxNumUsers((Integer.parseInt(json.getString("max_user"))));
-				mapme.setStartAddress((json.getString("startAddress")));
-				mapme.setEndAddress((json.getString("endAddress")));
 				allmapme.add(mapme);
 			}
 			

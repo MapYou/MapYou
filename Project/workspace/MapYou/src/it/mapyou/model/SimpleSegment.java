@@ -10,7 +10,7 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class SimpleSegment extends AbstractSegment implements Parcelable {
+public class SimpleSegment extends AbstractSegment {
 
 	public static final Parcelable.Creator<SimpleSegment> CREATOR = new Creator<SimpleSegment>() {
 		
@@ -24,9 +24,8 @@ public class SimpleSegment extends AbstractSegment implements Parcelable {
 		public SimpleSegment createFromParcel(Parcel source) {
 			// TODO Auto-generated method stub
 			SimpleSegment s = new SimpleSegment();
-			s.setStartPoint((StartPoint) source.readSerializable());
-			s.setEndPoint((EndPoint) source.readSerializable());
-			s.setLenght(source.readDouble());
+			s.setStartPoint((Point) source.readSerializable());
+			s.setEndPoint((Point) source.readSerializable());
 			return s;
 		}
 	};
@@ -38,7 +37,6 @@ public class SimpleSegment extends AbstractSegment implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeSerializable(startPoint);
 		dest.writeSerializable(endPoint);
-		dest.writeDouble(getLenght());
 	}
 
 	/* (non-Javadoc)

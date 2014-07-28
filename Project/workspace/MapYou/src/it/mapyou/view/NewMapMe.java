@@ -4,10 +4,10 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
+import it.mapyou.model.Point;
 import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
+import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.ConfigurationGeocodingApi;
 import it.mapyou.navigator.ParserDataFromGeocoding;
@@ -73,17 +73,9 @@ public class NewMapMe extends FragmentActivity {
 	String lat="";
 	String lon="";
 	boolean isStart=false;
-	private static MapMe mapmeNew;
 	private Builder builder;
 	private Builder builder2;
 	private int count=0;
-
-	/**
-	 * @return the mapmeNew
-	 */
-	public static MapMe getMapmeNew() {
-		return mapmeNew;
-	}
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -112,6 +104,7 @@ public class NewMapMe extends FragmentActivity {
 	public void save (View v){
 
 		String nickname= sp.getString("nickname", "");
+		int iduser = sp.getInt("id_user_logged", 0);
 		String nameMapMee= nameMapMe.getText().toString();
 		if(nickname.length()>0 && nameMapMee!=null && nameMapMee.length()>0 && startMarker!=null && endMarker!=null){
 			double slat = startMarker.getPosition().latitude;
@@ -126,19 +119,20 @@ public class NewMapMe extends FragmentActivity {
 			Route route = new Route();
 			User admin = new User();
 			admin.setNickname(nickname);
-			StartPoint startPoint= new StartPoint();
-			EndPoint endPoint = new EndPoint();
+			admin.setModelID(iduser);
+			Point startPoint= new Point();
+			Point endPoint = new Point();
 			startPoint.setLatitude(slat);
 			startPoint.setLongitude(slong);
 			endPoint.setLatitude(elat);
 			endPoint.setLongitude(elong);
+			startPoint.setLocation(sadd);
+			endPoint.setLocation(eadd);
 			route.setStartPoint(startPoint);
 			route.setEndPoint(endPoint);
-			mapMe.setRoute(route);
+			mapMe.setSegment(route);
 			mapMe.setName(nameMapMee);
 			mapMe.setAdministrator(admin);
-			mapMe.setStartAddress(sadd);
-			mapMe.setEndAddress(eadd);
 
 			SaveMapMe sv = new SaveMapMe();
 			sv.execute(mapMe);
@@ -158,7 +152,7 @@ public class NewMapMe extends FragmentActivity {
 
 
 			try {
-				Route r= params[0].getRoute();
+				Segment r= params[0].getSegment();
 				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().getNickname().toString(), "UTF-8"));
 
 				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
@@ -166,8 +160,9 @@ public class NewMapMe extends FragmentActivity {
 				parameters.put("slon", ""+r.getStartPoint().getLongitude());
 				parameters.put("elat", ""+r.getEndPoint().getLatitude());
 				parameters.put("elon", ""+r.getEndPoint().getLongitude());
-				parameters.put("sadd", URLEncoder.encode(params[0].getStartAddress().toString(), "UTF-8"));
-				parameters.put("eadd", URLEncoder.encode(params[0].getEndAddress().toString(), "UTF-8"));
+				parameters.put("mnu", ""+params[0].getMaxNumUsers());
+				parameters.put("sadd", URLEncoder.encode(r.getStartPoint().getLocation().toString(), "UTF-8"));
+				parameters.put("eadd", URLEncoder.encode(r.getEndPoint().getLocation().toString(), "UTF-8"));
 				response=controller.getServer().request(SettingsServer.NEW_MAPME, controller.getServer().setParameters(parameters));
 
 				return params[0];
@@ -183,12 +178,12 @@ public class NewMapMe extends FragmentActivity {
 
 			if(result!=null && response!=null && response!="" && !response.equalsIgnoreCase("0")){
 				int idmapme=Integer.parseInt(response.toString().replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "").replaceAll("\r", ""));
-				result.setIdmapme(idmapme);
-				mapmeNew = result;
-				Bundle b = new Bundle();
-				b.putParcelable("mapme", mapmeNew);
+				result.setModelID(idmapme);
+				Util.CURRENT_MAPME = result;
+//				Bundle b = new Bundle();
+//				b.putParcelable("mapme", mapmeNew);
 				Intent i = new Intent(act, MapMeLayoutHome.class);
-				i.putExtras(b);
+//				i.putExtras(b);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				startActivity(i);
 			}
@@ -198,7 +193,12 @@ public class NewMapMe extends FragmentActivity {
 
 	}
 
-
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(this, DrawerMain.class);
+		startActivity(i);
+	}
+	
 	public void start (View v){
 
 		String add= start.getText().toString().replace(" ", "%20");

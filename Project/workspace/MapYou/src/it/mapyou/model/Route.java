@@ -12,7 +12,7 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class Route extends AbstractSegment implements Parcelable{
+public class Route extends AbstractSegment{
 	
 	private Vector<Segment> segments;
 	public static final Parcelable.Creator<Route> CREATOR = new Creator<Route>() {
@@ -33,7 +33,6 @@ public class Route extends AbstractSegment implements Parcelable{
 	public Route(Parcel s){
 		segments = new Vector<Segment>();
 		s.readList(segments, AbstractSegment.class.getClassLoader());
-		length = s.readDouble();
 		
 	}
 	
@@ -44,19 +43,16 @@ public class Route extends AbstractSegment implements Parcelable{
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
 		dest.writeList(segments);
-		dest.writeDouble(length);
 	}
 	
 	public Route(){
 		segments = new Vector<Segment>();
-		length = 0.0;
 	}
 	
 	public void addSegment(Segment...segmentss){
 		for(int i=0; i<segmentss.length; i++)
 			{
 			Segment s = segmentss[i];
-			length+=s.getLenght();
 			segments.add(s);
 			}
 	}
@@ -80,4 +76,16 @@ public class Route extends AbstractSegment implements Parcelable{
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.core.AbstractSegment#calculateLenght()
+	 */
+	@Override
+	public double calculateLenght() {
+		double sum = 0.0;
+		for(int i=0; i<segments.size(); i++){
+			sum+=segments.get(i).calculateLenght();
+		}
+		return sum;
+	}
+	
 }

@@ -1,8 +1,8 @@
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcel;
 
-public class OnDestroyMapme implements MapmeState {
+public class OnCreateMapme implements MapmeState {
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.core.MapmeState#getState()
@@ -10,7 +10,7 @@ public class OnDestroyMapme implements MapmeState {
 	@Override
 	public String getState() {
 		// TODO Auto-generated method stub
-		return "On destroy";
+		return "On create";
 	}
 
 	/* (non-Javadoc)

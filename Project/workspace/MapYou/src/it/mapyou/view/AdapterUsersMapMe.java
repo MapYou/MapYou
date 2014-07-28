@@ -1,7 +1,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.Mapping;
+import it.mapyou.model.MappingUser;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 public class AdapterUsersMapMe extends BaseAdapter {
 
-	private List<Mapping> map;
+	private List<MappingUser> map;
 	private Context cont;
 	private SharedPreferences sp;
 	private String admin="";
 
-	public AdapterUsersMapMe(Context cont, List<Mapping> map) {
+	public AdapterUsersMapMe(Context cont, List<MappingUser> map) {
 		this.cont = cont;
 		this.map = map;
 		sp=PreferenceManager.getDefaultSharedPreferences(cont.getApplicationContext());
@@ -43,7 +43,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		return 0;
 	}
 
-	public void addItem(Mapping i){
+	public void addItem(MappingUser i){
 		map.add(i);
 	}
 
@@ -58,7 +58,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		TextView n= (TextView) convertView.findViewById(R.id.textViewNickname);
 		ImageView icon=(ImageView) convertView.findViewById(R.id.imageView1);
 
-		Mapping m = map.get(position);
+		MappingUser m = map.get(position);
 
 		if(m.getUser().getNickname().equalsIgnoreCase(admin)){
 			icon.setImageResource(R.drawable.admin);

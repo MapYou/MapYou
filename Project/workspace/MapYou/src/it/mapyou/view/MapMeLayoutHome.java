@@ -27,7 +27,7 @@ public class MapMeLayoutHome extends TabActivity {
  
 		
 		Bundle bund = new Bundle();
-		bund.putParcelable("mapme", OnClickMapMe.getMapme());
+		bund.putParcelable("mapme", Util.CURRENT_MAPME);
 
 
  

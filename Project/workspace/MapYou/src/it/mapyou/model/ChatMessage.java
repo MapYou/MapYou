@@ -1,17 +1,15 @@
-package it.mapyou.core;
+/**
+ * 
+ */
+package it.mapyou.model;
 
 import android.os.Parcel;
 
-public class OnStartMapme implements MapmeState {
-
-	/* (non-Javadoc)
-	 * @see it.mapyou.core.MapmeState#getState()
-	 */
-	@Override
-	public String getState() {
-		// TODO Auto-generated method stub
-		return "On start";
-	}
+/**
+ * @author mapyou (mapyouu@gmail.com)
+ *
+ */
+public class ChatMessage extends AbstractNotification<User, User, String>{
 
 	/* (non-Javadoc)
 	 * @see android.os.Parcelable#describeContents()

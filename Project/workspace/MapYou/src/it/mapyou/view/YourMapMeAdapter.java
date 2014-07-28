@@ -63,8 +63,8 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 		admin.setText("Admin: "+m.getAdministrator().getNickname());
 		name.setText(m.getName());
-		sa.setText(m.getStartAddress());
-		ea.setText(m.getEndAddress());
+		sa.setText(m.getSegment().getStartPoint().getLocation());
+		ea.setText(m.getSegment().getEndPoint().getLocation());
 		numusr.setText(String.valueOf("0"+" / "+String.valueOf(m.getMaxNumUsers())));
 
 		return convertView;

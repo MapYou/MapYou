@@ -23,7 +23,7 @@ public class OnClickMapMe implements OnItemClickListener  {
 
 	private Activity act;
 	private List<MapMe> mapmes;
-	private static MapMe mapme;
+//	private static MapMe mapme;
 	
 	public OnClickMapMe(Activity a, List<MapMe> map) {
 		this.act=a;
@@ -32,20 +32,13 @@ public class OnClickMapMe implements OnItemClickListener  {
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, final View view, int position,long id) {
-		mapme = mapmes.get(position);
+		Util.CURRENT_MAPME = mapmes.get(position);
 		Intent i = new Intent(act, MapMeLayoutHome.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		Bundle b = new Bundle();
-		b.putParcelable("mapme", mapme);
-		i.putExtras(b);
+//		Bundle b = new Bundle();
+//		b.putParcelable("mapme", mapme);
+//		i.putExtras(b);
 		act.startActivity(i);	 
-	}
-	
-	/**
-	 * @return the mapme
-	 */
-	public static MapMe getMapme() {
-		return mapme;
 	}
  
 

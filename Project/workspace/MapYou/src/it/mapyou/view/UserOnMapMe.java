@@ -4,8 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.MapMe;
-import it.mapyou.model.Mapping;
+import it.mapyou.model.MappingUser;
 import it.mapyou.network.DirectionsJSONParser;
 import it.mapyou.util.UtilAndroid;
 
@@ -43,7 +42,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 public class UserOnMapMe extends FragmentActivity{
 
 	private GoogleMap googleMap;
-	private MapMe mapme;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -54,8 +52,7 @@ public class UserOnMapMe extends FragmentActivity{
 		super.onCreate(arg0);
 		setContentView(R.layout.user_on_mapme_layout);
 		Bundle b = getIntent().getExtras();
-		mapme = b.getParcelable("mapme");
-		List<Mapping> m = b.getParcelableArrayList("mapping");
+		MappingUser m = b.getParcelable("mapping");
 		initMap();
 		changeMapping(m);
 	}
@@ -63,14 +60,11 @@ public class UserOnMapMe extends FragmentActivity{
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onBackPressed()
 	 */
-//	@Override
-//	public void onBackPressed() {
-//		Intent i = new Intent(this, MapMeLayoutHome.class);
-//		Bundle b = new Bundle();
-//		b.putParcelable("mapme", mapme);
-//		i.putExtras(b);
-//		startActivity(i);
-//	}
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(this, MapMeLayoutHome.class);
+		startActivity(i);
+	}
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onResumeFragments()
@@ -109,32 +103,33 @@ public class UserOnMapMe extends FragmentActivity{
 		return url;
 	}
 
-	public void changeMapping(List<Mapping> map){
+	public void changeMapping(MappingUser map){
 		googleMap.clear();
-		LatLng l = null;
-		for(int i=0; i<map.size()-1; i++){
-			Mapping m0 = map.get(i);
-			Mapping m1 = map.get(i+1);
+//		LatLng l = null;
+//		for(int i=0; i<map.size()-1; i++){
+//			MappingUser m0 = map.get(i);
+//			MappingUser m1 = map.get(i+1);
 			MarkerOptions opt1 = new MarkerOptions();
-			opt1.position(new LatLng(m0.getLatitude(), m0.getLongitude()));
+			opt1.position(new LatLng(map.getPoint().getLatitude(), map.getPoint().getLongitude()));
 			opt1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-			MarkerOptions opt2 = new MarkerOptions();
-			opt2.position(new LatLng(m1.getLatitude(), m1.getLongitude()));
-			opt2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//			MarkerOptions opt2 = new MarkerOptions();
+//			opt2.position(new LatLng(map.getPoint().getLatitude(), map.getPoint().getLongitude()));
+//			opt2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 			googleMap.addMarker(opt1);
-			googleMap.addMarker(opt2);
-			if(i==0)
-				l=new LatLng(m0.getLatitude(), m0.getLongitude());
-			else;
-			String url = getDirectionsUrl(opt1.getPosition(), opt2.getPosition());
+//			googleMap.addMarker(opt2);
+//			if(i==0)
+//				l=new LatLng(m0.getPoint().getLatitude(), m0.getPoint().getLongitude());
+//			else;
+//			String url = getDirectionsUrl(opt1.getPosition(), opt2.getPosition());
+//
+//			DownloadTask downloadTask = new DownloadTask();
+//
+//			// Start downloading json data from Google Directions API
+//			downloadTask.execute(url);
 
-			DownloadTask downloadTask = new DownloadTask();
-
-			// Start downloading json data from Google Directions API
-			downloadTask.execute(url);
-
-		}
-		CameraPosition c = new CameraPosition.Builder().target(l).zoom(15).build();
+//		}
+		CameraPosition c = new CameraPosition.Builder().target(
+				opt1.getPosition()).zoom(15).build();
 		googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 	}
 

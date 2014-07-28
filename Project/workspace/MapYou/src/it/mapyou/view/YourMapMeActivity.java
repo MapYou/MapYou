@@ -1,10 +1,9 @@
 package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.EndPoint;
 import it.mapyou.model.MapMe;
+import it.mapyou.model.Point;
 import it.mapyou.model.Route;
-import it.mapyou.model.StartPoint;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 
@@ -18,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +33,12 @@ public class YourMapMeActivity extends  Activity {
 	private SharedPreferences sp;
 	private String admin;
 
-
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(this, DrawerMain.class);
+		startActivity(i);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +53,7 @@ public class YourMapMeActivity extends  Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		admin=sp.getString("nickname", "");
+		admin=String.valueOf(sp.getInt("id_user_logged", 0));
 		new DownloadYourMapMe().execute(admin);
 	}
 
@@ -62,7 +67,7 @@ public class YourMapMeActivity extends  Activity {
 
 			try {
 				JSONObject json=null;
-				parameters.put("nickname", URLEncoder.encode(admin, "UTF-8"));
+				parameters.put("iduser", URLEncoder.encode(admin, "UTF-8"));
 				json=controller.getServer().requestJson(SettingsServer.YOUR_MAPME, controller.getServer().setParameters(parameters));
 
 				return json;
@@ -91,21 +96,24 @@ public class YourMapMeActivity extends  Activity {
 				json=jsonArr.getJSONObject(i);
 				MapMe mapme= new MapMe();
 				Route route = new Route();
-				StartPoint startPoint= new StartPoint();
-				EndPoint endPoint = new EndPoint();
+				Point startPoint= new Point();
+				Point endPoint = new Point();
+				startPoint.setLocation((json.getString("startAddress")));;
+				endPoint.setLocation((json.getString("endAddress")));;
 				startPoint.setLatitude(Double.parseDouble(json.getString("startLat")));
 				startPoint.setLongitude(Double.parseDouble(json.getString("startLon")));
 				endPoint.setLatitude(Double.parseDouble(json.getString("endLat")));
 				endPoint.setLongitude(Double.parseDouble(json.getString("endLon")));
+				
 				route.setStartPoint(startPoint);
 				route.setEndPoint(endPoint);
-				mapme.setRoute(route);
-				mapme.setIdmapme(Integer.parseInt(json.getString("idmapme")));
+				mapme.setSegment(route);;
+				
+				mapme.setModelID(Integer.parseInt(json.getString("id")));;
 				mapme.setAdministrator(new User((json.getString("admin"))));
 				mapme.setName((json.getString("name")));
 				mapme.setNumUsers((Integer.parseInt(json.getString("max_user"))));
-				mapme.setStartAddress((json.getString("startAddress")));
-				mapme.setEndAddress((json.getString("endAddress")));
+				
 				allmapme.add(mapme);
 			}
 			
