@@ -9,6 +9,7 @@ import it.mapyou.model.Point;
 import it.mapyou.model.Route;
 import it.mapyou.model.Segment;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -43,6 +44,14 @@ public class MapMeFirstTab extends Activity {
 		textend = (TextView) findViewById(R.id.textViewEndLocation);
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 		initilizeMap();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		startActivity(new Intent(this, DrawerMain.class));
 	}
 
 	public void changeSatelliteMap(View v){

@@ -103,9 +103,10 @@ public class NewMapMe extends FragmentActivity {
 
 	public void save (View v){
 
-		String nickname= sp.getString("nickname", "");
-		int iduser = sp.getInt("id_user_logged", 0);
+		String nickname= sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "");
+		int iduser = sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0);
 		String nameMapMee= nameMapMe.getText().toString();
+		UtilAndroid.makeToast(getApplicationContext(), nickname, 5000);
 		if(nickname.length()>0 && nameMapMee!=null && nameMapMee.length()>0 && startMarker!=null && endMarker!=null){
 			double slat = startMarker.getPosition().latitude;
 			double slong = startMarker.getPosition().longitude;

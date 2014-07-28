@@ -3,6 +3,8 @@
  */
 package it.mapyou.model;
 
+import it.mapyou.util.UtilAndroid;
+
 import java.util.GregorianCalendar;
 
 import android.os.Parcel;
@@ -39,6 +41,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 
 
 	public MapMe() {
+		this.maxNumUsers = UtilAndroid.MAX_NUM_USERS_FOR_MAPME;
 		creationDate = new GregorianCalendar();
 	}
 
@@ -58,6 +61,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 
 	public MapMe(String name) {
 		this.name = name;
+		this.maxNumUsers = UtilAndroid.MAX_NUM_USERS_FOR_MAPME;
 		creationDate = new GregorianCalendar();
 	}
 

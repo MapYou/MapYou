@@ -40,6 +40,35 @@ public class Login extends FacebookController {
 	private User userLogin=null;
 	private boolean notification=false;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		sp.edit().clear();
+		finish();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		stopService(new Intent(Login.this, GPSTracker.class));
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		stopService(new Intent(Login.this, GPSTracker.class));
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,32 +76,33 @@ public class Login extends FacebookController {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-/*
+
 		Editor ed = sp.edit();
-		ed.putString("nickname", "cixino");
-		ed.putString("email", "ggioo91@hotmail.it");
+		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
+		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
 		ed.commit();
 
+		startService(new Intent(Login.this, GPSTracker.class));
 		Intent intent= new Intent(Login.this,DrawerMain.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
-*/
+
 
 		// Code use for notifications (Alert)
-		Intent i = getIntent();
-		if(i.getStringExtra("notification") != null)
-			notification=true;
-
-		user=(EditText) findViewById(R.id.user_login_Login);
-		password=(EditText) findViewById(R.id.user_password_Login);
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		logoutFacebookSession2();
+//		Intent i = getIntent();
+//		if(i.getStringExtra("notification") != null)
+//			notification=true;
+//
+//		user=(EditText) findViewById(R.id.user_login_Login);
+//		password=(EditText) findViewById(R.id.user_password_Login);
+//		controller= new DeviceController();
+//		try {
+//			controller.init(getApplicationContext());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		logoutFacebookSession2();
 
 	}
 
@@ -157,10 +187,11 @@ public class Login extends FacebookController {
 				userLogin=getUserLogin(result);
 				if(userLogin!=null){
 					Editor ed = sp.edit();
-					ed.putString("nickname_user_logged", userLogin.getNickname());
-					ed.putString("email_user_logged", userLogin.getEmail());
-					ed.putInt("id_user_logged", userLogin.getModelID());
-					UtilAndroid.makeToast(getApplicationContext(), "Login", 5000);
+					ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
+					ed.commit();
+					UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
 					Intent intent= new Intent(Login.this,DrawerMain.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					startActivity(intent);
@@ -209,8 +240,9 @@ public class Login extends FacebookController {
 
 				if(!notification){
 					Editor ed = sp.edit();
-					ed.putString("nickname", userLogin.getNickname());
-					ed.putString("email", userLogin.getEmail());
+					ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
 					ed.commit();
 
 					Intent intent= new Intent(Login.this,DrawerMain.class);
@@ -219,6 +251,8 @@ public class Login extends FacebookController {
 				}else{
 					Editor ed = sp.edit();
 					ed.putString("nickname", userLogin.getNickname());
+					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
 					ed.commit();
 					goToNotificationActivity();
 				}

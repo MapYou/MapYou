@@ -3,27 +3,23 @@
     android:id="@+id/FrameLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/Azure" >
+    android:background="@color/Azure"
+    android:scrollbars="horizontal|vertical" >
 
-    <ScrollView
-        android:id="@+id/frameL"
+    <GridView
+        android:id="@+id/dashboard_grid"
+        style="@style/dashboardPort"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true" >
+        android:background="@color/GhostWhite"
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="auto_fit"
+        android:scrollbars="vertical"
+        android:smoothScrollbar="true"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="20.0dip" >
 
-        <GridView
-            android:id="@+id/dashboard_grid"
-            style="@style/dashboardPort"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:background="@color/GhostWhite"
-            android:fastScrollEnabled="true"
-            android:listSelector="@android:color/transparent"
-            android:scrollbars="vertical"
-            android:smoothScrollbar="true"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="20.0dip" />
-
-    </ScrollView>
+    </GridView>
 
 </FrameLayout>

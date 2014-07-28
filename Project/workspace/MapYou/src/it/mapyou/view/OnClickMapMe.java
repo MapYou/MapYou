@@ -35,9 +35,6 @@ public class OnClickMapMe implements OnItemClickListener  {
 		Util.CURRENT_MAPME = mapmes.get(position);
 		Intent i = new Intent(act, MapMeLayoutHome.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//		Bundle b = new Bundle();
-//		b.putParcelable("mapme", mapme);
-//		i.putExtras(b);
 		act.startActivity(i);	 
 	}
  

@@ -4,13 +4,16 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
 import it.mapyou.model.Route;
+import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
+import it.mapyou.util.UtilAndroid;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -22,11 +25,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ListView;
 
 public class YourMapMeActivity extends  Activity {
 
-	
+
 	private Activity act;
 	private ListView listView;
 	private DeviceController controller;
@@ -38,7 +42,7 @@ public class YourMapMeActivity extends  Activity {
 		Intent i = new Intent(this, DrawerMain.class);
 		startActivity(i);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +57,7 @@ public class YourMapMeActivity extends  Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		admin=String.valueOf(sp.getInt("id_user_logged", 0));
+		admin=String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0));
 		new DownloadYourMapMe().execute(admin);
 	}
 
@@ -79,48 +83,113 @@ public class YourMapMeActivity extends  Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			
+			//			try {
+			//				JSONArray ar = result.getJSONArray("Mapme");
+			//				for(int i=0; i<ar.length(); i++){
+			//					JSONObject j = ar.getJSONObject(i);
+			//					JSONArray seg = j.getJSONArray("segment");
+			//					for(int k=0; k<seg.length(); k++){
+			//						JSONObject o = seg.getJSONObject(k);
+			//						JSONArray jep = o.getJSONArray("endPoint");
+			//						JSONArray jsp = o.getJSONArray("startPoint");
+			//						for(int t=0; t<jep.length(); t++){
+			//							JSONObject oo = jep.getJSONObject(t);
+			//						}
+			//						for(int t=0; t<jsp.length(); t++){
+			//							JSONObject oo = jsp.getJSONObject(t);
+			//						}
+			//					}
+			//					JSONArray adm = j.getJSONArray("administrator");
+			//					for(int k=0; k<seg.length(); k++){
+			//						JSONObject o = seg.getJSONObject(k);
+			//					}
+			//					Log.i("jsonjsonjson", j.toString());
+			//				}
+			//			} catch (Exception e) {
+			//				e.printStackTrace();
+			//			}
 			List<MapMe> allMapme= getAllMapMe(result);
-			listView.setAdapter(new YourMapMeAdapter(act,allMapme));
-			listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
-			
+			if(allMapme!=null){
+				listView.setAdapter(new YourMapMeAdapter(act,allMapme));
+//				listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
+			}else
+				UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
+
 		}
 	}
 
 	public List<MapMe> getAllMapMe (JSONObject json){
 
-		List<MapMe> allmapme= new ArrayList<MapMe>();
 		try {
-			JSONArray jsonArr= json.getJSONArray("MapMe");
+			List<MapMe> allmapme= new ArrayList<MapMe>();
+			JSONArray jsonArr= json.getJSONArray("Mapme");
 			for(int i=0; i<jsonArr.length(); i++){
-				json=jsonArr.getJSONObject(i);
+
+				JSONObject jjson=jsonArr.getJSONObject(i);
 				MapMe mapme= new MapMe();
 				Route route = new Route();
-				Point startPoint= new Point();
-				Point endPoint = new Point();
-				startPoint.setLocation((json.getString("startAddress")));;
-				endPoint.setLocation((json.getString("endAddress")));;
-				startPoint.setLatitude(Double.parseDouble(json.getString("startLat")));
-				startPoint.setLongitude(Double.parseDouble(json.getString("startLon")));
-				endPoint.setLatitude(Double.parseDouble(json.getString("endLat")));
-				endPoint.setLongitude(Double.parseDouble(json.getString("endLon")));
-				
-				route.setStartPoint(startPoint);
-				route.setEndPoint(endPoint);
-				mapme.setSegment(route);;
-				
-				mapme.setModelID(Integer.parseInt(json.getString("id")));;
-				mapme.setAdministrator(new User((json.getString("admin"))));
-				mapme.setName((json.getString("name")));
-				mapme.setNumUsers((Integer.parseInt(json.getString("max_user"))));
-				
-				allmapme.add(mapme);
+				Point startPoint= getPointByJSon(jjson.getJSONArray("segment").getJSONObject(0).getJSONArray("startPoint"));
+				Point endPoint = getPointByJSon(jjson.getJSONArray("segment").getJSONObject(0).getJSONArray("endPoint"));
+				User admin = getUserByJSon(jjson.getJSONArray("administrator"));
+
+				if(admin!=null && startPoint!=null && endPoint!=null){
+					route.setStartPoint(startPoint);
+					route.setEndPoint(endPoint);
+					mapme.setSegment(route);
+
+					mapme.setModelID(Integer.parseInt(jjson.getString("id")));
+					mapme.setAdministrator(admin);
+					mapme.setName(jjson.getString("name"));
+					mapme.setNumUsers((Integer.parseInt(jjson.getString("maxNumUsers"))));
+
+					allmapme.add(mapme);
+				}
 			}
-			
+			return allmapme;
+
 		} catch (Exception e) {
 			return null;
 		}
-		return allmapme;
+	}
+
+	private User getUserByJSon (JSONArray jsonArr){
+
+		try {
+			User user= new User();
+			JSONObject json = null;
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json = jsonArr.getJSONObject(i);
+				user.setNickname(json.getString("nickname"));
+				user.setEmail(json.getString("email"));
+				user.setModelID(json.getInt("id"));
+			}
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	private Point getPointByJSon (JSONArray jsonArr){
+
+		try {
+			Point ptn= new Point();
+			JSONObject json = null;
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json = jsonArr.getJSONObject(i);
+				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
+				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
+				ptn.setLocation(json.getString("location"));
+			}
+			return ptn;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 }
 

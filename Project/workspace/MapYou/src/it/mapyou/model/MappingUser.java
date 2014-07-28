@@ -12,7 +12,7 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MappingUser implements Parcelable{
+public class MappingUser extends SubjectModel implements Parcelable{
 
 	private User user;
 	private MapMe mapme;

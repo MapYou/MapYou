@@ -27,6 +27,14 @@ import android.widget.ListView;
  *
  */
 public class DrawerMain extends Activity {
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		
+	}
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;

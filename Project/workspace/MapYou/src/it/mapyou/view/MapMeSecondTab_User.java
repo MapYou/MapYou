@@ -26,8 +26,11 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -43,7 +46,6 @@ import android.widget.GridView;
 public class MapMeSecondTab_User extends Activity {
 
 	private MapMe mapme;
-	private List<MappingUser> mapping, allMapping;
 	private Dialog sendDialog;
 	private static final int SEND_DIALOG = 1;
 	private Activity act;
@@ -84,6 +86,11 @@ public class MapMeSecondTab_User extends Activity {
 		sendDialog();
 
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		startActivity(new Intent(this, DrawerMain.class));
 	}
 
 	@Override
@@ -168,7 +175,8 @@ public class MapMeSecondTab_User extends Activity {
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-				parameters.put("idm",""+Integer.parseInt(""+mapme.getModelID()));
+				parameters.put("user",""+String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
+				parameters.put("mapme",String.valueOf(mapme.getModelID()));
 				response=controller.getServer().requestJson(SettingsServer.GET_ALL_MAPPING, controller.getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
@@ -180,14 +188,18 @@ public class MapMeSecondTab_User extends Activity {
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
+			p.dismiss();
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				p.dismiss();
 				List<MappingUser> mapping= getAllMappingFromMapme(result);
-				adapter = new AdapterUsersMapMe(act, mapping);
-				gridview.setOnItemClickListener(new OnClickUsersMapMe(act, mapping));
-				gridview.setAdapter(adapter);
+				if(mapping!=null){
+					adapter = new AdapterUsersMapMe(act, mapping);
+//					gridview.setOnItemClickListener(new OnClickUsersMapMe(act, mapping));
+					gridview.setAdapter(adapter);
+				}
+				else
+					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
 			}
 
 
@@ -202,14 +214,15 @@ public class MapMeSecondTab_User extends Activity {
 			JSONArray jsonArr= json.getJSONArray("Mapping");
 			for(int i=0; i<jsonArr.length(); i++){
 				json=jsonArr.getJSONObject(i);
-				MappingUser m= new MappingUser();
-				m.setUser(new User(json.getString("nickname")));
-				Point p = new Point();
-				p.setLatitude(Double.parseDouble(""+json.getString("latitude")));
-				p.setLongitude(Double.parseDouble(""+json.getString("longitude")));
-				p.setLocation(json.getString("location"));
-				m.setPoint(p);
-				mapping.add(m);
+				User admin = getUserByJSon(json.getJSONArray("user"));
+				Point point = getPointByJSon(json.getJSONArray("point"));
+				if(admin!=null && point!=null){
+					MappingUser m= new MappingUser();
+					m.setModelID(Integer.parseInt(json.getString("id")));
+					m.setUser(admin);
+					m.setPoint(point);
+					mapping.add(m);
+				}
 			}
 			return mapping;
 
@@ -217,7 +230,47 @@ public class MapMeSecondTab_User extends Activity {
 			return null;
 		}
 	}
+	
+	private User getUserByJSon (JSONArray jsonArr){
 
+		try {
+			User user= new User();
+			JSONObject json = null;
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json = jsonArr.getJSONObject(i);
+				user.setNickname(json.getString("nickname"));
+				user.setEmail(json.getString("email"));
+				user.setModelID(json.getInt("id"));
+			}
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	private Point getPointByJSon (JSONArray jsonArr){
+
+		try {
+			Point ptn= new Point();
+			JSONObject json = null;
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json = jsonArr.getJSONObject(i);
+				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
+				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
+				ptn.setLocation(json.getString("location"));
+			}
+			return ptn;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
 	class DownloadUser extends AsyncTask<String, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();

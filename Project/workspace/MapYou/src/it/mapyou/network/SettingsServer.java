@@ -21,6 +21,6 @@ public interface SettingsServer {
 	public static final String SELECT_PARTECIPATION = "retrieveInformationByInvite.php";
 	public static final String INSERT_MAPPING = "insertMappingAfterAcceptPart.php";
 	public static final String GET_ALL_USER = "getAllUserInMapMe.php";
-	public static final String GET_ALL_MAPPING = "getAllMappingInMapme.php";
+	public static final String GET_ALL_MAPPING = "getMapping.php";
 	
 }
