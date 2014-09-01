@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -134,7 +133,6 @@ public class  MapActivity extends FragmentActivity {
         }
 
         protected String doInBackground(String... args) {
-                Intent i = getIntent();
 
                 String stringUrl = "http://maps.googleapis.com/maps/api/directions/json?origin="
                                 + STARTING_POINT.latitude

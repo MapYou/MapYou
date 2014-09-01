@@ -156,6 +156,7 @@ public class MapMenuFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long idd) {
+
 				if(position==ICONS.length-1){
 					logout();
 				}else{
@@ -177,8 +178,8 @@ public class MapMenuFragment extends Fragment{
 		final String email=sharedPrefs.getString("emailFace","");
 		final String name=sharedPrefs.getString("nameFace","");
 
-		String u=sharedPrefs.getString("nickname", "") ;
-		String emailUser=sharedPrefs.getString("email", "");
+		String u=sharedPrefs.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "") ;
+		String emailUser=sharedPrefs.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, "");
 		if(!u.equalsIgnoreCase("")){
 			sharedPrefs.edit().clear();
 			Intent i = new Intent(getActivity(), Login.class);

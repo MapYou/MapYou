@@ -96,11 +96,12 @@ public class Register extends Activity{
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
-			if(result.toString().contains("1")){
+			if(!result.toString().contains("-1")){
 				UtilAndroid.makeToast(getApplicationContext(), "Registred", 5000);
 				Intent intentMessage=new Intent();
 				intentMessage.putExtra("user",nickname.getText().toString());
 				intentMessage.putExtra("password",password.getText().toString());
+				intentMessage.putExtra("email",email.getText().toString());
 				setResult(2,intentMessage);
 				finish();
 

@@ -1,15 +1,17 @@
-/**
- * 
- */
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcel;
 
-/**
- * @author mapyou (mapyouu@gmail.com)
- *
- */
-public class ChatMessage extends AbstractNotification<User, User, String>{
+public class OnDestroyMapme implements MapmeState {
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.core.MapmeState#getState()
+	 */
+	@Override
+	public String getState() {
+		// TODO Auto-generated method stub
+		return "On destroy";
+	}
 
 	/* (non-Javadoc)
 	 * @see android.os.Parcelable#describeContents()

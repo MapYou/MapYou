@@ -3,8 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector"
+    android:clickable="true"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="5dip"
+    android:scrollbars="horizontal|vertical" >
 
     <!-- ListRow Left sied Thumbnail image -->
 
@@ -92,12 +94,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/image_sa"
+        android:clickable="true"
         android:fillViewport="true"
-         >
+        android:scrollbars="horizontal" >
 
         <TextView
             android:id="@+id/textViewSA"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textLongMessage"
             android:text="Benevento"
@@ -111,12 +114,13 @@
         android:layout_alignBottom="@+id/image_ea"
         android:layout_alignLeft="@+id/hsa"
         android:layout_alignParentRight="true"
+        android:clickable="true"
         android:fillViewport="true"
-        >
+        android:scrollbars="horizontal" >
 
         <TextView
             android:id="@+id/textViewEA"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textLongMessage"
             android:text="viale ceccarini"

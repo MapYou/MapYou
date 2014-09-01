@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcelable;
 
@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public abstract class AbstractNotification<X, Y, Z> implements Parcelable{
+public abstract class AbstractNotification<X, Y, Z> extends SubjectModel implements Parcelable{
 
 	private X notifier;
 	private Y notified;

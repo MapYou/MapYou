@@ -5,7 +5,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Partecipation;
+import it.mapyou.model.Notification;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -40,7 +40,7 @@ public class NotificationActivity extends Activity {
 	private User userInvited;
 	private TextView invite;
 	private TextView inviteMapme;
-	private Partecipation partecipation;
+	private Notification partecipation;
 	private String nickname;
 
 	@Override
@@ -97,17 +97,17 @@ public class NotificationActivity extends Activity {
 
 			if(result!=null){
 				partecipation= getPartecipation(result);
-				if(partecipation.getModelID()!=0 && !partecipation.getUserInvite().getNickname().equalsIgnoreCase("null")){
+				if(partecipation.getModelID()!=0 && !partecipation.getNotifier().getNickname().equalsIgnoreCase("null")){
 
 					if(isTypePartecipationSend(partecipation)){
 						//gestione Invio notifiche da aadmin
 
-						invite.setText(INVITO.concat(partecipation.getUserInvite().getNickname()));
-						inviteMapme.setText(MAPME.concat(partecipation.getMapme().getName()));
+						invite.setText(INVITO.concat(partecipation.getNotifier().getNickname()));
+						inviteMapme.setText(MAPME.concat(partecipation.getNotificationObject().getName()));
 					}else{
 						//gestione richieste di invito
-						invite.setText(RICHIESTA.concat(partecipation.getUserInvite().getNickname()));
-						inviteMapme.setText(MAPME.concat(partecipation.getMapme().getName()));
+						invite.setText(RICHIESTA.concat(partecipation.getNotifier().getNickname()));
+						inviteMapme.setText(MAPME.concat(partecipation.getNotificationObject().getName()));
 					}
 				}else
 					UtilAndroid.makeToast(getApplicationContext(), "Error Partecipation retrieve", 5000);
@@ -117,9 +117,9 @@ public class NotificationActivity extends Activity {
 		}
 	}
 
-	public Partecipation getPartecipation (JSONObject json){
+	public Notification getPartecipation (JSONObject json){
 
-		Partecipation partecipation = new Partecipation();
+		Notification partecipation = new Notification();
 		MapMe mapme= new MapMe();
 		User userInvite= new User();
 		try {
@@ -127,13 +127,13 @@ public class NotificationActivity extends Activity {
 			for(int i=0; i<jsonArr.length(); i++){
 				json=jsonArr.getJSONObject(i);
 				partecipation.setModelID(Integer.parseInt(""+json.getInt("idpartecipation")));
-				mapme.setIdmapme(Integer.parseInt(""+json.getString("idmapme")));
+				mapme.setModelID(Integer.parseInt(""+json.getString("idmapme")));
 				userInvite.setNickname(json.getString("nickname_send"));
 				mapme.setName(json.getString("name_mapme"));
-				partecipation.setType(json.getString("type"));
-				partecipation.setMapme(mapme);
-				partecipation.setUserInvite(userInvite);
-				partecipation.setUserInvited(userInvited);
+				partecipation.setNotificationType(json.getString("type"));
+				partecipation.setNotificationObject(mapme);
+				partecipation.setNotifier(userInvite);
+				partecipation.setNotified(userInvited);
 			}
 			return partecipation;
 
@@ -152,7 +152,7 @@ public class NotificationActivity extends Activity {
 				String resp=null;
 				parameters.put("user", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
 				parameters.put("idp",""+partecipation.getModelID());
-				parameters.put("idm", ""+partecipation.getMapme().getIdmapme());
+				parameters.put("idm", ""+partecipation.getNotificationObject().getModelID());
 				resp=controller.getServer().request(SettingsServer.INSERT_MAPPING, controller.getServer().setParameters(parameters));
 
 				return resp;
@@ -166,7 +166,7 @@ public class NotificationActivity extends Activity {
 			super.onPostExecute(result);
 
 			if(result!=null && result.contains("1")){
-				UtilAndroid.makeToast(getApplicationContext(), "You are added in "+partecipation.getMapme().getName(),5000);				
+				UtilAndroid.makeToast(getApplicationContext(), "You are added in "+partecipation.getNotificationObject().getName(),5000);				
 
 				Intent i = new Intent(NotificationActivity.this, Login.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -223,9 +223,9 @@ public class NotificationActivity extends Activity {
 		}else
 			UtilAndroid.makeToast(getApplicationContext(), "Error refused",5000);	
 	}
-	public boolean isTypePartecipationSend (Partecipation p){
+	public boolean isTypePartecipationSend (Notification p){
 		boolean isPart=false;
-		isPart=p.getType().equalsIgnoreCase("SEND")?true:false;
+		isPart=p.getNotificationType().equalsIgnoreCase("SEND")?true:false;
 		return isPart;
 	}
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcelable;
 
@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface NotificationType extends Parcelable{
+public interface MapmeState extends Parcelable{
 
-	public String getType();
+	public String getState();
 }

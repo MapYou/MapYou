@@ -1,8 +1,8 @@
-package it.mapyou.core;
+package it.mapyou.model;
 
 import android.os.Parcel;
 
-public class OnCreateMapme implements MapmeState {
+public class OnStartMapme implements MapmeState {
 
 	/* (non-Javadoc)
 	 * @see it.mapyou.core.MapmeState#getState()
@@ -10,7 +10,7 @@ public class OnCreateMapme implements MapmeState {
 	@Override
 	public String getState() {
 		// TODO Auto-generated method stub
-		return "On create";
+		return "On start";
 	}
 
 	/* (non-Javadoc)

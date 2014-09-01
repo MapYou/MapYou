@@ -3,15 +3,16 @@
  */
 package it.mapyou.model;
 
+import android.os.Parcelable;
+
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public interface Segment {
+public interface Segment extends Parcelable{
 	
-	public StartPoint getStartPoint();
-	public EndPoint getEndPoint();
-	public double getLenght();
-	public void setLenght(double l);
+	public Point getStartPoint();
+	public Point getEndPoint();
+	public double calculateLenght();
 
 }

@@ -14,6 +14,11 @@ import android.widget.Toast;
  */
 public class UtilAndroid {
 
+	public static final int MAX_NUM_USERS_FOR_MAPME = 15;
+	
+	public static final String KEY_NICKNAME_USER_LOGGED = "nickname_user_logged";
+	public static final String KEY_EMAIL_USER_LOGGED = "email_user_logged";
+	public static final String KEY_ID_USER_LOGGED = "id_user_logged";
 
 	public static boolean findConnection(Context c){
 		//check Internet conenction.

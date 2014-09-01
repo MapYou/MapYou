@@ -5,7 +5,9 @@ import it.mapyou.model.MapMe;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 	private List<MapMe> mapme;
 	private Activity act;
+	private MapMe m;
 
 
 	public YourMapMeAdapter(Activity act, List<MapMe> allmapme) {
@@ -59,14 +62,24 @@ public class YourMapMeAdapter extends BaseAdapter{
 		TextView sa = (TextView) convertView.findViewById(R.id.textViewSA);
 		TextView ea = (TextView) convertView.findViewById(R.id.textViewEA);
 
-		MapMe m = mapme.get(position);
+		m = mapme.get(position);
 
 		admin.setText("Admin: "+m.getAdministrator().getNickname());
 		name.setText(m.getName());
-		sa.setText(m.getStartAddress());
-		ea.setText(m.getEndAddress());
+		sa.setText(m.getSegment().getStartPoint().getLocation());
+		ea.setText(m.getSegment().getEndPoint().getLocation());
 		numusr.setText(String.valueOf("0"+" / "+String.valueOf(m.getMaxNumUsers())));
 
+		convertView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Util.CURRENT_MAPME = m;
+				Intent i = new Intent(act, MapMeLayoutHome.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				act.startActivity(i);	
+			}
+		});
 		return convertView;
 	}
 }

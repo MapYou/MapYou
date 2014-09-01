@@ -22,28 +22,29 @@
 
             <EditText
                 android:id="@+id/EditTextNameMapMe2"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:gravity="left"
-                android:hint="name MapMe"
+                android:gravity="center"
+                android:hint="MapMe name"
                 android:inputType="textPostalAddress" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="326dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:orientation="horizontal" >
 
             <EditText
                 android:id="@+id/EditTextStartMapme"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.56"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="start"
                 android:inputType="textPostalAddress" />
 
@@ -58,7 +59,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="326dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
@@ -66,10 +67,11 @@
 
             <EditText
                 android:id="@+id/editTextDestinazione"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.76"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="destination"
                 android:inputType="textPostalAddress" >
 

@@ -3,7 +3,6 @@ package it.mapyou;
 
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.SettingsNotificationServer;
-import it.mapyou.view.Login;
 import it.mapyou.view.NotificationActivity;
 import android.app.Notification;
 import android.app.NotificationManager;

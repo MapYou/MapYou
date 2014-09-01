@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.core;
+package it.mapyou.model;
 
 import java.util.GregorianCalendar;
 
@@ -12,11 +12,11 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MappingUser implements Parcelable{
+public class MappingUser extends SubjectModel implements Parcelable{
 
 	private User user;
 	private MapMe mapme;
-	private Segment segment;
+	private Point point;
 	private GregorianCalendar detectionDate;
 	
 	public static final Parcelable.Creator<MappingUser> CREATOR = new Creator<MappingUser>() {
@@ -61,14 +61,14 @@ public class MappingUser implements Parcelable{
 	/**
 	 * @return the segment
 	 */
-	public Segment getSegment() {
-		return segment;
+	public Point getPoint() {
+		return point;
 	}
 	/**
 	 * @param segment the segment to set
 	 */
-	public void setSegment(Segment segment) {
-		this.segment = segment;
+	public void setPoint(Point point) {
+		this.point = point;
 	}
 	/**
 	 * @return the detectionDate

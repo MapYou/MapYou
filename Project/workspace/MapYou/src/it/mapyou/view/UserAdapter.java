@@ -4,7 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.Mapping;
+import it.mapyou.model.MappingUser;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class UserAdapter extends ArrayAdapter<Mapping>{
+public class UserAdapter extends ArrayAdapter<MappingUser>{
 
-	public UserAdapter(Context context, int resource, List<Mapping> objects) {
+	public UserAdapter(Context context, int resource, List<MappingUser> objects) {
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
 	}
@@ -32,7 +32,7 @@ public class UserAdapter extends ArrayAdapter<Mapping>{
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView = inflater.inflate(R.layout.user_profile_mapme_grid, null);
 		TextView nickname = (TextView)convertView.findViewById(R.id.textViewNickname);
-		Mapping c = getItem(position);
+		MappingUser c = getItem(position);
 		nickname.setText(c.getUser().getNickname());
 		TextView email = (TextView)convertView.findViewById(R.id.textViewEmail);
 		email.setText(c.getUser().getEmail());
