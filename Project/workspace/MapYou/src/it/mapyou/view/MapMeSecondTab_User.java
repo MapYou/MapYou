@@ -90,7 +90,9 @@ public class MapMeSecondTab_User extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, DrawerMain.class));
+		Intent i = new Intent(this, DrawerMain.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(i);
 	}
 
 	@Override
@@ -175,7 +177,7 @@ public class MapMeSecondTab_User extends Activity {
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-				parameters.put("user",""+String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
+				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 				parameters.put("mapme",String.valueOf(mapme.getModelID()));
 				response=controller.getServer().requestJson(SettingsServer.GET_ALL_MAPPING, controller.getServer().setParameters(parameters));
 				return response;

@@ -197,6 +197,7 @@ public class NewMapMe extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent(this, DrawerMain.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(i);
 	}
 	

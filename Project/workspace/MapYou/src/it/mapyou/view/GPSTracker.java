@@ -3,6 +3,8 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.util.UtilAndroid;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,7 +14,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,13 +27,14 @@ import android.widget.Toast;
  */
 public class GPSTracker extends Service implements LocationListener{
 
+
 	boolean isGPSEnabled = false;
 
 	// flag for network status
 	boolean isNetworkEnabled = false;
 
 	// flag for GPS status
-	boolean canGetLocation = false;
+	boolean canGetLocation = true;
 
 	Location location; // location
 	double latitude; // latitude
@@ -41,8 +47,12 @@ public class GPSTracker extends Service implements LocationListener{
 	// Declaring a Location Manager
 	protected LocationManager locationManager;
 
-	private Timer timer;
+	private int iduser;
 
+	public GPSTracker() {
+		// TODO Auto-generated constructor stub
+		super();
+	}
 
 	/* (non-Javadoc)
 	 * @see android.app.Service#onCreate()
@@ -51,6 +61,7 @@ public class GPSTracker extends Service implements LocationListener{
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		iduser = PreferenceManager.getDefaultSharedPreferences(this).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0);
 		locationManager = (LocationManager) getApplicationContext()
 				.getSystemService(LOCATION_SERVICE);
 		// getting GPS status
@@ -60,64 +71,6 @@ public class GPSTracker extends Service implements LocationListener{
 		// getting network status
 		isNetworkEnabled = locationManager
 				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//		TimerTask task = new TimerTask() {
-//
-//			@Override
-//			public void run() {
-//				getLocation();
-//			}
-//		};
-//		timer = new Timer(true);
-//		timer.schedule(task, 0, 1000);
-		
-		try {
-
-
-
-			if (!isGPSEnabled && !isNetworkEnabled) {
-				// no network provider is enabled
-			} else {
-				// First get location from Network Provider
-				if (isNetworkEnabled) {
-
-					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-						if (location != null) {
-							latitude = location.getLatitude();
-							longitude = location.getLongitude();
-						}
-					}else
-						locationManager.requestLocationUpdates(
-								LocationManager.NETWORK_PROVIDER,
-								MIN_TIME_BW_UPDATES,
-								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-					
-					onLocationChanged(location);
-				}
-				// if GPS Enabled get lat/long using GPS Services
-				if (isGPSEnabled) {
-
-					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-						if (location != null) {
-							latitude = location.getLatitude();
-							longitude = location.getLongitude();
-						}
-					}else
-						locationManager.requestLocationUpdates(
-								LocationManager.GPS_PROVIDER,
-								MIN_TIME_BW_UPDATES,
-								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-					
-					onLocationChanged(location);
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -125,72 +78,12 @@ public class GPSTracker extends Service implements LocationListener{
 	 */
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
+		getLocation(false);
 		if(locationManager != null){
 			locationManager.removeUpdates(GPSTracker.this);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see android.app.Service#onBind(android.content.Intent)
-	 */
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private void getLocation() {
-		try {
-
-
-
-			if (!isGPSEnabled && !isNetworkEnabled) {
-				// no network provider is enabled
-			} else {
-				// First get location from Network Provider
-				if (isNetworkEnabled) {
-
-					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-						if (location != null) {
-							latitude = location.getLatitude();
-							longitude = location.getLongitude();
-						}
-					}else
-						locationManager.requestLocationUpdates(
-								LocationManager.NETWORK_PROVIDER,
-								MIN_TIME_BW_UPDATES,
-								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-					
-					onLocationChanged(location);
-				}
-				// if GPS Enabled get lat/long using GPS Services
-				if (isGPSEnabled) {
-
-					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-						if (location != null) {
-							latitude = location.getLatitude();
-							longitude = location.getLongitude();
-						}
-					}else
-						locationManager.requestLocationUpdates(
-								LocationManager.GPS_PROVIDER,
-								MIN_TIME_BW_UPDATES,
-								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-					
-					onLocationChanged(location);
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		}else;
+		Thread.currentThread().interrupt();
 	}
 
 	/* (non-Javadoc)
@@ -198,8 +91,8 @@ public class GPSTracker extends Service implements LocationListener{
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.i("latitude", "ciao");
-		Log.i("longitude", "ccccc");
+		Log.i("latitude", String.valueOf(latitude));
+		Log.i("longitude", String.valueOf(longitude));
 	}
 
 	/* (non-Javadoc)
@@ -227,6 +120,91 @@ public class GPSTracker extends Service implements LocationListener{
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void getLocation(boolean v){
+		try {
+			if (!isGPSEnabled && !isNetworkEnabled) {
+			} else {
+				if (isNetworkEnabled) {
+					if (locationManager != null) {
+						location = locationManager
+								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+						if (location != null) {
+							latitude = location.getLatitude();
+							longitude = location.getLongitude();
+						}
+					}else
+						locationManager.requestLocationUpdates(
+								LocationManager.NETWORK_PROVIDER,
+								MIN_TIME_BW_UPDATES,
+								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+					onLocationChanged(location);
+				}
+				// if GPS Enabled get lat/long using GPS Services
+				if (isGPSEnabled) {
+
+					if (locationManager != null) {
+						location = locationManager
+								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+						if (location != null) {
+							latitude = location.getLatitude();
+							longitude = location.getLongitude();
+						}
+					}else
+						locationManager.requestLocationUpdates(
+								LocationManager.GPS_PROVIDER,
+								MIN_TIME_BW_UPDATES,
+								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+					onLocationChanged(location);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Service#onBind(android.content.Intent)
+	 */
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
+	 */
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		final Handler handler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				// TODO Auto-generated method stub
+				super.handleMessage(msg);
+				getLocation(true);
+			}
+		};
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while(true){
+					try {
+						handler.sendEmptyMessage(0);
+						Thread.sleep(3000);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+			}
+		}).start();
+
+		return 0;
 	}
 
 	//	class UpdateMapping extends AsyncTask<Void, Void, JSONObject>{

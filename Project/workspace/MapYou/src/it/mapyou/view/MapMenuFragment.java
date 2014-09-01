@@ -156,6 +156,7 @@ public class MapMenuFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long idd) {
+
 				if(position==ICONS.length-1){
 					logout();
 				}else{

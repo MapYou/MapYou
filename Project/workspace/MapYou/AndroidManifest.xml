@@ -47,7 +47,7 @@
     <application
         android:name="it.mapyou.network.NotificationServer"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logooo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

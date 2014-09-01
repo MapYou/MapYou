@@ -46,6 +46,7 @@ public class Login extends FacebookController {
 	@Override
 	public void onBackPressed() {
 		sp.edit().clear();
+		stopService(new Intent(getBaseContext(), GPSTracker.class));
 		finish();
 	}
 	
@@ -56,7 +57,7 @@ public class Login extends FacebookController {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		stopService(new Intent(Login.this, GPSTracker.class));
+		stopService(new Intent(getBaseContext(), GPSTracker.class));
 	}
 	
 	/* (non-Javadoc)
@@ -66,7 +67,7 @@ public class Login extends FacebookController {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		stopService(new Intent(Login.this, GPSTracker.class));
+		stopService(new Intent(getBaseContext(), GPSTracker.class));
 	}
 	
 	@Override
@@ -82,7 +83,7 @@ public class Login extends FacebookController {
 		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
 		ed.commit();
 
-		startService(new Intent(Login.this, GPSTracker.class));
+//		startService(new Intent(getBaseContext(), GPSTracker.class));
 		Intent intent= new Intent(Login.this,DrawerMain.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);

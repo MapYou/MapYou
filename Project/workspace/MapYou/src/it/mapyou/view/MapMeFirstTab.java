@@ -51,7 +51,9 @@ public class MapMeFirstTab extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, DrawerMain.class));
+		Intent i = new Intent(this, DrawerMain.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(i);
 	}
 
 	public void changeSatelliteMap(View v){
