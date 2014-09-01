@@ -78,19 +78,14 @@ public class Login extends FacebookController {
 		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
 		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
 		ed.commit();
-<<<<<<< HEAD
-*/
-=======
+
 
 //		startService(new Intent(getBaseContext(), GPSTracker.class));
->>>>>>> origin/master
+
 		Intent intent= new Intent(Login.this,DrawerMain.class);
 		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 
 
 		// Code use for notifications (Alert)
@@ -310,10 +305,6 @@ public class Login extends FacebookController {
 			e.printStackTrace();
 			return null;
 		}
-<<<<<<< HEAD
-		return user;
-=======
 
->>>>>>> origin/master
 	}
 }
