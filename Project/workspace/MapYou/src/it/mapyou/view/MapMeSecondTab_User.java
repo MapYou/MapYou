@@ -125,7 +125,7 @@ public class MapMeSecondTab_User extends Activity {
 							@Override
 							public void run() {
 
-//								new DownloadUser().execute(nickname);
+								new DownloadUser().execute(nickname);
 
 							}
 						}).start();
@@ -294,7 +294,7 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("nickinvite", mapme.getAdministrator().getNickname().toString());
 				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
 				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
-				parameters.put("namemap",  mapme.getName());
+			 
 				response=controller.getServer().request(SettingsServer.SEND_PARTECIPATION, controller.getServer().setParameters(parameters));
 
 				return response;
@@ -306,7 +306,7 @@ public class MapMeSecondTab_User extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
-			if(result.contains("oke")){
+			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
 			}else{
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
