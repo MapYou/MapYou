@@ -73,6 +73,7 @@ public class Login extends FacebookController {
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+<<<<<<< HEAD
 		//		Editor ed = sp.edit();
 		//		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
 		//		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
@@ -81,6 +82,20 @@ public class Login extends FacebookController {
 		//		Intent intent= new Intent(Login.this,DrawerMain.class);
 		//		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		//		startActivity(intent);
+=======
+		Editor ed = sp.edit();
+		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
+		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
+		ed.commit();
+
+
+//		startService(new Intent(getBaseContext(), GPSTracker.class));
+
+		Intent intent= new Intent(Login.this,DrawerMain.class);
+		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(intent);
+
+>>>>>>> origin/master
 
 
 		// Code use for notifications (Alert)
@@ -297,6 +312,11 @@ public class Login extends FacebookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+<<<<<<< HEAD
 		}
+=======
+		}
+
+>>>>>>> origin/master
 	}
 }

@@ -51,9 +51,9 @@
             <Button
                 android:id="@+id/ButtonStartMapme2"
                 android:layout_width="68dp"
-                android:layout_height="37dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/button"
+                android:background="@drawable/mybuttongreen"
                 android:onClick="start"
                 android:text="Set" />
         </LinearLayout>
@@ -81,56 +81,72 @@
             <Button
                 android:id="@+id/buttonStartDestinat"
                 android:layout_width="67dp"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/mybuttongreen"
                 android:onClick="dest"
                 android:text="Set" />
         </LinearLayout>
 
-        <RelativeLayout
+        <ScrollView
+            android:id="@+id/kkk"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp" >
+            android:layout_marginTop="5dp"
+            android:fillViewport="true"
+            android:scrollbars="horizontal|vertical" >
 
-            <fragment
-                android:id="@+id/map2"
-                android:name="com.google.android.gms.maps.MapFragment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
-        </RelativeLayout>
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/linearsavemapme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal" >
+                <LinearLayout
+                    android:id="@+id/linearsavemapme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/Button01"
-                android:layout_width="108dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/button"
-                android:onClick="save"
-                android:text="Save" />
+                    <Button
+                        android:id="@+id/Button01"
+                        android:layout_width="108dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button"
+                        android:onClick="save"
+                        android:text="Save" />
 
-            <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"
-                android:layout_weight="5.55"
-                android:background="@drawable/mybuttongreen"
-                android:onClick="cleanMap"
-                android:text="Clean Map" />
-        </LinearLayout>
+                    <Button
+                        android:id="@+id/buttonSave"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button"
+                        android:onClick="cleanMap"
+                        android:text="Clean Map" />
+                </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <fragment
+                        android:id="@+id/map2"
+                        android:name="com.google.android.gms.maps.MapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
     </LinearLayout>
 
 </ScrollView>
