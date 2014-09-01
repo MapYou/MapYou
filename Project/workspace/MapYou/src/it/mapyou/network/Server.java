@@ -70,17 +70,17 @@ public class Server implements ServerInterface {
 
 		URL url;
 		try {
-			url = new URL(SettingsServer.SERVER_ADDRESS+urlPath);
+			url = new URL(SettingsServer.SERVER_ADDRESS+urlPath+"?"+parameters);
 			urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setRequestMethod("POST");
+			//urlConnection.setRequestMethod("POST");
 			urlConnection.setDoOutput(true);
-
-			OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream()); 
-			wr.write(parameters); 
-			wr.flush(); 
+//
+//			OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream()); 
+//			wr.write(parameters); 
+//			wr.flush(); 
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			String inputLine;
+			String inputLine=null;
 			StringBuffer response = new StringBuffer();
 
 			while ((inputLine = in.readLine()) != null) {
@@ -96,15 +96,14 @@ public class Server implements ServerInterface {
 			return jsonObject;
 
 		} catch (Exception e) {
+			Log.v("Errorlogin", ""+e.getMessage());
 			Log.v("exception class name", e.getClass().getSimpleName());
 			if(e instanceof SocketTimeoutException){
 				Log.v("socketTimeout", "connessione scaduta: "+e.getMessage());
 			}
 			return null;
 		}
-		finally{
-			urlConnection.disconnect();
-		}
+	
 	}
 
 	@Override

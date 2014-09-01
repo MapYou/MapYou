@@ -3,6 +3,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.User;
+import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
@@ -18,9 +19,12 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -35,37 +39,32 @@ public class Login extends FacebookController {
 	private String resultID="";
 	private User userLogin=null;
 	private boolean notification=false;
+	private String idnotification="";
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	@Override
-	public void onBackPressed() {
-		sp.edit().clear();
-		stopService(new Intent(getBaseContext(), GPSTracker.class));
-		finish();
-	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onStop()
-	 */
+
+	//	@Override
+	//	public void onBackPressed() {
+	//		sp.edit().clear();
+	//		stopService(new Intent(getBaseContext(), GPSTracker.class));
+	//		finish();
+	//	}
+
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		stopService(new Intent(getBaseContext(), GPSTracker.class));
+		//	stopService(new Intent(getBaseContext(), GPSTracker.class));
 	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onDestroy()
-	 */
+
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		stopService(new Intent(getBaseContext(), GPSTracker.class));
+		//stopService(new Intent(getBaseContext(), GPSTracker.class));
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,48 +73,39 @@ public class Login extends FacebookController {
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-		Editor ed = sp.edit();
-		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
-		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
-		ed.commit();
-<<<<<<< HEAD
-*/
-=======
-
-//		startService(new Intent(getBaseContext(), GPSTracker.class));
->>>>>>> origin/master
-		Intent intent= new Intent(Login.this,DrawerMain.class);
-		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(intent);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
+		//		Editor ed = sp.edit();
+		//		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
+		//		ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
+		//		ed.commit();
+		//
+		//		Intent intent= new Intent(Login.this,DrawerMain.class);
+		//		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		//		startActivity(intent);
 
 
 		// Code use for notifications (Alert)
-//		Intent i = getIntent();
-//		if(i.getStringExtra("notification") != null)
-//			notification=true;
-//
-//		user=(EditText) findViewById(R.id.user_login_Login);
-//		password=(EditText) findViewById(R.id.user_password_Login);
-//		controller= new DeviceController();
-//		try {
-//			controller.init(getApplicationContext());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		logoutFacebookSession2();
+		//		Intent i = getIntent();
+		//		if(i.getStringExtra("notification") != null)
+		//			notification=true;
+		//
+		user=(EditText) findViewById(R.id.user_login_Login);
+		password=(EditText) findViewById(R.id.user_password_Login);
+		controller= new DeviceController();
+		try {
+			controller.init(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		logoutFacebookSession2();
 
 	}
 
 	public void goToNotificationActivity(){
-//		Intent i = new Intent(Login.this, NotificationActivity.class);
-//		i.putExtra("viewnotification", "viewnotification");
-//		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//		startActivity(i);
+		//		Intent i = new Intent(Login.this, NotificationActivity.class);
+		//		i.putExtra("viewnotification", "viewnotification");
+		//		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		//		startActivity(i);
 	}
 
 	// onclick Login
@@ -152,31 +142,45 @@ public class Login extends FacebookController {
 			String p=data.getStringExtra("password");
 			user.setText(u);  
 			password.setText(p);
-			
+
 		}  
 	}  
 
 
-	class LoginTask extends AsyncTask<Void, Void, JSONObject>{
+	class LoginTask extends AsyncTask<Void, Void, Boolean>{
 		private JSONObject jobj;
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+		private boolean isCorrectLogin;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+
 		}
 
 		@Override
-		protected JSONObject doInBackground(Void... params) {
+		protected Boolean doInBackground(Void... params) {
 
 			try {
-				parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
-				parameters.put("password",  URLEncoder.encode(password.getText().toString(), "UTF-8"));
-				jobj=controller.getServer().requestJson(SettingsServer.LOGIN_PAGE, controller.getServer().setParameters(parameters));
 
-				return jobj;
+				GCMRegistrar.checkDevice(Login.this);
+				GCMRegistrar.checkManifest(Login.this);
+
+				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
+					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+				} else;
+
+				final String regId = GCMRegistrar.getRegistrationId(Login.this);
+				if(regId !=null && regId.length() >0){
+					idnotification=regId;
+					isCorrectLogin=true;
+					return isCorrectLogin;
+				}else
+					return false;
+				
 			} catch (Exception e) {
 				return null;
 			}
@@ -184,90 +188,74 @@ public class Login extends FacebookController {
 
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
+		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 
-			if(result!=null && !result.toString().equalsIgnoreCase("false")){
+			if(result)
+				new UpdateT().execute(result);
+			else
+				UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
 
-				userLogin=getUserLogin(result);
-				if(userLogin!=null){
-					Editor ed = sp.edit();
-					ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
-					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
-					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
-					ed.commit();
-					UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
-					Intent intent= new Intent(Login.this,DrawerMain.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-					startActivity(intent);
-				}else{
-					UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
-				}
-//				GCMRegistrar.checkDevice(Login.this);
-//				GCMRegistrar.checkManifest(Login.this);
-
-//				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
-//					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
-//				} else;
-//				final String regId = GCMRegistrar.getRegistrationId(Login.this);
-//				try {
-
-//					Log.v("code", regId);
-//					parameters.clear();
-//					parameters.put("nickname", URLEncoder.encode(user.getText().toString(), "UTF-8"));
-//					parameters.put("idNot", regId);
-//					Editor ed = sp.edit();
-//					ed.putString("idNotification", regId);
-//					ed.commit(); 
-//					new UpdateTask().execute(parameters);
-//				} catch (Exception e) {
-//				}
-			}else
-				UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
-		}
-	}
-
-	class UpdateTask extends AsyncTask<HashMap<String, String> , Void, String>{
-
-
-		@Override
-		protected String doInBackground(HashMap<String, String>... params) {
-			resultID=controller.getServer().request(SettingsServer.UPDATE_ID_NOT, controller.getServer().setParameters(params[0]));
-			return resultID;
 		}
 
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
 
-			UtilAndroid.makeToast(getApplicationContext(), resultID, 5000);
-			if(result.contains("true")){
+		class UpdateT extends AsyncTask<Boolean, Void, JSONObject>{
 
-				if(!notification){
-					Editor ed = sp.edit();
-					ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
-					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
-					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
-					ed.commit();
+			@Override
+			protected JSONObject doInBackground(Boolean... params) {
 
-					Intent intent= new Intent(Login.this,DrawerMain.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-					startActivity(intent);
-				}else{
-					Editor ed = sp.edit();
-					ed.putString("nickname", userLogin.getNickname());
-					ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
-					ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
-					ed.commit();
-					goToNotificationActivity();
+				try{
+					
+					parameters.put("nickname",  user.getText().toString() );
+					parameters.put("password",   password.getText().toString());
+					parameters.put("idnot", idnotification);
+					jobj=controller.getServer().requestJson(SettingsServer.LOGIN_PAGE, controller.getServer().setParameters(parameters));
+
+					return jobj;
+				}catch (Exception e) {
+					Log.v("Errorlogin", ""+e.getMessage());
+					return null;
 				}
+			}
+
+			@Override
+			protected void onPostExecute(JSONObject result) {
+
+				super.onPostExecute(result);
+				try{
+					if(idnotification !=null && idnotification.length() >0){
+						if(result!=null  ){
+
+							userLogin=getUserLogin(result);
+							if(userLogin!=null && userLogin.getModelID() >0){
 
 
-			}else
-				UtilAndroid.makeToast(getApplicationContext(), "Please Log in!", 5000);
+								Editor ed = sp.edit();
+								ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+								ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+								ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
+								ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);
+								ed.commit();
+								UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+								Intent intent= new Intent(Login.this,DrawerMain.class);
+								startActivity(intent);
+							}else{
+								UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
+							}
+
+						}else
+							UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
+					}else{
+						UtilAndroid.makeToast(getApplicationContext(), "GCm error", 5000);
+					}
+				}catch (Exception e) {
+					UtilAndroid.makeToast(getApplicationContext(), "User not registred", 5000);
+				}
+			}
 		}
 
 	}
+
 
 	public boolean verifyField(){
 
@@ -310,10 +298,5 @@ public class Login extends FacebookController {
 			e.printStackTrace();
 			return null;
 		}
-<<<<<<< HEAD
-		return user;
-=======
-
->>>>>>> origin/master
 	}
 }
