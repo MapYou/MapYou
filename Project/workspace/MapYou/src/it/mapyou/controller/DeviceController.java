@@ -3,13 +3,11 @@
  */
 package it.mapyou.controller;
 
-import it.mapyou.execption.LocalDBConnectionNotFoundException;
 import it.mapyou.execption.ServerConnectionNotFoundException;
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.Server;
 //import it.mapyou.persistence.DAOManager;
 //import it.mapyou.persistence.impl.SQLiteDAOManager;
-import android.content.Context;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

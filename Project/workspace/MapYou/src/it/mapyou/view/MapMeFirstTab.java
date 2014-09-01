@@ -6,7 +6,6 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
-import it.mapyou.model.Route;
 import it.mapyou.model.Segment;
 import android.app.Activity;
 import android.content.Intent;

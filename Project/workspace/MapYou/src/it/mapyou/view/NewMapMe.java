@@ -468,7 +468,6 @@ public class NewMapMe extends FragmentActivity {
 		});
 		builder2.setPositiveButton("Select", new DialogInterface.OnClickListener() {
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 

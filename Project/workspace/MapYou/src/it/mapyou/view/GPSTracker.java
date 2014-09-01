@@ -4,10 +4,6 @@
 package it.mapyou.view;
 
 import it.mapyou.util.UtilAndroid;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
@@ -19,7 +15,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
