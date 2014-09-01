@@ -197,7 +197,7 @@ public class Login extends FacebookController {
 					return false;
 				
 			} catch (Exception e) {
-				return null;
+				return false;
 			}
 		}
 
