@@ -74,14 +74,14 @@ public class Login extends FacebookController {
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
  
-				Editor ed = sp.edit();
-				ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
-				ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
-				ed.commit();
-		
-				Intent intent= new Intent(Login.this,DrawerMain.class);
-				//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				startActivity(intent);
+//				Editor ed = sp.edit();
+//				ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
+//				ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
+//				ed.commit();
+//		
+//				Intent intent= new Intent(Login.this,DrawerMain.class);
+//				//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//				startActivity(intent);
  
 //		Editor ed = sp.edit();
 //		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
@@ -239,7 +239,7 @@ public class Login extends FacebookController {
 				super.onPostExecute(result);
 				try{
 					if(idnotification !=null && idnotification.length() >0){
-						if(result!=null  ){
+						if(result!=null ){
 
 							userLogin=getUserLogin(result);
 							if(userLogin!=null && userLogin.getModelID() >0){
