@@ -52,11 +52,11 @@ public class Login extends FacebookController {
 		ed.putString("nickname", "cixino");
 		ed.putString("email", "ggioo91@hotmail.it");
 		ed.commit();
-
-		Intent intent= new Intent(Login.this,DrawerMain.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(intent);
 */
+		Intent intent= new Intent(Login.this,DrawerMain.class);
+		//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivity(intent);
+
 
 		// Code use for notifications (Alert)
 		Intent i = getIntent();
@@ -256,7 +256,6 @@ public class Login extends FacebookController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return user;
 	}
 }

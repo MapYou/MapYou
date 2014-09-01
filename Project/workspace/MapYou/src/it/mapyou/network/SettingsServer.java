@@ -9,7 +9,7 @@ package it.mapyou.network;
  */
 public interface SettingsServer {
 
-	public static final String SERVER_ADDRESS = "http://mapyou.altervista.org/myMapYou/Controller/";
+	public static final String SERVER_ADDRESS = "http://mapyou.altervista.org/mapyou_server/Controller/";
 	
 	public static final String LOGIN_PAGE = "login.php";
 	public static final String REGISTER_PAGE = "registration.php";
