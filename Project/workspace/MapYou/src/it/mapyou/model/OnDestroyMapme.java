@@ -10,7 +10,7 @@ public class OnDestroyMapme implements MapmeState {
 	@Override
 	public String getState() {
 		// TODO Auto-generated method stub
-		return "On destroy";
+		return "on_destroy";
 	}
 
 	/* (non-Javadoc)

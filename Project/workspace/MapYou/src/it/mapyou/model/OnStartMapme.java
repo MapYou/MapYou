@@ -10,7 +10,7 @@ public class OnStartMapme implements MapmeState {
 	@Override
 	public String getState() {
 		// TODO Auto-generated method stub
-		return "On start";
+		return "on_start";
 	}
 
 	/* (non-Javadoc)

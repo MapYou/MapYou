@@ -40,6 +40,7 @@ public class NotificationActivity extends Activity {
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification notification;
+	private String notificationType;
 	private boolean isAccept=false;
 
 	@Override
@@ -133,9 +134,15 @@ public class NotificationActivity extends Activity {
 				}
 
 				notification.setNotificationType(hhh.getString("type"));
+				notificationType = notification.getNotificationType();
 				notification.setNotificationObject(mapme);
-				notification.setNotifier(userInvite);
-				notification.setNotified(userInvited);
+				if(notification.getNotificationType().equals("SEND")){
+					notification.setNotifier(userInvite);
+					notification.setNotified(userInvited);
+				}else{
+					notification.setNotifier(userInvited);
+					notification.setNotified(userInvite);
+				}
 			}
 			return notification;
 
@@ -172,17 +179,21 @@ public class NotificationActivity extends Activity {
 			super.onPostExecute(result);
 
 			if(result!=null){
-				if(result.contains("true")){
-					UtilAndroid.makeToast(getApplicationContext(), "You are added in "+notification.getNotificationObject().getName(),5000);				
+				if(notificationType.equals("SEND")){
+					if(result.contains("true")){
+						UtilAndroid.makeToast(getApplicationContext(), "You are added in "+notification.getNotificationObject().getName(),5000);				
 
-				}else if(result.contains("false")){
-					UtilAndroid.makeToast(getApplicationContext(), "Error: you are already added in "+notification.getNotificationObject().getName(),5000);				
-				}else if(result.contains("refused")){
-					UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
-				}else if(result.contains("error")){
-					UtilAndroid.makeToast(getApplicationContext(), "Error",5000);				
-				}else{
-					UtilAndroid.makeToast(getApplicationContext(), "Server error.",5000);				
+					}else if(result.contains("false")){
+						UtilAndroid.makeToast(getApplicationContext(), "Error: you are already added in "+notification.getNotificationObject().getName(),5000);				
+					}else if(result.contains("refused")){
+						UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
+					}else if(result.contains("error")){
+						UtilAndroid.makeToast(getApplicationContext(), "Error",5000);				
+					}else{
+						UtilAndroid.makeToast(getApplicationContext(), "Server error.",5000);				
+					}
+				}else {
+				
 				}
 
 			}else{

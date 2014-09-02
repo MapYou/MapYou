@@ -10,7 +10,7 @@ public class OnCreateMapme implements MapmeState {
 	@Override
 	public String getState() {
 		// TODO Auto-generated method stub
-		return "On create";
+		return "on_create";
 	}
 
 	/* (non-Javadoc)
