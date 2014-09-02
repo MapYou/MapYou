@@ -84,7 +84,7 @@ public class NotificationActivity extends Activity {
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-			if(result!=null){
+			if(result!=null) {
 				notification= getPartecipation(result);
 				if(notification.getModelID() >0){
 
