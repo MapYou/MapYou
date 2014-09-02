@@ -38,10 +38,6 @@ public class Login extends FacebookController {
 	private boolean notification=false;
 	private String idnotification="";
 
-
-	 
-
-
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
@@ -110,7 +106,7 @@ public class Login extends FacebookController {
 	public void goToNotificationActivity(){
 		Intent i = new Intent(Login.this, NotificationActivity.class);
 		i.putExtra("viewnotification", "viewnotification");
-		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
 	}
 
@@ -246,10 +242,18 @@ public class Login extends FacebookController {
 									goToNotificationActivity();
 								}
 								
+<<<<<<< HEAD
 								UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
 								Intent intent= new Intent(Login.this,DrawerMain.class);
 								
 								startActivity(intent);
+=======
+								else{
+									UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+									Intent intent= new Intent(Login.this,DrawerMain.class);
+									startActivity(intent);
+								}
+>>>>>>> origin/master
 							}else{
 								UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
 							}

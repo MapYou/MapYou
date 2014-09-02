@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -108,7 +109,11 @@ public class MapMeSecondTab_User extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				final String nickname = ed.getText().toString();
 				if(nickname!=null && nickname.length()>0){
-					if(!nickname.equalsIgnoreCase(mapme.getAdministrator().getNickname())){
+					if(!nickname.equals(mapme.getAdministrator().getNickname())
+							&& mapme.getAdministrator().getNickname().equals(
+									PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+									.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")
+									)){
 						new Thread(new Runnable() {
 
 							@Override
@@ -320,9 +325,14 @@ public class MapMeSecondTab_User extends Activity {
 
 			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
-			}else{
-				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 			}
+			else if(result.contains("refused")){
+				UtilAndroid.makeToast(getApplicationContext(), "This user has been added in "+mapme.getName(), 5000);
+			}
+			else if(result.contains("User not found")){
+				UtilAndroid.makeToast(getApplicationContext(), "This user is not registered on MapYou.", 5000);
+			}else
+				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
 
