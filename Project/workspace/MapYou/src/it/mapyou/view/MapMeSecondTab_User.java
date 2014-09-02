@@ -304,6 +304,7 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("nickinvite", mapme.getAdministrator().getNickname().toString());
 				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
 				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
+				parameters.put("type",  "SEND");
 			 
 				response=DeviceController.getInstance().getServer().
 						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
