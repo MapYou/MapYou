@@ -36,10 +36,6 @@ public class NotificationServer extends Application  implements NotificationServ
 	private  final int BACKOFF = 2000;
 	private  final Random random = new Random();
 	private PowerManager.WakeLock wakeLock;
-	
-	private NotificationServer(){
-		
-	}
 
 	public static NotificationServer getNotificationServer() {
 		if(instance==null)

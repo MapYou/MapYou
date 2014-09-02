@@ -51,6 +51,7 @@ public class MapMenuFragment extends Fragment{
 		new LauncherIcon(R.drawable.invites, "Invite your friends", null),
 		new LauncherIcon(R.drawable.comment, "Send comment", null),
 		new LauncherIcon(R.drawable.settings, "Settings", null),
+		new LauncherIcon(R.drawable.menu_notification, "Notification", null),
 		new LauncherIcon(R.drawable.logoooouttt, "Logout", null)
 	};
 
