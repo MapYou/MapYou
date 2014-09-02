@@ -12,7 +12,9 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,12 +27,14 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 
 	private List<MapMe> mapme;
 	private Activity act;
+	private SharedPreferences sp;
 
 
 	public YourMapMeAdapterWithoutInclusion(Activity act, List<MapMe> allmapme) {
 		this.act=act;
 		this.mapme=allmapme;
 
+		sp=PreferenceManager.getDefaultSharedPreferences(act);
 
 	}
 
@@ -127,8 +131,8 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 		protected String doInBackground(MapMe... params) {
 
 			try {
-				parameters.put("nickinvite", params[0].getAdministrator().getNickname().toString());
-				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
+				parameters.put("nickinvite", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+				parameters.put("nickinvited", params[0].getAdministrator().getNickname().toString());
 				parameters.put("idm",  ""+Integer.parseInt(""+params[0].getModelID()));
 				parameters.put("type",  "REQUEST");
 

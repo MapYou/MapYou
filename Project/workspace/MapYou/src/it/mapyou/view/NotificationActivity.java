@@ -232,7 +232,7 @@ public class NotificationActivity extends Activity {
 
 	public boolean isTypePartecipationSend (Notification p){
 		boolean isPart=false;
-		isPart=p.getNotificationType().equalsIgnoreCase("SEND")?true:false;
+		isPart=p.getNotificationType().equals("SEND")?true:false;
 		return isPart;
 	}
 
