@@ -40,7 +40,7 @@ public class NotificationActivity extends Activity {
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification notification;
-	private String idUserLogged;
+ 
 	private boolean isAccept=false;
 
 	@Override
@@ -56,8 +56,7 @@ public class NotificationActivity extends Activity {
 		else{
 
 			userInvited= new User();
-			idUserLogged=sp.getString(UtilAndroid.KEY_ID_USER_LOGGED, "");
-			userInvited.setModelID(Integer.parseInt(idUserLogged)); // idUserLogged
+			userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
 			invite=(TextView) findViewById(R.id.textViewInvitoDa);
 			inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
@@ -222,7 +221,8 @@ public class NotificationActivity extends Activity {
 	public void goToLoginPage (){
 		Intent i = new Intent(NotificationActivity.this, Login.class);
 		i.putExtra("notification", "notification");
-		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);	
 	}
 
