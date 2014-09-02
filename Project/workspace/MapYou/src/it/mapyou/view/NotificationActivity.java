@@ -222,7 +222,7 @@ public class NotificationActivity extends Activity {
 	public void goToLoginPage (){
 		Intent i = new Intent(NotificationActivity.this, Login.class);
 		i.putExtra("notification", "notification");
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(i);	
 	}
 

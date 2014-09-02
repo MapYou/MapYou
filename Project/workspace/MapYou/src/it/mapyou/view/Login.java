@@ -106,7 +106,7 @@ public class Login extends FacebookController {
 	public void goToNotificationActivity(){
 		Intent i = new Intent(Login.this, NotificationActivity.class);
 		i.putExtra("viewnotification", "viewnotification");
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(i);
 	}
 
