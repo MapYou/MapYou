@@ -31,6 +31,9 @@ public class Server implements ServerInterface {
 	private HttpURLConnection urlConnection;
 	private boolean isOpened;
 
+	private Server(){
+		
+	}
 
 	public boolean isOpened() {
 		return isOpened;

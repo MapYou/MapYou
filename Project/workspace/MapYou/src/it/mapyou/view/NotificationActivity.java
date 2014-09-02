@@ -35,7 +35,6 @@ public class NotificationActivity extends Activity {
 	private final String INVITO="Invito da:  ";
 	private final String RICHIESTA="Richiesta di partecipazione da:  ";
 	private final String MAPME="per la MapMe:   ";
-	private DeviceController controller;
 	private SharedPreferences sp;
 	private User userInvited;
 	private TextView invite;
@@ -50,13 +49,6 @@ public class NotificationActivity extends Activity {
 
 		setContentView(R.layout.send_partecipation_layout);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		controller= new DeviceController();
-
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		Intent i = getIntent();
 		if(i.getStringExtra("viewnotification")==null)
@@ -83,8 +75,14 @@ public class NotificationActivity extends Activity {
 
 			try {
 				JSONObject json=null;
+<<<<<<< HEAD
 				parameters.put("userinvited", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
 				json=controller.getServer().requestJson(SettingsServer.SELECT_PARTECIPATION, controller.getServer().setParameters(parameters));
+=======
+				parameters.put("userinvite", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
+				json=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
+>>>>>>> origin/master
 
 				return json;
 			} catch (UnsupportedEncodingException e) {
@@ -161,11 +159,19 @@ public class NotificationActivity extends Activity {
 
 			try {
 				String resp=null;
+<<<<<<< HEAD
 				parameters.put("iduser", URLEncoder.encode(""+userInvited.getModelID(), "UTF-8"));
 				parameters.put("idnot",""+notification.getModelID());
 				parameters.put("idm", ""+notification.getNotificationObject().getModelID());
 				parameters.put("isAccept", ""+String.valueOf(params[0]));
 				resp=controller.getServer().request(SettingsServer.MANAGEMENT_PARTECIPATION, controller.getServer().setParameters(parameters));
+=======
+				parameters.put("user", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
+				parameters.put("idp",""+partecipation.getModelID());
+				parameters.put("idm", ""+partecipation.getNotificationObject().getModelID());
+				resp=DeviceController.getInstance().getServer().
+						request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
+>>>>>>> origin/master
 
 				return resp;
 			} catch (UnsupportedEncodingException e) {
@@ -183,8 +189,41 @@ public class NotificationActivity extends Activity {
 				Intent i = new Intent(NotificationActivity.this, Login.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
+<<<<<<< HEAD
 			}else{
 				UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
+=======
+			}
+
+		}
+	}
+
+	class RefusedPartecipation extends AsyncTask<Void, Void, String>{
+
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+		@Override
+		protected String doInBackground(Void... params) {
+
+			try {
+				String resp=null;
+
+				parameters.put("idp",""+partecipation.getModelID());
+				resp=DeviceController.getInstance().getServer().
+						request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
+
+				return resp;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+
+			if(result!=null && result.contains("1")){
+				UtilAndroid.makeToast(getApplicationContext(), "Invite refused!",5000);				
+>>>>>>> origin/master
 
 				Intent i = new Intent(NotificationActivity.this, Login.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

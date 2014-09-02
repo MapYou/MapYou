@@ -30,7 +30,6 @@ public class YourMapMeActivity extends  Activity {
 
 	private Activity act;
 	private ListView listView;
-	private DeviceController controller;
 	private SharedPreferences sp;
 	private String admin;
 
@@ -49,12 +48,7 @@ public class YourMapMeActivity extends  Activity {
 		act = this;
 		listView = (ListView) findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		admin=String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0));
 		new DownloadYourMapMe().execute(admin);
 	}
@@ -70,7 +64,8 @@ public class YourMapMeActivity extends  Activity {
 			try {
 				JSONObject json=null;
 				parameters.put("iduser", URLEncoder.encode(admin, "UTF-8"));
-				json=controller.getServer().requestJson(SettingsServer.YOUR_MAPME, controller.getServer().setParameters(parameters));
+				json=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.YOUR_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return json;
 			} catch (UnsupportedEncodingException e) {
@@ -138,7 +133,8 @@ public class YourMapMeActivity extends  Activity {
 					mapme.setModelID(Integer.parseInt(jjson.getString("id")));
 					mapme.setAdministrator(admin);
 					mapme.setName(jjson.getString("name"));
-					mapme.setNumUsers((Integer.parseInt(jjson.getString("maxNumUsers"))));
+					mapme.setMaxNumUsers((Integer.parseInt(jjson.getString("maxNumUsers"))));
+					mapme.setNumUsers((Integer.parseInt(jjson.getString("numUsers"))));
 
 					allmapme.add(mapme);
 				}

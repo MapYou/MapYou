@@ -6,8 +6,6 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.MappingUser;
-import it.mapyou.model.Point;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -29,7 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -52,20 +49,12 @@ public class MapMeSecondTab_User extends Activity {
 	private EditText ed;
 	private AdapterUsersMapMe adapter;
 	private GridView gridview;
-	private DeviceController controller;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		//mapping = mapme.getDistinctMapping();
@@ -176,9 +165,10 @@ public class MapMeSecondTab_User extends Activity {
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
-				parameters.put("mapme",String.valueOf(mapme.getModelID()));
-				response=controller.getServer().requestJson(SettingsServer.GET_ALL_MAPPING, controller.getServer().setParameters(parameters));
+//				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
+				parameters.put("idm",String.valueOf(mapme.getModelID()));
+				response=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
 				return null;
@@ -193,10 +183,9 @@ public class MapMeSecondTab_User extends Activity {
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				List<MappingUser> mapping= getAllMappingFromMapme(result);
-				if(mapping!=null){
-					adapter = new AdapterUsersMapMe(act, mapping);
-//					gridview.setOnItemClickListener(new OnClickUsersMapMe(act, mapping));
+				List<User> reg= getUsersByJSon(result);
+				if(reg!=null){
+					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
 				}
 				else
@@ -207,70 +196,91 @@ public class MapMeSecondTab_User extends Activity {
 		}
 	}
 
-	public List<MappingUser> getAllMappingFromMapme (JSONObject json){
-
-		List<MappingUser> mapping= new ArrayList<MappingUser>();
-
-		try {
-			JSONArray jsonArr= json.getJSONArray("Mapping");
-			for(int i=0; i<jsonArr.length(); i++){
-				json=jsonArr.getJSONObject(i);
-				User admin = getUserByJSon(json.getJSONArray("user"));
-				Point point = getPointByJSon(json.getJSONArray("point"));
-				if(admin!=null && point!=null){
-					MappingUser m= new MappingUser();
-					m.setModelID(Integer.parseInt(json.getString("id")));
-					m.setUser(admin);
-					m.setPoint(point);
-					mapping.add(m);
-				}
-			}
-			return mapping;
-
-		}catch (Exception e) {
-			return null;
-		}
-	}
+//	public List<MappingUser> getAllMappingFromMapme (JSONObject json){
+//
+//		List<MappingUser> mapping= new ArrayList<MappingUser>();
+//
+//		try {
+//			JSONArray jsonArr= json.getJSONArray("Mapping");
+//			for(int i=0; i<jsonArr.length(); i++){
+//				json=jsonArr.getJSONObject(i);
+//				User admin = getUserByJSon(json.getJSONArray("user"));
+//				Point point = getPointByJSon(json.getJSONArray("point"));
+//				if(admin!=null && point!=null){
+//					MappingUser m= new MappingUser();
+//					m.setModelID(Integer.parseInt(json.getString("id")));
+//					m.setUser(admin);
+//					m.setPoint(point);
+//					mapping.add(m);
+//				}
+//			}
+//			return mapping;
+//
+//		}catch (Exception e) {
+//			return null;
+//		}
+//	}
+//	
+//	private User getUserByJSon (JSONArray jsonArr){
+//
+//		try {
+//			User user= new User();
+//			JSONObject json = null;
+//			for(int i=0; i<jsonArr.length(); i++){
+//
+//				json = jsonArr.getJSONObject(i);
+//				user.setNickname(json.getString("nickname"));
+//				user.setEmail(json.getString("email"));
+//				user.setModelID(json.getInt("id"));
+//			}
+//			return user;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//
+//	}
 	
-	private User getUserByJSon (JSONArray jsonArr){
+	private List<User> getUsersByJSon (JSONObject json){
 
 		try {
-			User user= new User();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
+			List<User> u= new ArrayList<User>();
+			JSONArray jsonArray = json.getJSONArray("Users");
+			for(int i=0; i<jsonArray.length(); i++){
+				json = jsonArray.getJSONObject(i);
+				User user = new User();
 				user.setNickname(json.getString("nickname"));
 				user.setEmail(json.getString("email"));
 				user.setModelID(json.getInt("id"));
+				u.add(user);
 			}
-			return user;
+			return u;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return new ArrayList<User>();
 		}
 
 	}
 	
-	private Point getPointByJSon (JSONArray jsonArr){
-
-		try {
-			Point ptn= new Point();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
-				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
-				ptn.setLocation(json.getString("location"));
-			}
-			return ptn;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
+//	private Point getPointByJSon (JSONArray jsonArr){
+//
+//		try {
+//			Point ptn= new Point();
+//			JSONObject json = null;
+//			for(int i=0; i<jsonArr.length(); i++){
+//
+//				json = jsonArr.getJSONObject(i);
+//				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
+//				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
+//				ptn.setLocation(json.getString("location"));
+//			}
+//			return ptn;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//
+//	}
 	
 	class DownloadUser extends AsyncTask<String, Void, String>{
 
@@ -295,7 +305,8 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
 				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
 			 
-				response=controller.getServer().request(SettingsServer.SEND_PARTECIPATION, controller.getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().
+						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return response;
 			} catch (Exception e) {

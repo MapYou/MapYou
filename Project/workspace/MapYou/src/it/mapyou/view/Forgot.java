@@ -27,20 +27,13 @@ public class Forgot extends Activity {
 
 
 	private EditText email;
-	private DeviceController controller;
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.forgot);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-		 
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		email= (EditText) findViewById(R.id.email_forgot);
 	}
 
@@ -72,7 +65,8 @@ public class Forgot extends Activity {
 
 			try {
 				parameters.put("email",  email.getText().toString());
-				b=controller.getServer().request(SettingsServer.FORGOT_PAGE, controller.getServer().setParameters(parameters));
+				b=DeviceController.getInstance().getServer().
+						request(SettingsServer.FORGOT_PAGE, DeviceController.getInstance().getServer().setParameters(parameters));
 				return b.toString();
 			} catch (Exception e) {
 				return null;
