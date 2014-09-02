@@ -31,7 +31,7 @@ public class YourMapMeActivity extends  Activity {
 	private Activity act;
 	private ListView listView;
 	private SharedPreferences sp;
-	private String admin;
+	private boolean inclusion;
 
 	@Override
 	public void onBackPressed() {
@@ -49,8 +49,9 @@ public class YourMapMeActivity extends  Activity {
 		listView = (ListView) findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
-		admin=String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0));
-		new DownloadYourMapMe().execute(admin);
+		inclusion = getIntent().getBooleanExtra("inclusion", true);
+		new DownloadYourMapMe().execute(
+				String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 	}
 
 
@@ -63,7 +64,8 @@ public class YourMapMeActivity extends  Activity {
 
 			try {
 				JSONObject json=null;
-				parameters.put("iduser", URLEncoder.encode(admin, "UTF-8"));
+				parameters.put("iduser", URLEncoder.encode(params[0], "UTF-8"));
+				parameters.put("inclusion", String.valueOf(inclusion));
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.YOUR_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
 
@@ -76,35 +78,11 @@ public class YourMapMeActivity extends  Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			//			try {
-			//				JSONArray ar = result.getJSONArray("Mapme");
-			//				for(int i=0; i<ar.length(); i++){
-			//					JSONObject j = ar.getJSONObject(i);
-			//					JSONArray seg = j.getJSONArray("segment");
-			//					for(int k=0; k<seg.length(); k++){
-			//						JSONObject o = seg.getJSONObject(k);
-			//						JSONArray jep = o.getJSONArray("endPoint");
-			//						JSONArray jsp = o.getJSONArray("startPoint");
-			//						for(int t=0; t<jep.length(); t++){
-			//							JSONObject oo = jep.getJSONObject(t);
-			//						}
-			//						for(int t=0; t<jsp.length(); t++){
-			//							JSONObject oo = jsp.getJSONObject(t);
-			//						}
-			//					}
-			//					JSONArray adm = j.getJSONArray("administrator");
-			//					for(int k=0; k<seg.length(); k++){
-			//						JSONObject o = seg.getJSONObject(k);
-			//					}
-			//					Log.i("jsonjsonjson", j.toString());
-			//				}
-			//			} catch (Exception e) {
-			//				e.printStackTrace();
-			//			}
 			List<MapMe> allMapme= getAllMapMe(result);
 			if(allMapme!=null){
-				listView.setAdapter(new YourMapMeAdapter(act,allMapme));
-//				listView.setOnItemClickListener(new OnClickMapMe(act, allMapme));
+				listView.setAdapter(inclusion?
+						new YourMapMeAdapter(act,allMapme):
+							new YourMapMeAdapterWithoutInclusion(act,allMapme));
 			}else
 				UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
 

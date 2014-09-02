@@ -2,11 +2,17 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.model.MapMe;
+import it.mapyou.model.Point;
+import it.mapyou.model.Segment;
+import it.mapyou.model.SimpleSegment;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -243,6 +249,28 @@ public class Login extends FacebookController {
 								}
 								
 								else{
+									
+//									for(int i=0; i<1000; i++){
+//										MapMe m = new MapMe();
+//										m.setAdministrator(userLogin);
+//										m.setMaxNumUsers(15);
+//										m.setName("nome_"+i);
+//										SimpleSegment sg = new SimpleSegment();
+//										Point endPoint = new Point();
+//										Point startPoint = new Point();
+//										startPoint.setLatitude(41.129761285949);
+//										startPoint.setLongitude(14.782620817423);
+//										startPoint.setLocation("Benevento Benevento, Italy");
+//										endPoint.setLatitude(41.560254489813);
+//										endPoint.setLongitude(14.662716016173);
+//										endPoint.setLocation("Campobasso, Italy");
+//										sg.setEndPoint(endPoint);
+//										sg.setStartPoint(startPoint);
+//										m.setSegment(sg);
+//										new SaveMapMe().execute(m);
+//									}
+									
+									
 									UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
 									Intent intent= new Intent(Login.this,DrawerMain.class);
 									startActivity(intent);
@@ -311,6 +339,43 @@ public class Login extends FacebookController {
 
 	}
 
+	class SaveMapMe extends AsyncTask<MapMe, Void, MapMe>{
+
+		String response="";
+		HashMap<String, String> parameters= new HashMap<String, String>();
+
+		@Override
+		protected MapMe doInBackground(MapMe... params) {
+
+
+			try {
+				Segment r= params[0].getSegment();
+				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().getNickname().toString(), "UTF-8"));
+
+				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
+				parameters.put("slat", ""+r.getStartPoint().getLatitude());
+				parameters.put("slon", ""+r.getStartPoint().getLongitude());
+				parameters.put("elat", ""+r.getEndPoint().getLatitude());
+				parameters.put("elon", ""+r.getEndPoint().getLongitude());
+				parameters.put("mnu", ""+params[0].getMaxNumUsers());
+				parameters.put("sadd", URLEncoder.encode(r.getStartPoint().getLocation().toString(), "UTF-8"));
+				parameters.put("eadd", URLEncoder.encode(r.getEndPoint().getLocation().toString(), "UTF-8"));
+				response=DeviceController.getInstance().getServer().
+						request(SettingsServer.NEW_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
+
+				return params[0];
+			} catch (UnsupportedEncodingException e) {
+				return null;
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(MapMe result) {
+			super.onPostExecute(result);
+		}
+
+	}
 
 
 

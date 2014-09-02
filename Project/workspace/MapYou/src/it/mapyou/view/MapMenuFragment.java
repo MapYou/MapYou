@@ -48,10 +48,10 @@ public class MapMenuFragment extends Fragment{
 	static final LauncherIcon[] ICONS = {
 		new LauncherIcon(R.drawable.mappp, "New MapMe", NewMapMe.class),
 		new LauncherIcon(R.drawable.comm2, "My MapMe", YourMapMeActivity.class),
-		new LauncherIcon(R.drawable.invites, "Invite your friends", null),
+		new LauncherIcon(R.drawable.invites, "Request partecipation", YourMapMeActivity.class),
 		new LauncherIcon(R.drawable.comment, "Send comment", null),
 		new LauncherIcon(R.drawable.settings, "Settings", null),
-		new LauncherIcon(R.drawable.menu_notification, "Notification", null),
+//		new LauncherIcon(R.drawable.menu_notification, "Notification", null),
 		new LauncherIcon(R.drawable.logoooouttt, "Logout", null)
 	};
 
@@ -163,7 +163,11 @@ public class MapMenuFragment extends Fragment{
 				}else{
 					Class<?> c = ICONS[position].getClazz();
 					if(c!=null){
-						getActivity().startActivity(new Intent(getActivity(), c));
+						Intent it = new Intent(getActivity(), c);
+						if(c == YourMapMeActivity.class){
+							it.putExtra("inclusion", position==1);
+						}
+						getActivity().startActivity(it);
 					}
 				}
 				 
