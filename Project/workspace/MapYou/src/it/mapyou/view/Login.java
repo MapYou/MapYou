@@ -106,7 +106,7 @@ public class Login extends FacebookController {
 	public void goToNotificationActivity(){
 		Intent i = new Intent(Login.this, NotificationActivity.class);
 		i.putExtra("viewnotification", "viewnotification");
-		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
 	}
 
@@ -242,9 +242,11 @@ public class Login extends FacebookController {
 									goToNotificationActivity();
 								}
 								
-								UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
-								Intent intent= new Intent(Login.this,DrawerMain.class);
-								startActivity(intent);
+								else{
+									UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+									Intent intent= new Intent(Login.this,DrawerMain.class);
+									startActivity(intent);
+								}
 							}else{
 								UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
 							}

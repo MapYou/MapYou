@@ -1,4 +1,4 @@
- 
+
 package it.mapyou.view;
 
 
@@ -40,7 +40,6 @@ public class NotificationActivity extends Activity {
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification notification;
-	private String idUserLogged;
 	private boolean isAccept=false;
 
 	@Override
@@ -56,13 +55,13 @@ public class NotificationActivity extends Activity {
 		else{
 
 			userInvited= new User();
-			idUserLogged=sp.getString(UtilAndroid.KEY_ID_USER_LOGGED, "");
-			userInvited.setModelID(Integer.parseInt(idUserLogged)); // idUserLogged
+			userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
+			userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 			invite=(TextView) findViewById(R.id.textViewInvitoDa);
 			inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
 			new DownloadPartecipation().execute();
-		
+
 		}
 	}
 
@@ -75,11 +74,12 @@ public class NotificationActivity extends Activity {
 
 			try {
 				JSONObject json=null;
- 
+
 				parameters.put("userinvited", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
+				parameters.put("type", "SEND");
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
- 
+
 
 				return json;
 			} catch (UnsupportedEncodingException e) {
@@ -121,22 +121,25 @@ public class NotificationActivity extends Activity {
 		JSONArray jsonUser= null;
 		JSONArray jsonMapme= null;
 		try {
-			JSONArray jsonArr= json.getJSONArray("Notification");
+			JSONArray jsonArr= json.getJSONArray("");
 			for(int i=0; i<jsonArr.length(); i++){
-				json=jsonArr.getJSONObject(i);
-				notification.setModelID(Integer.parseInt(""+json.getInt("id")));
-				
-				jsonUser=json.getJSONArray("notifier");
+				JSONObject hhh=jsonArr.getJSONObject(i);
+				notification.setModelID(Integer.parseInt(""+hhh.getInt("id")));
+
+				jsonUser=hhh.getJSONArray("notifier");
 				for(int j=0; j<jsonUser.length(); j++){
-					userInvite.setNickname(json.getString("nickname"));
+					JSONObject jjj=jsonUser.getJSONObject(j);
+					userInvite.setNickname(jjj.getString("nickname"));
 				}
-				
-				jsonMapme=json.getJSONArray("mapme");
+
+				jsonMapme=hhh.getJSONArray("mapme");
 				for(int z=0; z<jsonMapme.length(); z++){
-					mapme.setName(json.getString("name"));
+					JSONObject jjj=jsonMapme.getJSONObject(z);
+					mapme.setName(jjj.getString("name"));
+					mapme.setModelID(Integer.parseInt(jjj.getString("id")));
 				}
-				
-				notification.setNotificationType(json.getString("type"));
+
+				notification.setNotificationType(hhh.getString("type"));
 				notification.setNotificationObject(mapme);
 				notification.setNotifier(userInvite);
 				notification.setNotified(userInvited);
@@ -156,14 +159,14 @@ public class NotificationActivity extends Activity {
 
 			try {
 				String resp=null;
- 
+
 				parameters.put("iduser", URLEncoder.encode(""+userInvited.getModelID(), "UTF-8"));
 				parameters.put("idnot",""+notification.getModelID());
 				parameters.put("idm", ""+notification.getNotificationObject().getModelID());
 				parameters.put("isAccept", ""+String.valueOf(params[0]));
 				resp=DeviceController.getInstance().getServer().
 						request(SettingsServer.MANAGEMENT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
- 
+
 
 				return resp;
 			} catch (UnsupportedEncodingException e) {
@@ -175,27 +178,46 @@ public class NotificationActivity extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
-			if(result!=null && result.contains("true")){
-				UtilAndroid.makeToast(getApplicationContext(), "You are added in "+notification.getNotificationObject().getName(),5000);				
+			if(result!=null){
+				if(result.contains("true")){
+					UtilAndroid.makeToast(getApplicationContext(), "You are added in "+notification.getNotificationObject().getName(),5000);				
 
-				Intent i = new Intent(NotificationActivity.this, Login.class);
-				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
+				}else if(result.contains("false")){
+					UtilAndroid.makeToast(getApplicationContext(), "Error: you are already added in "+notification.getNotificationObject().getName(),5000);				
+				}else if(result.contains("refused")){
+					UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
+				}else{
+					UtilAndroid.makeToast(getApplicationContext(), "Server error.",5000);				
+				}
 
 			}else{
-				UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
+				UtilAndroid.makeToast(getApplicationContext(), "Connection error.",5000);				
 
 			}
+
+			startActivityAfterNotification();
 
 		}
 	}
 
-	 
 
- 
+	public void startActivityAfterNotification(){
+		int modelID = sp.contains(UtilAndroid.KEY_ID_USER_LOGGED)?
+				sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1):-1;
+				if(modelID>0){
+					Intent i = new Intent(NotificationActivity.this, DrawerMain.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);	
+				}else{
+					Intent i = new Intent(NotificationActivity.this, Login.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+				}
+	}
+
 
 	public void accept(View v){
-		
+
 		if(notification!=null){
 			isAccept=true;
 			new AcceptPartecipation().execute(isAccept);
@@ -204,15 +226,15 @@ public class NotificationActivity extends Activity {
 	}
 
 	public void refused(View v){
-		
+
 		if(notification!=null){
 			isAccept=false;
 			new AcceptPartecipation().execute(isAccept);
 		}else
 			UtilAndroid.makeToast(getApplicationContext(), "Error accept",5000);	
 	}
-	
-	
+
+
 	public boolean isTypePartecipationSend (Notification p){
 		boolean isPart=false;
 		isPart=p.getNotificationType().equalsIgnoreCase("SEND")?true:false;
