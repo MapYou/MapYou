@@ -70,7 +70,6 @@ public class NotificationActivity extends Activity {
 				JSONObject json=null;
 
 				parameters.put("userinvited", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
-				parameters.put("type", "SEND");
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
