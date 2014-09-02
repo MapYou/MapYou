@@ -40,10 +40,6 @@ public class NotificationActivity extends Activity {
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification notification;
-<<<<<<< HEAD
- 
-=======
->>>>>>> origin/master
 	private boolean isAccept=false;
 
 	@Override
@@ -59,12 +55,8 @@ public class NotificationActivity extends Activity {
 		else{
 
 			userInvited= new User();
-<<<<<<< HEAD
 			userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
-=======
-			userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 			userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
->>>>>>> origin/master
 			invite=(TextView) findViewById(R.id.textViewInvitoDa);
 			inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
