@@ -24,15 +24,26 @@ public class MappingUser extends SubjectModel implements Parcelable{
 		@Override
 		public MappingUser[] newArray(int size) {
 			// TODO Auto-generated method stub
-			return null;
+			return new MappingUser[size];
 		}
 		
 		@Override
 		public MappingUser createFromParcel(Parcel source) {
-			// TODO Auto-generated method stub
+			MappingUser m = new MappingUser();
+			m.setModelID(source.readInt());
+			m.setUser((User) source.readSerializable());
+//			m.setMapme((MapMe) source.readParcelable(MapMe.class.getClassLoader()));
+			m.setPoint((Point) source.readSerializable());
+			GregorianCalendar g = new GregorianCalendar();
+			g.setTimeInMillis(source.readLong());
+			m.setDetectionDate(g);;
 			return null;
 		}
 	};
+	
+	public MappingUser(){
+		detectionDate = new GregorianCalendar();
+	}
 	
 	/**
 	 * @return the user
@@ -95,8 +106,11 @@ public class MappingUser extends SubjectModel implements Parcelable{
 	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+		dest.writeInt(modelID);
+		dest.writeSerializable(user);
+//		dest.writeParcelable(mapme, flags);
+		dest.writeSerializable(point);
+		dest.writeLong(detectionDate.getTimeInMillis());
 	}
 	
 	

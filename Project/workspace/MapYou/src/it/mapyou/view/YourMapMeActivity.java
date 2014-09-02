@@ -138,7 +138,8 @@ public class YourMapMeActivity extends  Activity {
 					mapme.setModelID(Integer.parseInt(jjson.getString("id")));
 					mapme.setAdministrator(admin);
 					mapme.setName(jjson.getString("name"));
-					mapme.setNumUsers((Integer.parseInt(jjson.getString("maxNumUsers"))));
+					mapme.setMaxNumUsers((Integer.parseInt(jjson.getString("maxNumUsers"))));
+					mapme.setNumUsers((Integer.parseInt(jjson.getString("numUsers"))));
 
 					allmapme.add(mapme);
 				}

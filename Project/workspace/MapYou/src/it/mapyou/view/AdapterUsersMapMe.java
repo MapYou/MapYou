@@ -33,6 +33,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 	private Context cont;
 	private MapMe mapme;
 	private DeviceController controller;
+	private MappingUser mapping;
 
 	public AdapterUsersMapMe(Context cont, List<User> map, MapMe mapme, DeviceController controller) {
 		this.cont = cont;
@@ -133,21 +134,24 @@ public class AdapterUsersMapMe extends BaseAdapter {
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
 			}else{
-				MappingUser mapping= getMappingFromMapme(result);
-				if(mapping!=null){
-					Bundle b = new Bundle();
-					b.putParcelable("mapping", mapping);
-					Intent i = new Intent(cont, UserOnMapMe.class);
-					i.putExtras(b);
-					cont.startActivity(i);
+				MappingUser mp= getMappingFromMapme(result);
+				if(mp!=null){
+//					Util.CURRENT_MAPPING = mapping;
+					AdapterUsersMapMe.this.mapping = mp;
 				}
 				else
-					UtilAndroid.makeToast(cont, "Error while fetching your mapme.", 5000);
+					UtilAndroid.makeToast(cont, "Error while fetching your position on mapme.", 5000);
 			}
-
-
 		}
 
+	}
+	
+	public void startUser(){
+		Bundle b = new Bundle();
+		b.putParcelable("mapping", mapping);
+		Intent i = new Intent(cont.getApplicationContext(), UserOnMapMe.class);
+		i.putExtras(b);
+		cont.getApplicationContext().startActivity(i);
 	}
 
 	public MappingUser getMappingFromMapme (JSONObject json){

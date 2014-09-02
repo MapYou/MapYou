@@ -68,7 +68,8 @@ public class YourMapMeAdapter extends BaseAdapter{
 		name.setText(m.getName());
 		sa.setText(m.getSegment().getStartPoint().getLocation());
 		ea.setText(m.getSegment().getEndPoint().getLocation());
-		numusr.setText(String.valueOf("0"+" / "+String.valueOf(m.getMaxNumUsers())));
+		numusr.setText(String.valueOf(
+				String.valueOf(m.getNumUsers())+" / "+String.valueOf(m.getMaxNumUsers())));
 
 		convertView.setOnClickListener(new OnClickListener() {
 			

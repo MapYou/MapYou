@@ -36,8 +36,11 @@ public class UserOnMapMe extends FragmentActivity{
 		setContentView(R.layout.user_on_mapme_layout);
 		Bundle b = getIntent().getExtras();
 		MappingUser m = b.getParcelable("mapping");
-		initMap();
-		changeMapping(m);
+//		MappingUser m = Util.CURRENT_MAPPING;
+		if(m!=null){
+			initMap();
+			changeMapping(m);
+		}
 	}
 	
 	/* (non-Javadoc)
