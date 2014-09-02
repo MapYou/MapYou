@@ -35,7 +35,6 @@ public class NotificationActivity extends Activity {
 	private final String INVITO="Invito da:  ";
 	private final String RICHIESTA="Richiesta di partecipazione da:  ";
 	private final String MAPME="per la MapMe:   ";
-	private DeviceController controller;
 	private SharedPreferences sp;
 	private User userInvited;
 	private TextView invite;
@@ -49,13 +48,6 @@ public class NotificationActivity extends Activity {
 
 		setContentView(R.layout.send_partecipation_layout);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		controller= new DeviceController();
-
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		Intent i = getIntent();
 		if(i.getStringExtra("viewnotification")==null)
@@ -83,7 +75,8 @@ public class NotificationActivity extends Activity {
 			try {
 				JSONObject json=null;
 				parameters.put("userinvite", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
-				json=controller.getServer().requestJson(SettingsServer.SELECT_PARTECIPATION, controller.getServer().setParameters(parameters));
+				json=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return json;
 			} catch (UnsupportedEncodingException e) {
@@ -153,7 +146,8 @@ public class NotificationActivity extends Activity {
 				parameters.put("user", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
 				parameters.put("idp",""+partecipation.getModelID());
 				parameters.put("idm", ""+partecipation.getNotificationObject().getModelID());
-				resp=controller.getServer().request(SettingsServer.INSERT_MAPPING, controller.getServer().setParameters(parameters));
+				resp=DeviceController.getInstance().getServer().
+						request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return resp;
 			} catch (UnsupportedEncodingException e) {
@@ -186,7 +180,8 @@ public class NotificationActivity extends Activity {
 				String resp=null;
 
 				parameters.put("idp",""+partecipation.getModelID());
-				resp=controller.getServer().request(SettingsServer.INSERT_MAPPING, controller.getServer().setParameters(parameters));
+				resp=DeviceController.getInstance().getServer().
+						request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return resp;
 			} catch (Exception e) {

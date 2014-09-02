@@ -66,7 +66,6 @@ public class NewMapMe extends FragmentActivity {
 	private Marker endMarker;
 	private SharedPreferences sp;
 	private Activity act;
-	private DeviceController controller;
 	private CharSequence[] elements=null;
 	private CharSequence[] elements2=null;
 	String address="";
@@ -90,13 +89,6 @@ public class NewMapMe extends FragmentActivity {
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
 		nameMapMe= (EditText) findViewById(R.id.EditTextNameMapMe2);
-
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		initilizeMap();
 	}
@@ -164,7 +156,8 @@ public class NewMapMe extends FragmentActivity {
 				parameters.put("mnu", ""+params[0].getMaxNumUsers());
 				parameters.put("sadd", URLEncoder.encode(r.getStartPoint().getLocation().toString(), "UTF-8"));
 				parameters.put("eadd", URLEncoder.encode(r.getEndPoint().getLocation().toString(), "UTF-8"));
-				response=controller.getServer().request(SettingsServer.NEW_MAPME, controller.getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().
+						request(SettingsServer.NEW_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return params[0];
 			} catch (UnsupportedEncodingException e) {

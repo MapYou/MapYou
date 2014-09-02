@@ -6,8 +6,6 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.MappingUser;
-import it.mapyou.model.Point;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -51,20 +49,12 @@ public class MapMeSecondTab_User extends Activity {
 	private EditText ed;
 	private AdapterUsersMapMe adapter;
 	private GridView gridview;
-	private DeviceController controller;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		mapme = (MapMe) getIntent().getExtras().get("mapme");
 		//mapping = mapme.getDistinctMapping();
@@ -177,7 +167,8 @@ public class MapMeSecondTab_User extends Activity {
 			try {
 //				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 				parameters.put("idm",String.valueOf(mapme.getModelID()));
-				response=controller.getServer().requestJson(SettingsServer.GET_ALL_USER, controller.getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
 				return null;
@@ -194,11 +185,7 @@ public class MapMeSecondTab_User extends Activity {
 			}else{
 				List<User> reg= getUsersByJSon(result);
 				if(reg!=null){
-					for(int i=0; i<reg.size(); i++){
-						User u = reg.get(i);
-						
-					}
-					adapter = new AdapterUsersMapMe(act, reg, mapme, controller);
+					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
 				}
 				else
@@ -318,7 +305,8 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
 				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
 			 
-				response=controller.getServer().request(SettingsServer.SEND_PARTECIPATION, controller.getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().
+						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return response;
 			} catch (Exception e) {

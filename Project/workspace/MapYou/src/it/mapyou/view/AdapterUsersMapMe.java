@@ -32,14 +32,11 @@ public class AdapterUsersMapMe extends BaseAdapter {
 	private List<User> map;
 	private Context cont;
 	private MapMe mapme;
-	private DeviceController controller;
-	private MappingUser mapping;
 
-	public AdapterUsersMapMe(Context cont, List<User> map, MapMe mapme, DeviceController controller) {
+	public AdapterUsersMapMe(Context cont, List<User> map, MapMe mapme) {
 		this.cont = cont;
 		this.map = map;
 		this.mapme = mapme;
-		this.controller = controller;
 	}
 
 	@Override
@@ -119,7 +116,8 @@ public class AdapterUsersMapMe extends BaseAdapter {
 			try {
 				parameters.put("user", String.valueOf(params[0]));
 				parameters.put("mapme", String.valueOf(mapme.getModelID()));
-				JSONObject response=controller.getServer().requestJson(SettingsServer.GET_ALL_MAPPING, controller.getServer().setParameters(parameters));
+				JSONObject response=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
 				return null;
@@ -137,21 +135,20 @@ public class AdapterUsersMapMe extends BaseAdapter {
 				MappingUser mp= getMappingFromMapme(result);
 				if(mp!=null){
 //					Util.CURRENT_MAPPING = mapping;
-					AdapterUsersMapMe.this.mapping = mp;
+					if(mp.getModelID()>0){
+						Bundle b = new Bundle();
+						b.putParcelable("mapping", mp);
+						Intent i = new Intent(cont.getApplicationContext(), UserOnMapMe.class);
+						i.putExtras(b);
+						cont.startActivity(i);
+					}else
+						UtilAndroid.makeToast(cont, "This user has not registered yours position.", 5000);
 				}
 				else
 					UtilAndroid.makeToast(cont, "Error while fetching your position on mapme.", 5000);
 			}
 		}
 
-	}
-	
-	public void startUser(){
-		Bundle b = new Bundle();
-		b.putParcelable("mapping", mapping);
-		Intent i = new Intent(cont.getApplicationContext(), UserOnMapMe.class);
-		i.putExtras(b);
-		cont.getApplicationContext().startActivity(i);
 	}
 
 	public MappingUser getMappingFromMapme (JSONObject json){
@@ -160,17 +157,16 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		try {
 			JSONArray jsonArr= json.getJSONArray("Mapping");
 
+			MappingUser m= new MappingUser();
 			json=jsonArr.getJSONObject(0);
 			User admin = getUserByJSon(json.getJSONArray("user"));
 			Point point = getPointByJSon(json.getJSONArray("point"));
 			if(admin!=null && point!=null){
-				MappingUser m= new MappingUser();
 				m.setModelID(Integer.parseInt(json.getString("id")));
 				m.setUser(admin);
 				m.setPoint(point);
-				return m;
-			}else
-				return null;
+			}else;
+			return m;
 		}catch (Exception e) {
 			return null;
 		}

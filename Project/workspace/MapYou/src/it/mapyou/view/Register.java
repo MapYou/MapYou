@@ -30,19 +30,12 @@ public class Register extends Activity{
 	private EditText password;
 	private EditText confirmP;
 	private EditText email;
-	private DeviceController controller;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-		controller= new DeviceController();
-		try {
-			controller.init(getApplicationContext());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		nickname= (EditText) findViewById(R.id.user_registration);
 		password= (EditText) findViewById(R.id.user_password_registration);
@@ -83,7 +76,8 @@ public class Register extends Activity{
 				parameters.put("nickname", URLEncoder.encode(nickname.getText().toString(), "UTF-8"));
 				parameters.put("password",  URLEncoder.encode(password.getText().toString(), "UTF-8"));
 				parameters.put("email", email.getText().toString());
-				b=controller.getServer().request(SettingsServer.REGISTER_PAGE, controller.getServer().setParameters(parameters));
+				b=DeviceController.getInstance().getServer().
+						request(SettingsServer.REGISTER_PAGE, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return b;
 			} catch (Exception e) {

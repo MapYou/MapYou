@@ -7,7 +7,6 @@ import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -32,11 +31,9 @@ import com.google.android.gcm.GCMRegistrar;
  */
 public class Login extends FacebookController {
 
-	private DeviceController controller;
 	private EditText user;
 	private EditText password;
 	private SharedPreferences sp;
-	private String resultID="";
 	private User userLogin=null;
 	private boolean notification=false;
 	private String idnotification="";
@@ -100,9 +97,8 @@ public class Login extends FacebookController {
 
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
-		controller= new DeviceController();
 		try {
-			controller.init(getApplicationContext());
+			DeviceController.getInstance().init(getApplicationContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -219,7 +215,7 @@ public class Login extends FacebookController {
 					parameters.put("nickname", ""+user.getText().toString());
 					parameters.put("password", ""+password.getText().toString());
 					parameters.put("idnot", ""+idnotification);
-					jobj=controller.getServer().requestJson(SettingsServer.LOGIN_PAGE, controller.getServer().setParameters(parameters));
+					jobj=DeviceController.getInstance().getServer().requestJson(SettingsServer.LOGIN_PAGE, DeviceController.getInstance().getServer().setParameters(parameters));
 
 					return jobj;
 				}catch (Exception e) {

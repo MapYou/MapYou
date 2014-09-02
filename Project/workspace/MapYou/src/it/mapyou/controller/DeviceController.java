@@ -19,10 +19,20 @@ public class DeviceController implements Controller{
 	private Server server;
 	private AndroidGeoController geoController;
 	private NotificationServer notificationServer;
+	private static DeviceController instance;
+	
+	/**
+	 * @return the instance
+	 */
+	public static DeviceController getInstance() {
+		if(instance==null)
+			instance = new DeviceController();
+		return instance;
+	}
  
 	 
 
-	public DeviceController() {
+	private DeviceController() {
 		// TODO Auto-generated constructor stub
 	}
 	
