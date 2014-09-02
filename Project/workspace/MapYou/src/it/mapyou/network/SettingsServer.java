@@ -23,4 +23,6 @@ public interface SettingsServer {
 	public static final String GET_ALL_USER = "getAllUserInMapMe.php";
 	public static final String GET_ALL_MAPPING = "getMapping.php";
 	
+	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";
+	
 }
