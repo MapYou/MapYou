@@ -49,20 +49,14 @@ public class NotificationActivity extends Activity {
 		setContentView(R.layout.send_partecipation_layout);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-		Intent i = getIntent();
-		if(i.getStringExtra("viewnotification")==null)
-			goToLoginPage();
-		else{
 
-			userInvited= new User();
-			userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
-			userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-			invite=(TextView) findViewById(R.id.textViewInvitoDa);
-			inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
+		userInvited= new User();
+		userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
+		userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+		invite=(TextView) findViewById(R.id.textViewInvitoDa);
+		inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
-			new DownloadPartecipation().execute();
-
-		}
+		new DownloadPartecipation().execute();
 	}
 
 	// Retrieve partecipation Data
@@ -186,6 +180,8 @@ public class NotificationActivity extends Activity {
 					UtilAndroid.makeToast(getApplicationContext(), "Error: you are already added in "+notification.getNotificationObject().getName(),5000);				
 				}else if(result.contains("refused")){
 					UtilAndroid.makeToast(getApplicationContext(), "You are refused invite in "+notification.getNotificationObject().getName(),5000);				
+				}else if(result.contains("error")){
+					UtilAndroid.makeToast(getApplicationContext(), "Error",5000);				
 				}else{
 					UtilAndroid.makeToast(getApplicationContext(), "Server error.",5000);				
 				}

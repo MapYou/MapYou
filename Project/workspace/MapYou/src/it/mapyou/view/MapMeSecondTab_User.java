@@ -67,7 +67,15 @@ public class MapMeSecondTab_User extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				showDialog(SEND_DIALOG);
+				if(mapme.getAdministrator().getNickname().equals(
+						PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+						.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")
+						)){
+					showDialog(SEND_DIALOG);
+				}else{
+					UtilAndroid.makeToast(getApplicationContext(), "You are not administrator for send partecipation.", 5000);
+				}
+
 			}
 		});
 
@@ -76,7 +84,7 @@ public class MapMeSecondTab_User extends Activity {
 
 
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent(this, DrawerMain.class);
@@ -110,10 +118,7 @@ public class MapMeSecondTab_User extends Activity {
 				final String nickname = ed.getText().toString();
 				if(nickname!=null && nickname.length()>0){
 					if(!nickname.equals(mapme.getAdministrator().getNickname())
-							&& mapme.getAdministrator().getNickname().equals(
-									PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-									.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")
-									)){
+							){
 						new Thread(new Runnable() {
 
 							@Override
@@ -170,7 +175,7 @@ public class MapMeSecondTab_User extends Activity {
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-//				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
+				//				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 				parameters.put("idm",String.valueOf(mapme.getModelID()));
 				response=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
@@ -201,51 +206,51 @@ public class MapMeSecondTab_User extends Activity {
 		}
 	}
 
-//	public List<MappingUser> getAllMappingFromMapme (JSONObject json){
-//
-//		List<MappingUser> mapping= new ArrayList<MappingUser>();
-//
-//		try {
-//			JSONArray jsonArr= json.getJSONArray("Mapping");
-//			for(int i=0; i<jsonArr.length(); i++){
-//				json=jsonArr.getJSONObject(i);
-//				User admin = getUserByJSon(json.getJSONArray("user"));
-//				Point point = getPointByJSon(json.getJSONArray("point"));
-//				if(admin!=null && point!=null){
-//					MappingUser m= new MappingUser();
-//					m.setModelID(Integer.parseInt(json.getString("id")));
-//					m.setUser(admin);
-//					m.setPoint(point);
-//					mapping.add(m);
-//				}
-//			}
-//			return mapping;
-//
-//		}catch (Exception e) {
-//			return null;
-//		}
-//	}
-//	
-//	private User getUserByJSon (JSONArray jsonArr){
-//
-//		try {
-//			User user= new User();
-//			JSONObject json = null;
-//			for(int i=0; i<jsonArr.length(); i++){
-//
-//				json = jsonArr.getJSONObject(i);
-//				user.setNickname(json.getString("nickname"));
-//				user.setEmail(json.getString("email"));
-//				user.setModelID(json.getInt("id"));
-//			}
-//			return user;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//
-//	}
-	
+	//	public List<MappingUser> getAllMappingFromMapme (JSONObject json){
+	//
+	//		List<MappingUser> mapping= new ArrayList<MappingUser>();
+	//
+	//		try {
+	//			JSONArray jsonArr= json.getJSONArray("Mapping");
+	//			for(int i=0; i<jsonArr.length(); i++){
+	//				json=jsonArr.getJSONObject(i);
+	//				User admin = getUserByJSon(json.getJSONArray("user"));
+	//				Point point = getPointByJSon(json.getJSONArray("point"));
+	//				if(admin!=null && point!=null){
+	//					MappingUser m= new MappingUser();
+	//					m.setModelID(Integer.parseInt(json.getString("id")));
+	//					m.setUser(admin);
+	//					m.setPoint(point);
+	//					mapping.add(m);
+	//				}
+	//			}
+	//			return mapping;
+	//
+	//		}catch (Exception e) {
+	//			return null;
+	//		}
+	//	}
+	//	
+	//	private User getUserByJSon (JSONArray jsonArr){
+	//
+	//		try {
+	//			User user= new User();
+	//			JSONObject json = null;
+	//			for(int i=0; i<jsonArr.length(); i++){
+	//
+	//				json = jsonArr.getJSONObject(i);
+	//				user.setNickname(json.getString("nickname"));
+	//				user.setEmail(json.getString("email"));
+	//				user.setModelID(json.getInt("id"));
+	//			}
+	//			return user;
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//
+	//	}
+
 	private List<User> getUsersByJSon (JSONObject json){
 
 		try {
@@ -266,27 +271,27 @@ public class MapMeSecondTab_User extends Activity {
 		}
 
 	}
-	
-//	private Point getPointByJSon (JSONArray jsonArr){
-//
-//		try {
-//			Point ptn= new Point();
-//			JSONObject json = null;
-//			for(int i=0; i<jsonArr.length(); i++){
-//
-//				json = jsonArr.getJSONObject(i);
-//				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
-//				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
-//				ptn.setLocation(json.getString("location"));
-//			}
-//			return ptn;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//
-//	}
-	
+
+	//	private Point getPointByJSon (JSONArray jsonArr){
+	//
+	//		try {
+	//			Point ptn= new Point();
+	//			JSONObject json = null;
+	//			for(int i=0; i<jsonArr.length(); i++){
+	//
+	//				json = jsonArr.getJSONObject(i);
+	//				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
+	//				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
+	//				ptn.setLocation(json.getString("location"));
+	//			}
+	//			return ptn;
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//
+	//	}
+
 	class DownloadUser extends AsyncTask<String, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
@@ -310,7 +315,7 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("nickinvited", URLEncoder.encode(params[0].toString(), "UTF-8"));
 				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
 				parameters.put("type",  "SEND");
-			 
+
 				response=DeviceController.getInstance().getServer().
 						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
