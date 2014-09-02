@@ -41,6 +41,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			act = NotificationActivity.class;
 		else
 			act = Login.class;
+		
 	}
 
 	@Override
@@ -147,6 +148,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
+		notificationIntent.putExtra("notification", "notification");
 		PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 	
 		String mess="MapYou";
