@@ -41,7 +41,7 @@ public class NotificationActivity extends Activity {
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification partecipation;
-	private String nickname;
+	private String idUserLogged;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +63,14 @@ public class NotificationActivity extends Activity {
 		else{
 
 			userInvited= new User();
-			nickname=sp.getString("nickname", "");
-			userInvited.setNickname(nickname);
+			idUserLogged=sp.getString(UtilAndroid.KEY_ID_USER_LOGGED, "");
+			userInvited.setModelID(Integer.parseInt(idUserLogged)); // idUserLogged
 			invite=(TextView) findViewById(R.id.textViewInvitoDa);
 			inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
 			new DownloadPartecipation().execute();
+		
 		}
-
 	}
 
 	// Retrieve partecipation Data
@@ -123,7 +123,7 @@ public class NotificationActivity extends Activity {
 		MapMe mapme= new MapMe();
 		User userInvite= new User();
 		try {
-			JSONArray jsonArr= json.getJSONArray("Partecipation");
+			JSONArray jsonArr= json.getJSONArray("Notification");
 			for(int i=0; i<jsonArr.length(); i++){
 				json=jsonArr.getJSONObject(i);
 				partecipation.setModelID(Integer.parseInt(""+json.getInt("idpartecipation")));

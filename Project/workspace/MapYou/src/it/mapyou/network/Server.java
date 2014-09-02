@@ -103,6 +103,9 @@ public class Server implements ServerInterface {
 			}
 			return null;
 		}
+		finally{
+			urlConnection.disconnect();
+		}
 	
 	}
 
