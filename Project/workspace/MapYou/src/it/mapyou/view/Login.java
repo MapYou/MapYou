@@ -38,10 +38,6 @@ public class Login extends FacebookController {
 	private boolean notification=false;
 	private String idnotification="";
 
-
-	 
-
-
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
