@@ -44,4 +44,15 @@ public class Point extends SubjectModel implements Serializable{
 		// TODO Auto-generated method stub
 		return longitude;
 	}
+	
+	/* (non-Javadoc)
+	 * @see it.mapyou.model.SubjectModel#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Point){
+			Point p = (Point)o;
+			return (p.getLatitude()==latitude && p.getLongitude()==longitude);
+		}else return false;
+	}
 }

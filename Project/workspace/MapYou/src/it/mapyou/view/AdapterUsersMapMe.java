@@ -134,8 +134,8 @@ public class AdapterUsersMapMe extends BaseAdapter {
 			}else{
 				MappingUser mp= getMappingFromMapme(result);
 				if(mp!=null){
-//					Util.CURRENT_MAPPING = mapping;
 					if(mp.getModelID()>0){
+						Util.CURRENT_MAPPING = mp;
 						Bundle b = new Bundle();
 						b.putParcelable("mapping", mp);
 						Intent i = new Intent(cont.getApplicationContext(), UserOnMapMe.class);
