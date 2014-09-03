@@ -81,12 +81,16 @@
         </activity>
         <activity android:name=".view.UserOnMapMe" >
         </activity>
+<<<<<<< HEAD
         <activity android:name=".view.CompleteMapMeSecondTab_User" >
         </activity>
          <activity android:name=".view.CompleteMapMeFirstTab" >
        </activity>
     	<activity android:name=".view.CompleteMapMeLayoutHome" >
         </activity>
+=======
+   
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
         
         
         
@@ -107,7 +111,7 @@
         </receiver>
 
         <service android:name="it.mapyou.GCMIntentService" />
-        <service android:name="it.mapyou.view.GPSTracker" />
+        <service android:name="it.mapyou.view.ServiceConnection" />
 
         <!-- Google Api Key -->
         <meta-data

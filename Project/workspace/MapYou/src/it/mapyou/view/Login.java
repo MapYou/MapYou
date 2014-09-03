@@ -3,9 +3,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
-import it.mapyou.model.SimpleSegment;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
@@ -130,8 +128,13 @@ public class Login extends FacebookController {
 
 	// onclick Facebook login
 	public void face(View v){
-		setConnection();
-		getID();
+		//setConnection();
+		//getID();
+		
+		Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
+		startService(i);
+		
+		
 	}
 
 
