@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -187,7 +189,16 @@ public class CompleteMapMeFirstTab extends Activity {
 				return false;
 			}
 		});
-		
+		googleMap.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
+			
+			@Override
+			public void onMyLocationChange(Location arg0) {
+				UtilAndroid.makeToast(cont, 
+						String.valueOf(arg0.getLatitude())+" - "+
+				String.valueOf(arg0.getLongitude())
+						, 5000);
+			}
+		});
 	}
 
 	public void retrieveAllMappings(JSONObject result){
