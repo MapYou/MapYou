@@ -76,6 +76,7 @@ public class MapMeFirstTab extends Activity {
 			if (googleMap == null) {
 				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
 			}else{
+				googleMap.clear();
 				textNickname.setText(mapme.getAdministrator().getNickname());
 				Segment route = mapme.getSegment();
 				Point sp = route.getStartPoint();
