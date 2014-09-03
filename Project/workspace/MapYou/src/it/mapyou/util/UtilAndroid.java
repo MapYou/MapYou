@@ -44,6 +44,8 @@ public class UtilAndroid {
 	public static void makeToast(Context c, String text, int mill){
 		Toast.makeText(c.getApplicationContext(), text, mill).show();
 	}
+	
+	
 }
 
 
