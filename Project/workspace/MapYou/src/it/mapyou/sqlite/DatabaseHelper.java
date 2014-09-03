@@ -16,67 +16,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 	// Name for tables
+	public static final String USER="user";
 	public static final String MAPME="mapme";
 	public static final String MAPPING="mapping";
-	public static final String USER="user";
 	public static final String SEGMENT="segment";
-	public static final String PARTECIPATION="partecipation";
-
+	public static final String REGISTRATION_MAPME="registration";
+	
+	
 	// User Items
-	public static final String ID_USER="id"; 
+	public static final String ID_USER="iduser"; 
 	public static final String NICKNAME="nickname";
-	public static final String FIRSTANAME="firstname";
-	public static final String LASTNAME="lastname";
-	public static final String EMAIL="email";
-	public static final String PASSWORD="password";
+ 
 
 	// Mapme Items
 	public static final String ID_MAPME="id";
-	public static final String ID_USER_ADMIN="administrator";
-	public static final String NAME_MAPME="name";
+	public static final String ADMINISTRATOR="administrator";
+	public static final String NAME="name";
 	public static final String NUM_MAX_USERS="numMaxUsers";
+	public static final String STATE="state";
+	public static final String SEGMENT_ON_MAPME="segment";
 
 
 	// Mapping Items
 	public static final String ID_MAPPING="id";
 	public static final String ID_USER_M="idUserM";
 	public static final String ID_MAPME_M="idMapmeM";
+	public static final String LATITUDE_M="latitude_M";
+	public static final String LONGITUDE_M="longitude_M";
 
 	// Segment Items
 	public static final String ID_SEGMENT="id";
-	public static final String START_LAT="startLat";
+	public static final String FIRST_LAT="firstlat";
 	public static final String END_LAT="endLat";
-	public static final String START_LON="startLon";
+	public static final String FIRST_LON="firstLon";
 	public static final String END_LON="endLon";
-	public static final String LENGHT="lenght";
+
 	
-	// Partecipation
-	public static final String ID_PARTECIPATION="id";
-	public static final String ID_USER_PARTECIPATION="idUserP";
-	public static final String ID_MAPME_PARTECIPATION="idMapmeP";
-	public static final String ACCEPTANCE_PARTECIPATION="acceptance";
-	public static final String REQUEST_PARTECIPATION="request";
+	// Registration_on_mapme
+	public static final String ID_REGISTRATION="idreg";
+	public static final String ID_USER_REGISTRATION="idUserReg";
+	public static final String ID_MAPME_REGISTRATION="idMapmeReg";
+	 
 
 	//Constant
 	public static final String CONSTANTS="ON DELETE CASCADE ON UPDATE CASCADE";
 
-
+	
 	private static final String USER_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
 			+ DatabaseHelper.USER + " (" 
 			+ DatabaseHelper.ID_USER+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.NICKNAME+ " text not null UNIQUE , "
-			+ DatabaseHelper.PASSWORD+ " text not null, "
-			+ DatabaseHelper.EMAIL+ " text not null, "
-			+ DatabaseHelper.FIRSTANAME + " text, "
-			+ DatabaseHelper.LASTNAME + " text);";
+			+ DatabaseHelper.NICKNAME+ " text not null UNIQUE ); ";
+		 
 
 	private static final String MAPME_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
 			+ DatabaseHelper.MAPME + " (" 
 			+ DatabaseHelper.ID_MAPME+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.ID_USER_ADMIN+ " int not null, "
-			+ DatabaseHelper.NAME_MAPME+ " text not null, "
+			+ DatabaseHelper.ADMINISTRATOR+ " int not null, "
+			+ DatabaseHelper.NAME+ " text not null, "
 			+ DatabaseHelper.NUM_MAX_USERS+ " int not null DEFAULT 10, "
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+");";
+			+ DatabaseHelper.STATE+ " text not null, "
+			+ DatabaseHelper.SEGMENT_ON_MAPME+ " int not null, "
+			+ " FOREIGN KEY ("+DatabaseHelper.SEGMENT_ON_MAPME+") REFERENCES "+DatabaseHelper.SEGMENT+" ("+DatabaseHelper.ID_SEGMENT+") "+DatabaseHelper.CONSTANTS+","
+			+ " FOREIGN KEY ("+DatabaseHelper.ADMINISTRATOR+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+");";
 
 
 	private static final String MAPPING_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
@@ -84,29 +85,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ DatabaseHelper.ID_MAPPING+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
 			+ DatabaseHelper.ID_USER_M+ " int not null, "
 			+ DatabaseHelper.ID_MAPME_M+ " int not null, "
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPPING+") REFERENCES "+DatabaseHelper.SEGMENT+" ("+DatabaseHelper.ID_SEGMENT+") "+DatabaseHelper.CONSTANTS+","
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME_M+") REFERENCES "+DatabaseHelper.MAPME+" ("+DatabaseHelper.ID_MAPME+") "+DatabaseHelper.CONSTANTS+","
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_USER_M+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+")  "+DatabaseHelper.CONSTANTS+");";
+			+ DatabaseHelper.LATITUDE_M+ " double not null, "
+			+ DatabaseHelper.LONGITUDE_M+ " double not null, "
+		
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_USER+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+","
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME_M+") REFERENCES "+DatabaseHelper.MAPME+" ("+DatabaseHelper.ID_MAPME+") "+DatabaseHelper.CONSTANTS+",";
+			
 
 
 	private static final String SEGMENT_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
 			+ DatabaseHelper.SEGMENT + " (" 
 			+ DatabaseHelper.ID_SEGMENT+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.START_LAT+ " double not null, "
+			+ DatabaseHelper.FIRST_LAT+ " double not null, "
 			+ DatabaseHelper.END_LAT+ " double not null, "
-			+ DatabaseHelper.START_LON+ " double not null, "
-			+ DatabaseHelper.END_LON+ " double not null, "
-			+ DatabaseHelper.LENGHT+ " double not null);";
+			+ DatabaseHelper.FIRST_LON+ " double not null, "
+			+ DatabaseHelper.END_LON+ " double not null); ";
+			 
 	 
-	private static final String PARTECIPATION_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
-			+ DatabaseHelper.PARTECIPATION + " (" 
-			+ DatabaseHelper.ID_PARTECIPATION+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ DatabaseHelper.ID_USER_PARTECIPATION+ " int not null, "
-			+ DatabaseHelper.ID_MAPME_PARTECIPATION+ " int not null, "
-			+ DatabaseHelper.ACCEPTANCE_PARTECIPATION+ " int not null DEFAULT 0, "
-			+ DatabaseHelper.REQUEST_PARTECIPATION+ " int not null DEFAULT 0, "
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME_PARTECIPATION+") REFERENCES "+DatabaseHelper.MAPME+" ("+DatabaseHelper.ID_MAPME+") "+DatabaseHelper.CONSTANTS+","
-			+ " FOREIGN KEY ("+DatabaseHelper.ID_USER_PARTECIPATION+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+");";
+	private static final String REGISTRATION_TAB_CREATE = "CREATE TABLE IF NOT EXISTS " 
+			+ DatabaseHelper.REGISTRATION_MAPME + " (" 
+			+ DatabaseHelper.ID_REGISTRATION+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+			+ DatabaseHelper.ID_USER_REGISTRATION+ " int not null, "
+			+ DatabaseHelper.ID_MAPME_REGISTRATION+ " int not null, "
+			 
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_USER_REGISTRATION+") REFERENCES "+DatabaseHelper.USER+" ("+DatabaseHelper.ID_USER+") "+DatabaseHelper.CONSTANTS+","
+			+ " FOREIGN KEY ("+DatabaseHelper.ID_MAPME_REGISTRATION+") REFERENCES "+DatabaseHelper.MAPME+" ("+DatabaseHelper.ID_MAPME+") "+DatabaseHelper.CONSTANTS+");";
 
 	public DatabaseHelper(Context context){
 		super(context, NAME_DB, null, 1);
@@ -123,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(MAPME_TAB_CREATE);
 		db.execSQL(SEGMENT_TAB_CREATE);
 		db.execSQL(MAPPING_TAB_CREATE);
-		db.execSQL(PARTECIPATION_TAB_CREATE);
+		db.execSQL(REGISTRATION_TAB_CREATE);
 
 	}
 	
