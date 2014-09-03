@@ -131,8 +131,10 @@ public class Login extends FacebookController {
 		//setConnection();
 		//getID();
 		
-		Intent service= new Intent(getApplicationContext(), GPSTracker.class);
-		startService(service);
+		Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
+		startService(i);
+		
+		
 	}
 
 

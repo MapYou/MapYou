@@ -81,6 +81,7 @@
         </activity>
         <activity android:name=".view.UserOnMapMe" >
         </activity>
+   
         
         
         
@@ -101,7 +102,7 @@
         </receiver>
 
         <service android:name="it.mapyou.GCMIntentService" />
-        <service android:name="it.mapyou.view.GPSTracker" />
+        <service android:name="it.mapyou.view.ServiceConnection" />
 
         <!-- Google Api Key -->
         <meta-data
