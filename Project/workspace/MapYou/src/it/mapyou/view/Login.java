@@ -68,14 +68,14 @@ public class Login extends FacebookController {
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 
-		//				Editor ed = sp.edit();
-		//				ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
-		//				ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
-		//				ed.commit();
-		//		
-		//				Intent intent= new Intent(Login.this,DrawerMain.class);
-		//				//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		//				startActivity(intent);
+//						Editor ed = sp.edit();
+//						ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
+//						ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, 1);
+//						ed.commit();
+//				
+//						Intent intent= new Intent(Login.this,DrawerMain.class);
+//						//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//						startActivity(intent);
 
 		//		Editor ed = sp.edit();
 		//		ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "p");
@@ -94,7 +94,7 @@ public class Login extends FacebookController {
 
 		// Code use for notifications (Alert)
 		Intent i = getIntent();
-//		if(i.getStringExtra("notification") != null)
+		if(i.getStringExtra("notification") != null)
 			notification=true;
 
 		user=(EditText) findViewById(R.id.user_login_Login);

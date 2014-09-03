@@ -3,19 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp" >
+    android:layout_marginRight="5dp"
+    android:fillViewport="true"
+    android:scrollbars="vertical|horizontal" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="419dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" >
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -43,13 +47,23 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/startlocation" />
 
-            <TextView
-                android:id="@+id/textViewStartLocation"
+            <HorizontalScrollView
+                android:id="@+id/h"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Start"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_gravity="center"
+                android:fillViewport="true"
+                android:scrollbars="horizontal" >
+
+                <TextView
+                    android:id="@+id/textViewStartLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:scrollHorizontally="true"
+                    android:text="Start"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </HorizontalScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -63,31 +77,29 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/endlocation" />
 
-            <TextView
-                android:id="@+id/textViewEndLocation"
+            <HorizontalScrollView
+                android:id="@+id/hj"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="End"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_gravity="center"
+                android:fillViewport="true" >
+
+                <TextView
+                    android:id="@+id/textViewEndLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:scrollHorizontally="true"
+                    android:text="End"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </HorizontalScrollView>
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="208dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp" >
-
-            <fragment
-                android:id="@+id/mapMapMeFirstTab"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp" >
 
             <RadioGroup
                 android:id="@+id/radioGroup1"
@@ -100,26 +112,41 @@
                     android:id="@+id/radioSatellite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Satellite"
-                    android:onClick="changeSatelliteMap" />
+                    android:checked="false"
+                    android:onClick="changeSatelliteMap"
+                    android:text="Satellite" />
 
                 <RadioButton
                     android:id="@+id/radioIbrida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ibrida" 
-                    android:onClick="changeIbridaMap"/>
+                    android:onClick="changeIbridaMap"
+                    android:text="Ibrida" />
 
                 <RadioButton
                     android:id="@+id/radioNormale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Normale"
-                    android:onClick="changeNormaleMap" />
+                    android:checked="true"
+                    android:onClick="changeNormaleMap"
+                    android:text="Normale" />
             </RadioGroup>
-
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp" >
+
+            <fragment
+                android:id="@+id/mapMapMeFirstTab"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp" />
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>
