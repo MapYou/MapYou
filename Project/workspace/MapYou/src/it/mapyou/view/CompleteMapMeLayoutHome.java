@@ -14,7 +14,7 @@ import android.widget.TabHost.TabSpec;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMeLayoutHome extends TabActivity {
+public class CompleteMapMeLayoutHome extends TabActivity {
 
 	/* (non-Javadoc)
 	 * @see android.app.ActivityGroup#onCreate(android.os.Bundle)
@@ -23,7 +23,7 @@ public class MapMeLayoutHome extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mapme_layout);
+		setContentView(R.layout.complete_mapme_layout);
  
 		
 		Bundle bund = new Bundle();
@@ -33,27 +33,20 @@ public class MapMeLayoutHome extends TabActivity {
  
 		TabHost tabHost = getTabHost();
 		
-		TabSpec mapmeTab = tabHost.newTabSpec("MapMe");
-		mapmeTab.setIndicator(Util.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
-		Intent mapmeTabIntent = new Intent(this, MapMeFirstTab.class);
+		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
+		first_completeMapMeTab.setIndicator(Util.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
+		Intent mapmeTabIntent = new Intent(this, CompleteMapMeFirstTab.class);
 		mapmeTabIntent.putExtras(bund);
-		mapmeTab.setContent(mapmeTabIntent);
+		first_completeMapMeTab.setContent(mapmeTabIntent);
 
-		TabSpec usersTab = tabHost.newTabSpec("Users");        
-		usersTab.setIndicator("Users", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
-		Intent usersTabIntent = new Intent(this, MapMeSecondTab_User.class);
+		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
+		second_completeMapMeTab.setIndicator("Options", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
+		Intent usersTabIntent = new Intent(this, CompleteMapMeSecondTab_User.class);
 		usersTabIntent.putExtras(bund);
-		usersTab.setContent(usersTabIntent);
-		
-		TabSpec completeMapMeTab = tabHost.newTabSpec("Complete");        
-		completeMapMeTab.setIndicator("Live", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
-		Intent completeMapMeTabIntent = new Intent(this, CompleteMapMeLayoutHome.class);
-		completeMapMeTabIntent.putExtras(bund);
-		completeMapMeTab.setContent(completeMapMeTabIntent);
+		second_completeMapMeTab.setContent(usersTabIntent);
 
-		tabHost.addTab(mapmeTab);
-		tabHost.addTab(usersTab);
-		tabHost.addTab(completeMapMeTab);
+		tabHost.addTab(first_completeMapMeTab);
+		tabHost.addTab(second_completeMapMeTab);
 	}
 }
 
