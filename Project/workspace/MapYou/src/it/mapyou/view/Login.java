@@ -94,7 +94,7 @@ public class Login extends FacebookController {
 
 		// Code use for notifications (Alert)
 		Intent i = getIntent();
-		if(i.getStringExtra("notification") != null)
+//		if(i.getStringExtra("notification") != null)
 			notification=true;
 
 		user=(EditText) findViewById(R.id.user_login_Login);

@@ -124,6 +124,7 @@ public class NotificationActivity extends Activity {
 				for(int j=0; j<jsonUser.length(); j++){
 					JSONObject jjj=jsonUser.getJSONObject(j);
 					userInvite.setNickname(jjj.getString("nickname"));
+					userInvite.setModelID(Integer.parseInt(jjj.getString("id")));
 				}
 
 				jsonMapme=hhh.getJSONArray("mapme");
@@ -136,13 +137,13 @@ public class NotificationActivity extends Activity {
 				notification.setNotificationType(hhh.getString("type"));
 				notificationType = notification.getNotificationType();
 				notification.setNotificationObject(mapme);
-				if(notification.getNotificationType().equals("SEND")){
+//				if(notification.getNotificationType().equals("REQUEST")){
 					notification.setNotifier(userInvite);
 					notification.setNotified(userInvited);
-				}else{
-					notification.setNotifier(userInvited);
-					notification.setNotified(userInvite);
-				}
+//				}else{
+//					notification.setNotifier(userInvited);
+//					notification.setNotified(userInvite);
+//				}
 			}
 			return notification;
 
@@ -160,7 +161,11 @@ public class NotificationActivity extends Activity {
 			try {
 				String resp=null;
 
-				parameters.put("iduser", URLEncoder.encode(""+userInvited.getModelID(), "UTF-8"));
+				parameters.put("iduser", URLEncoder.encode(""+
+				(notificationType.equals("REQUEST")?
+						notification.getNotifier().getModelID():
+							notification.getNotified().getModelID()
+						), "UTF-8"));
 				parameters.put("idnot",""+notification.getModelID());
 				parameters.put("idm", ""+notification.getNotificationObject().getModelID());
 				parameters.put("isAccept", ""+String.valueOf(params[0]));
