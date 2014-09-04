@@ -3,20 +3,29 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.controller.DeviceController;
+import it.mapyou.model.MapMe;
+import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
-import android.app.NotificationManager;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.JSONObject;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -28,41 +37,49 @@ public class ServiceConnection extends Service {
 	boolean isGPSEnabled = false;
 	boolean isNetworkEnabled = false;
 	boolean canGetLocation = true;
-	Location location;  
-	private String provider;
+	Location location; 
+	private final String NAME="mapyou";
+
+
+
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
 
-	private static final long MIN_TIME_BW_UPDATES = 1000; // 6 seconds
+	private static final long MIN_TIME_BW_UPDATES = 15000; // 15 seconds
 
 	protected LocationManager locationManager;
-	private int iduser;
+
 	private MyLocation myloc;
 
 
-	public ServiceConnection() {
-		super();
-	}
+
 
 
 	@Override
 	public void onCreate() {
-
 		super.onCreate();
-		iduser = PreferenceManager.getDefaultSharedPreferences(this).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0);
+		MapMe m= new MapMe();
+		m.setModelID(3);
+
 
 		Criteria c = new Criteria();
-		c.setAccuracy(Criteria.ACCURACY_FINE);
-		c.setPowerRequirement(Criteria.POWER_LOW);
-		c.setAltitudeRequired(false);
-		c.setSpeedRequired(false);
+		//		c.setAccuracy(Criteria.ACCURACY_FINE);
+		//		c.setPowerRequirement(Criteria.POWER_LOW);
+		//		c.setAltitudeRequired(false);
+		//		c.setSpeedRequired(false);
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-		String provider = locationManager.getBestProvider(c, false);
-		myloc = new MyLocation(this) ;
+		String provider = locationManager.getBestProvider(c, true);
+		location = locationManager.getLastKnownLocation(provider);
+
+		myloc = new MyLocation(ServiceConnection.this,m) ;
+
+
+		if(location!=null)
+			myloc.onLocationChanged(location);
+
 		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, myloc);
-	 
 
 
 	}
@@ -77,25 +94,25 @@ public class ServiceConnection extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-//		new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				while(true){
-//					try{
-//
-//						Thread.sleep(3000);
-//					}catch (Exception e) {
-//						// TODO: handle exception
-//					}
-//				}
-//			}
-//		}).start();
 
+<<<<<<< HEAD
 		return 0;
+=======
+		Timer t = new Timer();
+		TimerTask tt = new TimerTask() {
+			
+			@Override
+			public void run() {
+				new RetrieveMapping().execute();
+			}
+		};
+		t.schedule(tt, 0, 15000);
+
+		return Service.START_NOT_STICKY;
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -106,5 +123,98 @@ public class ServiceConnection extends Service {
 		//		Thread.currentThread().interrupt();
 	}
 
-	 
+
+	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
+
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+			{
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 500);
+				super.onCancelled();
+			}
+
+		}
+
+		@Override
+		protected JSONObject doInBackground(Void... params) {
+			try {
+				parameters.put("mapme", String.valueOf("3"));
+				JSONObject response=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
+				return response;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(result==null){
+				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 500);
+			}else{
+				try {
+					write(result.toString());
+					read();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void write(String text) throws Exception{
+
+		FileOutputStream f=null;
+		try {
+			f= openFileOutput(NAME, MODE_PRIVATE);
+			f.write(text.toString().getBytes());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			f.flush();
+			f.close();
+		}
+
+
+	}
+
+	public void read() throws Exception{
+
+		BufferedReader reader=null;
+		try {
+			FileInputStream f= openFileInput(NAME);
+			reader= new BufferedReader(new InputStreamReader(f));
+			StringBuffer bf=new StringBuffer();
+			String line=null;
+
+			while((line=reader.readLine()) !=null){
+				bf.append(line);
+			}
+			UtilAndroid.makeToast(this, ""+bf.length(), 500);
+
+		} catch (Exception e) {
+			UtilAndroid.makeToast(getApplicationContext(), "Non legge", 500);
+			
+		}
+		finally{
+			reader.close();
+
+		}
+	}
+
+
+
 }

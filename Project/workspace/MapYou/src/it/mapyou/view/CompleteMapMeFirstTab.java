@@ -13,6 +13,9 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +52,11 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
+<<<<<<< HEAD
+=======
+	private final String NAME="mapyou";
+
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -115,11 +123,10 @@ public class CompleteMapMeFirstTab extends Activity {
 		return googleMap!=null;
 	}
 
-	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
+	class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 		@Override
+<<<<<<< HEAD
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
@@ -133,25 +140,32 @@ public class CompleteMapMeFirstTab extends Activity {
 
 		@Override
 		protected JSONObject doInBackground(Void... params) {
+=======
+		protected String doInBackground(Void... params) {
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 			try {
-				parameters.put("mapme", String.valueOf(mapme.getModelID()));
-				JSONObject response=DeviceController.getInstance().getServer().
-						requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
-				return response;
+				
+				return read();
 			} catch (Exception e) {
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			mappings.clear();
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
 			}else{
-				retrieveAllMappings(result);
-				showMap();
+				try {
+					retrieveAllMappings(new JSONObject(result));
+					showMap();
+				} catch (JSONException e) {
+			 
+					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
+				}
+				
 			}
 
 		}
@@ -196,6 +210,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.snippet(p.getLocation());
 			googleMap.addMarker(opt);
 		}
+<<<<<<< HEAD
 
 		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
@@ -214,6 +229,9 @@ public class CompleteMapMeFirstTab extends Activity {
 				return false;
 			}
 		});
+=======
+		
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 	}
 
 	public void retrieveAllMappings(JSONObject result){
@@ -286,5 +304,31 @@ public class CompleteMapMeFirstTab extends Activity {
 			return null;
 		}
 
+	}
+	
+
+	public String read() throws Exception{
+
+		BufferedReader reader=null;
+		try {
+			FileInputStream f= openFileInput(NAME);
+			reader= new BufferedReader(new InputStreamReader(f));
+			StringBuffer bf=new StringBuffer();
+			String line=null;
+
+			while((line=reader.readLine()) !=null){
+				bf.append(line);
+			}
+
+			return bf.toString();
+
+		} catch (Exception e) {
+			return null;
+		}
+		finally{
+			
+			reader.close();
+
+		}
 	}
 }
