@@ -183,20 +183,17 @@ public class CompleteMapMeFirstTab extends Activity {
 			
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
-				UtilAndroid.makeToast(cont, 
-						arg0.getTitle()
-						, 5000);
+//				UtilAndroid.makeToast(cont, 
+//						arg0.getTitle()
+//						, 5000);
+				Location l = googleMap.getMyLocation();
+				if(l!=null){
+					UtilAndroid.makeToast(cont, 
+							String.valueOf(l.getLatitude())+" - "+
+					String.valueOf(l.getLongitude())
+							, 5000);
+				}
 				return false;
-			}
-		});
-		googleMap.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
-			
-			@Override
-			public void onMyLocationChange(Location arg0) {
-				UtilAndroid.makeToast(cont, 
-						String.valueOf(arg0.getLatitude())+" - "+
-				String.valueOf(arg0.getLongitude())
-						, 5000);
 			}
 		});
 	}

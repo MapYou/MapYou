@@ -19,6 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 
 
@@ -87,7 +88,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.i(TAG, "Received messageEEEEEEEEEEEEEEEEEEEEEEEE");
 		
 		selectActivity();
-		generateNotification(context);
+		generateNotification(context, intent.getExtras().getString("price"),
+				intent.getExtras().getString("title"),
+				intent.getExtras().getString("notif"));
+//		generateNotification(context, intent.getExtras().getString("data"));
 	}
 
 	/**
@@ -102,7 +106,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.i(TAG, "Received deleted messages notification");
 
 		selectActivity();
-		generateNotification(context);
+		generateNotification(context, "", "", "");
 	}
 
 	/**
@@ -133,15 +137,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * Create a notification to inform the user that server has sent a message.
 	 */
 	@SuppressWarnings("deprecation")
-	private static void generateNotification(Context context) {
+	private static void generateNotification(Context context, String msg, String title, String notif) {
 
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 
+		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(icon, "Messaggio da MapYou" , when);
-
-		String title ="Invite for MapMe";
+		Notification notification = new Notification(icon, notif, when);
 		
 		Intent notificationIntent = new Intent(context, act);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -154,8 +157,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		else;
 		PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 	
-		String mess="MapYou";
-		notification.setLatestEventInfo(context, title, mess, intent);
+		notification.setLatestEventInfo(context, title, msg, intent);
 		
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.defaults |= Notification.DEFAULT_SOUND;
