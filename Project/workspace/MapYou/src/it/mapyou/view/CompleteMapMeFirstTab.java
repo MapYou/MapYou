@@ -13,6 +13,9 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +52,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
+	private final String NAME="mapyou";
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -97,43 +101,33 @@ public class CompleteMapMeFirstTab extends Activity {
 		return googleMap!=null;
 	}
 
-	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
+	class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont))
-			{
-				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
-				super.onCancelled();
-			}
-			
-		}
-
-		@Override
-		protected JSONObject doInBackground(Void... params) {
+		protected String doInBackground(Void... params) {
 			try {
-				parameters.put("mapme", String.valueOf(mapme.getModelID()));
-				JSONObject response=DeviceController.getInstance().getServer().
-						requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
-				return response;
+				
+				return read();
 			} catch (Exception e) {
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			mappings.clear();
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
 			}else{
-				retrieveAllMappings(result);
-				showMap();
+				try {
+					retrieveAllMappings(new JSONObject(result));
+					showMap();
+				} catch (JSONException e) {
+			 
+					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
+				}
+				
 			}
 
 		}
@@ -179,23 +173,6 @@ public class CompleteMapMeFirstTab extends Activity {
 			googleMap.addMarker(opt);
 		}
 		
-		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-			
-			@Override
-			public boolean onMarkerClick(Marker arg0) {
-//				UtilAndroid.makeToast(cont, 
-//						arg0.getTitle()
-//						, 5000);
-				Location l = googleMap.getMyLocation();
-				if(l!=null){
-					UtilAndroid.makeToast(cont, 
-							String.valueOf(l.getLatitude())+" - "+
-					String.valueOf(l.getLongitude())
-							, 5000);
-				}
-				return false;
-			}
-		});
 	}
 
 	public void retrieveAllMappings(JSONObject result){
@@ -268,5 +245,31 @@ public class CompleteMapMeFirstTab extends Activity {
 			return null;
 		}
 
+	}
+	
+
+	public String read() throws Exception{
+
+		BufferedReader reader=null;
+		try {
+			FileInputStream f= openFileInput(NAME);
+			reader= new BufferedReader(new InputStreamReader(f));
+			StringBuffer bf=new StringBuffer();
+			String line=null;
+
+			while((line=reader.readLine()) !=null){
+				bf.append(line);
+			}
+
+			return bf.toString();
+
+		} catch (Exception e) {
+			return null;
+		}
+		finally{
+			
+			reader.close();
+
+		}
 	}
 }
