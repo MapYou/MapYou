@@ -103,7 +103,7 @@ public class ServiceConnection extends Service {
 		};
 		t.schedule(tt, 0, 15000);
 
-		return Service.START_STICKY;
+		return 0;//Service.START_STICKY;
 	}
 
 	@Override
