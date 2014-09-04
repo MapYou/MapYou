@@ -91,7 +91,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		generateNotification(context, intent.getExtras().getString("price"),
 				intent.getExtras().getString("title"),
 				intent.getExtras().getString("notif"));
-//		generateNotification(context, intent.getExtras().getString("data"));
 	}
 
 	/**

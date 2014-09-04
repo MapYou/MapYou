@@ -22,9 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +33,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -49,7 +49,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
-
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -63,8 +62,27 @@ public class CompleteMapMeFirstTab extends Activity {
 		mappings = new ArrayList<MappingUser>();
 
 		if(initilizeMap()){
-			new RetrieveMapping().execute();
-		}
+			//			new RetrieveMapping().execute();
+		}else
+			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(receiver, new IntentFilter(ExampleService.NOTIFICATION));
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(receiver);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		unregisterReceiver(receiver);
 	}
 
 	public void refresh(View v){
@@ -110,7 +128,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
 				super.onCancelled();
 			}
-			
+
 		}
 
 		@Override
@@ -139,10 +157,10 @@ public class CompleteMapMeFirstTab extends Activity {
 		}
 
 	}
-	
+
 	public void showMap(){
 		googleMap.clear();
-		
+
 		Segment s = mapme.getSegment();
 		Point end = s.getEndPoint();
 		Point st = s.getStartPoint();
@@ -162,7 +180,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			googleMap.addMarker(opt);
 		}
 		else;
-		
+
 		for(int i=0; i<mappings.size(); i++){
 			MappingUser m = mappings.get(i);
 			User u = m.getUser();
@@ -178,21 +196,21 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.snippet(p.getLocation());
 			googleMap.addMarker(opt);
 		}
-		
+
 		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-			
+
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
-//				UtilAndroid.makeToast(cont, 
-//						arg0.getTitle()
-//						, 5000);
-				Location l = googleMap.getMyLocation();
-				if(l!=null){
-					UtilAndroid.makeToast(cont, 
-							String.valueOf(l.getLatitude())+" - "+
-					String.valueOf(l.getLongitude())
-							, 5000);
-				}
+				//				UtilAndroid.makeToast(cont, 
+				//						arg0.getTitle()
+				//						, 5000);
+				//				Location l = googleMap.getMyLocation();
+				//				if(l!=null){
+				//					UtilAndroid.makeToast(cont, 
+				//							String.valueOf(l.getLatitude())+" - "+
+				//					String.valueOf(l.getLongitude())
+				//							, 5000);
+				//				}
 				return false;
 			}
 		});

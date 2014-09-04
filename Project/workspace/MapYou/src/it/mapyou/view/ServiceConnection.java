@@ -92,7 +92,6 @@ public class ServiceConnection extends Service {
 //			}
 //		}).start();
 
-
 		return 0;
 
 	}
