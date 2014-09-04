@@ -5,7 +5,6 @@ import it.mapyou.model.MapMe;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -135,6 +134,11 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 				parameters.put("nickinvited", params[0].getAdministrator().getNickname().toString());
 				parameters.put("idm",  ""+Integer.parseInt(""+params[0].getModelID()));
 				parameters.put("type",  "REQUEST");
+				parameters.put("message",  "You have received a request to partecipate by "+
+						sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+				parameters.put("title",  "MapYou: request to partecipate");
+				parameters.put("notif",  "You have received a request to partecipate by "+
+						sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 
 				response=DeviceController.getInstance().getServer().
 						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));

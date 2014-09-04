@@ -25,10 +25,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.content.SharedPreferences;
 import android.location.Location;
+=======
+import android.content.IntentFilter;
+>>>>>>> origin/master
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -37,7 +42,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -54,10 +58,13 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
+<<<<<<< HEAD
+=======
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
 
 
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -69,6 +76,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 
+<<<<<<< HEAD
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -82,6 +90,30 @@ public class CompleteMapMeFirstTab extends Activity {
 				new RetrieveMapping().execute();
 			}
 		}//else
+=======
+		if(initilizeMap()){
+			//			new RetrieveMapping().execute();
+		}else
+			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerReceiver(receiver, new IntentFilter(ExampleService.NOTIFICATION));
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(receiver);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		unregisterReceiver(receiver);
+>>>>>>> origin/master
 	}
 
 	public void refresh(View v){
@@ -117,7 +149,23 @@ public class CompleteMapMeFirstTab extends Activity {
 	class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 		@Override
+<<<<<<< HEAD
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(cont))
+			{
+				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
+				super.onCancelled();
+			}
+
+		}
+
+		@Override
+		protected JSONObject doInBackground(Void... params) {
+=======
 		protected String doInBackground(Void... params) {
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 			try {
 
 				return read();
@@ -185,7 +233,32 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.snippet(p.getLocation());
 			googleMap.addMarker(opt);
 		}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+			@Override
+			public boolean onMarkerClick(Marker arg0) {
+				//				UtilAndroid.makeToast(cont, 
+				//						arg0.getTitle()
+				//						, 5000);
+				//				Location l = googleMap.getMyLocation();
+				//				if(l!=null){
+				//					UtilAndroid.makeToast(cont, 
+				//							String.valueOf(l.getLatitude())+" - "+
+				//					String.valueOf(l.getLongitude())
+				//							, 5000);
+				//				}
+				return false;
+			}
+		});
+=======
+		
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
+>>>>>>> origin/master
 	}
 
 	public void retrieveAllMappings(JSONObject result){

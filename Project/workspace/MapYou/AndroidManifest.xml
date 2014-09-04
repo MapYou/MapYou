@@ -107,6 +107,7 @@
 
         <service android:name="it.mapyou.GCMIntentService" />
         <service android:name="it.mapyou.view.ServiceConnection" />
+        <service android:name="it.mapyou.view.ExampleService" />
 
         <!-- Google Api Key -->
         <meta-data

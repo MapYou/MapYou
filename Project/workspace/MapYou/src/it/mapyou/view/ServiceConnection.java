@@ -95,6 +95,9 @@ public class ServiceConnection extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
 
+<<<<<<< HEAD
+		return 0;
+=======
 		Timer t = new Timer();
 		TimerTask tt = new TimerTask() {
 			
@@ -106,6 +109,7 @@ public class ServiceConnection extends Service {
 		t.schedule(tt, 0, 15000);
 
 		return Service.START_NOT_STICKY;
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
 	}
 
