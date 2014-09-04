@@ -37,6 +37,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		this.cont = cont;
 		this.map = map;
 		this.mapme = mapme;
+		
 	}
 
 	@Override
