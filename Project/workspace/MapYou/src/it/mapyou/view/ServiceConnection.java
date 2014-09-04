@@ -4,19 +4,16 @@
 package it.mapyou.view;
 
 import it.mapyou.util.UtilAndroid;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -29,7 +26,7 @@ public class ServiceConnection extends Service {
 	boolean isNetworkEnabled = false;
 	boolean canGetLocation = true;
 	Location location;  
-	private String provider;
+
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
 
 	private static final long MIN_TIME_BW_UPDATES = 1000; // 6 seconds
@@ -37,6 +34,7 @@ public class ServiceConnection extends Service {
 	protected LocationManager locationManager;
 	private int iduser;
 	private MyLocation myloc;
+	 
 
 
 	public ServiceConnection() {
@@ -51,18 +49,24 @@ public class ServiceConnection extends Service {
 		iduser = PreferenceManager.getDefaultSharedPreferences(this).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0);
 
 		Criteria c = new Criteria();
-		c.setAccuracy(Criteria.ACCURACY_FINE);
-		c.setPowerRequirement(Criteria.POWER_LOW);
-		c.setAltitudeRequired(false);
-		c.setSpeedRequired(false);
+		//		c.setAccuracy(Criteria.ACCURACY_FINE);
+		//		c.setPowerRequirement(Criteria.POWER_LOW);
+		//		c.setAltitudeRequired(false);
+		//		c.setSpeedRequired(false);
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-		String provider = locationManager.getBestProvider(c, false);
-		myloc = new MyLocation(this) ;
+		String provider = locationManager.getBestProvider(c, true);
+		location = locationManager.getLastKnownLocation(provider);
+
+		myloc = new MyLocation(ServiceConnection.this) ;
+
+
+		if(location!=null)
+			myloc.onLocationChanged(location);
+
 		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, myloc);
-	 
 
 
 	}
@@ -77,26 +81,28 @@ public class ServiceConnection extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-//		new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				while(true){
-//					try{
-//
-//						Thread.sleep(3000);
-//					}catch (Exception e) {
-//						// TODO: handle exception
-//					}
-//				}
-//			}
-//		}).start();
+	 
+
+			//		new Thread(new Runnable() {
+			//
+			//			@Override
+			//			public void run() {
+			//				while(true){
+			//					try{
+			//
+			//						Thread.sleep(3000);
+			//					}catch (Exception e) {
+			//						// TODO: handle exception
+			//					}
+			//				}
+			//			}
+			//		}).start();
 
 
-		return 0;
+			return 0;
 
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -107,5 +113,5 @@ public class ServiceConnection extends Service {
 		//		Thread.currentThread().interrupt();
 	}
 
-	 
+
 }
