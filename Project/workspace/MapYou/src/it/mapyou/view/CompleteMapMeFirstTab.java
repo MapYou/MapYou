@@ -58,16 +58,12 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
-<<<<<<< HEAD
-=======
+ 
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
 
 
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -76,7 +72,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 
-<<<<<<< HEAD
+ 
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -90,11 +86,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				new RetrieveMapping().execute();
 			}
 		}//else
-=======
-		if(initilizeMap()){
-			//			new RetrieveMapping().execute();
-		}else
-			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
+ 
 	}
 
 	@Override
