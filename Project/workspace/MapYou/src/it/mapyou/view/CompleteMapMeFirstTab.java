@@ -10,12 +10,15 @@ import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.ServiceConnection.RetrieveMapping;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +54,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	private Context cont;
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
+	private Activity act;
 
 
 	/* (non-Javadoc)
@@ -62,6 +66,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
+		act=this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
@@ -73,7 +78,18 @@ public class CompleteMapMeFirstTab extends Activity {
 			Intent i= new Intent(cont, ServiceConnection.class);
 			startService(i);
 			if(initilizeMap()){
-				new RetrieveMapping().execute();
+				Timer t = new Timer();
+				TimerTask tt = new TimerTask() {
+					
+					@Override
+					public void run() {
+						new RetrieveMapping().execute();
+					}
+				};
+				t.schedule(tt, 0, 2000);
+
+				
+				
 			}
 
 		}else
@@ -142,6 +158,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			}else{
 				try {
 					retrieveAllMappings(new JSONObject(result));
+					
 					showMap();
 
 				} catch (JSONException e) {
