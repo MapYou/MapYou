@@ -49,9 +49,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
- 
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
+
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -75,7 +75,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			if(initilizeMap()){
 				new RetrieveMapping().execute();
 			}
-			
+
 		}else
 			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
 	}
@@ -98,7 +98,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		if (googleMap == null) {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.completeMapMapMeFirstTab)).getMap();
-			googleMap.setMyLocationEnabled(true);
+			googleMap.setMyLocationEnabled(false);
 
 
 			if (googleMap == null) {
@@ -138,11 +138,12 @@ public class CompleteMapMeFirstTab extends Activity {
 			super.onPostExecute(result);
 			mappings.clear();
 			if(result==null){
-				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
+				UtilAndroid.makeToast(cont, "Please refresh da file....", 5000);
 			}else{
 				try {
 					retrieveAllMappings(new JSONObject(result));
 					showMap();
+
 				} catch (JSONException e) {
 
 					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
@@ -154,7 +155,7 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	}
 
-	public void showMap(){
+	public synchronized void showMap(){
 		googleMap.clear();
 
 		Segment s = mapme.getSegment();
@@ -190,27 +191,9 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 			opt.title(u.getNickname());
 			opt.snippet(p.getLocation());
+			opt.visible(true);
 			googleMap.addMarker(opt);
 		}
-
-
-		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-			@Override
-			public boolean onMarkerClick(Marker arg0) {
-				//				UtilAndroid.makeToast(cont, 
-				//						arg0.getTitle()
-				//						, 5000);
-				//				Location l = googleMap.getMyLocation();
-				//				if(l!=null){
-				//					UtilAndroid.makeToast(cont, 
-				//							String.valueOf(l.getLatitude())+" - "+
-				//					String.valueOf(l.getLongitude())
-				//							, 5000);
-				//				}
-				return false;
-			}
-		});
 	}
 
 	public void retrieveAllMappings(JSONObject result){
