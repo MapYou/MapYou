@@ -49,13 +49,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private List<MappingUser> mappings;
 	private Context cont;
- 
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
-	private Context cont;
-	private final String NAME="mapyou";
-	private SharedPreferences sp;
-
+	 
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
