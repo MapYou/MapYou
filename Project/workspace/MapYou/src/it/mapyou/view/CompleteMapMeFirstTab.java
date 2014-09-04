@@ -51,6 +51,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	private Context cont;
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
+	private Activity act;
 
 
 	/* (non-Javadoc)
@@ -62,6 +63,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
+		act = this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
@@ -111,7 +113,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	}
 
 	class RetrieveMapping extends AsyncTask<Void, Void, String>{
-
+		
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
@@ -142,8 +144,13 @@ public class CompleteMapMeFirstTab extends Activity {
 			}else{
 				try {
 					retrieveAllMappings(new JSONObject(result));
-					showMap();
-
+					act.runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							showMap();
+						}
+					});
 				} catch (JSONException e) {
 
 					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
@@ -155,7 +162,7 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	}
 
-	public synchronized void showMap(){
+	public void showMap(){
 		googleMap.clear();
 
 		Segment s = mapme.getSegment();

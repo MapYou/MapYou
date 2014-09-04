@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -61,19 +62,19 @@ public class ServiceConnection extends Service {
 	 
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		Criteria c = new Criteria();
-		//		c.setAccuracy(Criteria.ACCURACY_FINE);
-		//		c.setPowerRequirement(Criteria.POWER_LOW);
-		//		c.setAltitudeRequired(false);
-		//		c.setSpeedRequired(false);
-		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-		String provider = locationManager.getBestProvider(c, true);
-		location = locationManager.getLastKnownLocation(provider);
-
-		myloc = new MyLocation(ServiceConnection.this) ;
+//		Criteria c = new Criteria();
+//		//		c.setAccuracy(Criteria.ACCURACY_FINE);
+//		//		c.setPowerRequirement(Criteria.POWER_LOW);
+//		//		c.setAltitudeRequired(false);
+//		//		c.setSpeedRequired(false);
+//		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//
+//		String provider = locationManager.getBestProvider(c, true);
+//		location = locationManager.getLastKnownLocation(provider);
+//
+//		myloc = new MyLocation(ServiceConnection.this) ;
 
 
 //		if(location!=null)
