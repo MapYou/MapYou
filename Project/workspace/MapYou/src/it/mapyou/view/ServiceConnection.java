@@ -92,12 +92,6 @@ public class ServiceConnection extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-<<<<<<< HEAD
-
-
- 
-=======
->>>>>>> origin/master
 		Timer t = new Timer();
 		TimerTask tt = new TimerTask() {
 			
@@ -109,11 +103,6 @@ public class ServiceConnection extends Service {
 		t.schedule(tt, 0, 15000);
 
 		return Service.START_NOT_STICKY;
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
-
 	}
 
 	@Override

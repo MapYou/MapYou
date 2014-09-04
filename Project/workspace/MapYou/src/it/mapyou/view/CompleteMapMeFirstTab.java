@@ -48,15 +48,10 @@ public class CompleteMapMeFirstTab extends Activity {
 	private GoogleMap googleMap;
 	private MapMe mapme;
 	private List<MappingUser> mappings;
-<<<<<<< HEAD
 	private Context cont;
  
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
-
-
- 
-=======
 	private Context cont;
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
@@ -65,7 +60,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
->>>>>>> origin/master
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -73,12 +67,6 @@ public class CompleteMapMeFirstTab extends Activity {
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
-<<<<<<< HEAD
-
- 
-=======
-
->>>>>>> origin/master
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -91,16 +79,9 @@ public class CompleteMapMeFirstTab extends Activity {
 			if(initilizeMap()){
 				new RetrieveMapping().execute();
 			}
-<<<<<<< HEAD
-		}//else
- 
-=======
-		}//else
-		if(initilizeMap()){
-			//			new RetrieveMapping().execute();
+			
 		}else
 			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
->>>>>>> origin/master
 	}
 
 	public void refresh(View v){
