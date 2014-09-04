@@ -3,13 +3,13 @@
  */
 package it.mapyou.view;
 
-import java.util.HashMap;
-
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+
+import java.util.HashMap;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -30,7 +30,7 @@ public class MyLocation implements LocationListener {
 	private  Context c;
 	private double latitude;
 	private double longitude;
-	private MapMe m;
+
 	private SharedPreferences sp;
 	private boolean isInsertMapping=false;
 	private Location oldLocation=null;
@@ -38,9 +38,9 @@ public class MyLocation implements LocationListener {
 	/**
 	 * 
 	 */
-	public MyLocation(Context context, MapMe mm) {
+	public MyLocation(Context context ) {
 		this.c=context;
-		this.m=mm;
+
 		sp=PreferenceManager.getDefaultSharedPreferences(context);
 
 	}
@@ -69,7 +69,7 @@ public class MyLocation implements LocationListener {
 				longitude=location.getLongitude();
 				Toast.makeText(c, latitude+""+longitude, 2000).show();
 
-				new UpdateLocationUser().execute(m);
+				new UpdateLocationUser().execute();
 
 			}catch (Exception e) {
 				Log.v("Error thread", e.getMessage());
@@ -100,18 +100,18 @@ public class MyLocation implements LocationListener {
 	}
 
 
-	class UpdateLocationUser extends AsyncTask<MapMe, Void, String>{
+	class UpdateLocationUser extends AsyncTask<Void, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String resp;
 
 		@Override
-		protected String doInBackground(MapMe... params) {
+		protected String doInBackground(Void... params) {
 
 			try{
 
-				parameters.put("mapme", ""+params[0].getModelID());
-				parameters.put("user", "k"/*sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""*/);
+				parameters.put("mapme", ""+sp.getInt("mapmeid", -1));
+				parameters.put("user", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("lat", ""+latitude);
 				parameters.put("lon", ""+longitude);
 				parameters.put("mode", "2");
@@ -133,7 +133,7 @@ public class MyLocation implements LocationListener {
 			if(result!=null){
 				if(result.contains("0") ){
 					if(!isInsertMapping){
-						new InsertMappingUser().execute(m);
+						new InsertMappingUser().execute();
 					}
 
 				}else if(result.contains("-1")){
@@ -159,8 +159,8 @@ public class MyLocation implements LocationListener {
 
 			try{
 
-				parameters.put("mapme", ""+params[0].getModelID());
-				parameters.put("user", "k"/*sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""*/);
+				parameters.put("mapme", ""+sp.getInt("mapmeid", -1));
+				parameters.put("user", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("lat", ""+latitude);
 				parameters.put("lon", ""+longitude);
 				parameters.put("mode", "1");

@@ -27,9 +27,11 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -53,6 +55,8 @@ public class CompleteMapMeFirstTab extends Activity {
 	private List<MappingUser> mappings;
 	private Context cont;
 	private final String NAME="mapyou";
+	private SharedPreferences sp;
+
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -64,11 +68,20 @@ public class CompleteMapMeFirstTab extends Activity {
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
-		mappings = new ArrayList<MappingUser>();
 
-		if(initilizeMap()){
-			new RetrieveMapping().execute();
-		}
+		if(mapme!=null){
+			sp=PreferenceManager.getDefaultSharedPreferences(cont);
+			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
+			
+			mappings = new ArrayList<MappingUser>();
+
+
+			Intent i= new Intent(cont, ServiceConnection.class);
+			startService(i);
+			if(initilizeMap()){
+				new RetrieveMapping().execute();
+			}
+		}//else
 	}
 
 	public void refresh(View v){
@@ -106,7 +119,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				
+
 				return read();
 			} catch (Exception e) {
 				return null;
@@ -124,19 +137,19 @@ public class CompleteMapMeFirstTab extends Activity {
 					retrieveAllMappings(new JSONObject(result));
 					showMap();
 				} catch (JSONException e) {
-			 
+
 					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
 				}
-				
+
 			}
 
 		}
 
 	}
-	
+
 	public void showMap(){
 		googleMap.clear();
-		
+
 		Segment s = mapme.getSegment();
 		Point end = s.getEndPoint();
 		Point st = s.getStartPoint();
@@ -156,7 +169,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			googleMap.addMarker(opt);
 		}
 		else;
-		
+
 		for(int i=0; i<mappings.size(); i++){
 			MappingUser m = mappings.get(i);
 			User u = m.getUser();
@@ -172,7 +185,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.snippet(p.getLocation());
 			googleMap.addMarker(opt);
 		}
-		
+
 	}
 
 	public void retrieveAllMappings(JSONObject result){
@@ -246,7 +259,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		}
 
 	}
-	
+
 
 	public String read() throws Exception{
 
@@ -267,7 +280,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			return null;
 		}
 		finally{
-			
+
 			reader.close();
 
 		}

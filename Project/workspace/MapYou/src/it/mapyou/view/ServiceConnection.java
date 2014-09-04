@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -49,7 +50,7 @@ public class ServiceConnection extends Service {
 	protected LocationManager locationManager;
 
 	private MyLocation myloc;
-
+	private SharedPreferences sp;
 
 
 
@@ -57,8 +58,7 @@ public class ServiceConnection extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		MapMe m= new MapMe();
-		m.setModelID(3);
+	 
 
 
 		Criteria c = new Criteria();
@@ -73,7 +73,7 @@ public class ServiceConnection extends Service {
 		String provider = locationManager.getBestProvider(c, true);
 		location = locationManager.getLastKnownLocation(provider);
 
-		myloc = new MyLocation(ServiceConnection.this,m) ;
+		myloc = new MyLocation(ServiceConnection.this) ;
 
 
 		if(location!=null)
@@ -139,7 +139,7 @@ public class ServiceConnection extends Service {
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 			try {
-				parameters.put("mapme", String.valueOf("3"));
+				parameters.put("mapme", String.valueOf(sp.getInt("mapmeid", -1)));
 				JSONObject response=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;

@@ -104,12 +104,12 @@ public class Login extends FacebookController {
 
 	// onclick Facebook login
 	public void face(View v){
-		//setConnection();
-		//getID();
+		setConnection();
+		getID();
 		
 		 
-		Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
-		startService(i);
+		//Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
+		//startService(i);
 		
 		
 	}
