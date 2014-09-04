@@ -10,7 +10,6 @@ import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.ServiceConnection.RetrieveMapping;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -35,11 +34,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -66,11 +63,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
-<<<<<<< HEAD
 		act=this;
-=======
-		act = this;
->>>>>>> origin/master
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
@@ -162,11 +155,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			}else{
 				try {
 					retrieveAllMappings(new JSONObject(result));
-<<<<<<< HEAD
-					
 					showMap();
-
-=======
 					act.runOnUiThread(new Runnable() {
 						
 						@Override
@@ -174,7 +163,6 @@ public class CompleteMapMeFirstTab extends Activity {
 							showMap();
 						}
 					});
->>>>>>> origin/master
 				} catch (JSONException e) {
 
 					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
