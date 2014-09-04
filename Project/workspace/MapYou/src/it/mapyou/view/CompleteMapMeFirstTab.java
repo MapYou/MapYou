@@ -51,7 +51,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	private Context cont;
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
-	 
+ 
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -98,7 +98,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		if (googleMap == null) {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.completeMapMapMeFirstTab)).getMap();
-			googleMap.setMyLocationEnabled(true);
+			googleMap.setMyLocationEnabled(false);
 
 
 			if (googleMap == null) {
@@ -138,7 +138,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			super.onPostExecute(result);
 			mappings.clear();
 			if(result==null){
-				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
+				UtilAndroid.makeToast(cont, "Please refresh da file....", 5000);
 			}else{
 				try {
 					retrieveAllMappings(new JSONObject(result));

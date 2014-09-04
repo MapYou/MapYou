@@ -26,6 +26,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -59,7 +60,7 @@ public class ServiceConnection extends Service {
 		super.onCreate();
 	 
 
-
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Criteria c = new Criteria();
 		//		c.setAccuracy(Criteria.ACCURACY_FINE);
 		//		c.setPowerRequirement(Criteria.POWER_LOW);
@@ -75,10 +76,10 @@ public class ServiceConnection extends Service {
 		myloc = new MyLocation(ServiceConnection.this) ;
 
 
-		if(location!=null)
-			myloc.onLocationChanged(location);
-
-		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, myloc);
+//		if(location!=null)
+//			myloc.onLocationChanged(location);
+//
+//		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, myloc);
 
 
 	}
@@ -102,7 +103,7 @@ public class ServiceConnection extends Service {
 		};
 		t.schedule(tt, 0, 15000);
 
-		return Service.START_NOT_STICKY;
+		return Service.START_STICKY;
 	}
 
 	@Override
@@ -152,7 +153,7 @@ public class ServiceConnection extends Service {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(result==null){
-				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 500);
+				UtilAndroid.makeToast(getApplicationContext(), "Please refresh Server....", 500);
 			}else{
 				try {
 					write(result.toString());
