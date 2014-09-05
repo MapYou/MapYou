@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -83,8 +84,7 @@ public class NewMapMe extends FragmentActivity {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setTitle("New MapMe");
 		act=this;
-		 
-
+		
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
@@ -387,6 +387,26 @@ public class NewMapMe extends FragmentActivity {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map2)).getMap();
 			googleMap.setMyLocationEnabled(true);
 
+			googleMap.setOnMarkerDragListener(new OnMarkerDragListener() {
+				
+				@Override
+				public void onMarkerDragStart(Marker arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onMarkerDragEnd(Marker arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onMarkerDrag(Marker arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 			if (googleMap == null) {
 				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
 			}
