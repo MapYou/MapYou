@@ -76,12 +76,12 @@ public class NotificationAdapter extends BaseAdapter{
 		Notification m = notif.get(position);
 		if(m.getNotificationType().equals("SEND")){
 			title.setText("MapYou: invite for mapme");
-			message.setText("You have received an invitation from "
-					+m.getNotified().getNickname());
+			message.setText("You have received an invitation from \""
+					+m.getNotifier().getNickname()+"\"");
 		}else{
 			title.setText("MapYou: request to partecipate");
-			message.setText("You have received a request to partecipate by "+
-					m.getNotifier().getNickname());
+			message.setText("You have received a request to partecipate by \""+
+					m.getNotifier().getNickname()+"\"");
 		}
 
 		convertView.setOnClickListener(new OnClickListener() {
@@ -105,10 +105,10 @@ public class NotificationAdapter extends BaseAdapter{
 				:
 					"You are invited");
 		alert2.setMessage(no.getNotificationType().equals("REQUEST")?
-				"Do you want add "+no.getNotifier().getNickname()
-				+ "into your mapme \""+no.getNotificationObject().getName()+"\" ?"
+				"Do you want add \""+no.getNotifier().getNickname()
+				+ "\" into your mapme \""+no.getNotificationObject().getName()+"\" ?"
 				:
-					no.getNotifier().getNickname()+ " has invited you to partecipate in mapme"
+					"\""+no.getNotifier().getNickname()+ "\" has invited you to partecipate in mapme"
 							+ " \""+no.getNotificationObject().getName()+"\"");
 		alert2.setIcon(R.drawable.ic_launcher);
 		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {

@@ -47,10 +47,16 @@
 
     <!-- Artist Name -->
 
+    <!-- Rightend Duration -->
+
+
+    <!-- Rightend Arrow -->
+
     <HorizontalScrollView
         android:id="@+id/hhhh"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:fillViewport="true"
         android:scrollbars="horizontal" >
@@ -61,11 +67,7 @@
             android:layout_height="wrap_content"
             android:textColor="#343434"
             android:textSize="12dp" />
+
     </HorizontalScrollView>
-
-    <!-- Rightend Duration -->
-
-
-    <!-- Rightend Arrow -->
 
 </RelativeLayout>

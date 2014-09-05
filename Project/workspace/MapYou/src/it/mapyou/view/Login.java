@@ -68,21 +68,19 @@ public class Login extends FacebookController {
 
 
 		// Code use for notifications (Alert)
-//		Intent i = getIntent();
-//		if(i.getStringExtra("notification") != null)
-//		{
-//			notification=true;
-//			try {
-//				notificationID = i.getExtras().getInt("notification_id");
-//			} catch (Exception e) {
-//				notificationID = -1;
-//			}
-//		}else{
-//			notification=false;
-//			notificationID = -1;
-//		}
-		notification=true;
-		notificationID=109;
+		Intent i = getIntent();
+		if(i.getStringExtra("notification") != null)
+		{
+			notification=true;
+			try {
+				notificationID = i.getExtras().getInt("notification_id");
+			} catch (Exception e) {
+				notificationID = -1;
+			}
+		}else{
+			notification=false;
+			notificationID = -1;
+		}
 
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
@@ -98,10 +96,9 @@ public class Login extends FacebookController {
 
 	public void goToNotificationActivity(){
 		Bundle b = new Bundle();
-		b.putInt("notification_id", notificationID);
-		Intent i = new Intent(Login.this, NotificationActivity.class);
+		b.putInt("idnot", notificationID);
+		Intent i = new Intent(Login.this, NotificationList.class);
 		i.putExtras(b);
-		i.putExtra("viewnotification", "viewnotification");
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
 	}

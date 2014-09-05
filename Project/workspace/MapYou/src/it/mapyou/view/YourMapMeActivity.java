@@ -65,7 +65,7 @@ public class YourMapMeActivity extends  Activity {
 			try {
 				JSONObject json=null;
 				parameters.put("iduser", URLEncoder.encode(params[0], "UTF-8"));
-				parameters.put("inclusion", String.valueOf(inclusion));
+				parameters.put("inclusion", String.valueOf(inclusion?1:0));
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.YOUR_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
 
