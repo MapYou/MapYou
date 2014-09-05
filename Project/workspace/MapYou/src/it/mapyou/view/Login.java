@@ -40,7 +40,8 @@ public class Login extends FacebookController {
 	private SharedPreferences sp;
 	private User userLogin=null;
 	private boolean notification=false;
-	private String idnotification="";
+	private String idnotification;
+	private int notificationID;
 
 	@Override
 	protected void onStop() {
@@ -67,9 +68,21 @@ public class Login extends FacebookController {
 
 
 		// Code use for notifications (Alert)
-		Intent i = getIntent();
-		if(i.getStringExtra("notification") != null)
-			notification=true;
+//		Intent i = getIntent();
+//		if(i.getStringExtra("notification") != null)
+//		{
+//			notification=true;
+//			try {
+//				notificationID = i.getExtras().getInt("notification_id");
+//			} catch (Exception e) {
+//				notificationID = -1;
+//			}
+//		}else{
+//			notification=false;
+//			notificationID = -1;
+//		}
+		notification=true;
+		notificationID=109;
 
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
@@ -84,7 +97,10 @@ public class Login extends FacebookController {
 	}
 
 	public void goToNotificationActivity(){
+		Bundle b = new Bundle();
+		b.putInt("notification_id", notificationID);
 		Intent i = new Intent(Login.this, NotificationActivity.class);
+		i.putExtras(b);
 		i.putExtra("viewnotification", "viewnotification");
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
@@ -106,12 +122,12 @@ public class Login extends FacebookController {
 	public void face(View v){
 		setConnection();
 		getID();
-		
-		 
+
+
 		//Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
 		//startService(i);
-		
-		
+
+
 	}
 
 
@@ -227,30 +243,30 @@ public class Login extends FacebookController {
 									notification=false;
 									goToNotificationActivity();
 								}
-								
+
 								else{
-									
-//									for(int i=0; i<1000; i++){
-//										MapMe m = new MapMe();
-//										m.setAdministrator(userLogin);
-//										m.setMaxNumUsers(15);
-//										m.setName("nome_"+i);
-//										SimpleSegment sg = new SimpleSegment();
-//										Point endPoint = new Point();
-//										Point startPoint = new Point();
-//										startPoint.setLatitude(41.129761285949);
-//										startPoint.setLongitude(14.782620817423);
-//										startPoint.setLocation("Benevento Benevento, Italy");
-//										endPoint.setLatitude(41.560254489813);
-//										endPoint.setLongitude(14.662716016173);
-//										endPoint.setLocation("Campobasso, Italy");
-//										sg.setEndPoint(endPoint);
-//										sg.setStartPoint(startPoint);
-//										m.setSegment(sg);
-//										new SaveMapMe().execute(m);
-//									}
-									
-									
+
+									//									for(int i=0; i<1000; i++){
+									//										MapMe m = new MapMe();
+									//										m.setAdministrator(userLogin);
+									//										m.setMaxNumUsers(15);
+									//										m.setName("nome_"+i);
+									//										SimpleSegment sg = new SimpleSegment();
+									//										Point endPoint = new Point();
+									//										Point startPoint = new Point();
+									//										startPoint.setLatitude(41.129761285949);
+									//										startPoint.setLongitude(14.782620817423);
+									//										startPoint.setLocation("Benevento Benevento, Italy");
+									//										endPoint.setLatitude(41.560254489813);
+									//										endPoint.setLongitude(14.662716016173);
+									//										endPoint.setLocation("Campobasso, Italy");
+									//										sg.setEndPoint(endPoint);
+									//										sg.setStartPoint(startPoint);
+									//										m.setSegment(sg);
+									//										new SaveMapMe().execute(m);
+									//									}
+
+
 									UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
 									Intent intent= new Intent(Login.this,DrawerMain.class);
 									startActivity(intent);

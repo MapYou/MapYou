@@ -33,7 +33,6 @@ public class MyLocation implements LocationListener {
 
 	private SharedPreferences sp;
 	private boolean isInsertMapping=false;
-	private Location oldLocation=null;
 
 	/**
 	 * 

@@ -36,12 +36,13 @@ public class NotificationActivity extends Activity {
 	private final String RICHIESTA="Richiesta di partecipazione da:  ";
 	private final String MAPME="per la MapMe:   ";
 	private SharedPreferences sp;
-	private User userInvited;
+	//	private User userInvited;
 	private TextView invite;
 	private TextView inviteMapme;
 	private Notification notification;
 	private String notificationType;
 	private boolean isAccept=false;
+	private int notificationID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,15 @@ public class NotificationActivity extends Activity {
 		setContentView(R.layout.send_partecipation_layout);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+		try {
+			notificationID = getIntent().getExtras().getInt("notification_id");
+		} catch (Exception e) {
+			notificationID = -1;
+		}
 
-		userInvited= new User();
-		userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
-		userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+		//		userInvited= new User();
+		//		userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
+		//		userInvited.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 		invite=(TextView) findViewById(R.id.textViewInvitoDa);
 		inviteMapme=(TextView) findViewById(R.id.textViewMapMeinvito);
 
@@ -67,18 +73,14 @@ public class NotificationActivity extends Activity {
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
-			try {
-				JSONObject json=null;
+			JSONObject json=null;
 
-				parameters.put("userinvited", URLEncoder.encode(userInvited.getNickname(), "UTF-8"));
-				json=DeviceController.getInstance().getServer().
-						requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
+			parameters.put("idnot", ""+notificationID);
+			json=DeviceController.getInstance().getServer().
+					requestJson(SettingsServer.SELECT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 
-				return json;
-			} catch (UnsupportedEncodingException e) {
-				return null;
-			}
+			return json;
 		}
 
 		@Override
@@ -112,6 +114,7 @@ public class NotificationActivity extends Activity {
 		Notification notification = new Notification();
 		MapMe mapme= new MapMe();
 		User userInvite= new User();
+		User userNotified = new User();
 		JSONArray jsonUser= null;
 		JSONArray jsonMapme= null;
 		try {
@@ -126,6 +129,13 @@ public class NotificationActivity extends Activity {
 					userInvite.setNickname(jjj.getString("nickname"));
 					userInvite.setModelID(Integer.parseInt(jjj.getString("id")));
 				}
+				
+				jsonUser=hhh.getJSONArray("notified");
+				for(int j=0; j<jsonUser.length(); j++){
+					JSONObject jjj=jsonUser.getJSONObject(j);
+					userNotified.setNickname(jjj.getString("nickname"));
+					userNotified.setModelID(Integer.parseInt(jjj.getString("id")));
+				}
 
 				jsonMapme=hhh.getJSONArray("mapme");
 				for(int z=0; z<jsonMapme.length(); z++){
@@ -137,13 +147,8 @@ public class NotificationActivity extends Activity {
 				notification.setNotificationType(hhh.getString("type"));
 				notificationType = notification.getNotificationType();
 				notification.setNotificationObject(mapme);
-//				if(notification.getNotificationType().equals("REQUEST")){
-					notification.setNotifier(userInvite);
-					notification.setNotified(userInvited);
-//				}else{
-//					notification.setNotifier(userInvited);
-//					notification.setNotified(userInvite);
-//				}
+				notification.setNotifier(userInvite);
+				notification.setNotified(userNotified);
 			}
 			return notification;
 
@@ -162,10 +167,10 @@ public class NotificationActivity extends Activity {
 				String resp=null;
 
 				parameters.put("iduser", URLEncoder.encode(""+
-				(notificationType.equals("REQUEST")?
-						notification.getNotifier().getModelID():
-							notification.getNotified().getModelID()
-						), "UTF-8"));
+						(notificationType.equals("REQUEST")?
+								notification.getNotifier().getModelID():
+									notification.getNotified().getModelID()
+								), "UTF-8"));
 				parameters.put("idnot",""+notification.getModelID());
 				parameters.put("idm", ""+notification.getNotificationObject().getModelID());
 				parameters.put("isAccept", ""+String.valueOf(params[0]));
@@ -198,7 +203,7 @@ public class NotificationActivity extends Activity {
 						UtilAndroid.makeToast(getApplicationContext(), "Server error.",5000);				
 					}
 				}else {
-				
+
 				}
 
 			}else{
@@ -252,13 +257,13 @@ public class NotificationActivity extends Activity {
 		return isPart;
 	}
 
-	public void goToLoginPage (){
-		Intent i = new Intent(NotificationActivity.this, Login.class);
-		i.putExtra("notification", "notification");
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);	
-	}
+//	public void goToLoginPage (){
+//		Intent i = new Intent(NotificationActivity.this, Login.class);
+//		i.putExtra("notification", "notification");
+//		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		startActivity(i);	
+//	}
 
 
 	@Override

@@ -86,7 +86,7 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 			public void onClick(View v) {
 				final MapMe m = mapme.get(position);
 				AlertDialog	alert2= new AlertDialog.Builder(act).create();
-				alert2.setTitle("Request Partecipation");
+				alert2.setTitle("Request to partecipate");
 				alert2.setMessage("Do you want send a request to partecipate "
 						+ "to '"+m.getAdministrator().getNickname()+"' for mapme \""+m.getName()+"\"");
 				alert2.setIcon(R.drawable.ic_launcher);

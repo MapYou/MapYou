@@ -8,18 +8,17 @@ import it.mapyou.view.Login;
 import it.mapyou.view.NotificationActivity;
 import android.app.Activity;
 import android.app.Notification;
-import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 
 
@@ -90,7 +89,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		selectActivity();
 		generateNotification(context, intent.getExtras().getString("price"),
 				intent.getExtras().getString("title"),
-				intent.getExtras().getString("notif"));
+				intent.getExtras().getString("notif"),
+				intent.getExtras().getInt("idnot"));
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.i(TAG, "Received deleted messages notification");
 
 		selectActivity();
-		generateNotification(context, "", "", "");
+		generateNotification(context, "", "", "", -1);
 	}
 
 	/**
@@ -136,7 +136,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * Create a notification to inform the user that server has sent a message.
 	 */
 	@SuppressWarnings("deprecation")
-	private static void generateNotification(Context context, String msg, String title, String notif) {
+	private static void generateNotification(Context context, String msg, 
+			String title, String notif, int id) {
 
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
@@ -150,7 +151,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-
+		Bundle b = new Bundle();
+		b.putInt("notification_id", id);
+		notificationIntent.putExtras(b);
 		if(act == Login.class)
 			notificationIntent.putExtra("notification", "notification");
 		else;
