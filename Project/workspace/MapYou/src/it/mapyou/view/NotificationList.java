@@ -79,8 +79,7 @@ public class NotificationList extends Activity{
 	
 	private void dispatchNotification(int id){
 		Intent i = new Intent(this, NotificationActivity.class);
-		Bundle b = new Bundle();
-		b.putInt("notification_id", id);
+		i.putExtra("notification_id", id);
 		startActivity(i);
 	}
 	

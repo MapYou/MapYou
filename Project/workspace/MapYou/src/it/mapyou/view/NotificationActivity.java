@@ -51,11 +51,7 @@ public class NotificationActivity extends Activity {
 		setContentView(R.layout.send_partecipation_layout);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-		try {
-			notificationID = getIntent().getExtras().getInt("notification_id");
-		} catch (Exception e) {
-			notificationID = -1;
-		}
+		notificationID = getIntent().getIntExtra("notification_id", -1);
 
 		//		userInvited= new User();
 		//		userInvited.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)); // idUserLogged
