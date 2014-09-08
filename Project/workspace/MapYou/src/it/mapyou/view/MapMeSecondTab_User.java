@@ -30,6 +30,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -344,16 +346,20 @@ public class MapMeSecondTab_User extends Activity {
 		}
 	}
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		getMenuInflater().inflate(R.menu.menu, menu);
-		return true;
-
-	}
-
+	 
+	
 
 	public void refresh (View v){
 		new DownloadAllUser().execute();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+
 
 }

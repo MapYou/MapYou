@@ -7,6 +7,8 @@ import it.mapyou.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -55,6 +57,9 @@ public class MapMeLayoutHome extends TabActivity {
 		tabHost.addTab(usersTab);
 		tabHost.addTab(completeMapMeTab);
 	}
+	
+	
+
 }
 
 

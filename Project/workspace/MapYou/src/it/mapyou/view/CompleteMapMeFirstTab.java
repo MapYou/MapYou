@@ -9,12 +9,14 @@ import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
+import it.mapyou.navigator.PArserDataFromDirectionsApi;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,10 +28,13 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -38,6 +43,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -52,6 +58,8 @@ public class CompleteMapMeFirstTab extends Activity {
 	private final String NAME="mapyou";
 	private SharedPreferences sp;
 	private Activity act;
+	private Intent intent;
+	private MyLocation myloc;
 
 
 	/* (non-Javadoc)
@@ -65,6 +73,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		act=this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
+		
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -72,9 +81,11 @@ public class CompleteMapMeFirstTab extends Activity {
 			mappings = new ArrayList<MappingUser>();
 
 
-			Intent i= new Intent(cont, ServiceConnection.class);
-			startService(i);
+			myloc= new MyLocation();
 			if(initilizeMap()){
+				
+				myloc.start();
+				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
 					
@@ -83,10 +94,8 @@ public class CompleteMapMeFirstTab extends Activity {
 						new RetrieveMapping().execute();
 					}
 				};
-				t.schedule(tt, 0, 2000);
+				t.schedule(tt, 7000, 2000);
 
-				
-				
 			}
 
 		}else
@@ -97,14 +106,13 @@ public class CompleteMapMeFirstTab extends Activity {
 		new RetrieveMapping().execute();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
+	 
 	@Override
 	public void onBackPressed() {
-		Intent i = new Intent(this, DrawerMain.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		myloc.stop();
+		Intent i= new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
+		
 	}
 
 	private boolean initilizeMap() {
@@ -212,6 +220,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			opt.snippet(p.getLocation());
 			opt.visible(true);
 			googleMap.addMarker(opt);
+			 
 		}
 	}
 
@@ -312,4 +321,103 @@ public class CompleteMapMeFirstTab extends Activity {
 
 		}
 	}
+	
+	public class DownlDataFromWebServer extends AsyncTask<String, Void, String>{
+
+		@Override
+		protected String doInBackground(String... url) {
+
+			String data="";
+			try {
+				data=PArserDataFromDirectionsApi.getData(url[0]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return data;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			ParserTask p= new ParserTask();
+			p.execute(result); //tutto il contenuto letto dal Json
+
+		}
+	}
+
+	public class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>>> {
+
+		@Override
+		protected List<List<HashMap<String,String>>> doInBackground(String...myJson ) {
+			
+			PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
+			List<List<HashMap<String,String>>> myRoutes=null;
+
+			JSONObject jjson=null;
+			try {
+				jjson = new JSONObject(myJson[0]); 
+				Log.v("json", jjson.toString());
+				myRoutes=parser.parserJson(jjson); 
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			return myRoutes;
+		}
+
+		@Override
+		protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+			super.onPostExecute(result);
+			
+			ArrayList<LatLng> points=null;
+			PolylineOptions lineOpt=null;
+			List<HashMap<String, String>> path;
+			HashMap<String, String> map;
+			double lat=0,lon=0;
+			Log.v("result", result.toString());
+			for(int i=0; i<result.size(); i++){
+				path=result.get(i);
+				points= new ArrayList<LatLng>();
+				lineOpt= new PolylineOptions();
+				for(int j=0; j<path.size(); j++){
+					map=path.get(j);
+					if(j==0){
+						continue;
+					}
+					if(j==1){
+						continue;
+					}
+					lat=Double.parseDouble(map.get("lat"));
+					lon=Double.parseDouble(map.get("lon"));
+					points.add(new LatLng(lat,lon)); 
+				}
+				lineOpt.addAll(points);
+				lineOpt.width(10);
+				lineOpt.geodesic(true);
+				lineOpt.color(Color.MAGENTA);
+			}
+			googleMap.addPolyline(lineOpt); //aggiungo polilinea googleMap
+
+		}
+
+	}
+
+	
+	public String getUrlFromDirectionApi(Point orig, Point dest){
+
+		String url="";
+		String ori="origin="+orig.getLatitude()+","+orig.getLongitude();
+		String des="destination="+dest.getLatitude()+","+dest.getLongitude();
+		String parameters=ori+"&"+des;
+		String sensor="&sensor=false";
+		String output="json?";
+
+		String finalOutputString=output.concat(parameters).concat(sensor);
+		url="https://maps.googleapis.com/maps/api/directions/"+finalOutputString+"";
+
+		return url; 
+
+	}
+
 }
