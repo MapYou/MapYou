@@ -12,8 +12,10 @@ import it.mapyou.util.UtilAndroid;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,15 +24,13 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-
-
-
 public class ChatUserToUser extends Activity{
 
 	private User user;
 
 	private EditText mess;
 	private Activity act;
+	private SharedPreferences sp;
 
 
 	@Override
@@ -41,13 +41,14 @@ public class ChatUserToUser extends Activity{
 		if(b!=null && b.containsKey("user")){
 			user = (User) b.getSerializable("user");
 			if(user!=null){
+				sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 				TextView n= (TextView) findViewById(R.id.textViewNickname);
 				TextView e= (TextView) findViewById(R.id.textViewEmail);
 				e.setText(user.getEmail());
 				n.setText(user.getEmail());
+				act=this;
+				mess=(EditText)findViewById(R.id.editTextBroadcast);
 			}
-			act=this;
-			mess=(EditText)findViewById(R.id.editTextChatUser);
 
 		}
 	}
@@ -57,7 +58,7 @@ public class ChatUserToUser extends Activity{
 		String message=mess.getText().toString();
 
 		if(message.length() >0)
-			new SendMessage().execute("");
+			new SendMessage().execute(message);
 		else
 			UtilAndroid.makeToast(act, "Please insert text message", 5000);
 
@@ -77,18 +78,18 @@ public class ChatUserToUser extends Activity{
 
 		}
 
-
+// CHAT CHAT_BROADCAST
 		@Override
 		protected String doInBackground(String... params) {
 
 			try {
-				parameters.put("admin", Util.CURRENT_MAPME.getAdministrator().getNickname().toString());
-				parameters.put("user", "");
+				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+				parameters.put("user", user.getNickname());
 				parameters.put("idm",  ""+Integer.parseInt(""+Util.CURRENT_MAPME.getModelID()));
 				parameters.put("type",  "CHAT");
 				parameters.put("message",  params[0]);
-				parameters.put("title",  Util.CURRENT_MAPME.getAdministrator().getNickname().toString());
-				parameters.put("notif",  "Messaggio da "+Util.CURRENT_MAPME.getAdministrator().getNickname().toString());
+				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 
 				response=DeviceController.getInstance().getServer().
 						request(SettingsServer.CHAT, DeviceController.getInstance().getServer().setParameters(parameters));

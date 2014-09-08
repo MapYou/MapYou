@@ -90,7 +90,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		generateNotification(context, intent.getExtras().getString("price"),
 				intent.getExtras().getString("title"),
 				intent.getExtras().getString("notif"),
-				intent.getExtras().getInt("idnot"));
+				intent.getExtras().getInt("idnot"),
+				intent.getExtras().getString("type"));
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Log.i(TAG, "Received deleted messages notification");
 
 		selectActivity();
-		generateNotification(context, "", "", "", -1);
+		generateNotification(context, "", "", "", -1, "");
 	}
 
 	/**
@@ -137,9 +138,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 */
 	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context, String msg, 
-			String title, String notif, int id) {
+			String title, String notif, int id, String type) {
 
-		int icon = R.drawable.ic_launcher;
+		int icon = type.equals("CHAT") || type.equals("CHAT_BROADCAST")?
+				R.drawable.profile:R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 
 		
