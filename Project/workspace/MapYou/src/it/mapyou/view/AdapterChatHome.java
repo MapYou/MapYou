@@ -9,10 +9,12 @@ import it.mapyou.model.User;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -56,27 +58,27 @@ public class AdapterChatHome extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		if(convertView==null){
-			convertView=View.inflate(cont, R.layout.user_profile_mapme_grid, null);
+			convertView=View.inflate(cont, R.layout.chat_adapter, null);
 		}
 
-		TextView n= (TextView) convertView.findViewById(R.id.textViewNickname);
-		ImageView icon=(ImageView) convertView.findViewById(R.id.imageView1);
+		TextView n= (TextView) convertView.findViewById(R.id.textViewNicknameChatAdapter);
+//		ImageView icon=(ImageView) convertView.findViewById(R.id.imageViewChatAdapter);
 
 		User user = u.get(position);
+		n.setText(user.getNickname());
 
-//		if(user.getNickname().equals(mapme.getAdministrator().getNickname())){
-//			icon.setImageResource(R.drawable.admin);
-//			n.setText("Admin:\n"+user.getNickname());
-//		}else
-//			n.setText(user.getNickname());
-//
-//		convertView.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				new RetrieveMapping().execute(map.get(position).getModelID());
-//			}
-//		});
+		convertView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				User user = u.get(position);
+				Intent it = new Intent(cont, ChatUserToUser.class);
+				Bundle b = new Bundle();
+				b.putSerializable("user", user);
+				it.putExtras(b);
+				cont.startActivity(it);
+			}
+		});
 		return convertView;
 	} 
 

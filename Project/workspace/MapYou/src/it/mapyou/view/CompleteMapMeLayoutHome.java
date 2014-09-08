@@ -41,8 +41,8 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		first_completeMapMeTab.setContent(mapmeTabIntent);
 
 		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
-		second_completeMapMeTab.setIndicator("Options", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
-		Intent usersTabIntent = new Intent(this, CompleteMapMeSecondTab_User.class);
+		second_completeMapMeTab.setIndicator("Chat", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
+		Intent usersTabIntent = new Intent(this, ChatHome.class);
 		second_completeMapMeTab.setContent(usersTabIntent);
 
 		tabHost.addTab(first_completeMapMeTab);

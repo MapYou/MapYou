@@ -24,7 +24,9 @@
             android:layout_height="38dp"
             android:layout_gravity="center"
             android:background="@drawable/button"
+            android:onClick="broadcast"
             android:text="Broadcast" />
+
     </LinearLayout>
 
 </ScrollView>

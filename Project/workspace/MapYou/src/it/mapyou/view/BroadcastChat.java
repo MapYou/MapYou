@@ -13,11 +13,20 @@ import android.os.Bundle;
  */
 public class BroadcastChat extends Activity {
 	
+	private String[] users;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.broadcastchat);
+		Bundle b = getIntent().getExtras();
+		if(b!=null && b.containsKey("users")){
+			users = b.getStringArray("users");
+			if(users!=null){
+				
+			}
+		}
 	}
 
 }
