@@ -3,25 +3,10 @@
  */
 package it.mapyou.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import it.mapyou.R;
-import it.mapyou.controller.DeviceController;
-import it.mapyou.model.User;
-import it.mapyou.network.SettingsServer;
-import it.mapyou.util.UtilAndroid;
-import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -41,15 +26,13 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_layout);
-<<<<<<< HEAD
+ 
 	 
 
 
 		Bundle bund = new Bundle();
 		bund.putParcelable("mapme", Util.CURRENT_MAPME);
-=======
  
->>>>>>> origin/master
 		TabHost tabHost = getTabHost();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
