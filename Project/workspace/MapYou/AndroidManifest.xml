@@ -133,6 +133,8 @@
      
          <activity android:name="it.mapyou.view.MapActivity" >
         </activity>
+        <activity android:name="it.mapyou.view.MyLocation" >
+        </activity>
 
     </application>
 
