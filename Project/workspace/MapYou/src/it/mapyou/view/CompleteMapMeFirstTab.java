@@ -10,25 +10,21 @@ import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
+import it.mapyou.util.MappingReader;
 import it.mapyou.util.UtilAndroid;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -53,13 +49,13 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	private GoogleMap googleMap;
 	private MapMe mapme;
-	private List<MappingUser> mappings;
 	private Context cont;
-	private final String NAME="mapyou";
 	private SharedPreferences sp;
 	private Activity act;
 	private Intent intent;
 	private MyLocation myloc;
+	private MappingReader reader;
+	private List<MappingUser> mappings;
 
 
 	/* (non-Javadoc)
@@ -72,18 +68,16 @@ public class CompleteMapMeFirstTab extends Activity {
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
 		act=this;
-		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
+		mapme = Util.CURRENT_MAPME;
 		
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
 
-			mappings = new ArrayList<MappingUser>();
-
-
 			myloc= new MyLocation(this);
 			if(initilizeMap()){
-				
+				reader = new MappingReader(act);
+				mappings = new ArrayList<MappingUser>();
 				myloc.start();
 				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
@@ -130,8 +124,8 @@ public class CompleteMapMeFirstTab extends Activity {
 		}else;
 		return googleMap!=null;
 	}
-
-	class RetrieveMapping extends AsyncTask<Void, Void, String>{
+	
+class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		
 		@Override
 		protected void onPreExecute() {
@@ -148,7 +142,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		protected String doInBackground(Void... params) {
 			try {
 
-				return read();
+				return reader.read();
 			} catch (Exception e) {
 				return null;
 			}
@@ -157,13 +151,11 @@ public class CompleteMapMeFirstTab extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			mappings.clear();
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh da file....", 5000);
 			}else{
 				try {
-					retrieveAllMappings(new JSONObject(result));
-					showMap();
+					mappings = reader.retrieveAllMappings(new JSONObject(result));
 					act.runOnUiThread(new Runnable() {
 						
 						@Override
@@ -223,105 +215,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			 
 		}
 	}
-
-	public void retrieveAllMappings(JSONObject result){
-		try {
-			JSONArray jsonArr = result.getJSONArray("AllMappings");
-			for(int i=0; i<jsonArr.length(); i++){
-				MappingUser mp= getMappingFromMapme(jsonArr.getJSONObject(i));
-				if(mp!=null)
-					mappings.add(mp);
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private MappingUser getMappingFromMapme (JSONObject json){
-
-
-		try {
-			MappingUser m= new MappingUser();
-			User admin = getUserByJSon(json.getJSONArray("user"));
-			Point point = getPointByJSon(json.getJSONArray("point"));
-			if(admin!=null && point!=null){
-				m.setModelID(Integer.parseInt(json.getString("id")));
-				m.setUser(admin);
-				m.setPoint(point);
-			}else;
-			return m;
-		}catch (Exception e) {
-			return null;
-		}
-	}
-
-	private User getUserByJSon (JSONArray jsonArr){
-
-		try {
-			User user= new User();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-			}
-			return user;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	private Point getPointByJSon (JSONArray jsonArr){
-
-		try {
-			Point ptn= new Point();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
-				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
-				ptn.setLocation(json.getString("location"));
-			}
-			return ptn;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-
-	public String read() throws Exception{
-
-		BufferedReader reader=null;
-		try {
-			FileInputStream f= openFileInput(NAME);
-			reader= new BufferedReader(new InputStreamReader(f));
-			StringBuffer bf=new StringBuffer();
-			String line=null;
-
-			while((line=reader.readLine()) !=null){
-				bf.append(line);
-			}
-
-			return bf.toString();
-
-		} catch (Exception e) {
-			return null;
-		}
-		finally{
-
-			reader.close();
-
-		}
-	}
-	
+		
 	public class DownlDataFromWebServer extends AsyncTask<String, Void, String>{
 
 		@Override
