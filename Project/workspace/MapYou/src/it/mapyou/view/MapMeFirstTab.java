@@ -1,8 +1,8 @@
+
 /**
  * 
  */
 package it.mapyou.view;
-
 import it.mapyou.R;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
@@ -12,13 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
 public class MapMeFirstTab extends Activity {
-
 	private MapMe mapme;
 	private TextView textNickname, textStart, textend;
 	
@@ -55,5 +53,4 @@ public class MapMeFirstTab extends Activity {
 	public void live(View v){
 		startActivity(new Intent(this, CompleteMapMeLayoutHome.class));
 	}
-
 }

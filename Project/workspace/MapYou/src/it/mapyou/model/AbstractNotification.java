@@ -3,6 +3,8 @@
  */
 package it.mapyou.model;
 
+import java.util.GregorianCalendar;
+
 import android.os.Parcelable;
 
 /**
@@ -16,6 +18,21 @@ public abstract class AbstractNotification<X, Y, Z> extends SubjectModel impleme
 	private Z notificationObject;
 	private String notificationState;
 	private String notificationType;
+	private GregorianCalendar date;
+	
+	/**
+	 * @return the date
+	 */
+	public GregorianCalendar getDate() {
+		return date;
+	}
+	
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(GregorianCalendar date) {
+		this.date = date;
+	}
 	
 	/**
 	 * @return the notificationState

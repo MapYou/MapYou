@@ -11,6 +11,7 @@ import it.mapyou.util.UtilAndroid;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class NotificationAdapter extends BaseAdapter{
 
 	private Activity cont;
 	private List<Notification> notif;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 	public NotificationAdapter(Activity cont, List<Notification> notif) {
 		this.cont = cont;
@@ -73,16 +75,23 @@ public class NotificationAdapter extends BaseAdapter{
 
 		TextView title = (TextView) convertView.findViewById(R.id.title);
 		TextView message = (TextView) convertView.findViewById(R.id.message);
+		TextView dat = (TextView) convertView.findViewById(R.id.textViewDate);
 		Notification m = notif.get(position);
+		dat.setText(sdf.format(m.getDate().getTime()));
 		if(m.getNotificationType().equals("SEND")){
 			title.setText("MapYou: invite for mapme");
 			message.setText("You have received an invitation from \""
 					+m.getNotifier().getNickname()+"\"");
-		}else{
+		}else {
 			title.setText("MapYou: request to partecipate");
 			message.setText("You have received a request to partecipate by \""+
 					m.getNotifier().getNickname()+"\"");
 		}
+//		else if(m.getNotificationType().equals("CHAT")){
+//			title.setText("MapYou: chat message");
+//			message.setText("You have received a message from \""+
+//					m.getNotifier().getNickname()+"\"");
+//		}
 
 		convertView.setOnClickListener(new OnClickListener() {
 			
@@ -97,19 +106,26 @@ public class NotificationAdapter extends BaseAdapter{
 		});
 		return convertView;
 	}
+	
+//	public void viewChatNotification(final Notification no){
+//		AlertDialog	alert2= new AlertDialog.Builder(cont).create();
+//		alert2.setTitle("Chat message");
+//		alert2.setIcon(R.drawable.profile);
+//		alert2.setButton("Ok", new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.cancel();
+//			}
+//		});
+//
+//		alert2.show();
+//	}
 
 	public void notificationSend_Request(final Notification no){
 		AlertDialog	alert2= new AlertDialog.Builder(cont).create();
-		alert2.setTitle(no.getNotificationType().equals("REQUEST")?
-				"Request to partecipate"
-				:
-					"You are invited");
-		alert2.setMessage(no.getNotificationType().equals("REQUEST")?
-				"Do you want add \""+no.getNotifier().getNickname()
-				+ "\" into your mapme \""+no.getNotificationObject().getName()+"\" ?"
-				:
-					"\""+no.getNotifier().getNickname()+ "\" has invited you to partecipate in mapme"
-							+ " \""+no.getNotificationObject().getName()+"\"");
+		alert2.setTitle("Chat message");
+		alert2.setMessage(no.getNotificationState());
 		alert2.setIcon(R.drawable.ic_launcher);
 		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
 

@@ -32,16 +32,16 @@ public class ChatUserToUser extends Activity{
 	private Activity act;
 	private SharedPreferences sp;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatusertouser);
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Bundle b = getIntent().getExtras();
 		if(b!=null && b.containsKey("user")){
 			user = (User) b.getSerializable("user");
 			if(user!=null){
-				sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+				sp.edit().putBoolean("isChatMode", true);
 				TextView n= (TextView) findViewById(R.id.textViewNickname);
 				TextView e= (TextView) findViewById(R.id.textViewEmail);
 				e.setText(user.getEmail());
@@ -49,8 +49,10 @@ public class ChatUserToUser extends Activity{
 				act=this;
 				mess=(EditText)findViewById(R.id.editTextBroadcast);
 			}
+			sp.edit().putBoolean("isChatMode", false);
 
-		}
+		}else
+			sp.edit().putBoolean("isChatMode", false);
 	}
 
 	public void sendm (View v){
@@ -111,6 +113,66 @@ public class ChatUserToUser extends Activity{
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onRestart()
+	 */
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		sp.edit().putBoolean("isChatMode", hasWindowFocus());
 	}
 
 }

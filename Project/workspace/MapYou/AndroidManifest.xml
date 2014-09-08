@@ -138,6 +138,8 @@
         <activity android:name=".view.ChatUserToUser"></activity>
         <activity android:name=".view.BroadcastChat"></activity>
         <activity android:name=".view.ChatHome"></activity>
+        <activity android:name=".view.NotificationTabHome"></activity>
+        <activity android:name=".view.NotificationSecondTab"></activity>
 
     </application>
 

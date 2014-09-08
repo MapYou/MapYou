@@ -140,7 +140,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static void generateNotification(Context context, String msg, 
 			String title, String notif, int id, String type) {
 
-		int icon = type.equals("CHAT") || type.equals("CHAT_BROADCAST")?
+		int icon = type.equals("CHAT")?
 				R.drawable.profile:R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 

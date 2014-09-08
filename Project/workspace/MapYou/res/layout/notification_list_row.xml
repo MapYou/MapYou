@@ -56,7 +56,7 @@
         android:id="@+id/hhhh"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/thumbnail"
         android:fillViewport="true"
         android:scrollbars="horizontal" >
@@ -67,7 +67,14 @@
             android:layout_height="wrap_content"
             android:textColor="#343434"
             android:textSize="12dp" />
-
     </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
