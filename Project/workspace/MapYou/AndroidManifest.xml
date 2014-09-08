@@ -87,7 +87,8 @@
        </activity>
     	<activity android:name=".view.CompleteMapMeLayoutHome" >
         </activity>
-        
+        <activity android:name=".view.NotificationList" >
+        </activity>
         
        
 
@@ -129,8 +130,7 @@
         
         <activity android:name="it.mapyou.view.NewMapMe" >
         </activity>
-      <activity android:name="it.mapyou.view.NotificationList" >
-        </activity>
+     
          <activity android:name="it.mapyou.view.MapActivity" >
         </activity>
 

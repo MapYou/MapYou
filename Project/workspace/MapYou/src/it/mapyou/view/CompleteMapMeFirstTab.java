@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -58,6 +59,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	private SharedPreferences sp;
 	private Activity act;
 	private Intent intent;
+	private MyLocation myloc;
 
 
 	/* (non-Javadoc)
@@ -71,6 +73,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		act=this;
 		mapme = (MapMe) getIntent().getExtras().getParcelable("mapme");
+		
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -78,11 +81,11 @@ public class CompleteMapMeFirstTab extends Activity {
 			mappings = new ArrayList<MappingUser>();
 
 
-			intent= new Intent(cont, ServiceConnection.class);
-			startService(intent);
+			myloc= new MyLocation();
 			if(initilizeMap()){
 				
-				new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
+				myloc.start();
+				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
 					
@@ -93,8 +96,6 @@ public class CompleteMapMeFirstTab extends Activity {
 				};
 				t.schedule(tt, 7000, 2000);
 
-				
-				
 			}
 
 		}else
@@ -108,7 +109,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	 
 	@Override
 	public void onBackPressed() {
-		this.stopService(intent);
+		myloc.stop();
 		Intent i= new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
 		
