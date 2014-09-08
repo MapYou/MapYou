@@ -81,7 +81,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			mappings = new ArrayList<MappingUser>();
 
 
-			myloc= new MyLocation();
+			myloc= new MyLocation(this);
 			if(initilizeMap()){
 				
 				myloc.start();

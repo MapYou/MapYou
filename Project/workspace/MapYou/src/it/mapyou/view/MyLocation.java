@@ -33,7 +33,7 @@ import android.widget.Toast;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MyLocation extends Activity  implements LocationListener  {
+public class MyLocation implements LocationListener  {
 
 
 	
@@ -45,6 +45,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 	boolean canGetLocation = true;
 	Location location; 
 	private final String NAME="mapyou";
+	private Activity act;
 
 
 
@@ -56,9 +57,9 @@ public class MyLocation extends Activity  implements LocationListener  {
 	private boolean isInsertMapping=false;
 
 
-	public MyLocation( ) {
-
-		sp=PreferenceManager.getDefaultSharedPreferences(this);
+	public MyLocation(Activity act) {
+		this.act = act;
+		sp=PreferenceManager.getDefaultSharedPreferences(act.getApplicationContext());
 		
 
 	}
@@ -78,7 +79,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 		//		c.setPowerRequirement(Criteria.POWER_LOW);
 		//		c.setAltitudeRequired(false);
 		//		c.setSpeedRequired(false);
-		locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager)act.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -114,7 +115,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 			try{
 				latitude=location.getLatitude();
 				longitude=location.getLongitude();
-				Toast.makeText(this, latitude+""+longitude, 2000).show();
+				Toast.makeText(act.getApplicationContext(), latitude+""+longitude, 2000).show();
 
 				new UpdateLocationUser().execute();
 
@@ -122,7 +123,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 				Log.v("Error thread", e.getMessage());
 			}
 		}else
-			Toast.makeText(this, "location null", 2000).show();
+			Toast.makeText(act.getApplicationContext(), "location null", 2000).show();
 	}
 
 
@@ -184,7 +185,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 					}
 
 				}else if(result.contains("-1")){
-					UtilAndroid.makeToast(getApplicationContext(), "Error rete", 5000);
+					UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
 					isInsertMapping=false;
 				}else{
 					//update
@@ -194,7 +195,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 					
 				}
 			}else
-				UtilAndroid.makeToast(getApplicationContext(), "Error rete", 5000);
+				UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
 
 		}
 	}
@@ -230,10 +231,10 @@ public class MyLocation extends Activity  implements LocationListener  {
 			super.onPostExecute(result);
 			if(result!=null){
 				if(result.contains("0")){
-					UtilAndroid.makeToast(getApplicationContext(), "Error insert", 5000);
+					UtilAndroid.makeToast(act.getApplicationContext(), "Error insert", 5000);
 					isInsertMapping=false;
 				}else if(result.contains("-1")){
-					UtilAndroid.makeToast(getApplicationContext(), "Error rete", 5000);
+					UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
 					isInsertMapping=false;
 				}else{
 					isInsertMapping=true;
@@ -241,7 +242,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 				}
 
 			}else
-				UtilAndroid.makeToast(getApplicationContext(), "Error rete", 5000);
+				UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
 		}
 	}
 	
@@ -253,9 +254,9 @@ public class MyLocation extends Activity  implements LocationListener  {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 			{
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 500);
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 500);
 				super.onCancelled();
 			}
 
@@ -281,7 +282,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(result==null){
-				UtilAndroid.makeToast(getApplicationContext(), "Please refresh Server....", 500);
+				UtilAndroid.makeToast(act.getApplicationContext(), "Please refresh Server....", 500);
 			}else{
 				try {
 					write(result.toString());
@@ -298,7 +299,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 
 		FileOutputStream f=null;
 		try {
-			f= openFileOutput(NAME, MODE_PRIVATE);
+			f= act.openFileOutput(NAME, Activity.MODE_PRIVATE);
 			f.write(text.toString().getBytes());
 
 		} catch (Exception e) {
@@ -316,7 +317,7 @@ public class MyLocation extends Activity  implements LocationListener  {
 
 		BufferedReader reader=null;
 		try {
-			FileInputStream f= openFileInput(NAME);
+			FileInputStream f= act.openFileInput(NAME);
 			reader= new BufferedReader(new InputStreamReader(f));
 			StringBuffer bf=new StringBuffer();
 			String line=null;
@@ -324,10 +325,10 @@ public class MyLocation extends Activity  implements LocationListener  {
 			while((line=reader.readLine()) !=null){
 				bf.append(line);
 			}
-			UtilAndroid.makeToast(getApplicationContext(), ""+bf.length(), 500);
+			UtilAndroid.makeToast(act.getApplicationContext(), ""+bf.length(), 500);
 
 		} catch (Exception e) {
-			UtilAndroid.makeToast(getApplicationContext(), "Non legge", 500);
+			UtilAndroid.makeToast(act.getApplicationContext(), "Non legge", 500);
 			
 		}
 		finally{
