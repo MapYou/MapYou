@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -94,7 +93,7 @@ public class CompleteMapMeFirstTab extends Activity {
 						new RetrieveMapping().execute();
 					}
 				};
-				t.schedule(tt, 7000, 2000);
+				t.schedule(tt, 0, 2000);
 
 			}
 
