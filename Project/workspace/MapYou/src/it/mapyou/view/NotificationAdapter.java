@@ -177,12 +177,15 @@ public class NotificationAdapter extends BaseAdapter{
 					if(result.contains("true")){
 						UtilAndroid.makeToast(cont.getApplicationContext(), "You are added in "+n.getNotificationObject().getName(),5000);				
 						notif.remove(n);
+						new NotificationAdapter(cont, notif);
 					}else if(result.contains("false")){
 						UtilAndroid.makeToast(cont.getApplicationContext(), "Error: you are already added in "+n.getNotificationObject().getName(),5000);				
 						notif.remove(n);
+						new NotificationAdapter(cont, notif);
 					}else if(result.contains("refused")){
 						UtilAndroid.makeToast(cont.getApplicationContext(), "You are refused invite in "+n.getNotificationObject().getName(),5000);				
 						notif.remove(n);
+						new NotificationAdapter(cont, notif);
 					}else if(result.contains("error")){
 						UtilAndroid.makeToast(cont.getApplicationContext(), "Error",5000);				
 					}else{
