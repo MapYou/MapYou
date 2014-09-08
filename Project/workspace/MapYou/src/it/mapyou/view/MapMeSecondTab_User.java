@@ -59,7 +59,7 @@ public class MapMeSecondTab_User extends Activity {
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
 
-		mapme = (MapMe) getIntent().getExtras().get("mapme");
+		mapme = Util.CURRENT_MAPME;
 		//mapping = mapme.getDistinctMapping();
 		//allMapping = mapme.getMapping();
 

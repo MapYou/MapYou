@@ -41,23 +41,25 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_layout);
+<<<<<<< HEAD
 	 
 
 
 		Bundle bund = new Bundle();
 		bund.putParcelable("mapme", Util.CURRENT_MAPME);
+=======
+ 
+>>>>>>> origin/master
 		TabHost tabHost = getTabHost();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
 		first_completeMapMeTab.setIndicator(Util.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
 		Intent mapmeTabIntent = new Intent(this, CompleteMapMeFirstTab.class);
-		mapmeTabIntent.putExtras(bund);
 		first_completeMapMeTab.setContent(mapmeTabIntent);
 
 		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
 		second_completeMapMeTab.setIndicator("Options", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
 		Intent usersTabIntent = new Intent(this, CompleteMapMeSecondTab_User.class);
-		usersTabIntent.putExtras(bund);
 		second_completeMapMeTab.setContent(usersTabIntent);
 
 		tabHost.addTab(first_completeMapMeTab);

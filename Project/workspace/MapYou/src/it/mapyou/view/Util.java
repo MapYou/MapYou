@@ -17,5 +17,5 @@ public class Util {
 
 	public static MappingUser CURRENT_MAPPING;
 	
-
+	public static final String NAME ="mapyou";
 }

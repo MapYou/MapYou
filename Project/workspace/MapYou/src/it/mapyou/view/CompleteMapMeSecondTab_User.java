@@ -22,14 +22,13 @@ public class CompleteMapMeSecondTab_User extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_second_tab);
 
-		mapme = (MapMe) getIntent().getExtras().get("mapme");
+		mapme = Util.CURRENT_MAPME;
 
 	}
 
 	@Override
 	public void onBackPressed() {
-		Intent i = new Intent(this, DrawerMain.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		Intent i= new Intent(this, MapMeLayoutHome.class);
 		startActivity(i);
 	}
 

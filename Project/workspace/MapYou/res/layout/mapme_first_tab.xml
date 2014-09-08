@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp" >
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="40dp" >
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -39,6 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp" >
 
             <ImageView
@@ -69,6 +71,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp" >
 
             <ImageView
@@ -99,54 +103,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp" >
+            android:layout_marginTop="50dp" >
 
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/live"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="@drawable/button"
                 android:gravity="center"
-                android:orientation="horizontal" >
+                android:onClick="live"
+                android:text="Button" />
 
-                <RadioButton
-                    android:id="@+id/radioSatellite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:onClick="changeSatelliteMap"
-                    android:text="Satellite" />
-
-                <RadioButton
-                    android:id="@+id/radioIbrida"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="changeIbridaMap"
-                    android:text="Ibrida" />
-
-                <RadioButton
-                    android:id="@+id/radioNormale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:onClick="changeNormaleMap"
-                    android:text="Normale" />
-            </RadioGroup>
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginTop="0dp" >
-
-            <fragment
-                android:id="@+id/mapMapMeFirstTab"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp" />
-        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>
