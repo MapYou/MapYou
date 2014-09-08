@@ -42,7 +42,11 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 
 		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
 		second_completeMapMeTab.setIndicator("Chat", getResources().getDrawable(R.drawable.icon_mapme_second_tab));
+<<<<<<< HEAD
 		Intent usersTabIntent = new Intent(this, ChatHome.class);
+=======
+		Intent usersTabIntent = new Intent(this, CompleteMapMeSecondTab_User.class);
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 		second_completeMapMeTab.setContent(usersTabIntent);
 
 		tabHost.addTab(first_completeMapMeTab);
