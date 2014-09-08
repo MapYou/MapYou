@@ -51,7 +51,7 @@ public class MyLocation implements LocationListener  {
 
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
 
-	private static final long MIN_TIME_BW_UPDATES = 5000; // 15 seconds
+	private static final long MIN_TIME_BW_UPDATES = 10000; // 15 seconds
 	protected LocationManager locationManager;
 	private SharedPreferences sp;
 	private boolean isInsertMapping=false;

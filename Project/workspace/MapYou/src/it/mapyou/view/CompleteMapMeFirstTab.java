@@ -88,7 +88,7 @@ public class CompleteMapMeFirstTab extends Activity {
 						new RetrieveMapping().execute();
 					}
 				};
-				t.schedule(tt, 7000, 2000);
+				t.schedule(tt, 0, 2000);
 
 			}
 
