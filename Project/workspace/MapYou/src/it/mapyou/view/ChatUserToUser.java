@@ -114,6 +114,8 @@ public class ChatUserToUser extends Activity{
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
+	
+	
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onStart()
