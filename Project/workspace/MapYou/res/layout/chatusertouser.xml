@@ -23,7 +23,7 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/editTextBroadcast"
+                android:id="@+id/editTextChatUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
