@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ssssss"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,6 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="14sp"
                     android:textStyle="bold" />
-
             </HorizontalScrollView>
 
             <HorizontalScrollView
@@ -63,7 +62,6 @@
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="14sp" />
-
             </HorizontalScrollView>
         </RelativeLayout>
 
@@ -100,5 +98,4 @@
         </LinearLayout>
     </LinearLayout>
 
-
-</ScrollView>
+</LinearLayout>

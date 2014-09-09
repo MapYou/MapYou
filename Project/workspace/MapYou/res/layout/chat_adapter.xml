@@ -11,6 +11,7 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/profile" />
 
     <HorizontalScrollView
@@ -19,15 +20,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageViewChatAdapter"
+        android:layout_marginLeft="15dp"
         android:scrollbars="horizontal" >
 
         <TextView
             android:id="@+id/textViewNicknameChatAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="14sp"
             android:textStyle="bold" />
+
     </HorizontalScrollView>
 
 </RelativeLayout>

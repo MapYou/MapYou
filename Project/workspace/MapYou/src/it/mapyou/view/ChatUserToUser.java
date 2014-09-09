@@ -58,7 +58,7 @@ public class ChatUserToUser extends Activity{
 				TextView n= (TextView) findViewById(R.id.textViewNickname);
 				TextView e= (TextView) findViewById(R.id.textViewEmail);
 				e.setText(user.getEmail());
-				n.setText(user.getEmail());
+				n.setText(user.getNickname());
 				act=this;
 				mess=(EditText)findViewById(R.id.editTextBroadcast);
 				listView = (ListView) findViewById(R.id.listViewUsertoUser);
