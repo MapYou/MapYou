@@ -70,7 +70,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		TextView message = (TextView) convertView.findViewById(R.id.message);
 		TextView dat = (TextView) convertView.findViewById(R.id.textViewDate);
 		Notification m = notif.get(position);
-		dat.setText(sdf.format(m.getDate().getTime()));
+//		dat.setText(sdf.format(m.getDate().getTime()));
 		title.setText("MapYou: chat message");
 		message.setText("You have received a message from \""+
 				m.getNotifier().getNickname()+"\"");
@@ -89,6 +89,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 	public void viewChatNotification(final Notification no){
 		AlertDialog	alert2= new AlertDialog.Builder(cont).create();
 		alert2.setTitle("Chat message");
+		alert2.setMessage(no.getNotificationState());
 		alert2.setIcon(R.drawable.profile);
 		alert2.setButton("Ok", new DialogInterface.OnClickListener() {
 
@@ -99,6 +100,8 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		});
 
 		alert2.show();
+		
+		new UpdateNotification(cont).execute(no);
 	}
 
 }

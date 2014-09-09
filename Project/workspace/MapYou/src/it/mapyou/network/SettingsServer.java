@@ -14,7 +14,7 @@ public interface SettingsServer {
 	public static final String LOGIN_PAGE = "login.php";
 	public static final String REGISTER_PAGE = "registration.php";
 	public static final String FORGOT_PAGE = "forgot.php";
-	public static final String UPDATE_ID_NOT = "updateIdNotification.php";
+	public static final String UPDATE_NOT = "updateNotification.php";
 	public static final String NEW_MAPME = "newmapme.php";
 	public static final String SEND_PARTECIPATION = "sendPartecipation.php";
 	public static final String YOUR_MAPME = "yourmapme.php";
@@ -26,6 +26,7 @@ public interface SettingsServer {
 	public static final String GET_ALL_NOTIFICATION = "getAllNotification.php";
 	public static final String CHAT="chatmessage.php";
 	public static final String DELETE_CHAT = "deleteChatMessage.php";
+	public static final String GET_CONVERSATION = "getAllNotificationChat.php";
 	 
 	
 	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";

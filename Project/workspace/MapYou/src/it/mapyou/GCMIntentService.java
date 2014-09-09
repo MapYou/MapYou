@@ -98,9 +98,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		String ty = intent.getExtras().getString("type");
 		if(ty.equals("CHAT") && act == ChatUserToUser.class){
 			isChatNotification(context,
-					 intent.getExtras().getString("price"),
-					 intent.getExtras().getInt("idsender"),
-					 intent.getExtras().getInt("idmapme"));
+					intent.getExtras().getString("price"),
+					Integer.parseInt(intent.getExtras().getString("idsender")),
+					Integer.parseInt(intent.getExtras().getString("idmapme")));
 		}
 		else
 			generateNotification(context, intent.getExtras().getString("price"),
