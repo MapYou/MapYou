@@ -78,7 +78,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			if(initilizeMap()){
 				reader = new MappingReader(act);
 				mappings = new ArrayList<MappingUser>();
-				myloc.start();
+//				myloc.start();
 				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
@@ -103,7 +103,7 @@ public class CompleteMapMeFirstTab extends Activity {
 	 
 	@Override
 	public void onBackPressed() {
-		myloc.stop();
+//		myloc.stop();
 		Intent i= new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
 		

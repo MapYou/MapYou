@@ -87,10 +87,10 @@ public class MyLocation implements LocationListener  {
 		location = locationManager.getLastKnownLocation(provider);
 
 
-//		if(location!=null)
-//			onLocationChanged(location);
-//
-//		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		if(location!=null)
+			onLocationChanged(location);
+
+		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 	}
 
 	/**

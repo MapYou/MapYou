@@ -97,10 +97,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 		selectActivity();
 		String ty = intent.getExtras().getString("type");
 		if(ty.equals("CHAT") && act == ChatUserToUser.class){
-			isChatNotification(context, 
-					intent.getExtras().getString("price"), 
-					intent.getExtras().getInt("idsender"), 
-					intent.getExtras().getInt("idmapme"));
+			isChatNotification(context,
+					 intent.getExtras().getString("price"),
+					 intent.getExtras().getInt("idsender"),
+					 intent.getExtras().getInt("idmapme"));
 		}
 		else
 			generateNotification(context, intent.getExtras().getString("price"),
@@ -184,14 +184,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 		notificationManager.notify(0, notification); 
 	}
 
-	private void isChatNotification(Context context, String msg, 
-			int idsender, int idmapme){
+	private void isChatNotification(Context context, String msg, int idsender, int idmapme){
 		Intent it = new Intent(context, ChatReceiver.class);
 		it.setAction("it.mapyou.action.CHAT_MESSAGE");
 		Bundle b = new Bundle();
 		b.putString("message", msg);
 		b.putInt("idsender", idsender);
-		b.putInt("mapme_id", idmapme);
+		b.putInt("idmapme", idmapme);
 		it.putExtras(b);
 		context.sendBroadcast(it);
 	}

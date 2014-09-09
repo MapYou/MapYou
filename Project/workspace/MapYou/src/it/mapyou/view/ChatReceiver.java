@@ -24,8 +24,8 @@ public class ChatReceiver extends BroadcastReceiver{
 			try {
 				Bundle b = intent.getExtras();
 				msg = b.getString("message");
-				id = b.getInt("user_id");
-				mapme_id = b.getInt("mapme_id");
+				id = b.getInt("idsender");
+				mapme_id = b.getInt("idmapme");
 			} catch (Exception e) {
 				msg = "";
 				id = -1;
