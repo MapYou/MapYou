@@ -66,9 +66,9 @@ public class ChatUserToUser extends Activity{
 				currentUser.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 				currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				currentUser.setEmail(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, ""));
-//				new RetrieveConversation().execute();
-			}
-			sp.edit().putBoolean("isChatMode", false);
+				//				new RetrieveConversation().execute();
+			}else
+				sp.edit().putBoolean("isChatMode", false);
 
 		}else
 			sp.edit().putBoolean("isChatMode", false);
@@ -120,7 +120,7 @@ public class ChatUserToUser extends Activity{
 				parameters.put("message",  params[0]);
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-				
+
 				response=DeviceController.getInstance().getServer().
 						request(SettingsServer.CHAT, DeviceController.getInstance().getServer().setParameters(parameters));
 
@@ -152,7 +152,7 @@ public class ChatUserToUser extends Activity{
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
-	
+
 	class RetrieveConversation extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
@@ -192,7 +192,7 @@ public class ChatUserToUser extends Activity{
 			}
 		}
 	}
-	
+
 	public List<Notification> retrieveAllNotification(JSONObject result){
 		try {
 			List<Notification> notifications = new ArrayList<Notification>();
@@ -231,7 +231,7 @@ public class ChatUserToUser extends Activity{
 			return null;
 		}
 	}
-	
+
 	private User getUserByJSon (JSONArray jsonArr){
 
 		try {
