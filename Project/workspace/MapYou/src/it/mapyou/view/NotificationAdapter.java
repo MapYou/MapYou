@@ -77,7 +77,7 @@ public class NotificationAdapter extends BaseAdapter{
 		TextView message = (TextView) convertView.findViewById(R.id.message);
 		TextView dat = (TextView) convertView.findViewById(R.id.textViewDate);
 		Notification m = notif.get(position);
-		dat.setText(sdf.format(m.getDate().getTime()));
+//		dat.setText(sdf.format(m.getDate().getTime()));
 		if(m.getNotificationType().equals("SEND")){
 			title.setText("MapYou: invite for mapme");
 			message.setText("You have received an invitation from \""
@@ -124,8 +124,16 @@ public class NotificationAdapter extends BaseAdapter{
 
 	public void notificationSend_Request(final Notification no){
 		AlertDialog	alert2= new AlertDialog.Builder(cont).create();
-		alert2.setTitle("Chat message");
-		alert2.setMessage(no.getNotificationState());
+		alert2.setTitle(no.getNotificationType().equals("REQUEST")?
+				"Request to partecipate"
+				:
+					"You are invited");
+		alert2.setMessage(no.getNotificationType().equals("REQUEST")?
+				"Do you want add \""+no.getNotifier().getNickname()
+				+ "\" into your mapme \""+no.getNotificationObject().getName()+"\" ?"
+				:
+					"\""+no.getNotifier().getNickname()+ "\" has invited you to partecipate in mapme"
+							+ " \""+no.getNotificationObject().getName()+"\"");
 		alert2.setIcon(R.drawable.ic_launcher);
 		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
 
