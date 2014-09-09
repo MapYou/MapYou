@@ -74,7 +74,7 @@ public class ChatUserToUser extends Activity{
 			sp.edit().putBoolean("ischatMode", false);
 	}
 
-	public void sendm (View v){
+	public void sendmessage (View v){
 
 		String message=mess.getText().toString();
 
@@ -128,7 +128,7 @@ public class ChatUserToUser extends Activity{
 					return params[0];
 				}
 				else if(response.contains("User not found")){
-					return "eeror";
+					return "error";
 				}else
 					return null;
 			} catch (Exception e) {
@@ -145,6 +145,7 @@ public class ChatUserToUser extends Activity{
 					n.setNotified(user);
 					n.setNotifier(currentUser);
 					updateGui(n);
+					mess.setText("");
 				}else
 					UtilAndroid.makeToast(getApplicationContext(), "Risent message", 5000);
 			}else

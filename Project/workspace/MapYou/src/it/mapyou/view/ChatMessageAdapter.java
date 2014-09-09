@@ -68,7 +68,7 @@ public class ChatMessageAdapter extends BaseAdapter{
 		Notification n = not.get(position);
 		t.setText(n.getNotificationState());
 		if(n.getNotifier().getModelID()==currentUserId)
-			t.setBackgroundColor(Color.BLUE);
+			t.setBackgroundColor(Color.GRAY);
 		else
 			t.setBackgroundColor(Color.YELLOW);
 		
