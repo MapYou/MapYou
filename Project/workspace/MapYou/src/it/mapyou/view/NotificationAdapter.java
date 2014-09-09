@@ -219,5 +219,5 @@ public class NotificationAdapter extends BaseAdapter{
 
 		}
 	}
-
+	
 }

@@ -4,25 +4,17 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.controller.DeviceController;
 import it.mapyou.model.Notification;
-import it.mapyou.network.SettingsServer;
-import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.NotificationAdapter.AcceptPartecipation;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 

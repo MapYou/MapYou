@@ -106,6 +106,7 @@
             </intent-filter>
         </receiver>
 
+
         <service android:name="it.mapyou.GCMIntentService" />
         <service android:name="it.mapyou.view.ServiceConnection" />
         <service android:name="it.mapyou.view.ExampleService" />
@@ -140,6 +141,11 @@
         <activity android:name=".view.ChatHome"></activity>
         <activity android:name=".view.NotificationTabHome"></activity>
         <activity android:name=".view.NotificationSecondTab"></activity>
+        <receiver android:name=".view.ChatReceiver">
+            <intent-filter>
+                <action android:name="it.mapyou.action.CHAT_MESSAGE" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
