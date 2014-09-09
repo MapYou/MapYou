@@ -96,7 +96,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		selectActivity();
 		String ty = intent.getExtras().getString("type");
-		if(ty.equals("CHAT")){
+		if(ty.equals("CHAT") && act == ChatUserToUser.class){
 			isChatNotification(context, 
 					intent.getExtras().getString("price"), 
 					intent.getExtras().getInt("idsender"), 
@@ -155,41 +155,35 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context, String msg, 
 			String title, String notif, int id, String type) {
-
-		if(act == ChatUserToUser.class && type.equals("CHAT")){
-			
-		}else{
-			int icon = type.equals("CHAT")?
-					R.drawable.profile:R.drawable.ic_launcher;
-			long when = System.currentTimeMillis();
+		int icon = type.equals("CHAT")?
+				R.drawable.profile:R.drawable.ic_launcher;
+		long when = System.currentTimeMillis();
 
 
-			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			Notification notification = new Notification(icon, notif, when);
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(icon, notif, when);
 
-			Intent notificationIntent = new Intent(context, act);
-			notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		Intent notificationIntent = new Intent(context, act);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-			notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-			Bundle b = new Bundle();
-			b.putInt("notification_id", id);
-			notificationIntent.putExtras(b);
-			if(act == Login.class)
-				notificationIntent.putExtra("notification", "notification");
-			else;
-			PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
+		Bundle b = new Bundle();
+		b.putInt("notification_id", id);
+		notificationIntent.putExtras(b);
+		if(act == Login.class)
+			notificationIntent.putExtra("notification", "notification");
+		else;
+		PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-			notification.setLatestEventInfo(context, title, msg, intent);
+		notification.setLatestEventInfo(context, title, msg, intent);
 
-			notification.flags |= Notification.FLAG_AUTO_CANCEL;
-			notification.defaults |= Notification.DEFAULT_SOUND;
-			notification.defaults |= Notification.DEFAULT_VIBRATE;
-			notificationManager.notify(0, notification); 
-		}
-
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		notificationManager.notify(0, notification); 
 	}
-	
+
 	private void isChatNotification(Context context, String msg, 
 			int idsender, int idmapme){
 		Intent it = new Intent(context, ChatReceiver.class);
