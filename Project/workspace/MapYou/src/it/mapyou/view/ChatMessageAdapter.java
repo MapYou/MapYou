@@ -9,6 +9,7 @@ import it.mapyou.model.Notification;
 import java.util.List;
 
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -68,9 +69,15 @@ public class ChatMessageAdapter extends BaseAdapter{
 		Notification n = not.get(position);
 		t.setText(n.getNotificationState());
 		if(n.getNotifier().getModelID()==currentUserId)
+			{
 			t.setBackgroundColor(Color.GRAY);
+			t.setGravity(Gravity.RIGHT);
+			}
 		else
+			{
 			t.setBackgroundColor(Color.YELLOW);
+			t.setGravity(Gravity.LEFT);
+			}
 		
 		return convertView;
 	}
