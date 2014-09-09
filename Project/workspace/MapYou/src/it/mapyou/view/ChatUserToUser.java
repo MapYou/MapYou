@@ -54,7 +54,7 @@ public class ChatUserToUser extends Activity{
 			user = (User) b.getSerializable("user");
 			if(user!=null){
 				notif = new ArrayList<Notification>();
-				sp.edit().putBoolean("isChatMode", true);
+				sp.edit().putBoolean("isChatMode", true).commit();
 				TextView n= (TextView) findViewById(R.id.textViewNickname);
 				TextView e= (TextView) findViewById(R.id.textViewEmail);
 				e.setText(user.getEmail());
@@ -68,10 +68,10 @@ public class ChatUserToUser extends Activity{
 				currentUser.setEmail(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, ""));
 				//				new RetrieveConversation().execute();
 			}else
-				sp.edit().putBoolean("isChatMode", false);
+				sp.edit().putBoolean("isChatMode", false).commit();
 
 		}else
-			sp.edit().putBoolean("isChatMode", false);
+			sp.edit().putBoolean("isChatMode", false).commit();
 	}
 
 	public void sendmessage (View v){
@@ -259,6 +259,6 @@ public class ChatUserToUser extends Activity{
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		sp.edit().putBoolean("isChatMode", false);
+		sp.edit().putBoolean("isChatMode", false).commit();
 	}
 }
