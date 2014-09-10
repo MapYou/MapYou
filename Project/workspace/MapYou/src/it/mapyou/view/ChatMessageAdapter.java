@@ -4,7 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -23,11 +23,11 @@ import android.widget.TextView;
  */
 public class ChatMessageAdapter extends BaseAdapter{
 
-	private List<Notification> not;
+	private List<ChatMessage> not;
 	private int currentUserId;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	public ChatMessageAdapter(List<Notification> n, int currentUserId) {
+	public ChatMessageAdapter(List<ChatMessage> n, int currentUserId) {
 		this.not = n;
 		this.currentUserId = currentUserId;
 	}
@@ -69,8 +69,8 @@ public class ChatMessageAdapter extends BaseAdapter{
 		}
 		
 		TextView t = (TextView)convertView.findViewById(R.id.textMessage);
-		Notification n = not.get(position);
-		t.setText(n.getNotificationState());
+		ChatMessage n = not.get(position);
+		t.setText(n.getMessage());
 		TextView dat = (TextView) convertView.findViewById(R.id.textMessageDate);
 		GregorianCalendar g = n.getDate();
 		if(g!=null)

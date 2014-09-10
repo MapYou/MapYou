@@ -5,7 +5,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -44,7 +44,7 @@ public class ChatUserToUser extends Activity{
 	private Activity act;
 	private static SharedPreferences sp;
 	private static ListView listView;
-	private static List<Notification> notif;
+	private static List<ChatMessage> notif;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	@Override
@@ -56,7 +56,7 @@ public class ChatUserToUser extends Activity{
 		if(b!=null && b.containsKey("user")){
 			user = (User) b.getSerializable("user");
 			if(user!=null){
-				notif = new ArrayList<Notification>();
+				notif = new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isChatMode", true).commit();
 				TextView n= (TextView) findViewById(R.id.textViewNickname);
 				TextView e= (TextView) findViewById(R.id.textViewEmail);
@@ -89,7 +89,7 @@ public class ChatUserToUser extends Activity{
 
 	}
 	
-	public static void updateGui(Notification n){
+	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
 			n.setNotifier(user);
@@ -143,8 +143,8 @@ public class ChatUserToUser extends Activity{
 			super.onPostExecute(result);
 			if(result!=null){
 				if(!result.equals("error")){
-					Notification n = new Notification();
-					n.setNotificationState(result);
+					ChatMessage n = new ChatMessage();
+					n.setMessage(result);
 					n.setNotified(user);
 					n.setNotifier(currentUser);
 					updateGui(n);
@@ -193,19 +193,19 @@ public class ChatUserToUser extends Activity{
 				try {
 					notif = retrieveAllNotification(result);
 				} catch (Exception e) {
-					notif = new ArrayList<Notification>();
+					notif = new ArrayList<ChatMessage>();
 				}
 				listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 			}
 		}
 	}
 
-	public List<Notification> retrieveAllNotification(JSONObject result){
+	public List<ChatMessage> retrieveAllNotification(JSONObject result){
 		try {
-			List<Notification> notifications = new ArrayList<Notification>();
+			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
 			JSONArray jsonArr = result.getJSONArray("");
 			for(int i=0; i<jsonArr.length(); i++){
-				Notification mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
+				ChatMessage mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
 				if(mp!=null)
 					notifications.add(mp);
 			}
@@ -213,15 +213,15 @@ public class ChatUserToUser extends Activity{
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ArrayList<Notification>();
+			return new ArrayList<ChatMessage>();
 		}
 	}
 
-	private Notification getNotificationFromMapme (JSONObject json){
+	private ChatMessage getNotificationFromMapme (JSONObject json){
 
 
 		try {
-			Notification m= new Notification();
+			ChatMessage m= new ChatMessage();
 			User notifier = getUserByJSon(json.getJSONArray("notifier"));
 			User notified = getUserByJSon(json.getJSONArray("notified"));
 			//			MapMe mapme = new MapMe();
@@ -231,7 +231,7 @@ public class ChatUserToUser extends Activity{
 			m.setNotified(notified);
 			m.setNotifier(notifier);
 			//			m.setNotificationType(json.getString("type"));
-			m.setNotificationState(json.getString("state"));
+			m.setMessage(json.getString("state"));
 			m.setModelID(Integer.parseInt(json.getString("id")));
 			//			m.setNotificationObject(mapme);
 			Date dt;

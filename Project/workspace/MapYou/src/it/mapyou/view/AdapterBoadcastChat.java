@@ -4,7 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -23,11 +23,11 @@ import android.widget.TextView;
  */
 public class AdapterBoadcastChat  extends BaseAdapter{
 
-	private List<Notification> not;
+	private List<ChatMessage> not;
 	private int currentUserId;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	public AdapterBoadcastChat(List<Notification> n, int currentUserId) {
+	public AdapterBoadcastChat(List<ChatMessage> n, int currentUserId) {
 		this.not = n;
 		this.currentUserId = currentUserId;
 	}
@@ -70,8 +70,8 @@ public class AdapterBoadcastChat  extends BaseAdapter{
 		
 		TextView t = (TextView)convertView.findViewById(R.id.textMessage);
 		TextView userSend = (TextView)convertView.findViewById(R.id.textUserBroadcast);
-		Notification n = not.get(position);
-		t.setText(n.getNotificationState());
+		ChatMessage n = not.get(position);
+		t.setText(n.getMessage());
 		userSend.setText(n.getNotifier().getNickname());
 		TextView dat = (TextView) convertView.findViewById(R.id.textMessageDate);
 		GregorianCalendar g = n.getDate();
@@ -79,16 +79,16 @@ public class AdapterBoadcastChat  extends BaseAdapter{
 			dat.setText(sdf.format(g.getTime()));
 		else
 			dat.setText("");
-		if(n.getNotifier().getModelID()==currentUserId)
-			{
+//		if(n.getNotifier().getModelID()==currentUserId)
+//			{
 			t.setBackgroundColor(Color.GREEN);
 			t.setGravity(Gravity.RIGHT);
-			}
-		else
-			{
-			t.setBackgroundColor(Color.LTGRAY);
-			t.setGravity(Gravity.LEFT);
-			}
+//			}
+//		else
+//			{
+//			t.setBackgroundColor(Color.LTGRAY);
+//			t.setGravity(Gravity.LEFT);
+//			}
 		
 		return convertView;
 	}

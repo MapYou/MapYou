@@ -2,6 +2,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Notification;
 import it.mapyou.model.User;
@@ -102,7 +103,7 @@ public class NotificationSecondTab extends Activity{
 			super.onPostExecute(result);
 
 			if(result!=null) {
-				List<Notification> notifications = retrieveAllNotification(result);
+				List<ChatMessage> notifications = retrieveAllNotification(result);
 				if(notifications!=null)
 					listView.setAdapter(new ChatNotificatioAdapter(act, notifications));
 			}else
@@ -110,12 +111,12 @@ public class NotificationSecondTab extends Activity{
 		}
 	}
 	
-	public List<Notification> retrieveAllNotification(JSONObject result){
+	public List<ChatMessage> retrieveAllNotification(JSONObject result){
 		try {
-			List<Notification> notifications = new ArrayList<Notification>();
+			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
 			JSONArray jsonArr = result.getJSONArray("");
 			for(int i=0; i<jsonArr.length(); i++){
-				Notification mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
+				ChatMessage mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
 				if(mp!=null)
 					notifications.add(mp);
 			}
@@ -123,15 +124,15 @@ public class NotificationSecondTab extends Activity{
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ArrayList<Notification>();
+			return new ArrayList<ChatMessage>();
 		}
 	}
 
-	private Notification getNotificationFromMapme (JSONObject json){
+	private ChatMessage getNotificationFromMapme (JSONObject json){
 
 
 		try {
-			Notification m= new Notification();
+			ChatMessage m= new ChatMessage();
 			User notifier = getUserByJSon(json.getJSONArray("notifier"));
 			User notified = getUserByJSon(json.getJSONArray("notified"));
 			MapMe mapme = new MapMe();
@@ -140,7 +141,7 @@ public class NotificationSecondTab extends Activity{
 					json.getJSONArray("mapme").getJSONObject(0).getString("id")));
 			m.setNotified(notified);
 			m.setNotifier(notifier);
-			m.setNotificationState(json.getString("state"));
+			m.setMessage(json.getString("state"));
 			m.setModelID(Integer.parseInt(json.getString("id")));
 			m.setNotificationObject(mapme);
 			Date dt;

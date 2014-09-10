@@ -5,7 +5,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
@@ -31,10 +31,10 @@ import android.widget.TextView;
 public class ChatNotificatioAdapter extends BaseAdapter{
 
 	private Activity cont;
-	private List<Notification> notif;
+	private List<ChatMessage> notif;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	public ChatNotificatioAdapter(Activity cont, List<Notification> notif) {
+	public ChatNotificatioAdapter(Activity cont, List<ChatMessage> notif) {
 		this.cont = cont;
 		this.notif = notif;
 	}
@@ -75,7 +75,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		TextView title = (TextView) convertView.findViewById(R.id.title);
 		TextView message = (TextView) convertView.findViewById(R.id.message);
 		TextView dat = (TextView) convertView.findViewById(R.id.textViewDate);
-		Notification m = notif.get(position);
+		ChatMessage m = notif.get(position);
 		GregorianCalendar g = m.getDate();
 		if(g!=null)
 			dat.setText(sdf.format(g.getTime()));
@@ -89,17 +89,17 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 
 			@Override
 			public void onClick(View v) {
-				Notification m = notif.get(position);
+				ChatMessage m = notif.get(position);
 				new UpdateNotification().execute(m);
 			}
 		});
 		return convertView;
 	}
 
-	public void viewChatNotification(final Notification no){
+	public void viewChatNotification(final ChatMessage no){
 		AlertDialog	alert2= new AlertDialog.Builder(cont).create();
 		alert2.setTitle("Mapme \""+no.getNotificationObject().getName()+"\" --> Chat message");
-		alert2.setMessage(no.getNotificationState());
+		alert2.setMessage(no.getMessage());
 		alert2.setIcon(R.drawable.profile);
 		alert2.setButton("Ok", new DialogInterface.OnClickListener() {
 
@@ -114,7 +114,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		alert2.show();
 	}
 	
-	class UpdateNotification extends AsyncTask<Notification, Void, Notification>{
+	class UpdateNotification extends AsyncTask<ChatMessage, Void, ChatMessage>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
@@ -128,7 +128,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 
 		// CHAT CHAT_BROADCAST
 		@Override
-		protected Notification doInBackground(Notification... params) {
+		protected ChatMessage doInBackground(ChatMessage... params) {
 
 			try {
 				parameters.put("idNot", String.valueOf(params[0].getModelID()));
@@ -144,7 +144,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 			}
 		}
 		@Override
-		protected void onPostExecute(Notification result) {
+		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
 			if(result != null){
 				viewChatNotification(result);

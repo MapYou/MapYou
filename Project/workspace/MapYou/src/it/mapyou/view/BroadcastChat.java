@@ -5,7 +5,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -33,7 +33,7 @@ public class BroadcastChat extends Activity {
 	private static SharedPreferences sp;
 	private EditText textMessage;
 	private static User currentUser;
-	private static List<Notification>notification;
+	private static List<ChatMessage>notification;
 	private static ListView list;
 	
 
@@ -53,7 +53,7 @@ public class BroadcastChat extends Activity {
 		if(b!=null && b.containsKey("users")){
 			users = b.getStringArray("users");
 			if(users!=null && users.length>0){
-				notification= new ArrayList<Notification>();
+				notification= new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
@@ -84,7 +84,7 @@ public class BroadcastChat extends Activity {
 
 	}
 	
-	public static void updateGui(Notification n){
+	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
 	 
@@ -138,8 +138,8 @@ public class BroadcastChat extends Activity {
 			super.onPostExecute(result);
 			if(result!=null){
 				if(!result.equals("error")){
-					Notification n = new Notification();
-					n.setNotificationState(result); //messaggio
+					ChatMessage n = new ChatMessage();
+					n.setMessage(result); //messaggio
 					n.setNotifier(currentUser);
 					updateGui(n);
 					textMessage.setText("");
