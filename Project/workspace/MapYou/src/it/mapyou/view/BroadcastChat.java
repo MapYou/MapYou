@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -35,6 +36,8 @@ public class BroadcastChat extends Activity {
 	private static User currentUser;
 	private static List<Notification>notification;
 	private static ListView list;
+	private TextView numUs;
+	private TextView nameM;
 	
 
 	@Override
@@ -43,8 +46,10 @@ public class BroadcastChat extends Activity {
 
 		setContentView(R.layout.broadcastchat);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		textMessage=(EditText) findViewById(R.id.editTextBroadcast);
+		textMessage=(EditText) findViewById(R.id.editTextB);
 		list=(ListView) findViewById(R.id.listView1);
+		numUs=(TextView) findViewById(R.id.textNumuserMaBrod);
+		nameM=(TextView) findViewById(R.id.textNameMapmeBrod);
 		currentUser = new User();
 		currentUser.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 		currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
@@ -55,6 +60,9 @@ public class BroadcastChat extends Activity {
 			if(users!=null && users.length>0){
 				notification= new ArrayList<Notification>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
+				int n=users.length+1;
+				numUs.setText("Users: "+n);
+				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
 
@@ -73,7 +81,7 @@ public class BroadcastChat extends Activity {
 		return bf.toString().substring(0, bf.length()-1);
 	}
 
-	public void broadc(View v){
+	public void broadcastmess(View v){
 
 		String message= textMessage.getText().toString();
 
