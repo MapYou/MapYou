@@ -22,10 +22,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -43,13 +46,14 @@ public class BroadcastChat extends Activity {
 	private static User currentUser;
 	private static List<ChatMessage>notification;
 	private static ListView list;
- 
+	private Activity act;
+
 	private TextView numUs;
 	private TextView nameM;
- 
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
- 
-	
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class BroadcastChat extends Activity {
 		list=(ListView) findViewById(R.id.listView1);
 		numUs=(TextView) findViewById(R.id.textNumuserMaBrod);
 		nameM=(TextView) findViewById(R.id.textNameMapmeBrod);
+		this.act = this;
 		currentUser = new User();
 		currentUser.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 		currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
@@ -72,13 +77,13 @@ public class BroadcastChat extends Activity {
 			if(users!=null && users.length>0){
 				notification= new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
- 
+
 				int n=users.length+1;
 				numUs.setText("Users: "+n);
 				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
- 
+
 				new RetrieveBroadcastConversation().execute();
- 
+
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
 
@@ -107,11 +112,11 @@ public class BroadcastChat extends Activity {
 			UtilAndroid.makeToast(getApplicationContext(), "Error", 5000);
 
 	}
-	
+
 	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
-	 
+
 		}else;
 		notification.add(0, n);
 		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
@@ -122,16 +127,25 @@ public class BroadcastChat extends Activity {
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
 
+		private ProgressDialog p;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
 		}
 
- 
-	 
+
+
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -160,6 +174,7 @@ public class BroadcastChat extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
@@ -173,25 +188,31 @@ public class BroadcastChat extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
-	 
+
 	@Override
 	public void onBackPressed() {
-		 
+
 		super.onBackPressed();
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
 	}
-	
+
 	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-
+		private ProgressDialog p;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 		}
 
 		@Override
@@ -215,6 +236,7 @@ public class BroadcastChat extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result!=null){
 				try {
 					notification = retrieveAllNotification(result);
@@ -297,5 +319,27 @@ public class BroadcastChat extends Activity {
 
 	}
 
-	
+
+	@Override
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menuchat, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshChat:
+			new RetrieveBroadcastConversation().execute();
+			return true;
+		case R.id.clearChat:
+			notification.removeAll(notification);
+			list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 }

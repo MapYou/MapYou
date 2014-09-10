@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-      <item
-        android:id="@+id/clearChat"
-        android:icon="@drawable/refresh"
-        android:showAsAction="never"
-        
-       android:title="Clear chat"/>
       
          <item
-        android:id="@+id/refreshChat"
+        android:id="@+id/refreshNotification"
         android:icon="@drawable/refresh"
         android:showAsAction="never"
         
-       android:title="Refresh chat"/>
+       android:title="Refresh"/>
       
       
     

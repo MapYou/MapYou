@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -140,6 +141,22 @@ public class NewMapMe extends FragmentActivity {
 
 		String response="";
 		HashMap<String, String> parameters= new HashMap<String, String>();
+		private ProgressDialog p;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
+		}
 
 		@Override
 		protected MapMe doInBackground(MapMe... params) {
@@ -239,8 +256,25 @@ public class NewMapMe extends FragmentActivity {
 
 	class SettingsTask extends AsyncTask<String, Void, List<HashMap<String,String>>>{
 
+		private ProgressDialog p;
+		
 		SettingsTask(boolean isStartt) {
 			isStart=isStartt;
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 
 		}
 
@@ -264,7 +298,7 @@ public class NewMapMe extends FragmentActivity {
 		@Override
 		protected void onPostExecute(List<HashMap<String, String>> result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
 			if(result!=null && result.size()>0){
 

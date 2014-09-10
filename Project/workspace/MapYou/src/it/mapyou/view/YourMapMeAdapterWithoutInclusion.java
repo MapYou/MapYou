@@ -10,6 +10,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -115,6 +116,7 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
+		private ProgressDialog p;
 
 
 		@Override
@@ -123,6 +125,13 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 			if(!UtilAndroid.findConnection(act))
 				UtilAndroid.makeToast(act, "Internet Connection not found", 5000);
 
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 		}
 
 
@@ -151,7 +160,7 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			if(result.contains("send")){
 				UtilAndroid.makeToast(act, "Request has been sended!", 5000);
 			}

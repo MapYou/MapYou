@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -100,11 +101,20 @@ public class ChatReceiver extends BroadcastReceiver{
 			this.act = act;
 		}
 
+		private ProgressDialog p;
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 
 		}
 
@@ -128,6 +138,7 @@ public class ChatReceiver extends BroadcastReceiver{
 		@Override
 		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result != null){
 				if(isBroadcast)
 					BroadcastChat.updateGui(result);

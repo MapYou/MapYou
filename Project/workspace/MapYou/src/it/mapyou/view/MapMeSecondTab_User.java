@@ -29,8 +29,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +60,7 @@ public class MapMeSecondTab_User extends Activity {
 		mapme = Util.CURRENT_MAPME;
 		//mapping = mapme.getDistinctMapping();
 		//allMapping = mapme.getMapping();
-
+		
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
 		send.setOnClickListener(new OnClickListener() {
@@ -298,6 +296,7 @@ public class MapMeSecondTab_User extends Activity {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
+		private ProgressDialog p;
 
 
 		@Override
@@ -305,7 +304,13 @@ public class MapMeSecondTab_User extends Activity {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 		}
 
 
@@ -332,6 +337,7 @@ public class MapMeSecondTab_User extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			p.dismiss();
 
 			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
@@ -345,21 +351,21 @@ public class MapMeSecondTab_User extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
-
-	 
 	
-
-	public void refresh (View v){
+	public void refresh(View v){
 		new DownloadAllUser().execute();
 	}
-	
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
-	    return true;
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshUser:
+			new DownloadAllUser().execute();
+			return true;
+		case R.id.delete_user:
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-	
-
-
 }

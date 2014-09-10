@@ -4,7 +4,6 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
-import it.mapyou.model.Notification;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -21,11 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 public class NotificationSecondTab extends Activity{
@@ -53,36 +54,33 @@ public class NotificationSecondTab extends Activity{
 		act = this;
 		listView = (ListView)findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		int idnot = -1;
-		boolean v = false;
-		Bundle b = getIntent().getExtras();
-		if(b!=null){
-			idnot = b.getInt("idnot");
-			if(idnot>0)
-				v = true;
-			else v = false;
-		}else v=false;
-		
-		if(v){
-			dispatchNotification(idnot);
-		}else{
-			retrieveAllPendingNotification();
-		}
+		retrieveAllPendingNotification();
 	}
 	
 	private void retrieveAllPendingNotification(){
 		new RetrieveNotification().execute();
 	}
 	
-	private void dispatchNotification(int id){
-		Intent i = new Intent(this, NotificationActivity.class);
-		i.putExtra("notification_id", id);
-		startActivity(i);
-	}
-	
 	class RetrieveNotification extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
+		}
+		
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
@@ -101,7 +99,7 @@ public class NotificationSecondTab extends Activity{
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			if(result!=null) {
 				List<ChatMessage> notifications = retrieveAllNotification(result);
 				if(notifications!=null)
@@ -179,6 +177,17 @@ public class NotificationSecondTab extends Activity{
 			return null;
 		}
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshNotification:
+			retrieveAllPendingNotification();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 }

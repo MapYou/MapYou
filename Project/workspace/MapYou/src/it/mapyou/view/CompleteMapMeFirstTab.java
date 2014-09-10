@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -126,18 +127,17 @@ public class CompleteMapMeFirstTab extends Activity {
 	}
 	
 class RetrieveMapping extends AsyncTask<Void, Void, String>{
-		
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont))
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if(!UtilAndroid.findConnection(act.getApplicationContext()))
 			{
-				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
-				super.onCancelled();
+			UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			super.onCancelled();
 			}
 
-		}
+	}
 
 		protected String doInBackground(Void... params) {
 			try {

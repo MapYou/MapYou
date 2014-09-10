@@ -17,6 +17,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Criteria;
@@ -152,7 +153,23 @@ public class MyLocation implements LocationListener  {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String resp;
+		private ProgressDialog p;
 
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
+		}
+		
 		@Override
 		protected String doInBackground(Void... params) {
 
@@ -177,7 +194,7 @@ public class MyLocation implements LocationListener  {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			if(result!=null){
 				if(result.contains("0") ){
 					if(!isInsertMapping){
@@ -204,7 +221,23 @@ public class MyLocation implements LocationListener  {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String resp;
+		private ProgressDialog p;
 
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
+		}
+		
 		@Override
 		protected String doInBackground(MapMe... params) {
 
@@ -229,6 +262,7 @@ public class MyLocation implements LocationListener  {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result!=null){
 				if(result.contains("0")){
 					UtilAndroid.makeToast(act.getApplicationContext(), "Error insert", 5000);
@@ -249,15 +283,19 @@ public class MyLocation implements LocationListener  {
 	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-			{
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 500);
-				super.onCancelled();
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
 			}
 
 		}
@@ -281,6 +319,7 @@ public class MyLocation implements LocationListener  {
 		protected void onPostExecute(JSONObject result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result==null){
 				UtilAndroid.makeToast(act.getApplicationContext(), "Please refresh Server....", 500);
 			}else{

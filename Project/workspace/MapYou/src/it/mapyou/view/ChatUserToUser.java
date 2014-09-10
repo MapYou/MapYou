@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -106,12 +107,20 @@ public class ChatUserToUser extends Activity{
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
 
+		private ProgressDialog p;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 
 		}
 
@@ -144,6 +153,7 @@ public class ChatUserToUser extends Activity{
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
@@ -162,6 +172,7 @@ public class ChatUserToUser extends Activity{
 	class RetrieveConversation extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
 
 
 		@Override
@@ -169,7 +180,13 @@ public class ChatUserToUser extends Activity{
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 		}
 
 		@Override
@@ -192,6 +209,7 @@ public class ChatUserToUser extends Activity{
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result!=null){
 				try {
 					notif = retrieveAllNotification(result);
@@ -287,18 +305,23 @@ public class ChatUserToUser extends Activity{
 	@Override
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		getMenuInflater().inflate(R.menu.menuchat, menu);
 		return true;
-
-	}
-	
-	public void settings(MenuItem m){
-		UtilAndroid.makeToast(act, "Peppe è gay", 5000);
 	}
 
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshChat:
+			new RetrieveConversation().execute();
+			return true;
+		case R.id.clearChat:
+			notif.removeAll(notif);
+			listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	
-	
-
 }

@@ -20,11 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 /**
@@ -66,6 +68,23 @@ public class NotificationList extends Activity{
 	class RetrieveNotification extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+
+		}
+		
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
@@ -83,7 +102,7 @@ public class NotificationList extends Activity{
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			if(result!=null) {
 				List<Notification> notifications = retrieveAllNotification(result);
 				if(notifications!=null)
@@ -150,6 +169,17 @@ public class NotificationList extends Activity{
 			return null;
 		}
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshNotification:
+			retrieveAllPendingNotification();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 }

@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,13 +31,14 @@ public class Register extends Activity{
 	private EditText password;
 	private EditText confirmP;
 	private EditText email;
+	private Activity act;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-
+		this.act = this;
 		nickname= (EditText) findViewById(R.id.user_registration);
 		password= (EditText) findViewById(R.id.user_password_registration);
 		confirmP= (EditText) findViewById(R.id.userconfirm_password);
@@ -61,6 +63,7 @@ public class Register extends Activity{
 	class Registration extends AsyncTask<Void, Void, String>{
 		private String b;
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
 
 
 		@Override
@@ -68,6 +71,13 @@ public class Register extends Activity{
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 		}
 
 		@Override
@@ -89,7 +99,7 @@ public class Register extends Activity{
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-
+			p.dismiss();
 			if(!result.toString().contains("-1")){
 				UtilAndroid.makeToast(getApplicationContext(), "Registred", 5000);
 				Intent intentMessage=new Intent();

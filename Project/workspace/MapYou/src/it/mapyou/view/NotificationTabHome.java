@@ -4,10 +4,14 @@ import it.mapyou.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 public class NotificationTabHome extends TabActivity {
+
+	private TabHost tabHost;
 
 	/* (non-Javadoc)
 	 * @see android.app.ActivityGroup#onCreate(android.os.Bundle)
@@ -20,7 +24,7 @@ public class NotificationTabHome extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notification_tab_layout);
  
-		TabHost tabHost = getTabHost();
+		tabHost = getTabHost();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
 		first_completeMapMeTab.setIndicator("Notification", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
@@ -34,5 +38,17 @@ public class NotificationTabHome extends TabActivity {
 
 		tabHost.addTab(first_completeMapMeTab);
 		tabHost.addTab(second_completeMapMeTab);
-	}	
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		MenuInflater inflater = getMenuInflater();
+		int currentTab = tabHost.getCurrentTab();
+		menu.clear();
+		inflater.inflate(R.menu.menunotification, menu);
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
 }

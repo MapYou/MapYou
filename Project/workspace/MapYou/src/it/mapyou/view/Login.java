@@ -16,6 +16,7 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -127,11 +128,13 @@ public class Login extends FacebookController {
 
 		private boolean isCorrectLogin;
 
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+		
 
 		}
 
@@ -175,6 +178,15 @@ public class Login extends FacebookController {
 
 		class UpdateT extends AsyncTask<Boolean, Void, JSONObject>{
 
+
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				if(!UtilAndroid.findConnection(getApplicationContext()))
+					UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+
+			}
+			
 			@Override
 			protected JSONObject doInBackground(Boolean... params) {
 

@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -58,7 +59,25 @@ public class YourMapMeActivity extends  Activity {
 	class DownloadYourMapMe extends AsyncTask<String, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private ProgressDialog p;
 
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(act);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
+		}
+		
 		@Override
 		protected JSONObject doInBackground(String... params) {
 
@@ -78,6 +97,7 @@ public class YourMapMeActivity extends  Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			List<MapMe> allMapme= getAllMapMe(result);
 			if(allMapme!=null){
 				listView.setAdapter(inclusion?

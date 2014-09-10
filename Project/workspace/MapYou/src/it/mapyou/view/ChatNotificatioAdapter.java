@@ -16,6 +16,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.View;
@@ -118,11 +119,20 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
+		private ProgressDialog p;
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont.getApplicationContext()))
-				UtilAndroid.makeToast(cont.getApplicationContext(), "Internet Connection not found", 5000);
+			if(!UtilAndroid.findConnection(cont))
+				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
+			else{
+				p = new ProgressDialog(cont);
+				p.setMessage("Loading...");
+				p.setIndeterminate(false);
+				p.setCancelable(false);
+				p.show();
+			}
 
 		}
 
@@ -146,6 +156,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		@Override
 		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
+			p.dismiss();
 			if(result != null){
 				viewChatNotification(result);
 			}
