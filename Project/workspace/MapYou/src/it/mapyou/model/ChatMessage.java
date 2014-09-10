@@ -3,30 +3,26 @@
  */
 package it.mapyou.model;
 
-import android.os.Parcel;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ChatMessage extends AbstractNotification<User, User, String>{
+public class ChatMessage extends Notification{
 
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#describeContents()
+	private String message = "";
+	
+	/**
+	 * @return the message
 	 */
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getMessage() {
+		return message;
 	}
-
-	/* (non-Javadoc)
-	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	
+	/**
+	 * @param message the message to set
 	 */
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
 }

@@ -5,7 +5,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -57,12 +57,12 @@ public class ChatReceiver extends BroadcastReceiver{
 			notification.defaults |= android.app.Notification.DEFAULT_SOUND;
 			notification.defaults |= android.app.Notification.DEFAULT_VIBRATE;
 			if(mapme_id==Util.CURRENT_MAPME.getModelID()){
-				Notification n = new Notification();
+				ChatMessage n = new ChatMessage();
 				User u = new User();
 				u.setModelID(id);
 				n.setNotifier(u);
 				n.setNotified(null);
-				n.setNotificationState(msg);
+				n.setMessage(msg);
 				Intent notificationIntent = new Intent("it.mapyou.action.CHAT_MESSAGE_NO_UPDATE");
 				notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
@@ -90,7 +90,7 @@ public class ChatReceiver extends BroadcastReceiver{
 		}
 	}
 
-	class UpdateNotification extends AsyncTask<Notification, Void, Notification>{
+	class UpdateNotification extends AsyncTask<ChatMessage, Void, ChatMessage>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
@@ -110,7 +110,7 @@ public class ChatReceiver extends BroadcastReceiver{
 
 		// CHAT CHAT_BROADCAST
 		@Override
-		protected Notification doInBackground(Notification... params) {
+		protected ChatMessage doInBackground(ChatMessage... params) {
 
 			try {
 				parameters.put("idNot", String.valueOf(params[0].getModelID()));
@@ -126,7 +126,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			}
 		}
 		@Override
-		protected void onPostExecute(Notification result) {
+		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
 			if(result != null){
 				if(isBroadcast)

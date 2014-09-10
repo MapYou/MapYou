@@ -91,6 +91,7 @@ public class NewMapMe extends FragmentActivity {
 		nameMapMe= (EditText) findViewById(R.id.EditTextNameMapMe2);
 
 		initilizeMap();
+		
 	}
 
 	public void save (View v){

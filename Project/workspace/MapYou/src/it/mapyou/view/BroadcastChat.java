@@ -5,14 +5,21 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.Notification;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -34,10 +41,14 @@ public class BroadcastChat extends Activity {
 	private static SharedPreferences sp;
 	private EditText textMessage;
 	private static User currentUser;
-	private static List<Notification>notification;
+	private static List<ChatMessage>notification;
 	private static ListView list;
+<<<<<<< HEAD
 	private TextView numUs;
 	private TextView nameM;
+=======
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+>>>>>>> origin/master
 	
 
 	@Override
@@ -58,11 +69,15 @@ public class BroadcastChat extends Activity {
 		if(b!=null && b.containsKey("users")){
 			users = b.getStringArray("users");
 			if(users!=null && users.length>0){
-				notification= new ArrayList<Notification>();
+				notification= new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
+<<<<<<< HEAD
 				int n=users.length+1;
 				numUs.setText("Users: "+n);
 				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
+=======
+				new RetrieveBroadcastConversation().execute();
+>>>>>>> origin/master
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
 
@@ -92,7 +107,7 @@ public class BroadcastChat extends Activity {
 
 	}
 	
-	public static void updateGui(Notification n){
+	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
 	 
@@ -146,8 +161,8 @@ public class BroadcastChat extends Activity {
 			super.onPostExecute(result);
 			if(result!=null){
 				if(!result.equals("error")){
-					Notification n = new Notification();
-					n.setNotificationState(result); //messaggio
+					ChatMessage n = new ChatMessage();
+					n.setMessage(result); //messaggio
 					n.setNotifier(currentUser);
 					updateGui(n);
 					textMessage.setText("");
@@ -164,5 +179,122 @@ public class BroadcastChat extends Activity {
 		super.onBackPressed();
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
 	}
+	
+	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{
 
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+
+		}
+
+		@Override
+		protected JSONObject doInBackground(Void... params) {
+
+			try {
+				JSONObject json=null;
+
+				parameters.put("user", ""+
+						sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
+				parameters.put("idm", ""+Util.CURRENT_MAPME.getModelID());
+				parameters.put("querytype", "d");
+				json=DeviceController.getInstance().getServer().
+						requestJson(SettingsServer.GET_CONVERSATION, DeviceController.getInstance().getServer().setParameters(parameters));
+
+				return json;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+			if(result!=null){
+				try {
+					notification = retrieveAllNotification(result);
+				} catch (Exception e) {
+					notification = new ArrayList<ChatMessage>();
+				}
+				list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+			}
+		}
+	}
+
+	public List<ChatMessage> retrieveAllNotification(JSONObject result){
+		try {
+			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
+			JSONArray jsonArr = result.getJSONArray("");
+			for(int i=0; i<jsonArr.length(); i++){
+				ChatMessage mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
+				if(mp!=null)
+					notifications.add(mp);
+			}
+			return notifications;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<ChatMessage>();
+		}
+	}
+
+	private ChatMessage getNotificationFromMapme (JSONObject json){
+
+
+		try {
+			ChatMessage m= new ChatMessage();
+			User notifier = getUserByJSon(json.getJSONArray("notifier"));
+			User notified = getUserByJSon(json.getJSONArray("notified"));
+			//			MapMe mapme = new MapMe();
+			//			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
+			//			mapme.setModelID(Integer.parseInt(
+			//					json.getJSONArray("mapme").getJSONObject(0).getString("id")));
+			m.setNotified(notified);
+			m.setNotifier(notifier);
+			//			m.setNotificationType(json.getString("type"));
+			m.setMessage(json.getString("state"));
+			m.setModelID(Integer.parseInt(json.getString("id")));
+			//			m.setNotificationObject(mapme);
+			Date dt;
+			try {
+				dt = sdf.parse(json.getString("date"));
+			} catch (Exception e) {
+				dt = null;
+			}
+			if(dt!=null){
+				GregorianCalendar g = new GregorianCalendar();
+				g.setTime(dt);
+				m.setDate(g);
+			}else;
+			return m;
+		}catch (Exception e) {
+			return null;
+		}
+	}
+
+	private User getUserByJSon (JSONArray jsonArr){
+
+		try {
+			User user= new User();
+			JSONObject json = null;
+			for(int i=0; i<jsonArr.length(); i++){
+
+				json = jsonArr.getJSONObject(i);
+				user.setNickname(json.getString("nickname"));
+				user.setEmail(json.getString("email"));
+				user.setModelID(json.getInt("id"));
+			}
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	
 }
