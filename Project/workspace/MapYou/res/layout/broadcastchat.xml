@@ -38,7 +38,8 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:onClick="sendm"
+                android:onClick="broadc"
+                android:clickable="true"
                 android:src="@drawable/send" />
         </LinearLayout>
     </LinearLayout>

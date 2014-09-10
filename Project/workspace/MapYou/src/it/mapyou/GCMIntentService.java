@@ -4,6 +4,7 @@ package it.mapyou;
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.BroadcastChat;
 import it.mapyou.view.ChatReceiver;
 import it.mapyou.view.ChatUserToUser;
 import it.mapyou.view.Login;
@@ -43,8 +44,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(sp.contains(UtilAndroid.KEY_ID_USER_LOGGED))
 		{
 			boolean v = sp.getBoolean("isChatMode", false);
-			if(v)
+			boolean b = sp.getBoolean("isBroadcastMode", true);
+			if(v && !b)
 				act = ChatUserToUser.class;
+			else if(!v && b)
+				act = BroadcastChat.class;
 			else
 				act = NotificationActivity.class;
 		}
@@ -96,7 +100,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		selectActivity();
 		String ty = intent.getExtras().getString("type");
-		if(ty.equals("CHAT") && act == ChatUserToUser.class){
+		if(ty.equals("CHAT") && (act == ChatUserToUser.class || act==BroadcastChat.class)){
 			isChatNotification(context,
 					intent.getExtras().getString("price"),
 					Integer.parseInt(intent.getExtras().getString("idsender")),

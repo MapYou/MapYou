@@ -112,7 +112,6 @@ public class ChatUserToUser extends Activity{
 
 		}
 
-		// CHAT  
 		@Override
 		protected String doInBackground(String... params) {
 
