@@ -6,6 +6,8 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.model.Notification;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.graphics.Color;
@@ -23,6 +25,7 @@ public class ChatMessageAdapter extends BaseAdapter{
 
 	private List<Notification> not;
 	private int currentUserId;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 	public ChatMessageAdapter(List<Notification> n, int currentUserId) {
 		this.not = n;
@@ -68,6 +71,12 @@ public class ChatMessageAdapter extends BaseAdapter{
 		TextView t = (TextView)convertView.findViewById(R.id.textMessage);
 		Notification n = not.get(position);
 		t.setText(n.getNotificationState());
+		TextView dat = (TextView) convertView.findViewById(R.id.textMessageDate);
+		GregorianCalendar g = n.getDate();
+		if(g!=null)
+			dat.setText(sdf.format(g.getTime()));
+		else
+			dat.setText("");
 		if(n.getNotifier().getModelID()==currentUserId)
 			{
 			t.setBackgroundColor(Color.GRAY);

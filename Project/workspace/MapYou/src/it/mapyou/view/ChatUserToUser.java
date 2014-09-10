@@ -10,7 +10,10 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class ChatUserToUser extends Activity{
 	private static SharedPreferences sp;
 	private static ListView listView;
 	private static List<Notification> notif;
-	private static UpdateNotification updateNot;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,6 @@ public class ChatUserToUser extends Activity{
 				currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				currentUser.setEmail(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, ""));
 				new RetrieveConversation().execute();
-				updateNot = new UpdateNotification(this);
 			}else
 				sp.edit().putBoolean("isChatMode", false).commit();
 
@@ -86,7 +88,7 @@ public class ChatUserToUser extends Activity{
 
 
 	}
-
+	
 	public static void updateGui(Notification n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
@@ -94,8 +96,6 @@ public class ChatUserToUser extends Activity{
 		}else;
 		notif.add(0, n);
 		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
-
-		updateNot.execute(n);
 	}
 
 	class SendMessage extends AsyncTask<String, Void, String>{
@@ -235,6 +235,17 @@ public class ChatUserToUser extends Activity{
 			m.setNotificationState(json.getString("state"));
 			m.setModelID(Integer.parseInt(json.getString("id")));
 			//			m.setNotificationObject(mapme);
+			Date dt;
+			try {
+				dt = sdf.parse(json.getString("date"));
+			} catch (Exception e) {
+				dt = null;
+			}
+			if(dt!=null){
+				GregorianCalendar g = new GregorianCalendar();
+				g.setTime(dt);
+				m.setDate(g);
+			}else;
 			return m;
 		}catch (Exception e) {
 			return null;

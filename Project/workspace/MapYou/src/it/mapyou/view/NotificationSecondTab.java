@@ -7,7 +7,11 @@ import it.mapyou.model.Notification;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class NotificationSecondTab extends Activity{
 	private ListView listView;
 	private SharedPreferences sp;
 	private Activity act;
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 	@Override
 	public void onBackPressed() {
@@ -135,9 +140,20 @@ public class NotificationSecondTab extends Activity{
 					json.getJSONArray("mapme").getJSONObject(0).getString("id")));
 			m.setNotified(notified);
 			m.setNotifier(notifier);
-			m.setNotificationType(json.getString("type"));
+			m.setNotificationState(json.getString("state"));
 			m.setModelID(Integer.parseInt(json.getString("id")));
 			m.setNotificationObject(mapme);
+			Date dt;
+			try {
+				dt = sdf.parse(json.getString("date"));
+			} catch (Exception e) {
+				dt = null;
+			}
+			if(dt!=null){
+				GregorianCalendar g = new GregorianCalendar();
+				g.setTime(dt);
+				m.setDate(g);
+			}else;
 			return m;
 		}catch (Exception e) {
 			return null;
