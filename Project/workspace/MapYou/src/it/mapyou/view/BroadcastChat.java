@@ -90,7 +90,7 @@ public class BroadcastChat extends Activity {
 	 
 		}else;
 		notification.add(0, n);
-		list.setAdapter(new ChatMessageAdapter(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
 
 	class SendMessageInBroadcast extends AsyncTask<String, Void, String>{
