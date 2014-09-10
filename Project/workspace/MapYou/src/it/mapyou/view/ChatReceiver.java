@@ -25,10 +25,12 @@ import android.os.Bundle;
  */
 public class ChatReceiver extends BroadcastReceiver{
 
+	private boolean isBroadcast = false;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals("it.mapyou.action.CHAT_MESSAGE")){
-			String msg = "", title="", notif="", nickname="";
+			String msg = "", title="", notif="", brod = "";
 			int id, mapme_id;
 			try {
 				Bundle b = intent.getExtras();
@@ -37,12 +39,14 @@ public class ChatReceiver extends BroadcastReceiver{
 				mapme_id = b.getInt("idmapme");
 				title = b.getString("title");
 				notif = b.getString("notif");
-				nickname = b.getString("nickname_sender");
+				brod = b.getString("broadcast");
 			} catch (Exception e) {
-				msg = ""; nickname=""; title=""; notif="";
+				msg = ""; title=""; notif="";
 				id = -1;
 				mapme_id=-1;
+				brod = "false";
 			}
+			isBroadcast = brod.equals("true");
 			int icon = R.drawable.profile;
 			long when = System.currentTimeMillis();
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -125,7 +129,10 @@ public class ChatReceiver extends BroadcastReceiver{
 		protected void onPostExecute(Notification result) {
 			super.onPostExecute(result);
 			if(result != null){
-				ChatUserToUser.updateGui(result, true);
+				if(isBroadcast)
+					BroadcastChat.updateGui(result);
+				else
+					ChatUserToUser.updateGui(result);
 			}
 		}
 	}

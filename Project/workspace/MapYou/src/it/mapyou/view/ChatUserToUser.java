@@ -89,13 +89,12 @@ public class ChatUserToUser extends Activity{
 
 	}
 	
-	public static void updateGui(Notification n, boolean isToAddList){
+	public static void updateGui(Notification n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
 			n.setNotifier(user);
 		}else;
-		if(isToAddList)notif.add(0, n);
-		else;
+		notif.add(0, n);
 		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
 
@@ -148,7 +147,7 @@ public class ChatUserToUser extends Activity{
 					n.setNotificationState(result);
 					n.setNotified(user);
 					n.setNotifier(currentUser);
-					updateGui(n, true);
+					updateGui(n);
 					mess.setText("");
 				}else
 					UtilAndroid.makeToast(getApplicationContext(), "Risent message", 5000);
