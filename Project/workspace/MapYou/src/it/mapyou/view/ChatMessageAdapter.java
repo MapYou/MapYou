@@ -26,12 +26,12 @@ public class ChatMessageAdapter extends BaseAdapter{
 	private List<ChatMessage> not;
 	private int currentUserId;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	
+
 	public ChatMessageAdapter(List<ChatMessage> n, int currentUserId) {
 		this.not = n;
 		this.currentUserId = currentUserId;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see android.widget.Adapter#getCount()
 	 */
@@ -67,7 +67,7 @@ public class ChatMessageAdapter extends BaseAdapter{
 		if(convertView==null){
 			convertView=View.inflate(parent.getContext(), R.layout.chat_single_message_adapter, null);
 		}
-		
+
 		TextView t = (TextView)convertView.findViewById(R.id.textMessage);
 		ChatMessage n = not.get(position);
 		t.setText(n.getMessage());
@@ -75,19 +75,20 @@ public class ChatMessageAdapter extends BaseAdapter{
 		GregorianCalendar g = n.getDate();
 		if(g!=null)
 			dat.setText(sdf.format(g.getTime()));
-		else
-			dat.setText("");
+		else;
 		if(n.getNotifier().getModelID()==currentUserId)
-			{
-			t.setBackgroundColor(Color.GRAY);
+		{
+			t.setBackgroundColor(Color.GREEN);
 			t.setGravity(Gravity.RIGHT);
-			}
+		}
 		else
-			{
-			t.setBackgroundColor(Color.YELLOW);
+		{
+			t.setBackgroundColor(Color.LTGRAY);
 			t.setGravity(Gravity.LEFT);
-			}
-		
+		}
+
+
+
 		return convertView;
 	}
 
