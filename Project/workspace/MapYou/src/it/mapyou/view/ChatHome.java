@@ -19,8 +19,10 @@ import it.mapyou.util.UtilAndroid;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.GridView;
 
@@ -33,6 +35,7 @@ public class ChatHome extends Activity {
 	private Activity act;
 	private GridView gridView;
 	private List<User> users;
+	private SharedPreferences sp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class ChatHome extends Activity {
 		this.act = this;
 		gridView = (GridView) findViewById(R.id.gridView1);
 		users = new ArrayList<User>();
+		sp=PreferenceManager.getDefaultSharedPreferences(this);
 		new DownloadAllUser().execute();
 	}
 	
@@ -124,7 +128,8 @@ public class ChatHome extends Activity {
 				user.setNickname(json.getString("nickname"));
 				user.setEmail(json.getString("email"));
 				user.setModelID(json.getInt("id"));
-				u.add(user);
+				if(user.getModelID()!=sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1))
+					u.add(user);
 			}
 			return u;
 		} catch (Exception e) {
