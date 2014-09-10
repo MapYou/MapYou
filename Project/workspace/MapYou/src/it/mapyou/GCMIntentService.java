@@ -45,9 +45,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		{
 			boolean v = sp.getBoolean("isChatMode", false);
 			boolean b = sp.getBoolean("isBroadcastMode", true);
-			if(v && !b)
+			if(v)
 				act = ChatUserToUser.class;
-			else if(!v && b)
+			else if(!b)
 				act = BroadcastChat.class;
 			else
 				act = DrawerMain.class;

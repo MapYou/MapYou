@@ -3,14 +3,15 @@
  */
 package it.mapyou.view;
 
-import java.util.HashMap;
-
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.Notification;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+
+import java.util.HashMap;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,7 +27,7 @@ import android.os.Bundle;
 public class ChatReceiver extends BroadcastReceiver{
 
 	private boolean isBroadcast = false;
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals("it.mapyou.action.CHAT_MESSAGE")){
@@ -51,7 +52,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			long when = System.currentTimeMillis();
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			android.app.Notification notification = new android.app.Notification(icon, notif, when);
-	
+
 			notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
 			notification.defaults |= android.app.Notification.DEFAULT_SOUND;
 			notification.defaults |= android.app.Notification.DEFAULT_VIBRATE;
@@ -70,7 +71,7 @@ public class ChatReceiver extends BroadcastReceiver{
 				PendingIntent p_intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
 				notification.setLatestEventInfo(context, title, msg, p_intent);
-				
+
 				notificationManager.notify(0, notification);
 				new UpdateNotification(context).execute(n);
 			}else{
@@ -82,20 +83,19 @@ public class ChatReceiver extends BroadcastReceiver{
 				PendingIntent p_intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
 				notification.setLatestEventInfo(context, title, msg, p_intent);
-				
+
 				notificationManager.notify(0, notification);
 			}
 		}else if(intent.getAction().equals("it.mapyou.action.CHAT_MESSAGE_NO_UPDATE")){
-			
 		}
 	}
-	
+
 	class UpdateNotification extends AsyncTask<Notification, Void, Notification>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
 		private Context act;
-		
+
 		public UpdateNotification(Context act) {
 			this.act = act;
 		}
