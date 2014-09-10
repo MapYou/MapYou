@@ -41,6 +41,7 @@ public class ChatHome extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatlayouthome);
+		setTitle("MapYou Chat");
 		this.act = this;
 		gridView = (GridView) findViewById(R.id.gridView1);
 		users = new ArrayList<User>();

@@ -56,6 +56,7 @@ public class BroadcastChat extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.broadcastchat);
+		setTitle("MapYou Broadcast Chat");
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		textMessage=(EditText) findViewById(R.id.editTextB);
 		list=(ListView) findViewById(R.id.listView1);

@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -51,6 +53,7 @@ public class ChatUserToUser extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatusertouser);
+		setTitle("MapYou Chat");
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Bundle b = getIntent().getExtras();
 		if(b!=null && b.containsKey("user")){
@@ -281,5 +284,21 @@ public class ChatUserToUser extends Activity{
 		sp.edit().putBoolean("isChatMode", false).commit();
 	}
 
+	@Override
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		getMenuInflater().inflate(R.menu.menuchat, menu);
+		return true;
+
+	}
+	
+	public void settings(MenuItem m){
+		UtilAndroid.makeToast(act, "Peppe è gay", 5000);
+	}
+
+
+	
+	
 
 }
