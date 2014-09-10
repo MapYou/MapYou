@@ -5,5 +5,9 @@
         <ignore path="src/it/mapyou/sqlite/DatabaseHelper.java" />
         <ignore path="src/it/mapyou/view/MainActivity.java" />
     </issue>
+    <issue id="ResourceAsColor" severity="ignore">
+        <ignore path="src/it/mapyou/view/AdapterBoadcastChat.java" />
+    </issue>
+    <issue id="SimpleDateFormat" severity="ignore" />
     <issue id="Wakelock" severity="ignore" />
 </lint>

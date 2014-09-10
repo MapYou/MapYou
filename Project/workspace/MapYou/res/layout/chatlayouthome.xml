@@ -20,6 +20,19 @@
             android:layout_weight="0.08"
             android:src="@drawable/chatmenu" />
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.08"
+            android:text="Users in chat"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/LightGreen"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <GridView
             android:id="@+id/gridView1"
             android:layout_width="match_parent"
@@ -43,8 +56,7 @@
             android:background="@drawable/mybuttongreen"
             android:onClick="broadcast"
             android:text="Chat Broadcast"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

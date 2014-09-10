@@ -10,6 +10,7 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,7 +92,7 @@ public class ChatUserToUser extends Activity{
 
 
 	}
-	
+
 	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
@@ -150,6 +151,16 @@ public class ChatUserToUser extends Activity{
 					n.setMessage(result);
 					n.setNotified(user);
 					n.setNotifier(currentUser);
+					Date d= new Date(System.currentTimeMillis());
+
+					GregorianCalendar g= new GregorianCalendar();
+					try {
+						g.setTime(sdf.parse(d.toString()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					n.setDate(g);
 					updateGui(n);
 					mess.setText("");
 				}else
@@ -222,24 +233,13 @@ public class ChatUserToUser extends Activity{
 
 	private ChatMessage getNotificationFromMapme (JSONObject json){
 
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
 		try {
 			ChatMessage m= new ChatMessage();
-			User notifier = getUserByJSon(json.getJSONArray("notifier"));
-			User notified = getUserByJSon(json.getJSONArray("notified"));
-			//			MapMe mapme = new MapMe();
-			//			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
-			//			mapme.setModelID(Integer.parseInt(
-			//					json.getJSONArray("mapme").getJSONObject(0).getString("id")));
-			m.setNotified(notified);
-			m.setNotifier(notifier);
-			//			m.setNotificationType(json.getString("type"));
-			m.setMessage(json.getString("state"));
-			m.setModelID(Integer.parseInt(json.getString("id")));
-			//			m.setNotificationObject(mapme);
 			Date dt;
 			try {
-				dt = sdf.parse(json.getString("date"));
+				String s=json.getString("date");
+				dt = sdf.parse(s);
 			} catch (Exception e) {
 				dt = null;
 			}
@@ -248,6 +248,14 @@ public class ChatUserToUser extends Activity{
 				g.setTime(dt);
 				m.setDate(g);
 			}else;
+
+			User notifier = getUserByJSon(json.getJSONArray("notifier"));
+			User notified = getUserByJSon(json.getJSONArray("notified"));
+			m.setNotified(notified);
+			m.setNotifier(notifier);
+			m.setMessage(json.getString("state"));
+			m.setModelID(Integer.parseInt(json.getString("id")));
+
 			return m;
 		}catch (Exception e) {
 			return null;
@@ -292,13 +300,13 @@ public class ChatUserToUser extends Activity{
 		return true;
 
 	}
-	
+
 	public void settings(MenuItem m){
 		UtilAndroid.makeToast(act, "Peppe è gay", 5000);
 	}
 
 
-	
-	
+
+
 
 }

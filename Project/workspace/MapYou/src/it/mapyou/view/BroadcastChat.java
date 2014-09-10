@@ -10,6 +10,7 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,13 +44,13 @@ public class BroadcastChat extends Activity {
 	private static User currentUser;
 	private static List<ChatMessage>notification;
 	private static ListView list;
- 
+
 	private TextView numUs;
 	private TextView nameM;
- 
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
- 
-	
+
+
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +73,13 @@ public class BroadcastChat extends Activity {
 			if(users!=null && users.length>0){
 				notification= new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
- 
+
 				int n=users.length+1;
 				numUs.setText("Users: "+n);
 				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
- 
+
 				new RetrieveBroadcastConversation().execute();
- 
+
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
 
@@ -107,11 +108,11 @@ public class BroadcastChat extends Activity {
 			UtilAndroid.makeToast(getApplicationContext(), "Error", 5000);
 
 	}
-	
+
 	public static void updateGui(ChatMessage n){
 		if(n.getNotified()==null){
 			n.setNotified(currentUser);
-	 
+
 		}else;
 		notification.add(0, n);
 		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
@@ -121,6 +122,7 @@ public class BroadcastChat extends Activity {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
+		private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
 
 
 		@Override
@@ -130,8 +132,8 @@ public class BroadcastChat extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
 		}
 
- 
-	 
+
+
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -165,6 +167,15 @@ public class BroadcastChat extends Activity {
 					ChatMessage n = new ChatMessage();
 					n.setMessage(result); //messaggio
 					n.setNotifier(currentUser);
+					Date d= new Date(System.currentTimeMillis());
+					
+					GregorianCalendar g= new GregorianCalendar();
+					try {
+						g.setTime(sdf.parse(d.toString()));
+					} catch (ParseException e) {
+						
+					}
+					n.setDate(g);
 					updateGui(n);
 					textMessage.setText("");
 				}else
@@ -173,14 +184,14 @@ public class BroadcastChat extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
-	 
+
 	@Override
 	public void onBackPressed() {
-		 
+
 		super.onBackPressed();
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
 	}
-	
+
 	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
@@ -245,24 +256,13 @@ public class BroadcastChat extends Activity {
 
 	private ChatMessage getNotificationFromMapme (JSONObject json){
 
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
 		try {
 			ChatMessage m= new ChatMessage();
-			User notifier = getUserByJSon(json.getJSONArray("notifier"));
-			User notified = getUserByJSon(json.getJSONArray("notified"));
-			//			MapMe mapme = new MapMe();
-			//			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
-			//			mapme.setModelID(Integer.parseInt(
-			//					json.getJSONArray("mapme").getJSONObject(0).getString("id")));
-			m.setNotified(notified);
-			m.setNotifier(notifier);
-			//			m.setNotificationType(json.getString("type"));
-			m.setMessage(json.getString("state"));
-			m.setModelID(Integer.parseInt(json.getString("id")));
-			//			m.setNotificationObject(mapme);
 			Date dt;
 			try {
-				dt = sdf.parse(json.getString("date"));
+				String s=json.getString("date");
+				dt = sdf.parse(s);
 			} catch (Exception e) {
 				dt = null;
 			}
@@ -271,6 +271,12 @@ public class BroadcastChat extends Activity {
 				g.setTime(dt);
 				m.setDate(g);
 			}else;
+			User notifier = getUserByJSon(json.getJSONArray("notifier"));
+			User notified = getUserByJSon(json.getJSONArray("notified"));
+			m.setNotified(notified);
+			m.setNotifier(notifier);
+			m.setMessage(json.getString("state"));
+			m.setModelID(Integer.parseInt(json.getString("id")));
 			return m;
 		}catch (Exception e) {
 			return null;
@@ -297,5 +303,5 @@ public class BroadcastChat extends Activity {
 
 	}
 
-	
+
 }
