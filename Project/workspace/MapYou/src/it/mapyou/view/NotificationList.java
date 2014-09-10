@@ -56,31 +56,11 @@ public class NotificationList extends Activity{
 		act = this;
 		listView = (ListView)findViewById(R.id.list);
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		int idnot = -1;
-		boolean v = false;
-		Bundle b = getIntent().getExtras();
-		if(b!=null){
-			idnot = b.getInt("idnot");
-			if(idnot>0)
-				v = true;
-			else v = false;
-		}else v=false;
-		
-		if(v){
-			dispatchNotification(idnot);
-		}else{
-			retrieveAllPendingNotification();
-		}
+		retrieveAllPendingNotification();
 	}
 	
 	private void retrieveAllPendingNotification(){
 		new RetrieveNotification().execute();
-	}
-	
-	private void dispatchNotification(int id){
-		Intent i = new Intent(this, NotificationActivity.class);
-		i.putExtra("notification_id", id);
-		startActivity(i);
 	}
 	
 	class RetrieveNotification extends AsyncTask<Void, Void, JSONObject>{

@@ -6,8 +6,8 @@ import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.ChatReceiver;
 import it.mapyou.view.ChatUserToUser;
+import it.mapyou.view.DrawerMain;
 import it.mapyou.view.Login;
-import it.mapyou.view.NotificationActivity;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -46,7 +46,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			if(v)
 				act = ChatUserToUser.class;
 			else
-				act = NotificationActivity.class;
+				act = DrawerMain.class;
 		}
 		else
 			act = Login.class;
@@ -100,7 +100,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 			isChatNotification(context,
 					intent.getExtras().getString("price"),
 					Integer.parseInt(intent.getExtras().getString("idsender")),
-					Integer.parseInt(intent.getExtras().getString("idmapme")));
+					Integer.parseInt(intent.getExtras().getString("idmapme")),
+					intent.getExtras().getString("title"),
+					intent.getExtras().getInt("idnot"),
+					intent.getExtras().getString("notif"),
+					intent.getExtras().getString("nickname_sender"));
 		}
 		else
 			generateNotification(context, intent.getExtras().getString("price"),
@@ -168,12 +172,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-		Bundle b = new Bundle();
-		b.putInt("notification_id", id);
-		notificationIntent.putExtras(b);
-		if(act == Login.class)
-			notificationIntent.putExtra("notification", "notification");
-		else;
 		PendingIntent intent =PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
 		notification.setLatestEventInfo(context, title, msg, intent);
@@ -184,13 +182,18 @@ public class GCMIntentService extends GCMBaseIntentService {
 		notificationManager.notify(0, notification); 
 	}
 
-	private void isChatNotification(Context context, String msg, int idsender, int idmapme){
+	private void isChatNotification(Context context, String msg, int idsender, int idmapme,
+			String title, int id, String notif, String nickname){		
+		
 		Intent it = new Intent(context, ChatReceiver.class);
 		it.setAction("it.mapyou.action.CHAT_MESSAGE");
 		Bundle b = new Bundle();
 		b.putString("message", msg);
 		b.putInt("idsender", idsender);
 		b.putInt("idmapme", idmapme);
+		b.putString("nickname_sender", nickname);
+		b.putString("title", title);
+		b.putString("notif", notif);
 		it.putExtras(b);
 		context.sendBroadcast(it);
 	}

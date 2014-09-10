@@ -39,9 +39,7 @@ public class Login extends FacebookController {
 	private EditText password;
 	private SharedPreferences sp;
 	private User userLogin=null;
-	private boolean notification=false;
 	private String idnotification;
-	private int notificationID;
 
 	@Override
 	protected void onStop() {
@@ -66,22 +64,6 @@ public class Login extends FacebookController {
 
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-
-		// Code use for notifications (Alert)
-		Intent i = getIntent();
-		if(i.getStringExtra("notification") != null)
-		{
-			notification=true;
-			try {
-				notificationID = i.getExtras().getInt("notification_id");
-			} catch (Exception e) {
-				notificationID = -1;
-			}
-		}else{
-			notification=false;
-			notificationID = -1;
-		}
-
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
 		try {
@@ -92,15 +74,6 @@ public class Login extends FacebookController {
 
 		logoutFacebookSession2();
 
-	}
-
-	public void goToNotificationActivity(){
-		Bundle b = new Bundle();
-		b.putInt("idnot", notificationID);
-		Intent i = new Intent(Login.this, NotificationList.class);
-		i.putExtras(b);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(i);
 	}
 
 	// onclick Login
@@ -236,38 +209,9 @@ public class Login extends FacebookController {
 								ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
 								ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);
 								ed.commit();
-								if(notification){
-									notification=false;
-									goToNotificationActivity();
-								}
-
-								else{
-
-									//									for(int i=0; i<1000; i++){
-									//										MapMe m = new MapMe();
-									//										m.setAdministrator(userLogin);
-									//										m.setMaxNumUsers(15);
-									//										m.setName("nome_"+i);
-									//										SimpleSegment sg = new SimpleSegment();
-									//										Point endPoint = new Point();
-									//										Point startPoint = new Point();
-									//										startPoint.setLatitude(41.129761285949);
-									//										startPoint.setLongitude(14.782620817423);
-									//										startPoint.setLocation("Benevento Benevento, Italy");
-									//										endPoint.setLatitude(41.560254489813);
-									//										endPoint.setLongitude(14.662716016173);
-									//										endPoint.setLocation("Campobasso, Italy");
-									//										sg.setEndPoint(endPoint);
-									//										sg.setStartPoint(startPoint);
-									//										m.setSegment(sg);
-									//										new SaveMapMe().execute(m);
-									//									}
-
-
-									UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
-									Intent intent= new Intent(Login.this,DrawerMain.class);
-									startActivity(intent);
-								}
+								UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+								Intent intent= new Intent(Login.this,DrawerMain.class);
+								startActivity(intent);
 
 							}else{
 								UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
