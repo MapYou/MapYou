@@ -43,12 +43,12 @@ public class BroadcastChat extends Activity {
 	private static User currentUser;
 	private static List<ChatMessage>notification;
 	private static ListView list;
-<<<<<<< HEAD
+ 
 	private TextView numUs;
 	private TextView nameM;
-=======
+ 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
->>>>>>> origin/master
+ 
 	
 
 	@Override
@@ -71,13 +71,13 @@ public class BroadcastChat extends Activity {
 			if(users!=null && users.length>0){
 				notification= new ArrayList<ChatMessage>();
 				sp.edit().putBoolean("isBroadcastMode", false).commit();
-<<<<<<< HEAD
+ 
 				int n=users.length+1;
 				numUs.setText("Users: "+n);
 				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
-=======
+ 
 				new RetrieveBroadcastConversation().execute();
->>>>>>> origin/master
+ 
 			}else{
 				sp.edit().putBoolean("isBroadcastMode", true).commit();
 
