@@ -50,12 +50,12 @@ public class ChatHome extends Activity {
 	}
 	
 	public void broadcast(View v){
-		String[] usr = new String[users.size()];
-		for(int i=0; i<users.size(); i++)
-			usr[i] = users.get(i).getNickname();
+//		String[] usr = new String[users.size()];
+//		for(int i=0; i<users.size(); i++)
+//			usr[i] = users.get(i).getNickname();
 		Intent i = new Intent(getApplicationContext(), BroadcastChat.class);
 		Bundle b = new Bundle();
-		b.putStringArray("users", usr);
+		b.putInt("num_users", users.size());
 		i.putExtras(b);
 		startActivity(i);
 		

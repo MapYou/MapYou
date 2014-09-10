@@ -27,7 +27,7 @@ public interface SettingsServer {
 	public static final String CHAT="chatmessage.php";
 	public static final String DELETE_CHAT = "deleteChatMessage.php";
 	public static final String GET_CONVERSATION = "getAllNotificationChat.php";
-	public static final String BROADCAST="broadcast.php";
+	public static final String BROADCAST="broad.php";
 	 
 	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";
 	

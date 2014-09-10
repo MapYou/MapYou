@@ -41,7 +41,6 @@ import android.widget.TextView;
  */
 public class BroadcastChat extends Activity {
 
-	private String[] users;
 	private static SharedPreferences sp;
 	private EditText textMessage;
 	private static User currentUser;
@@ -72,34 +71,18 @@ public class BroadcastChat extends Activity {
 		currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 		currentUser.setEmail(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, ""));
 		Bundle b = getIntent().getExtras();
-		if(b!=null && b.containsKey("users")){
-			users = b.getStringArray("users");
-			if(users!=null && users.length>0){
-				notification= new ArrayList<ChatMessage>();
-				sp.edit().putBoolean("isBroadcastMode", false).commit();
+		if(b!=null && b.containsKey("num_users")){
+			int users = b.getInt("num_users");
+			notification= new ArrayList<ChatMessage>();
+			sp.edit().putBoolean("isBroadcastMode", false).commit();
 
-				int n=users.length+1;
-				numUs.setText("Users: "+n);
-				nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
+			numUs.setText("Users: "+(users+1));
+			nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
 
-				new RetrieveBroadcastConversation().execute();
-
-			}else{
-				sp.edit().putBoolean("isBroadcastMode", true).commit();
-
-			}
+			new RetrieveBroadcastConversation().execute();
 		}else
 			sp.edit().putBoolean("isBroadcastMode", true).commit();
 
-	}
-
-	public String getUsers (String[] us){
-
-		StringBuffer bf=new StringBuffer();
-		for(int i=0; i<us.length; i++){
-			bf.append(us[i]+";");
-		}
-		return bf.toString().substring(0, bf.length()-1);
 	}
 
 	public void broadcastmess(View v){
@@ -152,7 +135,7 @@ public class BroadcastChat extends Activity {
 
 			try {
 				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-				parameters.put("users", getUsers(users));
+//				parameters.put("users", getUsers(users));
 				parameters.put("idm",  ""+Integer.parseInt(""+Util.CURRENT_MAPME.getModelID()));
 				parameters.put("message",  params[0]);
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
