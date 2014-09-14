@@ -47,7 +47,6 @@ public class BroadcastChat extends Activity {
 	private static List<ChatMessage>notification;
 	private static ListView list;
 	private Activity act;
-
 	private TextView numUs;
 	private TextView nameM;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -118,17 +117,9 @@ public class BroadcastChat extends Activity {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+			else;
 
 		}
-
-
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -158,14 +149,13 @@ public class BroadcastChat extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			p.dismiss();
+			//p.dismiss();
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
 					n.setMessage(result); //messaggio
 					n.setNotifier(currentUser);
 					Date d= new Date(System.currentTimeMillis());
-					
 					GregorianCalendar g= new GregorianCalendar();
 					try {
 						g.setTime(sdf.parse(d.toString()));

@@ -71,13 +71,8 @@ public class Register extends Activity{
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+			else;
+			
 		}
 
 		@Override
@@ -99,7 +94,7 @@ public class Register extends Activity{
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			p.dismiss();
+			
 			if(!result.toString().contains("-1")){
 				UtilAndroid.makeToast(getApplicationContext(), "Registred", 5000);
 				Intent intentMessage=new Intent();

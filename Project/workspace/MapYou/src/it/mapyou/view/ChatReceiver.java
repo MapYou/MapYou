@@ -108,13 +108,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+			else;
 
 		}
 
@@ -138,7 +132,7 @@ public class ChatReceiver extends BroadcastReceiver{
 		@Override
 		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
-			p.dismiss();
+			//p.dismiss();
 			if(result != null){
 				if(isBroadcast)
 					BroadcastChat.updateGui(result);
