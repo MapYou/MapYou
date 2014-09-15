@@ -7,6 +7,8 @@ import it.mapyou.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -20,23 +22,25 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 	 * @see android.app.ActivityGroup#onCreate(android.os.Bundle)
 	 */
 
-	 
+	private 	TabHost tabHost;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		setTitle(Util.CURRENT_MAPME.getName());
 		setContentView(R.layout.complete_mapme_layout);
- 
-	 
+
+
 
 
 		Bundle bund = new Bundle();
 		bund.putParcelable("mapme", Util.CURRENT_MAPME);
- 
-		TabHost tabHost = getTabHost();
+
+		tabHost = getTabHost();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
-		first_completeMapMeTab.setIndicator(Util.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
+		first_completeMapMeTab.setIndicator("Live", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
 		Intent mapmeTabIntent = new Intent(this, CompleteMapMeFirstTab.class);
 		first_completeMapMeTab.setContent(mapmeTabIntent);
 
@@ -50,9 +54,17 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 	}
 
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		menu.clear();
+		inflater.inflate(R.menu.menunotification, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 
 
-	
-	
+
+
+
 }

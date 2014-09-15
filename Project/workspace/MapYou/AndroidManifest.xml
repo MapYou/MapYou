@@ -77,11 +77,7 @@
         </activity>
         <activity android:name=".view.YourMapMeActivity" >
         </activity>
-         <activity android:name=".view.NotificationActivity" >
-        </activity>
         <activity android:name=".view.UserOnMapMe" >
-        </activity>
-        <activity android:name=".view.CompleteMapMeSecondTab_User" >
         </activity>
          <activity android:name=".view.CompleteMapMeFirstTab" >
        </activity>
@@ -89,9 +85,29 @@
         </activity>
         <activity android:name=".view.NotificationList" >
         </activity>
+          <activity android:name=".gcm.Gcm" >
+        </activity>
+        <activity android:name=".view.FacebookLogin" >
+        </activity>
+        <activity android:name=".view.DrawerMain" >
+        </activity>
+        <activity android:name=".view.ProfileFacebook" >
+        </activity>
+        <activity android:name="it.mapyou.view.NewMapMe" >
+        </activity>
+        <activity android:name="it.mapyou.view.MyLocation" >
+        </activity>
+        <activity android:name=".view.ChatUserToUser"></activity>
+        <activity android:name=".view.BroadcastChat"></activity>
+        <activity android:name=".view.ChatHome"></activity>
+        <activity android:name=".view.NotificationTabHome"></activity>
+        <activity android:name=".view.NotificationSecondTab"></activity>
+        <receiver android:name=".view.ChatReceiver">
+            <intent-filter>
+                <action android:name="it.mapyou.action.CHAT_MESSAGE" />
+            </intent-filter>
+        </receiver>
         
-       
-
         <!-- ************************************************************** -->
         <!-- Section Permission GCM requires a Google account. -->
         <receiver
@@ -120,32 +136,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".gcm.Gcm" >
-        </activity>
-        <activity android:name=".view.FacebookLogin" >
-        </activity>
-        <activity android:name=".view.DrawerMain" >
-        </activity>
-        <activity android:name=".view.ProfileFacebook" >
-        </activity>
-        
-        <activity android:name="it.mapyou.view.NewMapMe" >
-        </activity>
-     
-         <activity android:name="it.mapyou.view.MapActivity" >
-        </activity>
-        <activity android:name="it.mapyou.view.MyLocation" >
-        </activity>
-        <activity android:name=".view.ChatUserToUser"></activity>
-        <activity android:name=".view.BroadcastChat"></activity>
-        <activity android:name=".view.ChatHome"></activity>
-        <activity android:name=".view.NotificationTabHome"></activity>
-        <activity android:name=".view.NotificationSecondTab"></activity>
-        <receiver android:name=".view.ChatReceiver">
-            <intent-filter>
-                <action android:name="it.mapyou.action.CHAT_MESSAGE" />
-            </intent-filter>
-        </receiver>
+      
 
     </application>
 

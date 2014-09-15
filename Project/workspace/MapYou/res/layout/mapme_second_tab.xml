@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:orientation="vertical" >
 
         <GridView
@@ -22,9 +23,10 @@
         <Button
             android:id="@+id/buttonSendPartecipation"
             android:layout_width="238dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_weight="0.37"
+            android:background="@drawable/mybuttongreen"
             android:gravity="center"
             android:onClick="sendPartecipation"
             android:text="Send partecipation" />
@@ -32,9 +34,10 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="240dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_weight="0.23"
+            android:background="@drawable/button"
             android:onClick="refresh"
             android:text="Refresh" />
 

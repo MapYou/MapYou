@@ -12,24 +12,17 @@
         android:layout_marginTop="5dp"
         android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.08"
-            android:src="@drawable/chatmenu" />
-
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.08"
-            android:text="Users in chat"
+            android:gravity="center"
+            android:text="Users in: "
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/LightGreen"
+            android:textColor="@color/LightBlue"
             android:textSize="20sp"
             android:textStyle="bold" />
 

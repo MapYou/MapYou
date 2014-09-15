@@ -82,7 +82,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 			dat.setText(sdf.format(g.getTime()));
 		else
 			dat.setText("");
-		title.setText("MapYou: chat message in mapme \""+m.getNotificationObject().getName()+"\"");
+		title.setText("\""+m.getNotificationObject().getName()+"\": chat message" );
 		message.setText("You have received a message from \""+
 				m.getNotifier().getNickname()+"\"");
 

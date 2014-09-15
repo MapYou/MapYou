@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.mapyou.view;
 
 import it.mapyou.R;
@@ -11,11 +8,9 @@ import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -56,15 +51,13 @@ public class MapMeSecondTab_User extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-
 		mapme = Util.CURRENT_MAPME;
-		//mapping = mapme.getDistinctMapping();
-		//allMapping = mapme.getMapping();
-		
+	 
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
 		send.setOnClickListener(new OnClickListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
 				if(mapme.getAdministrator().getNickname().equals(
@@ -170,12 +163,10 @@ public class MapMeSecondTab_User extends Activity {
 
 		}
 
-
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-				//				parameters.put("user",String.valueOf(PreferenceManager.getDefaultSharedPreferences(act).getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 				parameters.put("idm",String.valueOf(mapme.getModelID()));
 				response=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
@@ -188,12 +179,11 @@ public class MapMeSecondTab_User extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-
 			p.dismiss();
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				List<User> reg= getUsersByJSon(result);
+				List<User> reg= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
 				if(reg!=null){
 					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
@@ -201,96 +191,8 @@ public class MapMeSecondTab_User extends Activity {
 				else
 					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
 			}
-
-
 		}
 	}
-
-	//	public List<MappingUser> getAllMappingFromMapme (JSONObject json){
-	//
-	//		List<MappingUser> mapping= new ArrayList<MappingUser>();
-	//
-	//		try {
-	//			JSONArray jsonArr= json.getJSONArray("Mapping");
-	//			for(int i=0; i<jsonArr.length(); i++){
-	//				json=jsonArr.getJSONObject(i);
-	//				User admin = getUserByJSon(json.getJSONArray("user"));
-	//				Point point = getPointByJSon(json.getJSONArray("point"));
-	//				if(admin!=null && point!=null){
-	//					MappingUser m= new MappingUser();
-	//					m.setModelID(Integer.parseInt(json.getString("id")));
-	//					m.setUser(admin);
-	//					m.setPoint(point);
-	//					mapping.add(m);
-	//				}
-	//			}
-	//			return mapping;
-	//
-	//		}catch (Exception e) {
-	//			return null;
-	//		}
-	//	}
-	//	
-	//	private User getUserByJSon (JSONArray jsonArr){
-	//
-	//		try {
-	//			User user= new User();
-	//			JSONObject json = null;
-	//			for(int i=0; i<jsonArr.length(); i++){
-	//
-	//				json = jsonArr.getJSONObject(i);
-	//				user.setNickname(json.getString("nickname"));
-	//				user.setEmail(json.getString("email"));
-	//				user.setModelID(json.getInt("id"));
-	//			}
-	//			return user;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//
-	//	}
-
-	private List<User> getUsersByJSon (JSONObject json){
-
-		try {
-			List<User> u= new ArrayList<User>();
-			JSONArray jsonArray = json.getJSONArray("Users");
-			for(int i=0; i<jsonArray.length(); i++){
-				json = jsonArray.getJSONObject(i);
-				User user = new User();
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-				u.add(user);
-			}
-			return u;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<User>();
-		}
-
-	}
-
-	//	private Point getPointByJSon (JSONArray jsonArr){
-	//
-	//		try {
-	//			Point ptn= new Point();
-	//			JSONObject json = null;
-	//			for(int i=0; i<jsonArr.length(); i++){
-	//
-	//				json = jsonArr.getJSONObject(i);
-	//				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
-	//				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
-	//				ptn.setLocation(json.getString("location"));
-	//			}
-	//			return ptn;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//
-	//	}
 
 	class DownloadUser extends AsyncTask<String, Void, String>{
 

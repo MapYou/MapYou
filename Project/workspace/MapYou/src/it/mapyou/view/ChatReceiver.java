@@ -132,7 +132,7 @@ public class ChatReceiver extends BroadcastReceiver{
 		@Override
 		protected void onPostExecute(ChatMessage result) {
 			super.onPostExecute(result);
-			//p.dismiss();
+		 
 			if(result != null){
 				if(isBroadcast)
 					BroadcastChat.updateGui(result);

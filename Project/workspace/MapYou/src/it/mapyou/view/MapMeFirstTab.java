@@ -20,9 +20,7 @@ public class MapMeFirstTab extends Activity {
 	private MapMe mapme;
 	private TextView textNickname, textStart, textend;
 	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -40,9 +38,7 @@ public class MapMeFirstTab extends Activity {
 		textStart.setText(sp.getLocation());
 	}
 	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
+	 
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent(this, DrawerMain.class);

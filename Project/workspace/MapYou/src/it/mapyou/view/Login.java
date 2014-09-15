@@ -16,7 +16,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -42,20 +41,6 @@ public class Login extends FacebookController {
 	private User userLogin=null;
 	private String idnotification;
 
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		//	stopService(new Intent(getBaseContext(), GPSTracker.class));
-	}
-
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		//stopService(new Intent(getBaseContext(), GPSTracker.class));
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +78,6 @@ public class Login extends FacebookController {
 	public void face(View v){
 		setConnection();
 		getID();
-
-
-		//Intent i = new Intent(getApplicationContext(), ServiceConnection.class);
-		//startService(i);
-
-
 	}
 
 
@@ -212,7 +191,7 @@ public class Login extends FacebookController {
 					if(idnotification !=null && idnotification.length() >0){
 						if(result!=null ){
 
-							userLogin=getUserLogin(result);
+							userLogin=DeviceController.getInstance().getParsingController().getUserParser().getParsingUserJobj(result);
 							if(userLogin!=null && userLogin.getModelID() >0){
 
 								Editor ed = sp.edit();
@@ -266,27 +245,6 @@ public class Login extends FacebookController {
 		return verify;
 	}
 
-
-	public User getUserLogin (JSONObject json){
-
-		try {
-			User user= new User();
-			JSONArray jsonArr= json.getJSONArray("User");
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json=jsonArr.getJSONObject(i);
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-			}
-			return user;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-
-		}
-
-	}
 
 	class SaveMapMe extends AsyncTask<MapMe, Void, MapMe>{
 

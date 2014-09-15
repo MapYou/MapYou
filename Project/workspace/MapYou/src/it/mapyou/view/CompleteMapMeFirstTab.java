@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -234,7 +234,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			ParserTask p= new ParserTask();
-			p.execute(result); //tutto il contenuto letto dal Json
+			p.execute(result); 
 
 		}
 	}
@@ -312,6 +312,17 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 		return url; 
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.refreshNotification:
+			new RetrieveMapping().execute();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

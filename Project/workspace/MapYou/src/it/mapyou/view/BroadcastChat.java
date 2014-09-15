@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package it.mapyou.view;
 
 import it.mapyou.R;
@@ -18,12 +16,9 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,10 +44,8 @@ public class BroadcastChat extends Activity {
 	private Activity act;
 	private TextView numUs;
 	private TextView nameM;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-
-
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,10 +101,7 @@ public class BroadcastChat extends Activity {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
-		private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-
-		private ProgressDialog p;
-
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -126,7 +116,6 @@ public class BroadcastChat extends Activity {
 
 			try {
 				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-//				parameters.put("users", getUsers(users));
 				parameters.put("idm",  ""+Integer.parseInt(""+Util.CURRENT_MAPME.getModelID()));
 				parameters.put("message",  params[0]);
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
@@ -149,7 +138,7 @@ public class BroadcastChat extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			//p.dismiss();
+		 
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
@@ -182,20 +171,13 @@ public class BroadcastChat extends Activity {
 	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private ProgressDialog p;
-
+		 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+			else;
 		}
 
 		@Override
@@ -204,8 +186,7 @@ public class BroadcastChat extends Activity {
 			try {
 				JSONObject json=null;
 
-				parameters.put("user", ""+
-						sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
+				parameters.put("user", ""+sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 				parameters.put("idm", ""+Util.CURRENT_MAPME.getModelID());
 				parameters.put("querytype", "d");
 				json=DeviceController.getInstance().getServer().
@@ -219,10 +200,10 @@ public class BroadcastChat extends Activity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			p.dismiss();
+		 
 			if(result!=null){
 				try {
-					notification = retrieveAllNotification(result);
+					notification = DeviceController.getInstance().getParsingController().getChatMessageParser().parsingAllChatMessageNotifcation(result);
 				} catch (Exception e) {
 					notification = new ArrayList<ChatMessage>();
 				}
@@ -231,75 +212,8 @@ public class BroadcastChat extends Activity {
 		}
 	}
 
-	public List<ChatMessage> retrieveAllNotification(JSONObject result){
-		try {
-			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
-			JSONArray jsonArr = result.getJSONArray("");
-			for(int i=0; i<jsonArr.length(); i++){
-				ChatMessage mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
-				if(mp!=null)
-					notifications.add(mp);
-			}
-			return notifications;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new ArrayList<ChatMessage>();
-		}
-	}
-
-	private ChatMessage getNotificationFromMapme (JSONObject json){
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-		try {
-			ChatMessage m= new ChatMessage();
-			Date dt;
-			try {
-				String s=json.getString("date");
-				dt = sdf.parse(s);
-			} catch (Exception e) {
-				dt = null;
-			}
-			if(dt!=null){
-				GregorianCalendar g = new GregorianCalendar();
-				g.setTime(dt);
-				m.setDate(g);
-			}else;
-			User notifier = getUserByJSon(json.getJSONArray("notifier"));
-			User notified = getUserByJSon(json.getJSONArray("notified"));
-			m.setNotified(notified);
-			m.setNotifier(notifier);
-			m.setMessage(json.getString("state"));
-			m.setModelID(Integer.parseInt(json.getString("id")));
-			return m;
-		}catch (Exception e) {
-			return null;
-		}
-	}
-
-	private User getUserByJSon (JSONArray jsonArr){
-
-		try {
-			User user= new User();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-			}
-			return user;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
 
 	@Override
-
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menuchat, menu);
 		return true;

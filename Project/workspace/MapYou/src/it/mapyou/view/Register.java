@@ -13,7 +13,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -63,7 +62,7 @@ public class Register extends Activity{
 	class Registration extends AsyncTask<Void, Void, String>{
 		private String b;
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private ProgressDialog p;
+	
 
 
 		@Override
