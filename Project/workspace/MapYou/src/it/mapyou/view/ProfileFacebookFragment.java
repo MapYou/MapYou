@@ -4,6 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.util.UtilAndroid;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -38,15 +39,13 @@ public class ProfileFacebookFragment extends FacebookControllerFragment  {
 		mailUser= (TextView) view.findViewById(R.id.textprofileemail);
 		sp=PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		final String id=sp.getString("idface","");
-		final String email=sp.getString("emailFace","");
-		final String name=sp.getString("nameFace","");
-
-		String u=sp.getString("nickname", "") ;
-		String emailUser=sp.getString("email", "");
-		if(!u.equalsIgnoreCase("")){
-			nameUser.setText(u);
-			mailUser.setText(emailUser);
+		final String id=sp.getString("facebook","");
+		final String email=sp.getString("email_user_logged","");
+		final String name=sp.getString("nickname_user_logged","");
+		
+		if(id.equalsIgnoreCase("")){
+			nameUser.setText(name);
+			mailUser.setText(email);
 			img.setImageResource(R.drawable.usersimple);
 			logout.setOnClickListener(new OnClickListener()
 			{

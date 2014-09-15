@@ -13,7 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -113,6 +112,7 @@ public class Login extends FacebookController {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else;
 		
 
 		}

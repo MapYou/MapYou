@@ -170,9 +170,8 @@ public abstract class FacebookControllerFragment extends Fragment {
 				getActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						editor.putString("idface", id);
-						editor.putString("emailFace", email);
-						editor.putString("nameFace", name);
+						editor.putString(UtilAndroid.ID_FACEBOOK, id);
+					
 						editor.commit();
 
 						Intent i = new Intent(getActivity(), DrawerMain.class);
