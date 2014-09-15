@@ -7,6 +7,7 @@ import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
+import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 
 import java.util.HashMap;
@@ -18,8 +19,11 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -32,12 +36,13 @@ public class AdapterUsersMapMe extends BaseAdapter {
 	private List<User> map;
 	private Context cont;
 	private MapMe mapme;
+	private SharedPreferences sp;
 
 	public AdapterUsersMapMe(Context cont, List<User> map, MapMe mapme) {
 		this.cont = cont;
 		this.map = map;
 		this.mapme = mapme;
-		
+		sp=PreferenceManager.getDefaultSharedPreferences(cont);
 	}
 
 	@Override
@@ -74,8 +79,14 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		User user = map.get(position);
 
 		if(user.getNickname().equals(mapme.getAdministrator().getNickname())){
-			icon.setImageResource(R.drawable.admin);
-			n.setText("Admin:\n"+user.getNickname());
+			if(sp.getString("facebook", "")!=""){
+				Bitmap b= BitmapParser.getThumbnail(cont);
+				icon.setImageBitmap(b);
+				n.setText("Admin:\n"+user.getNickname());
+			}else{
+				icon.setImageResource(R.drawable.admin);
+				n.setText("Admin:\n"+user.getNickname());
+			}
 		}else
 			n.setText(user.getNickname());
 
@@ -212,6 +223,6 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		}
 
 	}
-	
+
 }
 

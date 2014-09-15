@@ -5,6 +5,7 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
+import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.FileNotFoundException;
@@ -364,7 +365,7 @@ public abstract class FacebookController extends Activity {
 	}
 
 
-
+	
 	public void getImageProfile(final String id, final ImageView img){
 
 		new AsyncTask<Void, Void, Bitmap>(){
@@ -402,6 +403,47 @@ public abstract class FacebookController extends Activity {
 		}.execute();
 	}
 
+
+	
+	public void saveImageFacebookProfile(final String id){
+
+		new AsyncTask<Void, Void, Bitmap>(){
+
+			Bitmap bm = null;
+			
+
+			@Override
+			protected Bitmap doInBackground(Void... params) {
+
+				try{
+					
+					URL aURL = new URL("http://graph.facebook.com/"+id+"/picture?type=small");
+					HttpGet httpRequest = new HttpGet(URI.create(aURL.toString()) ); 
+					HttpClient httpclient = new DefaultHttpClient(); 
+					HttpResponse response = httpclient.execute(httpRequest); 
+					HttpEntity entrty = response.getEntity(); 
+					BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entrty); 
+					bm = BitmapFactory.decodeStream(bufHttpEntity.getContent());
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return bm;
+			}
+			@Override
+			protected void onPostExecute(Bitmap result) {
+
+				try {
+					if(result!=null){
+						BitmapParser.saveImageToInternalStorage(result, getApplicationContext());
+					}
+				} catch (Exception e) {
+					UtilAndroid.makeToast(getApplicationContext(), "Error", 5000);
+				}
+			};
+
+		}.execute();
+	}
+ 
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

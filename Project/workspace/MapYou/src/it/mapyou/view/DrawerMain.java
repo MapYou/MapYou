@@ -5,15 +5,18 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.model.NavDrawerItem;
+import it.mapyou.util.UtilAndroid;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -26,8 +29,8 @@ import android.widget.ListView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class DrawerMain extends Activity {
-	
+public class DrawerMain extends FacebookController {
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onBackPressed()
 	 */
@@ -51,11 +54,19 @@ public class DrawerMain extends Activity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private DrawerListAdapter adapter;
+	private SharedPreferences sp;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer);
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+		String id=sp.getString(UtilAndroid.ID_FACEBOOK, "");
+		if(id!="")
+			saveImageFacebookProfile(id);
+		else;
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -75,8 +86,8 @@ public class DrawerMain extends Activity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		
-		
+
+
 
 		navMenuIcons.recycle();
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
@@ -149,7 +160,7 @@ public class DrawerMain extends Activity {
 		switch (position) {
 		case 0:
 			fragment = new MapMenuFragment();
-//			fragment = new DashBoardActivity();
+			//			fragment = new DashBoardActivity();
 			break;
 
 		case 1:

@@ -3,6 +3,7 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.FileNotFoundException;
@@ -246,6 +247,9 @@ public abstract class FacebookControllerFragment extends Fragment {
 
 		}.execute();
 	}
+	
+ 
+	
 	public void logoutSimple(){
 		Intent i = new Intent(getActivity(), Login.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -259,5 +263,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 			mFacebook.authorizeCallback(requestCode, resultCode, data);
 		}
 	}
+
+
 
 
