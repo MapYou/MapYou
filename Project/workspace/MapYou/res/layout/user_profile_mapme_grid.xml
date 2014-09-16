@@ -3,14 +3,11 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
+
     android:layout_marginLeft="15dp"
     android:layout_marginTop="15dp"
-    android:clickable="true" >
-=======
-    android:clickable="true"
+    android:clickable="true" 
     android:orientation="vertical" >
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
     <ImageView
         android:id="@+id/imageView1"

@@ -2,12 +2,9 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
-<<<<<<< HEAD
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
-=======
 import it.mapyou.util.BitmapParser;
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,13 +14,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.os.AsyncTask;
-=======
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,24 +31,16 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 	private List<MapMe> mapme;
 	private Activity act;
-<<<<<<< HEAD
 	private int userLogged;
-
-=======
 	private MapMe m;
 	private SharedPreferences sp;
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
 	public YourMapMeAdapter(Activity act, List<MapMe> allmapme, int userLogged) {
 		this.act=act;
 		this.mapme=allmapme;
-<<<<<<< HEAD
 		this.userLogged = userLogged;
-=======
 		sp=PreferenceManager.getDefaultSharedPreferences(act);
 
-
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 	}
 
 
@@ -90,10 +76,9 @@ public class YourMapMeAdapter extends BaseAdapter{
 		TextView name = (TextView) convertView.findViewById(R.id.mapmename);
 		TextView sa = (TextView) convertView.findViewById(R.id.textViewSA);
 		TextView ea = (TextView) convertView.findViewById(R.id.textViewEA);
-<<<<<<< HEAD
 		
 		MapMe m = mapme.get(position);
-=======
+
 		ImageView icon=(ImageView) convertView.findViewById(R.id.admin_image);
 
 
@@ -104,7 +89,6 @@ public class YourMapMeAdapter extends BaseAdapter{
 			icon.setImageBitmap(b);
 		}
 		else;
->>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
 		admin.setText("Admin: "+m.getAdministrator().getNickname());
 		name.setText(m.getName());
