@@ -4,16 +4,24 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.controller.DeviceController;
+import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
+import it.mapyou.network.SettingsServer;
 import it.mapyou.util.MappingReader;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.util.Utils;
 
+import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -23,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,6 +66,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MyLocation myloc;
 	private MappingReader reader;
 	private List<MappingUser> mappings;
+	
+	// distanza in metri del raggio centrato nel punto di arrivo della mapme
+	private static final double PROXIMITY_DISTANCE = 50;
 
 
 	/* (non-Javadoc)
@@ -212,10 +224,72 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 			opt.snippet(p.getLocation());
 			opt.visible(true);
 			googleMap.addMarker(opt);
-			 
+			manageProximity(end, p);
 		}
 	}
-		
+	
+//	class NotifyProximity extends AsyncTask<Void, Void, String>{
+//
+//		private HashMap<String, String> parameters=new HashMap<String, String>();
+//		private String response;
+//
+//		private double distance;
+//		
+//		public NotifyProximity(double distance) {
+//			this.distance = distance;
+//		}
+//
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+//				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+//			else{
+//				onCancelled();
+//			}
+//
+//		}
+//
+//		@Override
+//		protected String doInBackground(Void... params) {
+//
+//			try {
+//				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+//				parameters.put("distance", URLEncoder.encode(String.valueOf(distance), "UTF8"));
+//				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
+//				parameters.put("message",  
+//						URLEncoder.encode(
+//								sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")+
+//								" è quasi arrivato.", "UTF8"));
+//				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+//				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
+//
+//				response=DeviceController.getInstance().getServer().
+//						request(SettingsServer.ALERT_PROXIMITY, DeviceController.getInstance().getServer().setParameters(parameters));
+//
+//				return response;
+//			} catch (Exception e) {
+//				return null;
+//			}
+//		}
+//		@Override
+//		protected void onPostExecute(String result) {
+//			super.onPostExecute(result);
+//			if(result!=null){
+//				
+//			}else
+//				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
+//		}
+//	}
+
+	
+	private void manageProximity(Point end, Point p) {
+		double distance = Utils.getDistance(end.getLatitude(), end.getLongitude(), p.getLatitude(), p.getLongitude());
+		if((distance*1000)<=PROXIMITY_DISTANCE){
+			
+		}
+	}
+
 	public class DownlDataFromWebServer extends AsyncTask<String, Void, String>{
 
 		@Override

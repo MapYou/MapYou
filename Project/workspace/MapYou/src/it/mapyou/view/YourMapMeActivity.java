@@ -82,7 +82,7 @@ public class YourMapMeActivity extends  Activity {
 			List<MapMe> allMapme= DeviceController.getInstance().getParsingController().getMapmeParser().parsingAllMapMe(result);
 			if(allMapme!=null){
 				listView.setAdapter(inclusion?
-						new YourMapMeAdapter(act,allMapme):
+						new YourMapMeAdapter(act,allMapme,sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)):
 							new YourMapMeAdapterWithoutInclusion(act,allMapme));
 			}else
 				UtilAndroid.makeToast(act, "Error while fetching your mapme. Please Refresh", 5000);

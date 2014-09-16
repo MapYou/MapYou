@@ -8,6 +8,7 @@ import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,6 +47,8 @@ public class MapMeSecondTab_User extends Activity {
 	private EditText ed;
 	private AdapterUsersMapMe adapter;
 	private GridView gridview;
+	private List<User> reg;
+	private SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,9 @@ public class MapMeSecondTab_User extends Activity {
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
 		mapme = Util.CURRENT_MAPME;
-	 
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+		reg = new ArrayList<User>();
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
 		send.setOnClickListener(new OnClickListener() {
@@ -183,7 +189,9 @@ public class MapMeSecondTab_User extends Activity {
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				List<User> reg= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
+				if(reg!=null)reg.clear();
+				else;
+				reg= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
 				if(reg!=null){
 					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
@@ -253,21 +261,61 @@ public class MapMeSecondTab_User extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
 		}
 	}
-	
+
 	public void refresh(View v){
-		new DownloadAllUser().execute();
+//		new DownloadAllUser().execute();
+		if(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)==mapme.getAdministrator().getModelID())
+			changeLayout(true);
+		else
+			UtilAndroid.makeToast(getApplicationContext(), "You aren't administrator for thi mapme. You can't delete any user.", 5000);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.refreshUser:
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//		case R.id.refreshUser:
+//			new DownloadAllUser().execute();
+//			return true;
+//		case R.id.delete_user:
+//			changeLayout(true);
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
+	
+	
+	private void changeLayout(boolean onDelete){
+		if (onDelete) {
+			if(reg!=null){
+				for(int i=0; i<reg.size(); i++){
+					if(reg.get(i).getModelID()==mapme.getAdministrator().getModelID())
+						{
+						reg.remove(i);
+						break;
+						}
+				}
+			}else;
+			setContentView(R.layout.delete_user_in_mapme);
+			
+			gridview = (GridView) findViewById(R.id.gridViewMapMeDeleteUsers);
+			AdapterUsersMapMeOnDeleteUser ada = 
+			new AdapterUsersMapMeOnDeleteUser(act, reg, mapme);
+			gridview.setAdapter(ada);
+		}else{
+			setContentView(R.layout.mapme_second_tab);
+			gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 			new DownloadAllUser().execute();
-			return true;
-		case R.id.delete_user:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public void cancelDelete(View v){
+
+		changeLayout(false);
+	}
+
+	public void confirmDelete(View v){
+
+		changeLayout(false);
 	}
 }

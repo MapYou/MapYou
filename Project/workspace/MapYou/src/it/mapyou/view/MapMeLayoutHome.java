@@ -4,11 +4,14 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.MapMeSecondTab_User.DownloadAllUser;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -45,15 +48,29 @@ public class MapMeLayoutHome extends TabActivity {
 		tabHost.addTab(usersTab);
 	}
 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		MenuInflater inflater = getMenuInflater();
-		int currentTab = tabHost.getCurrentTab();
-		menu.clear();
-		if(currentTab==1)inflater.inflate(R.menu.menu, menu);
-
-		return super.onPrepareOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onPrepareOptionsMenu(Menu menu) {
+//		// TODO Auto-generated method stub
+//		MenuInflater inflater = getMenuInflater();
+//		menu.clear();
+//		inflater.inflate(R.menu.menu, menu);
+//
+//		return super.onPrepareOptionsMenu(menu);
+//	}
+//	
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//		
+//		case R.id.delete_user:
+//			
+//			UtilAndroid.makeToast(getApplicationContext(), 
+//					tabHost.get.toString()
+//					, 5000);
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
 
 }
