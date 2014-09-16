@@ -49,7 +49,7 @@ public class ChatUserToUser extends Activity{
 	private static SharedPreferences sp;
 	private static ListView listView;
 	private static List<ChatMessage> notif;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
 
 	@Override
@@ -100,6 +100,14 @@ public class ChatUserToUser extends Activity{
 			n.setNotified(currentUser);
 			n.setNotifier(user);
 		}else;
+		Date d= new Date(System.currentTimeMillis());
+		GregorianCalendar g= new GregorianCalendar();
+		try {
+			g.setTime(sdf.parse(d.toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		n.setDate(g);
 		notif.add(0, n);
 		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}

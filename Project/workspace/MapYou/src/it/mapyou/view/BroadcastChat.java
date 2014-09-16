@@ -44,7 +44,7 @@ public class BroadcastChat extends Activity {
 	private Activity act;
 	private TextView numUs;
 	private TextView nameM;
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,14 @@ public class BroadcastChat extends Activity {
 			n.setNotified(currentUser);
 
 		}else;
+		Date d= new Date(System.currentTimeMillis());
+		GregorianCalendar g= new GregorianCalendar();
+		try {
+			g.setTime(sdf.parse(d.toString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		n.setDate(g);
 		notification.add(0, n);
 		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
@@ -121,8 +129,7 @@ public class BroadcastChat extends Activity {
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 
-				response=DeviceController.getInstance().getServer().
-						request(SettingsServer.BROADCAST, DeviceController.getInstance().getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().request(SettingsServer.BROADCAST, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				if(response.contains("send")){
 					return params[0];

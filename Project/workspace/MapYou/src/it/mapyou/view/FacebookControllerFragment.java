@@ -3,7 +3,6 @@
  */
 package it.mapyou.view;
 
-import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.FileNotFoundException;
@@ -93,7 +92,7 @@ public abstract class FacebookControllerFragment extends Fragment {
 	}
 
 
-	//porco di Zukkkkemberg
+	//logout facebook
 	public void logoutFacebookSession(){
 		new AsyncTask<Void, Void, Boolean>(){
 

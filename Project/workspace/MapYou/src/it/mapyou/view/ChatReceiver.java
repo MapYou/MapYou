@@ -32,7 +32,7 @@ public class ChatReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals("it.mapyou.action.CHAT_MESSAGE")){
-			String msg = "", title="", notif="", brod = "";
+			String msg = "", title="", notif="", brod = "",admin="";
 			int id, mapme_id;
 			try {
 				Bundle b = intent.getExtras();
@@ -42,6 +42,7 @@ public class ChatReceiver extends BroadcastReceiver{
 				title = b.getString("title");
 				notif = b.getString("notif");
 				brod = b.getString("broadcast");
+				admin = b.getString("admin");
 			} catch (Exception e) {
 				msg = ""; title=""; notif="";
 				id = -1;
@@ -60,6 +61,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			if(mapme_id==Util.CURRENT_MAPME.getModelID()){
 				ChatMessage n = new ChatMessage();
 				User u = new User();
+				u.setNickname(admin);
 				u.setModelID(id);
 				n.setNotifier(u);
 				n.setNotified(null);

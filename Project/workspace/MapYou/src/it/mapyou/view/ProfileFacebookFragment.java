@@ -4,7 +4,6 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.util.UtilAndroid;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
