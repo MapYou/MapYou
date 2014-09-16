@@ -135,16 +135,20 @@ public class MapMeSecondTab_User extends Activity {
 				final String nickname = ed.getText().toString();
 				if(nickname!=null && nickname.length()>0){
 					if(!nickname.equals(mapme.getAdministrator().getNickname())
-							){
-						new Thread(new Runnable() {
+							 ){
+						if(mapme.getMaxNumUsers()>reg.size()){
+//							new Thread(new Runnable() {
+//
+//								@Override
+//								public void run() {
 
-							@Override
-							public void run() {
+									new DownloadUserAndSend().execute(nickname);
 
-								new DownloadUserAndSend().execute(nickname);
-
-							}
-						}).start();
+//								}
+//							}).start();
+						}else
+							UtilAndroid.makeToast(getApplicationContext(), "Has already reached the maximum number of users.", 5000);
+					
 
 					}else
 						UtilAndroid.makeToast(getApplicationContext(), "You are admin!", 5000);
@@ -207,6 +211,11 @@ public class MapMeSecondTab_User extends Activity {
 				if(reg!=null){
 					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
+					if(reg.size()<mapme.getMaxNumUsers())
+						((Button) findViewById(R.id.buttonSendPartecipation)).setVisibility(Button.VISIBLE);
+					else
+						((Button) findViewById(R.id.buttonSendPartecipation))
+							.setVisibility(Button.INVISIBLE);
 				}
 				else
 					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);

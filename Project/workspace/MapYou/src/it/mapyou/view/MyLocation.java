@@ -3,6 +3,7 @@
  */
 package it.mapyou.view;
 
+import it.mapyou.R;
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
@@ -14,7 +15,10 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -23,6 +27,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -80,7 +85,29 @@ public class MyLocation implements LocationListener  {
 
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		}else
-			UtilAndroid.makeToast(act, "Eable gps or internet connection please!!!", 5000);
+			alertGPS("GPS disabled", "Do you want enable gps?");
+	}
+	
+	public void alertGPS( String title, String message ){
+
+		new AlertDialog.Builder(act)
+		.setIcon(R.drawable.ic_launcher)
+		.setTitle( title )
+		.setMessage( message )
+		.setCancelable(false)
+		.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				//do stuff onclick of YES
+				arg0.dismiss();
+			}
+		})
+		.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				//do stuff onclick of CANCEL
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				act.startActivity(intent);
+			}
+		}).show();
 	}
 
 

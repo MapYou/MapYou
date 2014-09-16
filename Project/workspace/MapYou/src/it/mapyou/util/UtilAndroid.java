@@ -34,6 +34,8 @@ public class UtilAndroid {
 	public static MappingUser CURRENT_MAPPING;
 	
 	public static final String NAME ="mapyou";
+	
+	public static final int MAX_NUM_USER_IN_MAPME = 20;
 
 
 	public static boolean findConnection(Context c){

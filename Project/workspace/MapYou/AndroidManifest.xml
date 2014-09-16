@@ -95,6 +95,8 @@
         </activity>
         <activity android:name="it.mapyou.view.NewMapMe" >
         </activity>
+         <activity android:name="it.mapyou.view.SettingsActivity" >
+        </activity>
         <activity android:name="it.mapyou.view.MyLocation" >
         </activity>
         <activity android:name=".view.ChatUserToUser"></activity>

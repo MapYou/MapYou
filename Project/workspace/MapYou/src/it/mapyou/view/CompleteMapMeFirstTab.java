@@ -33,9 +33,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -114,7 +116,7 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		//		myloc.stop();
+		myloc.stop();
 		Intent i= new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
 
@@ -201,6 +203,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt);
+				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
+				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
 			if (st != null) {
 				MarkerOptions opt = new MarkerOptions();
@@ -232,6 +236,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				googleMap.addMarker(opt);
 				// manageProximity(end, p);
 			}
+			
+			
 		} catch (Exception e) {
 			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
 

@@ -39,11 +39,13 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -63,7 +65,8 @@ public class NewMapMe extends FragmentActivity {
 	private EditText start;
 	private EditText dest;
 	private EditText nameMapMe;
-
+	private TextView textMaxUsers;
+	private SeekBar seek;
 	private Marker startMarker;
 	private Marker endMarker;
 	private SharedPreferences sp;
@@ -90,8 +93,35 @@ public class NewMapMe extends FragmentActivity {
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
 		nameMapMe= (EditText) findViewById(R.id.EditTextNameMapMe2);
-
+		textMaxUsers= (TextView) findViewById(R.id.textViewMaxNumUsers);
+		seek = (SeekBar)findViewById(R.id.seekBar1);
+		seek.setMax(UtilAndroid.MAX_NUM_USER_IN_MAPME);
+		textMaxUsers.setText(String.valueOf(seek.getProgress()));
+		seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				textMaxUsers.setText(String.valueOf(seek.getProgress()));
+			}
+		});
 		initilizeMap();
+		
+	}
+	
+	public void setMaxNumOfUsers(View v){
 		
 	}
 
@@ -128,7 +158,7 @@ public class NewMapMe extends FragmentActivity {
 			mapMe.setSegment(route);
 			mapMe.setName(nameMapMee);
 			mapMe.setAdministrator(admin);
-
+			mapMe.setMaxNumUsers(seek.getProgress());
 			SaveMapMe sv = new SaveMapMe();
 			sv.execute(mapMe);
 
@@ -422,26 +452,6 @@ public class NewMapMe extends FragmentActivity {
 			googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map2)).getMap();
 			googleMap.setMyLocationEnabled(true);
 
-			googleMap.setOnMarkerDragListener(new OnMarkerDragListener() {
-				
-				@Override
-				public void onMarkerDragStart(Marker arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onMarkerDragEnd(Marker arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onMarkerDrag(Marker arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
 			if (googleMap == null) {
 				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
 			}
