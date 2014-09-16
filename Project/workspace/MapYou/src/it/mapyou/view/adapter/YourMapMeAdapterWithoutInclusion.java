@@ -1,4 +1,4 @@
-package it.mapyou.view;
+package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;

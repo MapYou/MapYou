@@ -8,6 +8,7 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.Notification;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.adapter.NotificationAdapter;
 
 import java.util.HashMap;
 import java.util.List;

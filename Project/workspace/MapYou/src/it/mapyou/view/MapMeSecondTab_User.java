@@ -6,6 +6,8 @@ import it.mapyou.model.MapMe;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.adapter.AdapterUsersMapMe;
+import it.mapyou.view.adapter.AdapterUsersMapMeOnDeleteUser;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;

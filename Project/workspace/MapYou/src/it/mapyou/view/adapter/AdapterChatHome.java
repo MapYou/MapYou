@@ -1,10 +1,11 @@
 /**
  * 
  */
-package it.mapyou.view;
+package it.mapyou.view.adapter;
 
 import it.mapyou.R;
 import it.mapyou.model.User;
+import it.mapyou.view.ChatUserToUser;
 
 import java.util.List;
 

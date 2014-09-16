@@ -1,10 +1,12 @@
-package it.mapyou.view;
+package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.util.BitmapParser;
+import it.mapyou.view.MapMeLayoutHome;
+import it.mapyou.view.Util;
 
 import java.util.HashMap;
 import java.util.List;

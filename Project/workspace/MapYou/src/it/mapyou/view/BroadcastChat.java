@@ -7,6 +7,7 @@ import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.adapter.AdapterBoadcastChat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

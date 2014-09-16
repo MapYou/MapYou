@@ -6,6 +6,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.model.NavDrawerItem;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.adapter.DrawerListAdapter;
 
 import java.util.ArrayList;
 

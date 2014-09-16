@@ -5,6 +5,7 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+import it.mapyou.view.adapter.ChatNotificatioAdapter;
 
 import java.util.HashMap;
 import java.util.List;
