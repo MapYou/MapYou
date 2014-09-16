@@ -26,12 +26,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -57,10 +57,19 @@ public class MapMeSecondTab_User extends Activity {
 		act = this;
 		mapme = Util.CURRENT_MAPME;
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+		
 		reg = new ArrayList<User>();
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
+		if(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)==mapme.getAdministrator().getModelID())
+			{
+			((Button)findViewById(R.id.ButtonDelete)).setVisibility(Button.VISIBLE);
+			send.setVisibility(Button.VISIBLE);
+			}
+		else {
+			((Button)findViewById(R.id.ButtonDelete)).setVisibility(Button.INVISIBLE);
+			send.setVisibility(Button.INVISIBLE);
+		}
 		send.setOnClickListener(new OnClickListener() {
 
 			@SuppressWarnings("deprecation")
@@ -263,27 +272,15 @@ public class MapMeSecondTab_User extends Activity {
 	}
 
 	public void refresh(View v){
-//		new DownloadAllUser().execute();
+		new DownloadAllUser().execute();
+	}
+	
+	public void deleteUser(View v){
 		if(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)==mapme.getAdministrator().getModelID())
 			changeLayout(true);
 		else
 			UtilAndroid.makeToast(getApplicationContext(), "You aren't administrator for thi mapme. You can't delete any user.", 5000);
 	}
-
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//		case R.id.refreshUser:
-//			new DownloadAllUser().execute();
-//			return true;
-//		case R.id.delete_user:
-//			changeLayout(true);
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//	}
-	
 	
 	private void changeLayout(boolean onDelete){
 		if (onDelete) {
@@ -310,12 +307,17 @@ public class MapMeSecondTab_User extends Activity {
 	}
 
 	public void cancelDelete(View v){
-
 		changeLayout(false);
 	}
 
 	public void confirmDelete(View v){
-
-		changeLayout(false);
+		if(gridview.getId()==R.id.gridViewMapMeDeleteUsers)
+			{
+			ListAdapter l = gridview.getAdapter();
+			if(l instanceof AdapterUsersMapMeOnDeleteUser){
+				((AdapterUsersMapMeOnDeleteUser)l).deleteUser();
+				changeLayout(false);	
+			}
+			}
 	}
 }

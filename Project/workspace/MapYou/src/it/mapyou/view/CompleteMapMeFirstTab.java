@@ -4,24 +4,16 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.controller.DeviceController;
-import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
-import it.mapyou.network.SettingsServer;
 import it.mapyou.util.MappingReader;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.util.Utils;
 
-import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -31,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +38,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -67,7 +57,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	private MyLocation myloc;
 	private MappingReader reader;
 	private List<MappingUser> mappings;
-	
+	private static final double EARTH_RADIUS = 6378100.0;
+	private int offset;
+
 	// distanza in metri del raggio centrato nel punto di arrivo della mapme
 	private static final double PROXIMITY_DISTANCE = 50;
 
@@ -83,7 +75,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		act=this;
 		mapme = Util.CURRENT_MAPME;
-		
+
 		if(mapme!=null){
 			sp=PreferenceManager.getDefaultSharedPreferences(cont);
 			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -96,7 +88,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
-					
+
 					@Override
 					public void run() {
 						new RetrieveMapping().execute();
@@ -114,13 +106,13 @@ public class CompleteMapMeFirstTab extends Activity {
 		new RetrieveMapping().execute();
 	}
 
-	 
+
 	@Override
 	public void onBackPressed() {
-//		myloc.stop();
+		//		myloc.stop();
 		Intent i= new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
-		
+
 	}
 
 	private boolean initilizeMap() {
@@ -138,19 +130,19 @@ public class CompleteMapMeFirstTab extends Activity {
 		}else;
 		return googleMap!=null;
 	}
-	
-class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if(!UtilAndroid.findConnection(act.getApplicationContext()))
+	class RetrieveMapping extends AsyncTask<Void, Void, String>{
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 			{
-			UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			super.onCancelled();
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+				super.onCancelled();
 			}
 
-	}
+		}
 
 		protected String doInBackground(Void... params) {
 			try {
@@ -170,7 +162,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 				try {
 					mappings = reader.retrieveAllMappings(new JSONObject(result));
 					act.runOnUiThread(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							showMap();
@@ -200,12 +192,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 			opt.title(end.getLocation());
 			opt.snippet("Destination");
 			googleMap.addMarker(opt);
-			CircleOptions c = new CircleOptions();
-			c.center(new LatLng(end.getLatitude(), end.getLongitude()));
-			c.visible(true);
-			c.strokeColor(Color.BLUE);
-			c.radius(2);
-			googleMap.addCircle(c);
+			
 		}if(st!=null){
 			MarkerOptions opt = new MarkerOptions();
 			opt.position(new LatLng(st.getLatitude(), st.getLongitude()));
@@ -231,17 +218,9 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 			opt.snippet(p.getLocation());
 			opt.visible(true);
 			googleMap.addMarker(opt);
-			manageProximity(end, p);
 		}
-		
-		
-	}
-	
-	private void manageProximity(Point end, Point p) {
-		double distance = Utils.getDistance(end.getLatitude(), end.getLongitude(), p.getLatitude(), p.getLongitude());
-		if((distance*1000)<=PROXIMITY_DISTANCE){
-			
-		}
+
+
 	}
 
 	public class DownlDataFromWebServer extends AsyncTask<String, Void, String>{
@@ -271,7 +250,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 		@Override
 		protected List<List<HashMap<String,String>>> doInBackground(String...myJson ) {
-			
+
 			PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
 			List<List<HashMap<String,String>>> myRoutes=null;
 
@@ -291,7 +270,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		@Override
 		protected void onPostExecute(List<List<HashMap<String, String>>> result) {
 			super.onPostExecute(result);
-			
+
 			ArrayList<LatLng> points=null;
 			PolylineOptions lineOpt=null;
 			List<HashMap<String, String>> path;
@@ -325,7 +304,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
 	}
 
-	
+
 	public String getUrlFromDirectionApi(Point orig, Point dest){
 
 		String url="";
@@ -341,7 +320,7 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		return url; 
 
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
