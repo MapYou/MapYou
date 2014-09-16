@@ -99,8 +99,6 @@
         </activity>
         <activity android:name="it.mapyou.view.MyLocation" >
         </activity>
-         <activity android:name="it.mapyou.view.SettingsMapMe" >
-        </activity>
         <activity android:name=".view.ChatUserToUser"></activity>
         <activity android:name=".view.BroadcastChat"></activity>
         <activity android:name=".view.ChatHome"></activity>
