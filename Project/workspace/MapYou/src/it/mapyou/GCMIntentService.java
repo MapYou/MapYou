@@ -108,7 +108,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 					intent.getExtras().getString("title"),
 					intent.getExtras().getInt("idnot"),
 					intent.getExtras().getString("notif"),
-					intent.getExtras().getString("broadcast"));
+					intent.getExtras().getString("broadcast"),
+					intent.getExtras().getString("admin"));
 		}
 		else
 			generateNotification(context, intent.getExtras().getString("price"),
@@ -187,7 +188,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	private void isChatNotification(Context context, String msg, int idsender, int idmapme,
-			String title, int id, String notif, String brod){		
+			String title, int id, String notif, String brod,String admin){		
 		
 		Intent it = new Intent(context, ChatReceiver.class);
 		it.setAction("it.mapyou.action.CHAT_MESSAGE");
@@ -198,6 +199,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		b.putString("title", title);
 		b.putString("notif", notif);
 		b.putString("broadcast", brod);
+		b.putString("admin", admin);
 		it.putExtras(b);
 		context.sendBroadcast(it);
 	}
