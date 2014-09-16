@@ -2,21 +2,17 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-<<<<<<< HEAD
+
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-=======
->>>>>>> origin/master
+
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
-<<<<<<< HEAD
-=======
-import it.mapyou.util.MappingReader;
->>>>>>> origin/master
+
 import it.mapyou.util.UtilAndroid;
 
 import java.util.ArrayList;
@@ -61,11 +57,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	private Activity act;
 	private MyLocation myloc;
 	private List<MappingUser> mappings;
-<<<<<<< HEAD
 	private FileControllerCache fileCache;
 	private FileControllerCache fileCacheRoutes;
 
-=======
 	private static final double EARTH_RADIUS = 6378100.0;
 	private int offset;
 
@@ -73,10 +67,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	private static final double PROXIMITY_DISTANCE = 50;
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
->>>>>>> origin/master
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,13 +75,6 @@ public class CompleteMapMeFirstTab extends Activity {
 		cont = this;
 		act = this;
 		mapme = Util.CURRENT_MAPME;
-<<<<<<< HEAD
-=======
-
-		if(mapme!=null){
-			sp=PreferenceManager.getDefaultSharedPreferences(cont);
-			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
->>>>>>> origin/master
 
 		if (mapme != null) {
 			sp = PreferenceManager.getDefaultSharedPreferences(cont);
@@ -102,13 +85,13 @@ public class CompleteMapMeFirstTab extends Activity {
 				fileCacheRoutes= new FileControllerCache(UtilAndroid.ROUTES, cont);
 				mappings = new ArrayList<MappingUser>();
 				myloc.start();
-<<<<<<< HEAD
+
 
 				// download route
 				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
-=======
+
 				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
->>>>>>> origin/master
+
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
 
@@ -129,18 +112,13 @@ public class CompleteMapMeFirstTab extends Activity {
 		new RetrieveMapping().execute();
 	}
 
-<<<<<<< HEAD
-	@Override
-	public void onBackPressed() {
 
-		Intent i = new Intent(act, MapMeLayoutHome.class);
-=======
+
 
 	@Override
 	public void onBackPressed() {
 		//		myloc.stop();
 		Intent i= new Intent(act, MapMeLayoutHome.class);
->>>>>>> origin/master
 		startActivity(i);
 
 	}
@@ -163,7 +141,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		return googleMap != null;
 	}
 
-<<<<<<< HEAD
+
 	class RetrieveMapping extends AsyncTask<Void, Void, String> {
 
 		@Override
@@ -173,22 +151,9 @@ public class CompleteMapMeFirstTab extends Activity {
 				UtilAndroid.makeToast(act.getApplicationContext(),
 						"Internet Connection not found", 5000);
 			}else;
-
-=======
-	class RetrieveMapping extends AsyncTask<Void, Void, String>{
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-			{
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-				super.onCancelled();
-			}
-
->>>>>>> origin/master
 		}
 
+		@Override
 		protected String doInBackground(Void... params) {
 			try {
 				return fileCache.readS();
@@ -223,7 +188,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	public void showMap() {
 		googleMap.clear();
 
-<<<<<<< HEAD
 		try {
 			String routes=fileCacheRoutes.readS();
 			if(routes!=null)
@@ -273,44 +237,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			}
 		} catch (Exception e) {
 			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
-=======
-		Segment s = mapme.getSegment();
-		Point end = s.getEndPoint();
-		Point st = s.getStartPoint();
-		if(end!=null){
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(end.getLatitude(), end.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.fromResource(R.drawable.end));
-			opt.title(end.getLocation());
-			opt.snippet("Destination");
-			googleMap.addMarker(opt);
-			
-		}if(st!=null){
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(st.getLatitude(), st.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.fromResource(R.drawable.start));
-			opt.title(st.getLocation());
-			opt.snippet("Start");
-			googleMap.addMarker(opt);
-		}
-		else;
 
-		for(int i=0; i<mappings.size(); i++){
-			MappingUser m = mappings.get(i);
-			User u = m.getUser();
-			Point p = m.getPoint();
-			if(p.equals(st) || p.equals(end)){
-				p.setLatitude(p.getLatitude()+0.00001);
-				p.setLongitude(p.getLongitude()+0.00001);
-			}else;
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-			opt.title(u.getNickname());
-			opt.snippet(p.getLocation());
-			opt.visible(true);
-			googleMap.addMarker(opt);
->>>>>>> origin/master
 		}
 
 
@@ -343,17 +270,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	public class ParserTask extends AsyncTask<String, Integer, JSONObject> {
 
 		@Override
-<<<<<<< HEAD
 		protected JSONObject doInBackground(String... myJson) {
 			JSONObject jjson = null;
-=======
-		protected List<List<HashMap<String,String>>> doInBackground(String...myJson ) {
 
-			PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
-			List<List<HashMap<String,String>>> myRoutes=null;
-
-			JSONObject jjson=null;
->>>>>>> origin/master
 			try {
 				jjson = new JSONObject(myJson[0]);
 				return jjson;
@@ -367,36 +286,12 @@ public class CompleteMapMeFirstTab extends Activity {
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-<<<<<<< HEAD
 			if(result!=null){
 				try {
 					fileCacheRoutes.write(result.toString());
 					//drawRoutesOnMap(result);
 				} catch (Exception e1) {
 
-=======
-			ArrayList<LatLng> points=null;
-			PolylineOptions lineOpt=null;
-			List<HashMap<String, String>> path;
-			HashMap<String, String> map;
-			double lat=0,lon=0;
-			Log.v("result", result.toString());
-			for(int i=0; i<result.size(); i++){
-				path=result.get(i);
-				points= new ArrayList<LatLng>();
-				lineOpt= new PolylineOptions();
-				for(int j=0; j<path.size(); j++){
-					map=path.get(j);
-					if(j==0){
-						continue;
-					}
-					if(j==1){
-						continue;
-					}
-					lat=Double.parseDouble(map.get("lat"));
-					lon=Double.parseDouble(map.get("lon"));
-					points.add(new LatLng(lat,lon)); 
->>>>>>> origin/master
 				}
 			}else{
 				UtilAndroid.makeToast(getApplicationContext(), "Error read", 5000);
@@ -404,27 +299,9 @@ public class CompleteMapMeFirstTab extends Activity {
 		}
 	}
 
-<<<<<<< HEAD
-=======
-
-	public String getUrlFromDirectionApi(Point orig, Point dest){
-
-		String url="";
-		String ori="origin="+orig.getLatitude()+","+orig.getLongitude();
-		String des="destination="+dest.getLatitude()+","+dest.getLongitude();
-		String parameters=ori+"&"+des;
-		String sensor="&sensor=false";
-		String output="json?";
->>>>>>> origin/master
 
 
-<<<<<<< HEAD
-=======
-		return url; 
 
-	}
-
->>>>>>> origin/master
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -470,7 +347,4 @@ public class CompleteMapMeFirstTab extends Activity {
 		googleMap.addPolyline(lineOpt); 
 
 	}
-
-
-
 }
