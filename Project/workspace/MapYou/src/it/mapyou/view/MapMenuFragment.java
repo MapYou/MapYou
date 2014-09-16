@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.media.audiofx.BassBoost.Settings;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,6 +51,7 @@ public class MapMenuFragment extends Fragment{
 		new LauncherIcon(R.drawable.comm2, "My MapMe", YourMapMeActivity.class),
 		new LauncherIcon(R.drawable.invites, "Request partecipation", YourMapMeActivity.class),
 		new LauncherIcon(R.drawable.comment, "Send comment", null),
+
 		new LauncherIcon(R.drawable.settings, "Settings", SettingsActivity.class),
 		new LauncherIcon(R.drawable.menu_notification, "Notification", NotificationTabHome.class),
 		new LauncherIcon(R.drawable.logoooouttt, "Logout", null)

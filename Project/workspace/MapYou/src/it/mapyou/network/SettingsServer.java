@@ -32,6 +32,7 @@ public interface SettingsServer {
 	public static final String DELETE_MAPME  ="deleteMapme.php";
 	public static final String ALERT_PROXIMITY = "alert_proximity.php";
 	public static final String FACEBOOK="isFacebookAccess.php";
+	public static final String DELETE_ACCOUNT="deleteAccount.php";
 	 
 	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";
 	
