@@ -76,6 +76,37 @@ public class ParsingChatMessage {
 			return null;
 		}
 	}
+	
+	public ChatMessage parsingNotification (JSONObject json){
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		try {
+			ChatMessage m= new ChatMessage();
+			Date dt;
+			try {
+				String s=json.getString("date");
+				dt = sdf.parse(s);
+			} catch (Exception e) {
+				dt = null;
+			}
+			if(dt!=null){
+				GregorianCalendar g = new GregorianCalendar();
+				g.setTime(dt);
+				m.setDate(g);
+			}else;
+
+			User notifier = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notifier"));
+			User notified = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notified"));
+			m.setNotified(notified);
+			m.setNotifier(notifier);
+			m.setMessage(json.getString("state"));
+			m.setModelID(Integer.parseInt(json.getString("id")));
+
+			return m;
+		}catch (Exception e) {
+			return null;
+		}
+	}
 
 
 }

@@ -9,7 +9,6 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.CompleteMapMeFirstTab.RetrieveMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;

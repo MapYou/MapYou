@@ -1,4 +1,6 @@
 package it.mapyou.navigator;
+import it.mapyou.model.Point;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -116,10 +118,8 @@ public class PArserDataFromDirectionsApi {
 		String line=null;
 		StringBuffer bf=null;
 		String data="";
-		//JSONObject json=null;
 
 		try {
-			//encoder = URLEncoder.encode(myUrl, "UTF-8");
 			url= new URL(myUrl);
 			urlConn= (HttpURLConnection) url.openConnection();
 			reader= new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
@@ -130,7 +130,7 @@ public class PArserDataFromDirectionsApi {
 			}
 			data=bf.toString();
 			reader.close();
-			//json= new JSONObject(data);
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -139,6 +139,24 @@ public class PArserDataFromDirectionsApi {
 			urlConn.disconnect();
 		}
 		return data;
+	}
+	
+	public static String getUrlFromDirectionApi(Point orig, Point dest) {
+
+		String url = "";
+		String ori = "origin=" + orig.getLatitude() + "," + orig.getLongitude();
+		String des = "destination=" + dest.getLatitude() + ","
+				+ dest.getLongitude();
+		String parameters = ori + "&" + des;
+		String sensor = "&sensor=false";
+		String output = "json?";
+
+		String finalOutputString = output.concat(parameters).concat(sensor);
+		url = "https://maps.googleapis.com/maps/api/directions/"
+				+ finalOutputString + "";
+
+		return url;
+
 	}
 
 

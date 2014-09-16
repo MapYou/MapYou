@@ -3,6 +3,7 @@ package it.mapyou;
 
 import it.mapyou.network.NotificationServer;
 import it.mapyou.network.SettingsNotificationServer;
+import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.BroadcastChat;
 import it.mapyou.view.ChatReceiver;
@@ -16,6 +17,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,12 +34,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static final String TAG = "GCMIntentServiceCix";
 	private NotificationServer notificationController = null;
 	private static Class<? extends Activity> act;
+	private static SharedPreferences sp;
 
 
 	public GCMIntentService() {
 		super(SettingsNotificationServer.GOOGLE_SENDER_ID);
 
 		notificationController= NotificationServer.getNotificationServer();
+		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 	}
 
@@ -164,8 +170,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context, String msg, 
 			String title, String notif, int id, String type) {
+		
 		int icon = type.equals("CHAT")?
-				R.drawable.profile:R.drawable.ic_launcher;
+				R.drawable.profile:R.drawable.mappp;
+		
+		
 		long when = System.currentTimeMillis();
 
 

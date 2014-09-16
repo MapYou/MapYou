@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="130dp"
     android:background="@drawable/list_selector"
     android:clickable="true"
     android:orientation="horizontal"
@@ -20,9 +20,11 @@
 
         <ImageView
             android:id="@+id/admin_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="50dp"
             android:src="@drawable/profile" />
+
     </LinearLayout>
 
     <!-- Title Of Song -->
@@ -36,7 +38,7 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:text="fhfghtyh"
         android:textColor="#040404"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:typeface="sans" />
 
@@ -66,6 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/mapmename"
         android:layout_below="@+id/mapmename"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
         android:text="Admin: "
         android:textColor="#343434"
         android:textSize="15sp" />
@@ -76,7 +80,7 @@
         android:layout_height="25dp"
         android:layout_alignLeft="@+id/admin"
         android:layout_below="@+id/admin"
-        android:src="@drawable/startlocation" />
+        android:src="@drawable/start" />
 
     <ImageView
         android:id="@+id/image_ea"
@@ -84,7 +88,7 @@
         android:layout_height="25dp"
         android:layout_alignLeft="@+id/image_sa"
         android:layout_below="@+id/image_sa"
-        android:src="@drawable/endlocation" />
+        android:src="@drawable/end" />
 
     <HorizontalScrollView
         android:id="@+id/hsa"
@@ -102,9 +106,11 @@
             android:id="@+id/textViewSA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:inputType="textLongMessage"
             android:text="Benevento"
             android:textSize="14sp" />
+
     </HorizontalScrollView>
 
     <HorizontalScrollView
@@ -122,9 +128,11 @@
             android:id="@+id/textViewEA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
             android:inputType="textLongMessage"
             android:text="viale ceccarini"
             android:textSize="14sp" />
+
     </HorizontalScrollView>
 
 </RelativeLayout>

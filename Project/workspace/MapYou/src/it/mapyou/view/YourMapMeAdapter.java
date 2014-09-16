@@ -114,7 +114,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 							dialog.cancel();
 						}
 					});
-					alert2.setButton2("Delete", new DialogInterface.OnClickListener() {
+					alert2.setButton3("Delete", new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -122,7 +122,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 							deleteMapme(mp);
 						}
 					});
-					alert2.setButton3("View", new DialogInterface.OnClickListener() {
+					alert2.setButton2("Enter", new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -151,14 +151,14 @@ public class YourMapMeAdapter extends BaseAdapter{
 		alert2.setTitle("Delete mapme");
 		alert2.setMessage("Are you sure to delete this mapme?");
 		alert2.setIcon(R.drawable.ic_launcher);
-		alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
+		alert2.setButton("No", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
 		});
-		alert2.setButton2("Delete", new DialogInterface.OnClickListener() {
+		alert2.setButton2("Yes", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

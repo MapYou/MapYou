@@ -21,6 +21,11 @@ public class UtilAndroid {
 	public static final String KEY_ID_USER_LOGGED = "id_user_logged";
 	public static final String KEY_NOTIFICATION = "id_notification";
 	public static final String ID_FACEBOOK = "facebook";
+	
+	// NAME OF FILE FOR CACHE
+	
+	public static final String NAME_OF_FILE_CACHE="mapyou";
+	public static final String ROUTES="routes";
 	 
 
 

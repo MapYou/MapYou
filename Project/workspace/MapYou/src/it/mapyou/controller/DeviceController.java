@@ -15,7 +15,6 @@ public class DeviceController implements Controller{
 
  
 	private Server server;
-	private AndroidGeoController geoController;
 	private NotificationServer notificationServer;
 	private static DeviceController instance;
 	private ParsingController parsingController;
@@ -38,11 +37,7 @@ public class DeviceController implements Controller{
 		return server;
 	}
 	
-	public AndroidGeoController getGeoController() {
-		return geoController;
-	}
 
-	 
 	public ParsingController getParsingController() {
 		return parsingController;
 	}

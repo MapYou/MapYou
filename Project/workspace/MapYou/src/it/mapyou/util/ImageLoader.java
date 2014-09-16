@@ -4,6 +4,8 @@
 package it.mapyou.util;
 
 import it.mapyou.R;
+import it.mapyou.cache.FileCache;
+import it.mapyou.cache.MemoryCache;
 
 import java.io.File;
 import java.io.FileInputStream;

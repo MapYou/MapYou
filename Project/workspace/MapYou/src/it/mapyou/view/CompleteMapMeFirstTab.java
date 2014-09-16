@@ -1,27 +1,18 @@
-/**
- * 
- */
+
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
-import it.mapyou.network.SettingsServer;
-import it.mapyou.util.MappingReader;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.util.Utils;
 
-import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -31,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +29,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -53,8 +42,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
- *
+ * 
  */
+
 public class CompleteMapMeFirstTab extends Activity {
 
 	private GoogleMap googleMap;
@@ -62,64 +52,58 @@ public class CompleteMapMeFirstTab extends Activity {
 	private Context cont;
 	private SharedPreferences sp;
 	private Activity act;
-	private Intent intent;
 	private MyLocation myloc;
-	private MappingReader reader;
 	private List<MappingUser> mappings;
-	
-	// distanza in metri del raggio centrato nel punto di arrivo della mapme
-	private static final double PROXIMITY_DISTANCE = 50;
+	private FileControllerCache fileCache;
+	private FileControllerCache fileCacheRoutes;
 
-
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
-		act=this;
+		act = this;
 		mapme = Util.CURRENT_MAPME;
-		
-		if(mapme!=null){
-			sp=PreferenceManager.getDefaultSharedPreferences(cont);
-			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
 
-			myloc= new MyLocation(this);
-			if(initilizeMap()){
-				reader = new MappingReader(act);
+		if (mapme != null) {
+			sp = PreferenceManager.getDefaultSharedPreferences(cont);
+			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
+			myloc = new MyLocation(this);
+			if (initilizeMap()) {
+				fileCache = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, cont);
+				fileCacheRoutes= new FileControllerCache(UtilAndroid.ROUTES, cont);
 				mappings = new ArrayList<MappingUser>();
-//				myloc.start();
-				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
+				myloc.start();
+
+				// download route
+				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
-					
+
 					@Override
 					public void run() {
 						new RetrieveMapping().execute();
 					}
 				};
-				t.schedule(tt, 0, 2000);
+				t.schedule(tt, 0, 6000);
 
 			}
 
-		}else
+		} else
 			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
 	}
 
-	public void refresh(View v){
+	public void refresh(View v) {
 		new RetrieveMapping().execute();
 	}
 
-	 
 	@Override
 	public void onBackPressed() {
-//		myloc.stop();
-		Intent i= new Intent(act, MapMeLayoutHome.class);
+
+		Intent i = new Intent(act, MapMeLayoutHome.class);
 		startActivity(i);
-		
+
 	}
 
 	private boolean initilizeMap() {
@@ -128,33 +112,33 @@ public class CompleteMapMeFirstTab extends Activity {
 					R.id.completeMapMapMeFirstTab)).getMap();
 			googleMap.setMyLocationEnabled(false);
 
-
 			if (googleMap == null) {
-				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!", Toast.LENGTH_SHORT).show();
-			}else{
+				Toast.makeText(getApplicationContext(),
+						"Problema nella creazione della mappa!",
+						Toast.LENGTH_SHORT).show();
+			} else {
 				googleMap.clear();
 			}
-		}else;
-		return googleMap!=null;
+		} else
+			;
+		return googleMap != null;
 	}
-	
-class RetrieveMapping extends AsyncTask<Void, Void, String>{
 
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if(!UtilAndroid.findConnection(act.getApplicationContext()))
-			{
-			UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			super.onCancelled();
-			}
+	class RetrieveMapping extends AsyncTask<Void, Void, String> {
 
-	}
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (!UtilAndroid.findConnection(act.getApplicationContext())) {
+				UtilAndroid.makeToast(act.getApplicationContext(),
+						"Internet Connection not found", 5000);
+			}else;
+
+		}
 
 		protected String doInBackground(Void... params) {
 			try {
-
-				return reader.read();
+				return fileCache.readS();
 			} catch (Exception e) {
 				return null;
 			}
@@ -163,13 +147,13 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			if(result==null){
+			if (result == null) {
 				UtilAndroid.makeToast(cont, "Please refresh da file....", 5000);
-			}else{
+			} else {
 				try {
-					mappings = reader.retrieveAllMappings(new JSONObject(result));
+					mappings = DeviceController.getInstance().getParsingController().getMappingParser().parsingAllMappings(new JSONObject(result));
 					act.runOnUiThread(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							showMap();
@@ -177,162 +161,124 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 					});
 				} catch (JSONException e) {
 
-					UtilAndroid.makeToast(cont, "Error while read postion!", 5000);
+					UtilAndroid.makeToast(cont, "Error while read postion!",5000);
 				}
-
 			}
-
 		}
-
 	}
 
-	public void showMap(){
+	public void showMap() {
 		googleMap.clear();
 
-		Segment s = mapme.getSegment();
-		Point end = s.getEndPoint();
-		Point st = s.getStartPoint();
-		if(end!=null){
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(end.getLatitude(), end.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-			opt.title(end.getLocation());
-			opt.snippet("Destination");
-			googleMap.addMarker(opt);
-		}if(st!=null){
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(st.getLatitude(), st.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-			opt.title(st.getLocation());
-			opt.snippet("Start");
-			googleMap.addMarker(opt);
-		}
-		else;
+		try {
+			String routes=fileCacheRoutes.readS();
+			if(routes!=null)
+				drawRoutesOnMap(new JSONObject(routes));
+			else;
+			Segment s = mapme.getSegment();
+			Point end = s.getEndPoint();
+			Point st = s.getStartPoint();
+			if (end != null) {
+				MarkerOptions opt = new MarkerOptions();
+				opt.position(new LatLng(end.getLatitude(), end.getLongitude()));
+				opt.icon(BitmapDescriptorFactory
+						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+				opt.title(end.getLocation());
+				opt.snippet("Destination");
+				googleMap.addMarker(opt);
+			}
+			if (st != null) {
+				MarkerOptions opt = new MarkerOptions();
+				opt.position(new LatLng(st.getLatitude(), st.getLongitude()));
+				opt.icon(BitmapDescriptorFactory
+						.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+				opt.title(st.getLocation());
+				opt.snippet("Start");
+				googleMap.addMarker(opt);
+			} else
+				;
 
-		for(int i=0; i<mappings.size(); i++){
-			MappingUser m = mappings.get(i);
-			User u = m.getUser();
-			Point p = m.getPoint();
-			if(p.equals(st) || p.equals(end)){
-				p.setLatitude(p.getLatitude()+0.00001);
-				p.setLongitude(p.getLongitude()+0.00001);
-			}else;
-			MarkerOptions opt = new MarkerOptions();
-			opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-			opt.title(u.getNickname());
-			opt.snippet(p.getLocation());
-			opt.visible(true);
-			googleMap.addMarker(opt);
-			manageProximity(end, p);
+			for (int i = 0; i < mappings.size(); i++) {
+				MappingUser m = mappings.get(i);
+				User u = m.getUser();
+				Point p = m.getPoint();
+				if (p.equals(st) || p.equals(end)) {
+					p.setLatitude(p.getLatitude() + 0.00001);
+					p.setLongitude(p.getLongitude() + 0.00001);
+				} else
+					;
+				MarkerOptions opt = new MarkerOptions();
+				opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
+				opt.icon(BitmapDescriptorFactory
+						.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+				opt.title(u.getNickname());
+				opt.snippet(p.getLocation());
+				opt.visible(true);
+				googleMap.addMarker(opt);
+				// manageProximity(end, p);
+			}
+		} catch (Exception e) {
+			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
 		}
 	}
-	
-	private void manageProximity(Point end, Point p) {
-		double distance = Utils.getDistance(end.getLatitude(), end.getLongitude(), p.getLatitude(), p.getLongitude());
-		if((distance*1000)<=PROXIMITY_DISTANCE){
-			
-		}
-	}
 
-	public class DownlDataFromWebServer extends AsyncTask<String, Void, String>{
+	public class DownlDataFromWebServer extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... url) {
 
-			String data="";
+			String data = "";
 			try {
-				data=PArserDataFromDirectionsApi.getData(url[0]);
+				data = PArserDataFromDirectionsApi.getData(url[0]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			return data;
 		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			ParserTask p= new ParserTask();
-			p.execute(result); 
+			ParserTask p = new ParserTask();
+			p.execute(result);
 
 		}
 	}
 
-	public class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>>> {
+	public class ParserTask extends AsyncTask<String, Integer, JSONObject> {
 
 		@Override
-		protected List<List<HashMap<String,String>>> doInBackground(String...myJson ) {
-			
-			PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
-			List<List<HashMap<String,String>>> myRoutes=null;
-
-			JSONObject jjson=null;
+		protected JSONObject doInBackground(String... myJson) {
+			JSONObject jjson = null;
 			try {
-				jjson = new JSONObject(myJson[0]); 
-				Log.v("json", jjson.toString());
-				myRoutes=parser.parserJson(jjson); 
+				jjson = new JSONObject(myJson[0]);
+				return jjson;
 
 			} catch (JSONException e) {
-				e.printStackTrace();
+				return null;
 			}
-
-			return myRoutes;
 		}
 
 		@Override
-		protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			
-			ArrayList<LatLng> points=null;
-			PolylineOptions lineOpt=null;
-			List<HashMap<String, String>> path;
-			HashMap<String, String> map;
-			double lat=0,lon=0;
-			Log.v("result", result.toString());
-			for(int i=0; i<result.size(); i++){
-				path=result.get(i);
-				points= new ArrayList<LatLng>();
-				lineOpt= new PolylineOptions();
-				for(int j=0; j<path.size(); j++){
-					map=path.get(j);
-					if(j==0){
-						continue;
-					}
-					if(j==1){
-						continue;
-					}
-					lat=Double.parseDouble(map.get("lat"));
-					lon=Double.parseDouble(map.get("lon"));
-					points.add(new LatLng(lat,lon)); 
+
+			if(result!=null){
+				try {
+					fileCacheRoutes.write(result.toString());
+					//drawRoutesOnMap(result);
+				} catch (Exception e1) {
+
 				}
-				lineOpt.addAll(points);
-				lineOpt.width(10);
-				lineOpt.geodesic(true);
-				lineOpt.color(Color.MAGENTA);
+			}else{
+				UtilAndroid.makeToast(getApplicationContext(), "Error read", 5000);
 			}
-			googleMap.addPolyline(lineOpt); //aggiungo polilinea googleMap
-
 		}
-
 	}
 
-	
-	public String getUrlFromDirectionApi(Point orig, Point dest){
 
-		String url="";
-		String ori="origin="+orig.getLatitude()+","+orig.getLongitude();
-		String des="destination="+dest.getLatitude()+","+dest.getLongitude();
-		String parameters=ori+"&"+des;
-		String sensor="&sensor=false";
-		String output="json?";
 
-		String finalOutputString=output.concat(parameters).concat(sensor);
-		url="https://maps.googleapis.com/maps/api/directions/"+finalOutputString+"";
-
-		return url; 
-
-	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -343,5 +289,42 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+	public void drawRoutesOnMap(JSONObject result){
+		PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
+		List<List<HashMap<String, String>>> myRoutes = null;
+		myRoutes = parser.parserJson(result);
+
+		ArrayList<LatLng> points = null;
+		PolylineOptions lineOpt = null;
+		List<HashMap<String, String>> path;
+		HashMap<String, String> map;
+		double lat = 0, lon = 0;
+		for (int i = 0; i < myRoutes.size(); i++) {
+			path = myRoutes.get(i);
+			points = new ArrayList<LatLng>();
+			lineOpt = new PolylineOptions();
+			for (int j = 0; j < path.size(); j++) {
+				map = path.get(j);
+				if (j == 0) {
+					continue;
+				}
+				if (j == 1) {
+					continue;
+				}
+				lat = Double.parseDouble(map.get("lat"));
+				lon = Double.parseDouble(map.get("lon"));
+				points.add(new LatLng(lat, lon));
+			}
+			lineOpt.addAll(points);
+			lineOpt.width(10);
+			lineOpt.geodesic(true);
+			lineOpt.color(Color.MAGENTA);
+		}
+		googleMap.addPolyline(lineOpt); 
+
+	}
+
+
 
 }

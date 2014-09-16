@@ -246,68 +246,18 @@ public class ChatUserToUser extends Activity{
 			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
 			JSONArray jsonArr = result.getJSONArray("");
 			for(int i=0; i<jsonArr.length(); i++){
-				ChatMessage mp= getNotificationFromMapme(jsonArr.getJSONObject(i));
+				ChatMessage mp= DeviceController.getInstance().getParsingController().getChatMessageParser().parsingNotification(jsonArr.getJSONObject(i));
 				if(mp!=null)
 					notifications.add(mp);
 			}
 			return notifications;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new ArrayList<ChatMessage>();
 		}
 	}
 
-	private ChatMessage getNotificationFromMapme (JSONObject json){
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-		try {
-			ChatMessage m= new ChatMessage();
-			Date dt;
-			try {
-				String s=json.getString("date");
-				dt = sdf.parse(s);
-			} catch (Exception e) {
-				dt = null;
-			}
-			if(dt!=null){
-				GregorianCalendar g = new GregorianCalendar();
-				g.setTime(dt);
-				m.setDate(g);
-			}else;
-
-			User notifier = getUserByJSon(json.getJSONArray("notifier"));
-			User notified = getUserByJSon(json.getJSONArray("notified"));
-			m.setNotified(notified);
-			m.setNotifier(notifier);
-			m.setMessage(json.getString("state"));
-			m.setModelID(Integer.parseInt(json.getString("id")));
-
-			return m;
-		}catch (Exception e) {
-			return null;
-		}
-	}
-
-	private User getUserByJSon (JSONArray jsonArr){
-
-		try {
-			User user= new User();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-			}
-			return user;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onBackPressed()
