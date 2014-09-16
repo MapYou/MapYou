@@ -5,13 +5,9 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.MapMeSecondTab_User.DownloadAllUser;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -35,7 +31,7 @@ public class MapMeLayoutHome extends TabActivity {
 		tabHost = getTabHost();
 
 		TabSpec mapmeTab = tabHost.newTabSpec("MapMe");
-		mapmeTab.setIndicator(Util.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
+		mapmeTab.setIndicator(UtilAndroid.CURRENT_MAPME.getName(), getResources().getDrawable(R.drawable.icon_mepme_first_tab));
 		Intent mapmeTabIntent = new Intent(this, MapMeFirstTab.class);
 		mapmeTab.setContent(mapmeTabIntent);
 

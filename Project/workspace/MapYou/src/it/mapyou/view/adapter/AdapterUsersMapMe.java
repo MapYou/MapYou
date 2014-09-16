@@ -10,7 +10,6 @@ import it.mapyou.network.SettingsServer;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.UserOnMapMe;
-import it.mapyou.view.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +31,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.android.Util;
 
 public class AdapterUsersMapMe extends BaseAdapter {
 
@@ -149,7 +150,7 @@ public class AdapterUsersMapMe extends BaseAdapter {
 				MappingUser mp= getMappingFromMapme(result);
 				if(mp!=null){
 					if(mp.getModelID()>0){
-						Util.CURRENT_MAPPING = mp;
+						UtilAndroid.CURRENT_MAPPING = mp;
 						Bundle b = new Bundle();
 						b.putParcelable("mapping", mp);
 						Intent i = new Intent(cont.getApplicationContext(), UserOnMapMe.class);

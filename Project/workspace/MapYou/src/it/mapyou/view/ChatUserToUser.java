@@ -141,7 +141,7 @@ public class ChatUserToUser extends Activity{
 			try {
 				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("user", user.getNickname());
-				parameters.put("idm",  ""+Integer.parseInt(""+Util.CURRENT_MAPME.getModelID()));
+				parameters.put("idm",  ""+Integer.parseInt(""+UtilAndroid.CURRENT_MAPME.getModelID()));
 				parameters.put("type",  "CHAT");
 				parameters.put("message",  params[0]);
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
@@ -218,7 +218,7 @@ public class ChatUserToUser extends Activity{
 
 				parameters.put("user", ""+
 						sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
-				parameters.put("idm", ""+Util.CURRENT_MAPME.getModelID());
+				parameters.put("idm", ""+UtilAndroid.CURRENT_MAPME.getModelID());
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_CONVERSATION, DeviceController.getInstance().getServer().setParameters(parameters));
 

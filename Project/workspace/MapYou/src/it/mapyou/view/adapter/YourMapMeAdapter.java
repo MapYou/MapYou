@@ -3,10 +3,9 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.network.SettingsServer;
-import it.mapyou.util.UtilAndroid;
 import it.mapyou.util.BitmapParser;
+import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.MapMeLayoutHome;
-import it.mapyou.view.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +15,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.android.Util;
 
 
 public class YourMapMeAdapter extends BaseAdapter{
@@ -128,7 +129,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							Util.CURRENT_MAPME = mp;
+							UtilAndroid.CURRENT_MAPME = mp;
 							Intent i = new Intent(act, MapMeLayoutHome.class);
 							i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 							act.startActivity(i);
@@ -138,7 +139,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 					alert2.show();
 
 				}else{
-					Util.CURRENT_MAPME = mp;
+					UtilAndroid.CURRENT_MAPME = mp;
 					Intent i = new Intent(act, MapMeLayoutHome.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					act.startActivity(i);	

@@ -58,7 +58,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
 			notification.defaults |= android.app.Notification.DEFAULT_SOUND;
 			notification.defaults |= android.app.Notification.DEFAULT_VIBRATE;
-			if(mapme_id==Util.CURRENT_MAPME.getModelID()){
+			if(mapme_id==UtilAndroid.CURRENT_MAPME.getModelID()){
 				ChatMessage n = new ChatMessage();
 				User u = new User();
 				u.setNickname(admin);

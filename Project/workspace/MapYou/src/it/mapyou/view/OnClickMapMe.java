@@ -4,6 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.model.MapMe;
+import it.mapyou.util.UtilAndroid;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class OnClickMapMe implements OnItemClickListener  {
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, final View view, int position,long id) {
-		Util.CURRENT_MAPME = mapmes.get(position);
+		UtilAndroid.CURRENT_MAPME = mapmes.get(position);
 		Intent i = new Intent(act, MapMeLayoutHome.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		act.startActivity(i);	 

@@ -4,6 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.util.UtilAndroid;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,14 +29,14 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setTitle(Util.CURRENT_MAPME.getName());
+		setTitle(UtilAndroid.CURRENT_MAPME.getName());
 		setContentView(R.layout.complete_mapme_layout);
 
 
 
 
 		Bundle bund = new Bundle();
-		bund.putParcelable("mapme", Util.CURRENT_MAPME);
+		bund.putParcelable("mapme", UtilAndroid.CURRENT_MAPME);
 
 		tabHost = getTabHost();
 

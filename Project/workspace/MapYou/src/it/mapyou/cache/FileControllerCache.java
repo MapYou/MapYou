@@ -4,7 +4,6 @@
 package it.mapyou.cache;
 
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.Util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

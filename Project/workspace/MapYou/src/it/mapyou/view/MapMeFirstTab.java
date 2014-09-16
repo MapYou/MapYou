@@ -8,6 +8,7 @@ import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.util.BitmapParser;
+import it.mapyou.util.UtilAndroid;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,7 +38,7 @@ public class MapMeFirstTab extends Activity {
 		textStart = (TextView) findViewById(R.id.textViewStartLocation);
 		textend = (TextView) findViewById(R.id.textViewEndLocation);
 		img=(ImageView) findViewById(R.id.imageView3);
-		mapme = Util.CURRENT_MAPME;
+		mapme = UtilAndroid.CURRENT_MAPME;
 		textNickname.setText(mapme.getAdministrator().getNickname());
 		Segment route = mapme.getSegment();
 		Point sp = route.getStartPoint();

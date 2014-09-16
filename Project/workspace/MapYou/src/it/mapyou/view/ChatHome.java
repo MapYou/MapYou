@@ -51,7 +51,7 @@ public class ChatHome extends Activity {
 		nameM= (TextView) findViewById(R.id.textView1);
 		users = new ArrayList<User>();
 		sp=PreferenceManager.getDefaultSharedPreferences(this);
-		nameM.setText("Users in: "+Util.CURRENT_MAPME.getName());
+		nameM.setText("Users in: "+UtilAndroid.CURRENT_MAPME.getName());
 		new DownloadAllUser().execute();
 	}
 
@@ -91,7 +91,7 @@ public class ChatHome extends Activity {
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
-				parameters.put("idm",String.valueOf(Util.CURRENT_MAPME.getModelID()));
+				parameters.put("idm",String.valueOf(UtilAndroid.CURRENT_MAPME.getModelID()));
 				response=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;

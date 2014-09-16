@@ -26,9 +26,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -191,7 +191,7 @@ public class NewMapMe extends FragmentActivity {
 			if(result!=null && response!=null && response!="" && !response.equalsIgnoreCase("0")){
 				int idmapme=Integer.parseInt(response.toString().replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "").replaceAll("\r", ""));
 				result.setModelID(idmapme);
-				Util.CURRENT_MAPME = result;
+				UtilAndroid.CURRENT_MAPME = result;
 //				Bundle b = new Bundle();
 //				b.putParcelable("mapme", mapmeNew);
 				Intent i = new Intent(act, MapMeLayoutHome.class);

@@ -57,7 +57,7 @@ public class MapMeSecondTab_User extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
-		mapme = Util.CURRENT_MAPME;
+		mapme = UtilAndroid.CURRENT_MAPME;
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
 		reg = new ArrayList<User>();

@@ -70,7 +70,7 @@ public class BroadcastChat extends Activity {
 			sp.edit().putBoolean("isBroadcastMode", false).commit();
 
 			numUs.setText("Users: "+(users+1));
-			nameM.setText("MapMe: "+Util.CURRENT_MAPME.getName());
+			nameM.setText("MapMe: "+UtilAndroid.CURRENT_MAPME.getName());
 
 			new RetrieveBroadcastConversation().execute();
 		}else
@@ -125,7 +125,7 @@ public class BroadcastChat extends Activity {
 
 			try {
 				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-				parameters.put("idm",  ""+Integer.parseInt(""+Util.CURRENT_MAPME.getModelID()));
+				parameters.put("idm",  ""+Integer.parseInt(""+UtilAndroid.CURRENT_MAPME.getModelID()));
 				parameters.put("message",  params[0]);
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
@@ -195,7 +195,7 @@ public class BroadcastChat extends Activity {
 				JSONObject json=null;
 
 				parameters.put("user", ""+sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
-				parameters.put("idm", ""+Util.CURRENT_MAPME.getModelID());
+				parameters.put("idm", ""+UtilAndroid.CURRENT_MAPME.getModelID());
 				parameters.put("querytype", "d");
 				json=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_CONVERSATION, DeviceController.getInstance().getServer().setParameters(parameters));

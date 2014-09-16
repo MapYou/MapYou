@@ -5,6 +5,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.model.MappingUser;
+import it.mapyou.util.UtilAndroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -36,7 +37,7 @@ public class UserOnMapMe extends FragmentActivity{
 		setContentView(R.layout.user_on_mapme_layout);
 		Bundle b = getIntent().getExtras();
 //		MappingUser m = b.getParcelable("mapping");
-				MappingUser m = Util.CURRENT_MAPPING;
+				MappingUser m = UtilAndroid.CURRENT_MAPPING;
 		if(m!=null){
 			initMap();
 			changeMapping(m);

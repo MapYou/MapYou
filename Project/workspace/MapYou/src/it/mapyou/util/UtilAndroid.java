@@ -3,6 +3,8 @@
  */
 package it.mapyou.util;
 
+import it.mapyou.model.MapMe;
+import it.mapyou.model.MappingUser;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,7 +28,12 @@ public class UtilAndroid {
 	
 	public static final String NAME_OF_FILE_CACHE="mapyou";
 	public static final String ROUTES="routes";
-	 
+
+	public static MapMe CURRENT_MAPME;
+
+	public static MappingUser CURRENT_MAPPING;
+	
+	public static final String NAME ="mapyou";
 
 
 	public static boolean findConnection(Context c){

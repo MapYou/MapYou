@@ -2,17 +2,14 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.PArserDataFromDirectionsApi;
-
 import it.mapyou.util.UtilAndroid;
 
 import java.util.ArrayList;
@@ -74,7 +71,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		setContentView(R.layout.complete_mapme_first_tab);
 		cont = this;
 		act = this;
-		mapme = Util.CURRENT_MAPME;
+		mapme = UtilAndroid.CURRENT_MAPME;
 
 		if (mapme != null) {
 			sp = PreferenceManager.getDefaultSharedPreferences(cont);
