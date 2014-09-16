@@ -228,61 +228,6 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		}
 	}
 	
-//	class NotifyProximity extends AsyncTask<Void, Void, String>{
-//
-//		private HashMap<String, String> parameters=new HashMap<String, String>();
-//		private String response;
-//
-//		private double distance;
-//		
-//		public NotifyProximity(double distance) {
-//			this.distance = distance;
-//		}
-//
-//		@Override
-//		protected void onPreExecute() {
-//			super.onPreExecute();
-//			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-//				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-//			else{
-//				onCancelled();
-//			}
-//
-//		}
-//
-//		@Override
-//		protected String doInBackground(Void... params) {
-//
-//			try {
-//				parameters.put("admin", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-//				parameters.put("distance", URLEncoder.encode(String.valueOf(distance), "UTF8"));
-//				parameters.put("idm",  ""+Integer.parseInt(""+mapme.getModelID()));
-//				parameters.put("message",  
-//						URLEncoder.encode(
-//								sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")+
-//								" è quasi arrivato.", "UTF8"));
-//				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-//				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-//
-//				response=DeviceController.getInstance().getServer().
-//						request(SettingsServer.ALERT_PROXIMITY, DeviceController.getInstance().getServer().setParameters(parameters));
-//
-//				return response;
-//			} catch (Exception e) {
-//				return null;
-//			}
-//		}
-//		@Override
-//		protected void onPostExecute(String result) {
-//			super.onPostExecute(result);
-//			if(result!=null){
-//				
-//			}else
-//				UtilAndroid.makeToast(getApplicationContext(), "Error Send!", 5000);
-//		}
-//	}
-
-	
 	private void manageProximity(Point end, Point p) {
 		double distance = Utils.getDistance(end.getLatitude(), end.getLongitude(), p.getLatitude(), p.getLongitude());
 		if((distance*1000)<=PROXIMITY_DISTANCE){
