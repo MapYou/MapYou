@@ -121,8 +121,7 @@ public class BroadcastChat extends Activity {
 				parameters.put("title",  sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("notif",  "Messaggio da "+sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 
-				response=DeviceController.getInstance().getServer().
-						request(SettingsServer.BROADCAST, DeviceController.getInstance().getServer().setParameters(parameters));
+				response=DeviceController.getInstance().getServer().request(SettingsServer.BROADCAST, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				if(response.contains("send")){
 					return params[0];

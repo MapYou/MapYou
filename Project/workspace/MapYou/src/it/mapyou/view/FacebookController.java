@@ -207,8 +207,6 @@ public abstract class FacebookController extends Activity {
 					public void run() {
 						
 						new FacebookLoginTask().execute();
-
-
 					}
 				});
 			} catch (JSONException e) {
@@ -253,7 +251,6 @@ public abstract class FacebookController extends Activity {
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
 			else;
 
-
 		}
 
 		@Override
@@ -281,7 +278,6 @@ public abstract class FacebookController extends Activity {
 			}
 		}
 
-
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
@@ -307,7 +303,6 @@ public abstract class FacebookController extends Activity {
 			else;
 
 		}
-
 		@Override
 		protected JSONObject doInBackground(User... params) {
 

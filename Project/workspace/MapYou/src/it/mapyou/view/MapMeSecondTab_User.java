@@ -110,6 +110,13 @@ public class MapMeSecondTab_User extends Activity {
 		sendView = inflater.inflate(R.layout.send_partecipation_dialog, null);
 		ed = (EditText)sendView.findViewById(R.id.editTextNickname);
 		builder.setView(sendView);
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 		builder.setPositiveButton("Send invite", new DialogInterface.OnClickListener() {
 
 			@Override
@@ -123,26 +130,20 @@ public class MapMeSecondTab_User extends Activity {
 							@Override
 							public void run() {
 
-								new DownloadUser().execute(nickname);
+								new DownloadUserAndSend().execute(nickname);
 
 							}
 						}).start();
 
 					}else
-						UtilAndroid.makeToast(getApplicationContext(), "Non puoi invitare te stesso", 5000);
+						UtilAndroid.makeToast(getApplicationContext(), "You are admin!", 5000);
 				}else
 					UtilAndroid.makeToast(getApplicationContext(), "Please insert nickname", 5000);
 				ed.setText("");
 
 			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
+		
 		sendDialog = builder.create();
 	}
 
@@ -202,25 +203,18 @@ public class MapMeSecondTab_User extends Activity {
 		}
 	}
 
-	class DownloadUser extends AsyncTask<String, Void, String>{
+	class DownloadUserAndSend extends AsyncTask<String, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String response;
-		private ProgressDialog p;
-
+	 
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+			else;
 		}
 
 
@@ -247,8 +241,7 @@ public class MapMeSecondTab_User extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			p.dismiss();
-
+			 
 			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
 			}
