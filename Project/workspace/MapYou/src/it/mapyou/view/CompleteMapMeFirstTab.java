@@ -47,6 +47,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -91,7 +92,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			if(initilizeMap()){
 				reader = new MappingReader(act);
 				mappings = new ArrayList<MappingUser>();
-//				myloc.start();
+				myloc.start();
 				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
@@ -195,14 +196,20 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 		if(end!=null){
 			MarkerOptions opt = new MarkerOptions();
 			opt.position(new LatLng(end.getLatitude(), end.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+			opt.icon(BitmapDescriptorFactory.fromResource(R.drawable.end));
 			opt.title(end.getLocation());
 			opt.snippet("Destination");
 			googleMap.addMarker(opt);
+			CircleOptions c = new CircleOptions();
+			c.center(new LatLng(end.getLatitude(), end.getLongitude()));
+			c.visible(true);
+			c.strokeColor(Color.BLUE);
+			c.radius(2);
+			googleMap.addCircle(c);
 		}if(st!=null){
 			MarkerOptions opt = new MarkerOptions();
 			opt.position(new LatLng(st.getLatitude(), st.getLongitude()));
-			opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+			opt.icon(BitmapDescriptorFactory.fromResource(R.drawable.start));
 			opt.title(st.getLocation());
 			opt.snippet("Start");
 			googleMap.addMarker(opt);
@@ -226,6 +233,8 @@ class RetrieveMapping extends AsyncTask<Void, Void, String>{
 			googleMap.addMarker(opt);
 			manageProximity(end, p);
 		}
+		
+		
 	}
 	
 	private void manageProximity(Point end, Point p) {

@@ -84,14 +84,17 @@ public class MyLocation implements LocationListener  {
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-		String provider = locationManager.getBestProvider(c, true);
-		location = locationManager.getLastKnownLocation(provider);
+		if(isGPSEnabled || isNetworkEnabled){
+			String provider = locationManager.getBestProvider(c, true);
+			location = locationManager.getLastKnownLocation(provider);
 
 
-		if(location!=null)
-			onLocationChanged(location);
+			if(location!=null)
+				onLocationChanged(location);
 
-		locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		}else
+			UtilAndroid.makeToast(act, "Eable gps or internet connection please!!!", 5000);
 	}
 
 	/**
