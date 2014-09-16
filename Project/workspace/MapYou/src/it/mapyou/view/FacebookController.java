@@ -1,8 +1,11 @@
-/**
- * 
- */
+
 package it.mapyou.view;
 
+import it.mapyou.controller.DeviceController;
+import it.mapyou.model.User;
+import it.mapyou.network.SettingsNotificationServer;
+import it.mapyou.network.SettingsServer;
+import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.FileNotFoundException;
@@ -10,6 +13,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,6 +45,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * @author mapyou (mapyouu@gmail.com)
@@ -58,8 +63,10 @@ public abstract class FacebookController extends Activity {
 	private static final String[] PERMS = new String[] { "read_stream" };
 	public SharedPreferences sharedPrefs;
 	private Context mContext;
+	private String idnotification;
+	private User userFaceLogged;
 
- 
+
 
 	public void setConnection() {
 		mContext = this;
@@ -112,7 +119,7 @@ public abstract class FacebookController extends Activity {
 
 			@Override
 			protected void onPostExecute(Boolean result){
-				
+
 				if (result == null|| result == false){
 					UtilAndroid.makeToast(mContext, "Not_logout", 5000);
 					return;
@@ -125,7 +132,7 @@ public abstract class FacebookController extends Activity {
 		}.execute();
 	}
 	public void logoutFacebookSession2(){
-		
+
 		setConnection();
 		new AsyncTask<Void, Void, Boolean>(){
 
@@ -146,7 +153,7 @@ public abstract class FacebookController extends Activity {
 			@Override
 			protected void onPostExecute(Boolean result){
 				return;
-				
+
 			}
 		}.execute();
 	}
@@ -158,9 +165,6 @@ public abstract class FacebookController extends Activity {
 		public void onComplete(Bundle values) {
 			String token = mFacebook.getAccessToken();
 			long token_expires = mFacebook.getAccessExpires();
-
-			//Log.d(TAG, "AccessToken: " + token);
-			//Log.d(TAG, "AccessExpires: " + token_expires);
 			sharedPrefs.edit().putLong("access_expires", token_expires).commit();
 			sharedPrefs.edit().putString("access_token", token).commit();
 			mAsyncRunner.request("me", new IDRequestListener());
@@ -194,20 +198,17 @@ public abstract class FacebookController extends Activity {
 				final String id = json.getString("id");
 				final String name = json.getString("name");
 				final String email = json.getString("email");
+				userFaceLogged= new User();
+				userFaceLogged.setEmail(email);
+				userFaceLogged.setNickname(name);
+				userFaceLogged.setPassword(id);
 				FacebookController.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						editor.putString("idface", id);
-						editor.putString("emailFace", email);
-						editor.putString("nameFace", name);
-						editor.commit();
 						
-						Intent i = new Intent(getApplicationContext(), DrawerMain.class);
-						
-//						i.putExtra("idface", id);
-//						i.putExtra("emailFace", email);
-//						i.putExtra("nameFace", name);
-						startActivity(i);
+						new FacebookLoginTask().execute();
+
+
 					}
 				});
 			} catch (JSONException e) {
@@ -241,6 +242,130 @@ public abstract class FacebookController extends Activity {
 
 	}
 
+	class FacebookLoginTask extends AsyncTask<Void, Void, Boolean>{
+
+		private boolean isCorrectLogin;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else;
+
+
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+
+			try {
+
+				GCMRegistrar.checkDevice(FacebookController.this);
+				GCMRegistrar.checkManifest(FacebookController.this);
+
+				if (!GCMRegistrar.isRegisteredOnServer(FacebookController.this)) {
+					GCMRegistrar.register(FacebookController.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+				} else;
+
+				final String regId = GCMRegistrar.getRegistrationId(FacebookController.this);
+				if(regId !=null && regId.length() >0){
+					idnotification=regId;
+					isCorrectLogin=true;
+					return isCorrectLogin;
+				}else
+					return false;
+
+			} catch (Exception e) {
+				return false;
+			}
+		}
+
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+
+			if(result && userFaceLogged!=null)
+				new UpdateFacebookTask().execute(userFaceLogged);
+			else
+				UtilAndroid.makeToast(getApplicationContext(), "Error access with facebook!", 5000);
+
+		}
+	}
+
+	class UpdateFacebookTask extends AsyncTask<User, Void, JSONObject>{
+
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if(!UtilAndroid.findConnection(getApplicationContext()))
+				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+			else;
+
+		}
+
+		@Override
+		protected JSONObject doInBackground(User... params) {
+
+			try{
+				JSONObject jobj=null;
+				parameters.put("n", ""+params[0].getNickname());
+				parameters.put("e", ""+params[0].getEmail());
+				parameters.put("id", ""+idnotification);
+				parameters.put("p", ""+params[0].getPassword());
+				jobj=DeviceController.getInstance().getServer().requestJson(SettingsServer.FACEBOOK, DeviceController.getInstance().getServer().setParameters(parameters));
+
+				return jobj;
+			}catch (Exception e) {
+				Log.v("Errorlogin", ""+e.getMessage());
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+
+			super.onPostExecute(result);
+
+			User userLogin=null;
+			try{
+				if(idnotification !=null && idnotification.length() >0){
+					if(result!=null ){
+
+						userLogin=DeviceController.getInstance().getParsingController().getUserParser().getParsingUserJobj(result);
+						if(userLogin!=null && userLogin.getModelID() >0){
+
+							Editor ed = sp.edit();
+							ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+							ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+							ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
+							ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);
+							ed.putString(UtilAndroid.ID_FACEBOOK,userFaceLogged.getPassword());
+							ed.commit();
+							UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+							Intent intent= new Intent(FacebookController.this,DrawerMain.class);
+							startActivity(intent);
+						}else{
+							UtilAndroid.makeToast(getApplicationContext(), "Error access with facebook.", 5000);
+						}
+
+					}else
+						UtilAndroid.makeToast(getApplicationContext(), "Error Access", 5000);
+				}else{
+					UtilAndroid.makeToast(getApplicationContext(), "GCm error", 5000);
+				}
+			}catch (Exception e) {
+				UtilAndroid.makeToast(getApplicationContext(), "User not registred", 5000);
+			}
+		}
+	}
+
+
+	
 	public void getImageProfile(final String id, final ImageView img){
 
 		new AsyncTask<Void, Void, Bitmap>(){
@@ -279,10 +404,52 @@ public abstract class FacebookController extends Activity {
 	}
 
 
+	
+	public void saveImageFacebookProfile(final String id){
+
+		new AsyncTask<Void, Void, Bitmap>(){
+
+			Bitmap bm = null;
+			
+
+			@Override
+			protected Bitmap doInBackground(Void... params) {
+
+				try{
+					
+					URL aURL = new URL("http://graph.facebook.com/"+id+"/picture?type=small");
+					HttpGet httpRequest = new HttpGet(URI.create(aURL.toString()) ); 
+					HttpClient httpclient = new DefaultHttpClient(); 
+					HttpResponse response = httpclient.execute(httpRequest); 
+					HttpEntity entrty = response.getEntity(); 
+					BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entrty); 
+					bm = BitmapFactory.decodeStream(bufHttpEntity.getContent());
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return bm;
+			}
+			@Override
+			protected void onPostExecute(Bitmap result) {
+
+				try {
+					if(result!=null){
+						BitmapParser.saveImageToInternalStorage(result, getApplicationContext());
+					}
+				} catch (Exception e) {
+					UtilAndroid.makeToast(getApplicationContext(), "Error", 5000);
+				}
+			};
+
+		}.execute();
+	}
+ 
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mFacebook.authorizeCallback(requestCode, resultCode, data);
 	}
 }
+
 
 

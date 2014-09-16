@@ -50,6 +50,7 @@ public class ChatUserToUser extends Activity{
 	private static ListView listView;
 	private static List<ChatMessage> notif;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

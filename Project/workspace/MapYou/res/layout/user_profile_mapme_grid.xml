@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:layout_marginLeft="15dp"
     android:layout_marginTop="15dp"
     android:clickable="true" >
+=======
+    android:clickable="true"
+    android:orientation="vertical" >
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/profile" />
 
@@ -20,10 +23,7 @@
         android:id="@+id/h1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"
-        android:layout_toRightOf="@+id/imageView1"
+        android:layout_marginTop="5dp"
         android:scrollbars="horizontal" >
 
         <TextView
@@ -39,9 +39,6 @@
         android:id="@+id/h2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/h1"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/h1"
         android:scrollbars="horizontal" >
 
         <TextView
@@ -52,4 +49,4 @@
             android:textSize="14sp" />
     </HorizontalScrollView>
 
-</RelativeLayout>
+</LinearLayout>

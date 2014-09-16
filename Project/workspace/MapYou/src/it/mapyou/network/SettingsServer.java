@@ -28,9 +28,13 @@ public interface SettingsServer {
 	public static final String DELETE_CHAT = "deleteChatMessage.php";
 	public static final String GET_CONVERSATION = "getAllNotificationChat.php";
 	public static final String BROADCAST="broad.php";
+<<<<<<< HEAD
 	public static final String DELETE_USER_IN_MAPME  ="deleteUserMapme.php";
 	public static final String DELETE_MAPME  ="deleteMapme.php";
 	public static final String ALERT_PROXIMITY = "alert_proximity.php";
+=======
+	public static final String FACEBOOK="isFacebookAccess.php";
+>>>>>>> branch 'master' of https://github.com/MapYou/MapYou.git
 	 
 	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";
 	
