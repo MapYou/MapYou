@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package it.mapyou.view;
 
 import it.mapyou.R;
@@ -84,10 +82,21 @@ public class MyLocation implements LocationListener  {
 				onLocationChanged(location);
 
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-		}else
+		}else{
 			alertGPS("GPS disabled", "Do you want enable gps?");
+			if(isGPSEnabled || isNetworkEnabled){
+				String provider = locationManager.getBestProvider(c, true);
+				location = locationManager.getLastKnownLocation(provider);
+
+
+				if(location!=null)
+					onLocationChanged(location);
+
+				locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+			}
+		}
 	}
-	
+
 	public void alertGPS( String title, String message ){
 
 		new AlertDialog.Builder(act)
@@ -165,7 +174,7 @@ public class MyLocation implements LocationListener  {
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private String resp;
-	
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -185,6 +194,7 @@ public class MyLocation implements LocationListener  {
 				parameters.put("lat", ""+latitude);
 				parameters.put("lon", ""+longitude);
 				parameters.put("mode", "2");
+				parameters.put("loc", "loc");
 				resp=DeviceController.getInstance().getServer().request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return resp;
@@ -245,6 +255,7 @@ public class MyLocation implements LocationListener  {
 				parameters.put("lat", ""+latitude);
 				parameters.put("lon", ""+longitude);
 				parameters.put("mode", "1");
+				parameters.put("loc", "loc");
 				resp=DeviceController.getInstance().getServer().request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return resp;

@@ -33,11 +33,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -85,11 +83,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				mappings = new ArrayList<MappingUser>();
 				myloc.start();
 
-
 				// download route
 				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
-
-				//new DownlDataFromWebServer().execute(getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
@@ -99,7 +94,7 @@ public class CompleteMapMeFirstTab extends Activity {
 						new RetrieveMapping().execute();
 					}
 				};
-				t.schedule(tt, 0, 6000);
+				t.schedule(tt, 3000, 6000);
 
 			}
 
@@ -203,8 +198,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt);
-				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
-				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
+//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
+//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
 			if (st != null) {
 				MarkerOptions opt = new MarkerOptions();
@@ -214,8 +209,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(st.getLocation());
 				opt.snippet("Start");
 				googleMap.addMarker(opt);
-			} else
-				;
+			} else;
 
 			for (int i = 0; i < mappings.size(); i++) {
 				MappingUser m = mappings.get(i);
@@ -224,8 +218,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				if (p.equals(st) || p.equals(end)) {
 					p.setLatitude(p.getLatitude() + 0.00001);
 					p.setLongitude(p.getLongitude() + 0.00001);
-				} else
-					;
+				} else;
 				MarkerOptions opt = new MarkerOptions();
 				opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
 				opt.icon(BitmapDescriptorFactory
