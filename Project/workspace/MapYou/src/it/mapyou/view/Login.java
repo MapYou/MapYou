@@ -5,6 +5,7 @@ import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
@@ -12,14 +13,22 @@ import it.mapyou.util.UtilAndroid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +48,8 @@ public class Login extends FacebookController {
 	private SharedPreferences sp;
 	private User userLogin=null;
 	private String idnotification;
+	private Executor exc;
+	private Activity act;
 
 
 	@Override
@@ -47,8 +58,10 @@ public class Login extends FacebookController {
 		setContentView(R.layout.login);
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
+		act = this;
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+		exc = Executors.newCachedThreadPool();
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
 		try {
@@ -64,7 +77,55 @@ public class Login extends FacebookController {
 	// onclick Login
 	public void login (View v){
 		if(verifyField())
-			new  LoginTask().execute();
+			{
+//			new  LoginTask().execute();
+			new AbstractAsyncTask<Void, Void, Boolean>(act, "Loading...") {
+
+				private boolean isCorrectLogin;
+				@Override
+				protected void newOnPostExecute(Boolean result) {
+					// TODO Auto-generated method stub
+					if(result && !isCancelled())
+					{
+						new UpdateT(act, "Please while starting application...");
+					}
+				else
+					{
+					UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
+					}
+				}
+
+				@Override
+				protected void newOnPreExecute() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					try {
+
+						GCMRegistrar.checkDevice(Login.this);
+						GCMRegistrar.checkManifest(Login.this);
+
+						if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
+							GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+						} else;
+
+						final String regId = GCMRegistrar.getRegistrationId(Login.this);
+						if(regId !=null && regId.length() >0){
+							idnotification=regId;
+							isCorrectLogin=true;
+							return isCorrectLogin;
+						}else
+							return false;
+
+					} catch (Exception e) {
+						return false;
+					}
+				}
+			}.execute();
+			}
 	}
 
 	// onclick Registration
@@ -102,17 +163,36 @@ public class Login extends FacebookController {
 
 	class LoginTask extends AsyncTask<Void, Void, Boolean>{
 		private JSONObject jobj;
+		private boolean isCorrectLogin;
 		private HashMap<String, String> parameters=new HashMap<String, String>();
 
-		private boolean isCorrectLogin;
+		private ProgressDialog p;
 
+		public LoginTask() {
+			p = new ProgressDialog(act);
+			p.setMessage("Loading...");
+			p.setIndeterminate(false);
+			p.setCancelable(true);
+			p.setCanceledOnTouchOutside(true);
+			p.setOnCancelListener(new OnCancelListener() {
+				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					UtilAndroid.makeToast(act, "Dialog cancelled", 3000);
+					cancel(true);
+				}
+			});
+		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			p.show();
 			if(!UtilAndroid.findConnection(getApplicationContext()))
+				{
 				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else;
+				p.cancel();
+				}
 		
 
 		}
@@ -142,83 +222,89 @@ public class Login extends FacebookController {
 			}
 		}
 
-
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-
-			if(result)
-				new UpdateT().execute(result);
+			p.dismiss();
+			if(result && !isCancelled())
+				{
+//				new UpdateT().execute(result);
+				}
 			else
+				{
 				UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
+				}
 
 		}
 
+	}
+	
+	class UpdateT extends AbstractAsyncTask<Boolean, Void, JSONObject>{
 
-		class UpdateT extends AsyncTask<Boolean, Void, JSONObject>{
 
+		private JSONObject jobj;
+		
+		public UpdateT(Activity act, String message) {
+			super(act, message);
+			// TODO Auto-generated constructor stub
+		}
 
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-				if(!UtilAndroid.findConnection(getApplicationContext()))
-					UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-
-			}
+		@Override
+		protected void newOnPreExecute() {
 			
-			@Override
-			protected JSONObject doInBackground(Boolean... params) {
+		}
+		
+		@Override
+		protected JSONObject doInBackground(Boolean... params) {
 
-				try{
+			try{
 
-					parameters.put("nickname", ""+user.getText().toString());
-					parameters.put("password", ""+password.getText().toString());
-					parameters.put("idnot", ""+idnotification);
-					jobj=DeviceController.getInstance().getServer().requestJson(SettingsServer.LOGIN_PAGE, DeviceController.getInstance().getServer().setParameters(parameters));
+				parameters.put("nickname", ""+user.getText().toString());
+				parameters.put("password", ""+password.getText().toString());
+				parameters.put("idnot", ""+idnotification);
+				jobj=DeviceController.getInstance().getServer().requestJson(SettingsServer.LOGIN_PAGE, DeviceController.getInstance().getServer().setParameters(parameters));
 
-					return jobj;
-				}catch (Exception e) {
-					Log.v("Errorlogin", ""+e.getMessage());
-					return null;
-				}
-			}
-
-			@Override
-			protected void onPostExecute(JSONObject result) {
-
-				super.onPostExecute(result);
-				try{
-					if(idnotification !=null && idnotification.length() >0){
-						if(result!=null ){
-
-							userLogin=DeviceController.getInstance().getParsingController().getUserParser().getParsingUserJobj(result);
-							if(userLogin!=null && userLogin.getModelID() >0){
-
-								Editor ed = sp.edit();
-								ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
-								ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
-								ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
-								ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);
-								ed.commit();
-								UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
-								Intent intent= new Intent(Login.this,DrawerMain.class);
-								startActivity(intent);
-
-							}else{
-								UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
-							}
-
-						}else
-							UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
-					}else{
-						UtilAndroid.makeToast(getApplicationContext(), "GCm error", 5000);
-					}
-				}catch (Exception e) {
-					UtilAndroid.makeToast(getApplicationContext(), "User not registred", 5000);
-				}
+				return jobj;
+			}catch (Exception e) {
+				Log.v("Errorlogin", ""+e.getMessage());
+				return null;
 			}
 		}
 
+		@Override
+		protected void newOnPostExecute(JSONObject result) {
+
+			super.onPostExecute(result);
+			try{
+				if(idnotification !=null && idnotification.length() >0){
+					if(result!=null ){
+
+						userLogin=DeviceController.getInstance().getParsingController().getUserParser().getParsingUserJobj(result);
+						if(userLogin!=null && userLogin.getModelID() >0){
+
+							Editor ed = sp.edit();
+							ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+							ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
+							ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
+							ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);
+							ed.commit();
+							UtilAndroid.makeToast(getApplicationContext(), "Welcome on MapYou", 5000);
+							Intent intent= new Intent(Login.this,DrawerMain.class);
+							startActivity(intent);
+
+						}else{
+							UtilAndroid.makeToast(getApplicationContext(), "Error Login. Check your credentials.", 5000);
+						}
+
+					}else
+						UtilAndroid.makeToast(getApplicationContext(), "Error Login", 5000);
+				}else{
+					UtilAndroid.makeToast(getApplicationContext(), "GCm error", 5000);
+				}
+			}catch (Exception e) {
+				UtilAndroid.makeToast(getApplicationContext(), "User not registred", 5000);
+			}
+		}
 	}
 
 
