@@ -71,7 +71,7 @@ public class AdapterBoadcastChat  extends BaseAdapter{
 		TextView userSend = (TextView)convertView.findViewById(R.id.textView1);
 		ChatMessage n = not.get(position);
 		t.setText(n.getMessage());
-		userSend.setText(n.getNotified().getNickname());
+		userSend.setText(n.getNotifier().getNickname());
 		TextView dat = (TextView) convertView.findViewById(R.id.textMessageDateB);
 		GregorianCalendar g = n.getDate();
 		if(g!=null)
