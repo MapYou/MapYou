@@ -137,15 +137,15 @@ public class MapMeSecondTab_User extends Activity {
 					if(!nickname.equals(mapme.getAdministrator().getNickname())
 							 ){
 						if(mapme.getMaxNumUsers()>reg.size()){
-//							new Thread(new Runnable() {
-//
-//								@Override
-//								public void run() {
+							new Thread(new Runnable() {
+
+								@Override
+								public void run() {
 
 									new DownloadUserAndSend().execute(nickname);
 
-//								}
-//							}).start();
+								}
+							}).start();
 						}else
 							UtilAndroid.makeToast(getApplicationContext(), "Has already reached the maximum number of users.", 5000);
 					
