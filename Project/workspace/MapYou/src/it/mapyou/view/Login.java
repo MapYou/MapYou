@@ -87,7 +87,7 @@ public class Login extends FacebookController {
 					// TODO Auto-generated method stub
 					if(result && !isCancelled())
 					{
-						new UpdateT(act, "Please while starting application...");
+						new UpdateT(act, "Please while starting application...").execute(result);
 					}
 				else
 					{
@@ -274,7 +274,6 @@ public class Login extends FacebookController {
 		@Override
 		protected void newOnPostExecute(JSONObject result) {
 
-			super.onPostExecute(result);
 			try{
 				if(idnotification !=null && idnotification.length() >0){
 					if(result!=null ){
