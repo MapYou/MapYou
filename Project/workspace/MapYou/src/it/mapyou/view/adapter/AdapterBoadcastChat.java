@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,10 +78,10 @@ public class AdapterBoadcastChat  extends BaseAdapter{
 			dat.setText(sdf.format(g.getTime()));
 		else;
 		if(n.getNotifier().getModelID()==currentUserId){
-			t.setBackgroundColor(Color.GREEN);
+			t.setBackgroundResource(R.drawable.bubble_a);
 			t.setGravity(Gravity.RIGHT);
 		}else{
-			t.setBackgroundColor(Color.LTGRAY);
+			t.setBackgroundResource(R.drawable.bubble_b);
 			t.setGravity(Gravity.LEFT);
 
 		}
