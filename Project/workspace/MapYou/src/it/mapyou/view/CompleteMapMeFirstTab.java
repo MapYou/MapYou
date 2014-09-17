@@ -59,6 +59,8 @@ public class CompleteMapMeFirstTab extends Activity {
 	private FileControllerCache fileCacheRoutes;
 	private static final double EARTH_RADIUS = 6378100.0;
 	private int offset;
+	private List<Marker> listOfMarker;
+	private Marker marker;
 
 	// distanza in metri del raggio centrato nel punto di arrivo della mapme
 	private static final double PROXIMITY_DISTANCE = 50;
@@ -79,8 +81,9 @@ public class CompleteMapMeFirstTab extends Activity {
 			myloc = new MyLocation(this);
 			if (initilizeMap()) {
 				fileCache = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, cont);
-				fileCacheRoutes= new FileControllerCache(UtilAndroid.ROUTES, cont);
+				//fileCacheRoutes= new FileControllerCache(UtilAndroid.ROUTES, cont);
 				mappings = new ArrayList<MappingUser>();
+				listOfMarker= new ArrayList<Marker>();
 				myloc.start();
 
 				if(myloc.getLatitude()>0 && myloc.getLongitude()>0){
@@ -185,8 +188,11 @@ public class CompleteMapMeFirstTab extends Activity {
 	}
 
 	public void showMap() {
-		//googleMap.clear();
 		try {
+			
+			if(listOfMarker.size() >0)
+				removeAllMarker();
+			else;
 
 			Segment s = mapme.getSegment();
 			Point end = s.getEndPoint();
@@ -214,6 +220,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				googleMap.addMarker(opt).setPosition(new LatLng(st.getLatitude(), st.getLongitude()));
 			} else;
 
+			
 			for (int i = 0; i < mappings.size(); i++) {
 				MappingUser m = mappings.get(i);
 				User u = m.getUser();
@@ -223,17 +230,16 @@ public class CompleteMapMeFirstTab extends Activity {
 					p.setLongitude(p.getLongitude() + 0.00001);
 				} else;
 				MarkerOptions opt = new MarkerOptions();
+				 
 				opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
 				opt.icon(BitmapDescriptorFactory
 						.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 				opt.title(u.getNickname());
 				opt.snippet(p.getLocation());
 				opt.visible(true);
-				googleMap.addMarker(opt).setPosition(new LatLng(p.getLatitude(), p.getLongitude()));
-				 
+				marker=googleMap.addMarker(opt);
+				listOfMarker.add(marker);
 			}
-
-
 		} catch (Exception e) {
 			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
 
@@ -346,5 +352,13 @@ public class CompleteMapMeFirstTab extends Activity {
 		}
 		googleMap.addPolyline(lineOpt); 
 
+	}
+	
+	public void removeAllMarker (){
+		
+		for(int i=0; i<listOfMarker.size(); i++){
+			marker= listOfMarker.get(i);
+			marker.remove();
+		}
 	}
 }
