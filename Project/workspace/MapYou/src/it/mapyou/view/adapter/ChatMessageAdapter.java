@@ -79,12 +79,14 @@ public class ChatMessageAdapter extends BaseAdapter{
 		else;
 		if(n.getNotifier().getModelID()==currentUserId)
 		{
-			t.setBackgroundColor(Color.GREEN);
+//			t.setBackgroundColor(Color.GREEN);
+			t.setBackgroundResource(R.drawable.bubble_a);
 			t.setGravity(Gravity.RIGHT);
 		}
 		else
 		{
-			t.setBackgroundColor(Color.LTGRAY);
+//			t.setBackgroundColor(Color.LTGRAY);
+			t.setBackgroundResource(R.drawable.bubble_b);
 			t.setGravity(Gravity.LEFT);
 		}
 
