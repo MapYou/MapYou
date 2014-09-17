@@ -4,9 +4,10 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -61,8 +63,8 @@ public class MyLocation implements LocationListener  {
 	public void start(){
 
 		Criteria c = new Criteria();
-//		c.setAccuracy(Criteria.ACCURACY_FINE);
-//		c.setPowerRequirement(Criteria.POWER_LOW);
+		//		c.setAccuracy(Criteria.ACCURACY_FINE);
+		//		c.setPowerRequirement(Criteria.POWER_LOW);
 		locationManager = (LocationManager)act.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -76,13 +78,8 @@ public class MyLocation implements LocationListener  {
 
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		}else{
-			UtilAndroid.makeToast(act, "No provider", 2000);
-			alertGPS("GPS disabled", "Do you want enable gps?");
-			if(isGPSEnabled || isNetworkEnabled){
-				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
-				act.finish();
-				act.startActivity(i);
-			}
+			Intent i= new Intent(act, MapMeLayoutHome.class);
+			act.startActivity(i);
 		}
 	}
 
@@ -105,7 +102,7 @@ public class MyLocation implements LocationListener  {
 				longitude=location.getLongitude();
 				Toast.makeText(act.getApplicationContext(), latitude+""+longitude, 2000).show();
 
-				new UpdateLocationUser(act).execute();
+				new UpdateLocationUser().execute();
 
 			}catch (Exception e) {
 				Log.v("Error thread", e.getMessage());
@@ -136,17 +133,21 @@ public class MyLocation implements LocationListener  {
 	}
 
 
-	class UpdateLocationUser extends AbstractAsyncTask<Void, Void, String>{
+	class UpdateLocationUser extends AsyncTask<Void, Void, String>{
 
-		/**
-		 * @param act
-		 */
-		public UpdateLocationUser(Activity act) {
-			super(act);
-			// TODO Auto-generated constructor stub
-		}
+		private HashMap<String, String> parameters=new HashMap<String, String>();
 
 		private String resp;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
+		}
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -166,29 +167,32 @@ public class MyLocation implements LocationListener  {
 		}
 
 		@Override
-		protected void newOnPostExecute(String result) {
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
 
 			if(result!=null){
 				if(result.contains("1")){
-					new RetrieveMapping(act).execute();
+					new RetrieveMapping().execute();
 				}else;
 			}else
 				UtilAndroid.makeToast(act, "Wait for the loading of the position", 1000);
 		}
 	}
 
-	class RetrieveMapping extends AbstractAsyncTask<Void, Void, JSONObject>{
+	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
 
-		
+		private HashMap<String, String> parameters=new HashMap<String, String>();
 
-		/**
-		 * @param act
-		 */
-		public RetrieveMapping(Context act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
-
+		
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 			try {
@@ -201,8 +205,8 @@ public class MyLocation implements LocationListener  {
 		}
 
 		@Override
-		protected void newOnPostExecute(JSONObject result) {
-
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
 			if(result==null){
 				UtilAndroid.makeToast(act.getApplicationContext(), "Please refresh Server....", 500);
 			}else{
@@ -217,24 +221,6 @@ public class MyLocation implements LocationListener  {
 		}
 	}
 
-	public void alertGPS( String title, String message ){
-
-		new AlertDialog.Builder(act)
-		.setIcon(R.drawable.ic_launcher)
-		.setTitle( title )
-		.setMessage( message )
-		.setCancelable(false)
-		.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				arg0.dismiss();
-			}
-		})
-		.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				act.startActivity(intent);
-			}
-		}).show();
-	}
+	
 
 }

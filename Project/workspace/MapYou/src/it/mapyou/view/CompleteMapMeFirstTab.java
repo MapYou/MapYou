@@ -86,7 +86,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				listOfMarker= new ArrayList<Marker>();
 				myloc.start();
 
-				if(myloc.getLatitude()>0 && myloc.getLongitude()>0){
+//				if(myloc.getLatitude()>0 && myloc.getLongitude()>0){
 
 					// download route
 					new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
@@ -101,8 +101,8 @@ public class CompleteMapMeFirstTab extends Activity {
 					};
 					t.schedule(tt, 5000, 15000);
 
-				}else
-					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
+//				}else
+//					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
 
 			} else
 				UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
@@ -200,8 +200,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			if (end != null) {
 				MarkerOptions opt = new MarkerOptions();
 				opt.position(new LatLng(end.getLatitude(), end.getLongitude()));
-				opt.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+				opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt).setPosition(new LatLng(end.getLatitude(), end.getLongitude()));
