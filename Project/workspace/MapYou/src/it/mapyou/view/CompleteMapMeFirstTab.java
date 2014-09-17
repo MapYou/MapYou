@@ -37,6 +37,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -56,7 +57,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	private List<MappingUser> mappings;
 	private FileControllerCache fileCache;
 	private FileControllerCache fileCacheRoutes;
-
 	private static final double EARTH_RADIUS = 6378100.0;
 	private int offset;
 
@@ -96,10 +96,10 @@ public class CompleteMapMeFirstTab extends Activity {
 							new RetrieveMapping().execute();
 						}
 					};
-					t.schedule(tt, 3000, 6000);
+					t.schedule(tt, 5000, 15000);
 
 				}else
-					myloc.start();
+					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
 
 			} else
 				UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
@@ -109,8 +109,6 @@ public class CompleteMapMeFirstTab extends Activity {
 	public void refresh(View v) {
 		new RetrieveMapping().execute();
 	}
-
-
 
 
 	@Override
@@ -128,14 +126,11 @@ public class CompleteMapMeFirstTab extends Activity {
 			googleMap.setMyLocationEnabled(false);
 
 			if (googleMap == null) {
-				Toast.makeText(getApplicationContext(),
-						"Problema nella creazione della mappa!",
-						Toast.LENGTH_SHORT).show();
-			} else {
+				Toast.makeText(getApplicationContext(),"Problema nella creazione della mappa!",Toast.LENGTH_SHORT).show();
+			}else {
 				googleMap.clear();
 			}
-		} else
-			;
+		} else;
 		return googleMap != null;
 	}
 
@@ -146,8 +141,7 @@ public class CompleteMapMeFirstTab extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if (!UtilAndroid.findConnection(act.getApplicationContext())) {
-				UtilAndroid.makeToast(act.getApplicationContext(),
-						"Internet Connection not found", 5000);
+				UtilAndroid.makeToast(act.getApplicationContext(),"Internet Connection not found", 5000);
 			}else;
 		}
 
@@ -172,11 +166,18 @@ public class CompleteMapMeFirstTab extends Activity {
 
 						@Override
 						public void run() {
-							showMap();
+							//String routes;
+							try {
+//								routes = fileCacheRoutes.readS();
+//								if(routes!=null)
+//									drawRoutesOnMap(new JSONObject(routes));
+//								else;
+								showMap();
+							} catch (Exception e) {
+							}
 						}
 					});
-				} catch (JSONException e) {
-
+				} catch (Exception e) {
 					UtilAndroid.makeToast(cont, "Error while read postion!",5000);
 				}
 			}
@@ -184,13 +185,9 @@ public class CompleteMapMeFirstTab extends Activity {
 	}
 
 	public void showMap() {
-		googleMap.clear();
-
+		//googleMap.clear();
 		try {
-			String routes=fileCacheRoutes.readS();
-			if(routes!=null)
-				drawRoutesOnMap(new JSONObject(routes));
-			else;
+
 			Segment s = mapme.getSegment();
 			Point end = s.getEndPoint();
 			Point st = s.getStartPoint();
@@ -201,7 +198,8 @@ public class CompleteMapMeFirstTab extends Activity {
 						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
-				googleMap.addMarker(opt);
+				googleMap.addMarker(opt).setPosition(new LatLng(end.getLatitude(), end.getLongitude()));
+				
 				//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
 				//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
@@ -212,7 +210,8 @@ public class CompleteMapMeFirstTab extends Activity {
 						.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
 				opt.title(st.getLocation());
 				opt.snippet("Start");
-				googleMap.addMarker(opt);
+				
+				googleMap.addMarker(opt).setPosition(new LatLng(st.getLatitude(), st.getLongitude()));
 			} else;
 
 			for (int i = 0; i < mappings.size(); i++) {
@@ -230,8 +229,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(u.getNickname());
 				opt.snippet(p.getLocation());
 				opt.visible(true);
-				googleMap.addMarker(opt);
-				// manageProximity(end, p);
+				googleMap.addMarker(opt).setPosition(new LatLng(p.getLatitude(), p.getLongitude()));
+				 
 			}
 
 
@@ -288,8 +287,9 @@ public class CompleteMapMeFirstTab extends Activity {
 
 			if(result!=null){
 				try {
-					fileCacheRoutes.write(result.toString());
-					//drawRoutesOnMap(result);
+					//fileCacheRoutes.write(result.toString());
+				 
+					drawRoutesOnMap(result);
 				} catch (Exception e1) {
 
 				}

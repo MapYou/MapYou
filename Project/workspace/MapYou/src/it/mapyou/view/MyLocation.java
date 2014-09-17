@@ -41,7 +41,7 @@ public class MyLocation implements LocationListener  {
 	private Activity act;
 	private FileControllerCache fileCahce;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 10000; // 15 seconds
+	private static final long MIN_TIME_BW_UPDATES = 6000; // 15 seconds
 	protected LocationManager locationManager;
 	private SharedPreferences sp;
 
@@ -76,12 +76,13 @@ public class MyLocation implements LocationListener  {
 
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		}else{
-			alertGPS("GPS disabled", "Do you want enable gps?");
-			if(isGPSEnabled || isNetworkEnabled){
-				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
-				act.finish();
-				act.startActivity(i);
-			}
+			UtilAndroid.makeToast(act, "No provider", 2000);
+//			alertGPS("GPS disabled", "Do you want enable gps?");
+//			if(isGPSEnabled || isNetworkEnabled){
+//				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
+//				act.finish();
+//				act.startActivity(i);
+//			}
 		}
 	}
 
@@ -207,7 +208,7 @@ public class MyLocation implements LocationListener  {
 			}else{
 				try {
 					fileCahce.write(result.toString());
-					fileCahce.read();
+					//fileCahce.read();
 
 				} catch (Exception e) {
 					e.printStackTrace();
