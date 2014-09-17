@@ -64,8 +64,8 @@ public class MyLocation implements LocationListener  {
 	public void start(){
 
 		Criteria c = new Criteria();
-		c.setAccuracy(Criteria.ACCURACY_FINE);
-		c.setPowerRequirement(Criteria.POWER_LOW);
+//		c.setAccuracy(Criteria.ACCURACY_FINE);
+//		c.setPowerRequirement(Criteria.POWER_LOW);
 		locationManager = (LocationManager)act.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);

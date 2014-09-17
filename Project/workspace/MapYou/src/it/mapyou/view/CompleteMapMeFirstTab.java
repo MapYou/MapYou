@@ -83,23 +83,27 @@ public class CompleteMapMeFirstTab extends Activity {
 				mappings = new ArrayList<MappingUser>();
 				myloc.start();
 
-				// download route
-				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
+				if(myloc.getLatitude()>0 && myloc.getLongitude()>0){
 
-				Timer t = new Timer();
-				TimerTask tt = new TimerTask() {
+					// download route
+					new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 
-					@Override
-					public void run() {
-						new RetrieveMapping().execute();
-					}
-				};
-				t.schedule(tt, 3000, 6000);
+					Timer t = new Timer();
+					TimerTask tt = new TimerTask() {
 
-			}
+						@Override
+						public void run() {
+							new RetrieveMapping().execute();
+						}
+					};
+					t.schedule(tt, 3000, 6000);
 
-		} else
-			UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
+				}else
+					myloc.start();
+
+			} else
+				UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
+		}
 	}
 
 	public void refresh(View v) {
@@ -198,8 +202,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt);
-//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
-//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
+				//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
+				//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
 			if (st != null) {
 				MarkerOptions opt = new MarkerOptions();
@@ -229,8 +233,8 @@ public class CompleteMapMeFirstTab extends Activity {
 				googleMap.addMarker(opt);
 				// manageProximity(end, p);
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
 
