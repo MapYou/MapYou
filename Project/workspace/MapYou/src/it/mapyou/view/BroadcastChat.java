@@ -15,12 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -45,7 +47,7 @@ public class BroadcastChat extends Activity {
 	private TextView numUs;
 	private TextView nameM;
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
- 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,7 +73,7 @@ public class BroadcastChat extends Activity {
 			numUs.setText("Users: "+(users+1));
 			nameM.setText("MapMe: "+UtilAndroid.CURRENT_MAPME.getName());
 
-			new RetrieveBroadcastConversation(act).execute();
+			new RetrieveBroadcastConversation().execute();
 		}else
 			sp.edit().putBoolean("isBroadcastMode", true).commit();
 
@@ -82,7 +84,7 @@ public class BroadcastChat extends Activity {
 		String message= textMessage.getText().toString();
 
 		if(message.length() >0){
-			new SendMessageInBroadcast(act).execute(message);
+			new SendMessageInBroadcast().execute(message);
 		}else
 			UtilAndroid.makeToast(getApplicationContext(), "Error", 5000);
 
@@ -105,15 +107,19 @@ public class BroadcastChat extends Activity {
 		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
 
-	class SendMessageInBroadcast extends AbstractAsyncTask<String, Void, String>{
-		
-		/**
-		 * @param act
-		 * @param message
-		 */
-		public SendMessageInBroadcast(Activity act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+	class SendMessageInBroadcast extends AsyncTask<String, Void, String>{
+
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
 		@Override
 		protected String doInBackground(String... params) {
@@ -139,8 +145,8 @@ public class BroadcastChat extends Activity {
 			}
 		}
 		@Override
-		protected void newOnPostExecute(String result) {
-		
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
@@ -151,7 +157,7 @@ public class BroadcastChat extends Activity {
 					try {
 						g.setTime(sdf.parse(d.toString()));
 					} catch (ParseException e) {
-						
+
 					}
 					n.setDate(g);
 					updateGui(n);
@@ -170,15 +176,18 @@ public class BroadcastChat extends Activity {
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
 	}
 
-	class RetrieveBroadcastConversation extends AbstractAsyncTask<Void, Void, JSONObject>{
-		 
+	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{
 
-		/**
-		 * @param act
-		 */
-		public RetrieveBroadcastConversation(Activity act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
 		@Override
 		protected JSONObject doInBackground(Void... params) {
@@ -198,8 +207,8 @@ public class BroadcastChat extends Activity {
 			}
 		}
 		@Override
-		protected void newOnPostExecute(JSONObject result) {
-		
+		protected void onPostExecute(JSONObject result) {
+
 			if(result!=null){
 				try {
 					notification = DeviceController.getInstance().getParsingController().getChatMessageParser().parsingAllChatMessageNotifcation(result);
@@ -222,7 +231,7 @@ public class BroadcastChat extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refreshChat:
-			new RetrieveBroadcastConversation(act).execute();
+			new RetrieveBroadcastConversation().execute();
 			return true;
 		case R.id.clearChat:
 			notification.removeAll(notification);

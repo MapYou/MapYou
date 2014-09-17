@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -50,7 +52,7 @@ public class ChatUserToUser extends Activity{
 	private static ListView listView;
 	private static List<ChatMessage> notif;
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class ChatUserToUser extends Activity{
 				currentUser.setModelID(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1));
 				currentUser.setNickname(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				currentUser.setEmail(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, ""));
-				new RetrieveConversation(act).execute();
+				new RetrieveConversation().execute();
 			}else
 				sp.edit().putBoolean("isChatMode", false).commit();
 
@@ -88,7 +90,7 @@ public class ChatUserToUser extends Activity{
 		String message=mess.getText().toString();
 
 		if(message.length() >0)
-			new SendMessage(act).execute(message);
+			new SendMessage().execute(message);
 		else
 			UtilAndroid.makeToast(act, "Please insert text message", 5000);
 
@@ -112,16 +114,20 @@ public class ChatUserToUser extends Activity{
 		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
 
-	class SendMessage extends AbstractAsyncTask<String, Void, String>{
+	class SendMessage extends AsyncTask<String, Void, String>{
 
+		private HashMap<String, String> parameters=new HashMap<String, String>();
 
-		/**
-		 * @param act
-		 */
-		public SendMessage(Context act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
+
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -149,7 +155,8 @@ public class ChatUserToUser extends Activity{
 			}
 		}
 		@Override
-		protected void newOnPostExecute(String result) {
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
 			if(result!=null){
 				if(!result.equals("error")){
 					ChatMessage n = new ChatMessage();
@@ -175,15 +182,18 @@ public class ChatUserToUser extends Activity{
 		}
 	}
 
-	class RetrieveConversation extends AbstractAsyncTask<Void, Void, JSONObject>{
+	class RetrieveConversation extends AsyncTask<Void, Void, JSONObject>{
 
+		private HashMap<String, String> parameters=new HashMap<String, String>();
 
-		/**
-		 * @param act
-		 */
-		public RetrieveConversation(Context act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
 		@Override
 		protected JSONObject doInBackground(Void... params) {
@@ -203,7 +213,7 @@ public class ChatUserToUser extends Activity{
 			}
 		}
 		@Override
-		protected void newOnPostExecute(JSONObject result) {
+		protected void onPostExecute(JSONObject result) {
 			if(result!=null){
 				try {
 					notif = retrieveAllNotification(result);
@@ -259,7 +269,7 @@ public class ChatUserToUser extends Activity{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refreshChat:
-			new RetrieveConversation(act).execute();
+			new RetrieveConversation().execute();
 			return true;
 		case R.id.clearChat:
 			notif.removeAll(notif);
@@ -269,5 +279,5 @@ public class ChatUserToUser extends Activity{
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 }
