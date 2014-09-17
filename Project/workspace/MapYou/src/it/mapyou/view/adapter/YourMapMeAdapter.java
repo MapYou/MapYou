@@ -106,14 +106,8 @@ public class YourMapMeAdapter extends BaseAdapter{
 					alert2.setTitle("Choose option");
 					alert2.setMessage("You can delete this mapme or view it.");
 					alert2.setIcon(R.drawable.ic_launcher);
-					alert2.setButton("Cancel", new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.cancel();
-						}
-					});
-					alert2.setButton3("Delete", new DialogInterface.OnClickListener() {
+					
+					alert2.setButton("Delete", new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -127,7 +121,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 						public void onClick(DialogInterface dialog, int which) {
 							UtilAndroid.CURRENT_MAPME = mp;
 							Intent i = new Intent(act, MapMeLayoutHome.class);
-							i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+							//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 							act.startActivity(i);
 						}
 					});

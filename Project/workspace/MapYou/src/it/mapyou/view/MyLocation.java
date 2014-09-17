@@ -77,12 +77,12 @@ public class MyLocation implements LocationListener  {
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		}else{
 			UtilAndroid.makeToast(act, "No provider", 2000);
-//			alertGPS("GPS disabled", "Do you want enable gps?");
-//			if(isGPSEnabled || isNetworkEnabled){
-//				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
-//				act.finish();
-//				act.startActivity(i);
-//			}
+			alertGPS("GPS disabled", "Do you want enable gps?");
+			if(isGPSEnabled || isNetworkEnabled){
+				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
+				act.finish();
+				act.startActivity(i);
+			}
 		}
 	}
 

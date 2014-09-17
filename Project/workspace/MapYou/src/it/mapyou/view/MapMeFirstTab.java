@@ -10,9 +10,11 @@ import it.mapyou.model.Segment;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -64,6 +66,15 @@ public class MapMeFirstTab extends Activity {
 	}
 	
 	public void live(View v){
-		startActivity(new Intent(this, CompleteMapMeLayoutHome.class));
+		
+		boolean isGPS=false;
+		LocationManager locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		isGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		if(isGPS)
+			startActivity(new Intent(this, CompleteMapMeLayoutHome.class));
+		else
+			UtilAndroid.makeToast(getApplicationContext(), "Please active GPS!", 2000);
 	}
+	
+	
 }
