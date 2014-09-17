@@ -19,7 +19,6 @@ public interface SettingsServer {
 	public static final String SEND_PARTECIPATION = "sendPartecipation.php";
 	public static final String YOUR_MAPME = "yourmapme.php";
 	public static final String SELECT_PARTECIPATION = "retrieveInformationByInvite.php";
-	public static final String INSERT_MAPPING = "insertMappingAfterAcceptPart.php";
 	public static final String GET_ALL_USER = "getAllUserInMapMe.php";
 	public static final String GET_ALL_MAPPING = "getMapping.php";
 	public static final String GET_MAPME = "getMapme.php";
@@ -33,7 +32,7 @@ public interface SettingsServer {
 	public static final String ALERT_PROXIMITY = "alert_proximity.php";
 	public static final String FACEBOOK="isFacebookAccess.php";
 	public static final String DELETE_ACCOUNT="deleteAccount.php";
-	 
 	public static final String MANAGEMENT_PARTECIPATION = "managementPartecipation.php";
+	public static final String INSERT_MAPPING_IN_LIVE="insertLiveMapping.php";
 	
 }
