@@ -47,7 +47,6 @@ public class MyLocation implements LocationListener  {
 	private static final long MIN_TIME_BW_UPDATES = 10000; // 15 seconds
 	protected LocationManager locationManager;
 	private SharedPreferences sp;
-	private boolean isInsertMapping=false;
 
 
 	public MyLocation(Activity act) {
@@ -67,8 +66,6 @@ public class MyLocation implements LocationListener  {
 		Criteria c = new Criteria();
 		c.setAccuracy(Criteria.ACCURACY_FINE);
 		c.setPowerRequirement(Criteria.POWER_LOW);
-		c.setAltitudeRequired(false);
-		c.setSpeedRequired(false);
 		locationManager = (LocationManager)act.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -77,7 +74,6 @@ public class MyLocation implements LocationListener  {
 			String provider = locationManager.getBestProvider(c, true);
 			location = locationManager.getLastKnownLocation(provider);
 
-
 			if(location!=null)
 				onLocationChanged(location);
 
@@ -85,40 +81,12 @@ public class MyLocation implements LocationListener  {
 		}else{
 			alertGPS("GPS disabled", "Do you want enable gps?");
 			if(isGPSEnabled || isNetworkEnabled){
-				String provider = locationManager.getBestProvider(c, true);
-				location = locationManager.getLastKnownLocation(provider);
-
-
-				if(location!=null)
-					onLocationChanged(location);
-
-				locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+				Intent i = new Intent(act, CompleteMapMeFirstTab.class);
+				act.finish();
+				act.startActivity(i);
 			}
 		}
 	}
-
-	public void alertGPS( String title, String message ){
-
-		new AlertDialog.Builder(act)
-		.setIcon(R.drawable.ic_launcher)
-		.setTitle( title )
-		.setMessage( message )
-		.setCancelable(false)
-		.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				//do stuff onclick of YES
-				arg0.dismiss();
-			}
-		})
-		.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				//do stuff onclick of CANCEL
-				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				act.startActivity(intent);
-			}
-		}).show();
-	}
-
 
 	public double getLatitude() {
 		return latitude;
@@ -137,7 +105,7 @@ public class MyLocation implements LocationListener  {
 			try{
 				latitude=location.getLatitude();
 				longitude=location.getLongitude();
-				Toast.makeText(act.getApplicationContext(), latitude+""+longitude, 3000).show();
+				Toast.makeText(act.getApplicationContext(), latitude+""+longitude, 2000).show();
 
 				new UpdateLocationUser().execute();
 
@@ -188,103 +156,29 @@ public class MyLocation implements LocationListener  {
 		protected String doInBackground(Void... params) {
 
 			try{
-
 				parameters.put("mapme", ""+sp.getInt("mapmeid", -1));
 				parameters.put("user", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 				parameters.put("lat", ""+latitude);
 				parameters.put("lon", ""+longitude);
-				parameters.put("mode", "2");
-				parameters.put("loc", "loc");
-				resp=DeviceController.getInstance().getServer().request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
-
+				parameters.put("loc", "Locatioin");
+				resp=DeviceController.getInstance().getServer().request(SettingsServer.INSERT_MAPPING_IN_LIVE, DeviceController.getInstance().getServer().setParameters(parameters));
 				return resp;
 			}catch (Exception e) {
 				Log.v("Errorlogin", ""+e.getMessage());
 				return null;
 			}
-
 		}
-
 
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
 			if(result!=null){
-				if(result.contains("0") ){
-					if(!isInsertMapping){
-						new InsertMappingUser().execute();
-					}
-
-				}else if(result.contains("-1")){
-					UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
-					isInsertMapping=false;
-				}else{
-					//update
-					isInsertMapping=true;
-					new RetrieveMapping().execute();	
-				}
-			}else
-				UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
-
-		}
-	}
-
-	class InsertMappingUser extends AsyncTask<MapMe, Void, String>{
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private String resp;
-
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-
-		}
-
-		@Override
-		protected String doInBackground(MapMe... params) {
-
-			try{
-
-				parameters.put("mapme", ""+sp.getInt("mapmeid", -1));
-				parameters.put("user", sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-				parameters.put("lat", ""+latitude);
-				parameters.put("lon", ""+longitude);
-				parameters.put("mode", "1");
-				parameters.put("loc", "loc");
-				resp=DeviceController.getInstance().getServer().request(SettingsServer.INSERT_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
-
-				return resp;
-			}catch (Exception e) {
-				Log.v("Errorlogin", ""+e.getMessage());
-				return null;
-			}
-
-		}
-
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-
-			if(result!=null){
-				if(result.contains("0")){
-					UtilAndroid.makeToast(act.getApplicationContext(), "Error insert", 5000);
-					isInsertMapping=false;
-				}else if(result.contains("-1")){
-					UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
-					isInsertMapping=false;
-				}else{
-					isInsertMapping=true;
+				if(result.contains("1")){
 					new RetrieveMapping().execute();
-				}
-
+				}else;
 			}else
-				UtilAndroid.makeToast(act.getApplicationContext(), "Error rete", 5000);
+				UtilAndroid.makeToast(act, "Wait for the loading of the position", 1000);
 		}
 	}
 
@@ -298,7 +192,6 @@ public class MyLocation implements LocationListener  {
 			if(!UtilAndroid.findConnection(act.getApplicationContext()))
 				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
 			else;
-
 		}
 
 		@Override
@@ -312,10 +205,8 @@ public class MyLocation implements LocationListener  {
 			}
 		}
 
-
 		@Override
 		protected void onPostExecute(JSONObject result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 
 			if(result==null){
@@ -330,6 +221,26 @@ public class MyLocation implements LocationListener  {
 				}
 			}
 		}
+	}
+
+	public void alertGPS( String title, String message ){
+
+		new AlertDialog.Builder(act)
+		.setIcon(R.drawable.ic_launcher)
+		.setTitle( title )
+		.setMessage( message )
+		.setCancelable(false)
+		.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				arg0.dismiss();
+			}
+		})
+		.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				act.startActivity(intent);
+			}
+		}).show();
 	}
 
 }

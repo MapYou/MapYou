@@ -174,16 +174,11 @@ public class NotificationAdapter extends BaseAdapter{
 
 			try {
 				String resp=null;
-				parameters.put("iduser", URLEncoder.encode(""+
-						(n.getNotificationType().equals("REQUEST")?
-								n.getNotifier().getModelID():
-									n.getNotified().getModelID()
-								), "UTF-8"));
+				parameters.put("iduser", URLEncoder.encode(""+(n.getNotificationType().equals("REQUEST")?n.getNotifier().getModelID():n.getNotified().getModelID()), "UTF-8"));
 				parameters.put("idnot",""+n.getModelID());
 				parameters.put("idm", ""+n.getNotificationObject().getModelID());
 				parameters.put("isAccept", ""+String.valueOf(params[0]));
-				resp=DeviceController.getInstance().getServer().
-						request(SettingsServer.MANAGEMENT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
+				resp=DeviceController.getInstance().getServer().request(SettingsServer.MANAGEMENT_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 
 				return resp;
