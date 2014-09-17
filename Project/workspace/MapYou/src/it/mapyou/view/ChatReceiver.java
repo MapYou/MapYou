@@ -7,14 +7,17 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
-import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
+
+import java.util.HashMap;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 /**
@@ -24,6 +27,7 @@ import android.os.Bundle;
 public class ChatReceiver extends BroadcastReceiver{
 
 	private boolean isBroadcast = false;
+ 
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -88,15 +92,25 @@ public class ChatReceiver extends BroadcastReceiver{
 		}
 	}
 
-	class UpdateNotification extends AbstractAsyncTask<ChatMessage, Void, ChatMessage>{
+	class UpdateNotification extends AsyncTask<ChatMessage, Void, ChatMessage>{
 
-		/**
-		 * @param act
-		 */
-		public UpdateNotification(Context act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		private HashMap<String, String> parameters=new HashMap<String, String>();
+		private Context c;
+		 
+		public UpdateNotification(Context c) {
+			this.c=c;
 		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(c))
+			{
+				UtilAndroid.makeToast(c, "Internet Connection not found", 5000);
+			}else;
+		}
+		
 		@Override
 		protected ChatMessage doInBackground(ChatMessage... params) {
 
@@ -114,7 +128,7 @@ public class ChatReceiver extends BroadcastReceiver{
 			}
 		}
 		@Override
-		protected void newOnPostExecute(ChatMessage result) {
+		protected void onPostExecute(ChatMessage result) {
 		
 			if(result != null){
 				if(isBroadcast)
