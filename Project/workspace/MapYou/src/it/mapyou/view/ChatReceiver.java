@@ -10,6 +10,8 @@ import it.mapyou.model.User;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import android.app.NotificationManager;
@@ -27,12 +29,13 @@ import android.os.Bundle;
 public class ChatReceiver extends BroadcastReceiver{
 
 	private boolean isBroadcast = false;
- 
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals("it.mapyou.action.CHAT_MESSAGE")){
-			String msg = "", title="", notif="", brod = "",ad="";
+			String msg = "", title="", notif="", brod = "",ad="",date="";
 			int id, mapme_id;
 			try {
 				Bundle b = intent.getExtras();
@@ -43,6 +46,7 @@ public class ChatReceiver extends BroadcastReceiver{
 				notif = b.getString("notif");
 				brod = b.getString("broadcast");
 				ad = b.getString("admin");
+				date=b.getString("date");
 				 
 			} catch (Exception e) {
 				msg = ""; title=""; notif="";
@@ -67,6 +71,13 @@ public class ChatReceiver extends BroadcastReceiver{
 				n.setNotifier(u);
 				n.setNotified(null);
 				n.setMessage(msg);
+				GregorianCalendar g= new GregorianCalendar();
+				try {
+					g.setTime(sdf.parse(date));
+				} catch (Exception e) {
+					UtilAndroid.makeToast(context, "Peppe ha rag", 5000);
+				}
+				n.setDate(g);
 				Intent notificationIntent = new Intent("it.mapyou.action.CHAT_MESSAGE_NO_UPDATE");
 				notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
@@ -120,8 +131,7 @@ public class ChatReceiver extends BroadcastReceiver{
 				parameters.put("idNot", String.valueOf(params[0].getModelID()));
 				parameters.put("state", "READ");
 
-				DeviceController.getInstance().getServer().
-				request(SettingsServer.UPDATE_NOT, DeviceController.getInstance().getServer().setParameters(parameters));
+				DeviceController.getInstance().getServer().request(SettingsServer.UPDATE_NOT, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return params[0];
 

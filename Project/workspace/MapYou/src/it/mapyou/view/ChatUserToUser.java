@@ -102,14 +102,6 @@ public class ChatUserToUser extends Activity{
 			n.setNotified(currentUser);
 			n.setNotifier(user);
 		}else;
-		Date d= new Date(System.currentTimeMillis());
-		GregorianCalendar g= new GregorianCalendar();
-		try {
-			g.setTime(sdf.parse(d.toString()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		n.setDate(g);
 		notif.add(0, n);
 		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
 	}
@@ -163,15 +155,7 @@ public class ChatUserToUser extends Activity{
 					n.setMessage(result);
 					n.setNotified(user);
 					n.setNotifier(currentUser);
-					Date d= new Date(System.currentTimeMillis());
-
 					GregorianCalendar g= new GregorianCalendar();
-					try {
-						g.setTime(sdf.parse(d.toString()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 					n.setDate(g);
 					updateGui(n);
 					mess.setText("");
