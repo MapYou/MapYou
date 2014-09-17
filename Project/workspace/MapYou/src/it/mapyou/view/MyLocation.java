@@ -4,11 +4,9 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.MapMe;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
-
-import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -22,7 +20,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -107,7 +104,7 @@ public class MyLocation implements LocationListener  {
 				longitude=location.getLongitude();
 				Toast.makeText(act.getApplicationContext(), latitude+""+longitude, 2000).show();
 
-				new UpdateLocationUser().execute();
+				new UpdateLocationUser(act).execute();
 
 			}catch (Exception e) {
 				Log.v("Error thread", e.getMessage());
@@ -138,19 +135,17 @@ public class MyLocation implements LocationListener  {
 	}
 
 
-	class UpdateLocationUser extends AsyncTask<Void, Void, String>{
+	class UpdateLocationUser extends AbstractAsyncTask<Void, Void, String>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private String resp;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-
+		/**
+		 * @param act
+		 */
+		public UpdateLocationUser(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
+
+		private String resp;
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -170,28 +165,27 @@ public class MyLocation implements LocationListener  {
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 
 			if(result!=null){
 				if(result.contains("1")){
-					new RetrieveMapping().execute();
+					new RetrieveMapping(act).execute();
 				}else;
 			}else
 				UtilAndroid.makeToast(act, "Wait for the loading of the position", 1000);
 		}
 	}
 
-	class RetrieveMapping extends AsyncTask<Void, Void, JSONObject>{
+	class RetrieveMapping extends AbstractAsyncTask<Void, Void, JSONObject>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
+		
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else;
+		/**
+		 * @param act
+		 */
+		public RetrieveMapping(Context act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -206,8 +200,7 @@ public class MyLocation implements LocationListener  {
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(JSONObject result) {
 
 			if(result==null){
 				UtilAndroid.makeToast(act.getApplicationContext(), "Please refresh Server....", 500);

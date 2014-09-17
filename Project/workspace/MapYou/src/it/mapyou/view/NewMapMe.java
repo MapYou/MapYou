@@ -11,6 +11,7 @@ import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.navigator.ConfigurationGeocodingApi;
 import it.mapyou.navigator.ParserDataFromGeocoding;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
@@ -28,11 +29,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -159,7 +158,7 @@ public class NewMapMe extends FragmentActivity {
 			mapMe.setName(nameMapMee);
 			mapMe.setAdministrator(admin);
 			mapMe.setMaxNumUsers(seek.getProgress());
-			SaveMapMe sv = new SaveMapMe();
+			SaveMapMe sv = new SaveMapMe(act);
 			sv.execute(mapMe);
 
 		}else
@@ -167,26 +166,17 @@ public class NewMapMe extends FragmentActivity {
 
 	}
 
-	class SaveMapMe extends AsyncTask<MapMe, Void, MapMe>{
+	class SaveMapMe extends AbstractAsyncTask<MapMe, Void, MapMe>{
+
+		/**
+		 * @param act
+		 */
+		public SaveMapMe(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
+		}
 
 		String response="";
-		HashMap<String, String> parameters= new HashMap<String, String>();
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
-		}
 
 		@Override
 		protected MapMe doInBackground(MapMe... params) {
@@ -215,8 +205,7 @@ public class NewMapMe extends FragmentActivity {
 		}
 
 		@Override
-		protected void onPostExecute(MapMe result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(MapMe result) {
 
 			if(result!=null && response!=null && response!="" && !response.equalsIgnoreCase("0")){
 				int idmapme=Integer.parseInt(response.toString().replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "").replaceAll("\r", ""));
@@ -250,7 +239,7 @@ public class NewMapMe extends FragmentActivity {
 		else{
 			if(add!=null && add.length()>0){
 				String url= ConfigurationGeocodingApi.getUrlFrom(add);
-				new SettingsTask(true).execute(url);
+				new SettingsTask(true, act).execute(url);
 			}
 			else
 				UtilAndroid.makeToast(getApplicationContext(), "Field cannot be empty", 5000);
@@ -265,7 +254,7 @@ public class NewMapMe extends FragmentActivity {
 		else{
 			if(add!=null && add.length()>0){
 				String url= ConfigurationGeocodingApi.getUrlFrom(add);
-				new SettingsTask(false).execute(url);
+				new SettingsTask(false,act).execute(url);
 			}
 			else
 				UtilAndroid.makeToast(getApplicationContext(), "Field cannot be empty", 5000);
@@ -284,27 +273,12 @@ public class NewMapMe extends FragmentActivity {
 	}
 
 
-	class SettingsTask extends AsyncTask<String, Void, List<HashMap<String,String>>>{
+	class SettingsTask extends AbstractAsyncTask<String, Void, List<HashMap<String,String>>>{
 
-		private ProgressDialog p;
 		
-		SettingsTask(boolean isStartt) {
+		SettingsTask(boolean isStartt, Activity a) {
+			super(a);
 			isStart=isStartt;
-
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
 
 		}
 
@@ -326,9 +300,7 @@ public class NewMapMe extends FragmentActivity {
 
 		@SuppressWarnings("deprecation")
 		@Override
-		protected void onPostExecute(List<HashMap<String, String>> result) {
-			super.onPostExecute(result);
-			p.dismiss();
+		protected void newOnPostExecute(List<HashMap<String, String>> result) {
 			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
 			if(result!=null && result.size()>0){
 

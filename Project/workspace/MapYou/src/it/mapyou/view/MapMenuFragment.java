@@ -4,13 +4,13 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.util.UtilAndroid;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -191,7 +191,7 @@ public class MapMenuFragment extends Fragment{
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
 		}else{
-			new AsyncTask<Void, Void, Boolean>(){
+			new AbstractAsyncTask<Void, Void, Boolean>(getActivity()){
 
 				@Override
 				protected Boolean doInBackground(Void... params){
@@ -208,7 +208,7 @@ public class MapMenuFragment extends Fragment{
 				}
 
 				@Override
-				protected void onPostExecute(Boolean result){
+				protected void newOnPostExecute(Boolean result){
 					
 					if (result == null|| result == false){
 						UtilAndroid.makeToast(mContext, "Not_logout", 5000);

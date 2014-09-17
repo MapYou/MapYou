@@ -4,16 +4,14 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -95,32 +93,20 @@ public class AdapterUsersMapMeOnDeleteUser extends BaseAdapter {
 	
 	public void deleteUser(){
 		if(countDeleting()>0)
-			new DeleteUser().execute();
+			new DeleteUser(cont).execute();
 		else
 			UtilAndroid.makeToast(cont, "There are no users to deleting.", 5000);
 	}
 
-	class DeleteUser extends AsyncTask<Void, Void, String>{
+	class DeleteUser extends AbstractAsyncTask<Void, Void, String>{
 
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont))
-				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(cont);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
+		/**
+		 * @param act
+		 */
+		public DeleteUser(Context act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
-
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -138,10 +124,8 @@ public class AdapterUsersMapMeOnDeleteUser extends BaseAdapter {
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 
-			p.dismiss();
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
 			}else{

@@ -2,22 +2,20 @@ package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.MapMeLayoutHome;
 
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,23 +24,21 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.android.Util;
-
 
 public class YourMapMeAdapter extends BaseAdapter{
 
 
 	private List<MapMe> mapme;
-	private Activity act;
+	private Context act;
 	private int userLogged;
 	private MapMe m;
 	private SharedPreferences sp;
 
-	public YourMapMeAdapter(Activity act, List<MapMe> allmapme, int userLogged) {
-		this.act=act;
+	public YourMapMeAdapter(Context act2, List<MapMe> allmapme, int userLogged) {
+		this.act=act2;
 		this.mapme=allmapme;
 		this.userLogged = userLogged;
-		sp=PreferenceManager.getDefaultSharedPreferences(act);
+		sp=PreferenceManager.getDefaultSharedPreferences(act2);
 
 	}
 
@@ -165,40 +161,22 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				new DeleteMapme(m.getModelID()).execute();
+				new DeleteMapme(m.getModelID(),act).execute();
 			}
 		});
 		
 		alert2.show();
 	}
 	
-	class DeleteMapme extends AsyncTask<Void, Void, String>{
+	class DeleteMapme extends AbstractAsyncTask<Void, Void, String>{
 
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private ProgressDialog p;
 		private int mapmeId;
 		
-		public DeleteMapme(int mapmeId) {
+		public DeleteMapme(int mapmeId, Context act) {
+			super(act);
 			this.mapmeId = mapmeId;
 		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act))
-				UtilAndroid.makeToast(act, "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
-		}
-
-
+		
 		@Override
 		protected String doInBackground(Void... params) {
 
@@ -214,10 +192,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-
-			p.dismiss();
+		protected void newOnPostExecute(String result) {
 			if(result==null){
 				UtilAndroid.makeToast(act, "Please refresh....", 5000);
 			}else{

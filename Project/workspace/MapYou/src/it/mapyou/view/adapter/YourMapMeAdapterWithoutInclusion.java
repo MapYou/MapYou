@@ -2,18 +2,16 @@ package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,15 +24,15 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 
 
 	private List<MapMe> mapme;
-	private Activity act;
+	private Context act;
 	private SharedPreferences sp;
 
 
-	public YourMapMeAdapterWithoutInclusion(Activity act, List<MapMe> allmapme) {
-		this.act=act;
+	public YourMapMeAdapterWithoutInclusion(Context act2, List<MapMe> allmapme) {
+		this.act=act2;
 		this.mapme=allmapme;
 
-		sp=PreferenceManager.getDefaultSharedPreferences(act);
+		sp=PreferenceManager.getDefaultSharedPreferences(act2);
 
 	}
 
@@ -102,7 +100,7 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						new RequestPartecipation().execute(m);
+						new RequestPartecipation(act).execute(m);
 					}
 				});
 
@@ -112,29 +110,15 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 		return convertView;
 	}
 	
-	class RequestPartecipation extends AsyncTask<MapMe, Void, String>{
+	class RequestPartecipation extends AbstractAsyncTask<MapMe, Void, String>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private String response;
-		private ProgressDialog p;
-
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act))
-				UtilAndroid.makeToast(act, "Internet Connection not found", 5000);
-
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+		/**
+		 * @param act
+		 */
+		public RequestPartecipation(Context act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
-
-
 		@Override
 		protected String doInBackground(MapMe... params) {
 
@@ -149,7 +133,7 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 				parameters.put("notif",  "You have received a request to partecipate by "+
 						sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
 
-				response=DeviceController.getInstance().getServer().
+				String response=DeviceController.getInstance().getServer().
 						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return response;
@@ -158,9 +142,8 @@ public class YourMapMeAdapterWithoutInclusion extends BaseAdapter{
 			}
 		}
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			p.dismiss();
+		protected void newOnPostExecute(String result) {
+			
 			if(result.contains("send")){
 				UtilAndroid.makeToast(act, "Request has been sended!", 5000);
 			}

@@ -6,19 +6,18 @@ package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.Notification;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,12 +30,12 @@ import android.widget.TextView;
  */
 public class NotificationAdapter extends BaseAdapter{
 
-	private Activity cont;
+	private Context cont;
 	private List<Notification> notif;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	public NotificationAdapter(Activity cont, List<Notification> notif) {
-		this.cont = cont;
+	public NotificationAdapter(Context act, List<Notification> notif) {
+		this.cont = act;
 		this.notif = notif;
 	}
 	
@@ -146,26 +145,26 @@ public class NotificationAdapter extends BaseAdapter{
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				new AcceptPartecipation(no).execute(true);
+				new AcceptPartecipation(no, cont).execute(true);
 			}
 		});
 		alert2.setButton3("Ignore", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				new AcceptPartecipation(no).execute(false);
+				new AcceptPartecipation(no, cont).execute(false);
 			}
 		});
 
 		alert2.show();
 	}
 	
-	class AcceptPartecipation extends AsyncTask<Boolean, Void, String>{
+	class AcceptPartecipation extends AbstractAsyncTask<Boolean, Void, String>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
 		private Notification n;
 		
-		public AcceptPartecipation(Notification n) {
+		public AcceptPartecipation(Notification n, Context cont) {
+			super(cont);
 			this.n = n;
 		}
 		
@@ -188,8 +187,7 @@ public class NotificationAdapter extends BaseAdapter{
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 
 			if(result!=null){
 				if(n.getNotificationType().equals("SEND")){

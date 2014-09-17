@@ -6,19 +6,16 @@ package it.mapyou.view.adapter;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
-import it.mapyou.util.UtilAndroid;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,12 +28,12 @@ import android.widget.TextView;
  */
 public class ChatNotificatioAdapter extends BaseAdapter{
 
-	private Activity cont;
+	private Context cont;
 	private List<ChatMessage> notif;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	public ChatNotificatioAdapter(Activity cont, List<ChatMessage> notif) {
-		this.cont = cont;
+	public ChatNotificatioAdapter(Context act, List<ChatMessage> notif) {
+		this.cont = act;
 		this.notif = notif;
 	}
 
@@ -91,7 +88,7 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				ChatMessage m = notif.get(position);
-				new UpdateNotification().execute(m);
+				new UpdateNotification(cont).execute(m);
 			}
 		});
 		return convertView;
@@ -115,28 +112,15 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 		alert2.show();
 	}
 	
-	class UpdateNotification extends AsyncTask<ChatMessage, Void, ChatMessage>{
+	class UpdateNotification extends AbstractAsyncTask<ChatMessage, Void, ChatMessage>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont))
-				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(cont);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
+		/**
+		 * @param cont
+		 */
+		public UpdateNotification(Context cont) {
+			super(cont);
+			// TODO Auto-generated constructor stub
 		}
-
-		// CHAT CHAT_BROADCAST
 		@Override
 		protected ChatMessage doInBackground(ChatMessage... params) {
 
@@ -154,9 +138,8 @@ public class ChatNotificatioAdapter extends BaseAdapter{
 			}
 		}
 		@Override
-		protected void onPostExecute(ChatMessage result) {
-			super.onPostExecute(result);
-			p.dismiss();
+		protected void newOnPostExecute(ChatMessage result) {
+			
 			if(result != null){
 				viewChatNotification(result);
 			}

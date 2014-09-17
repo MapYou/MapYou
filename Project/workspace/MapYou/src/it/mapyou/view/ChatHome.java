@@ -7,21 +7,19 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.AdapterChatHome;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -52,7 +50,7 @@ public class ChatHome extends Activity {
 		users = new ArrayList<User>();
 		sp=PreferenceManager.getDefaultSharedPreferences(this);
 		nameM.setText("Users in: "+UtilAndroid.CURRENT_MAPME.getName());
-		new DownloadAllUser().execute();
+		new DownloadAllUser(act).execute();
 	}
 
 	public void broadcast(View v){
@@ -65,27 +63,17 @@ public class ChatHome extends Activity {
 
 	}
 
-	class DownloadAllUser extends AsyncTask<Void, Void, JSONObject>{
+	class DownloadAllUser extends AbstractAsyncTask<Void, Void, JSONObject>{
 
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private JSONObject response;
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
+		/**
+		 * @param act
+		 */
+		public DownloadAllUser(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
 
+		private JSONObject response;
 
 		@Override
 		protected JSONObject doInBackground(Void... params) {
@@ -101,8 +89,7 @@ public class ChatHome extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(JSONObject result) {
 
 			p.dismiss();
 			if(result==null){
@@ -132,7 +119,7 @@ public class ChatHome extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refreshNotification:
-			new DownloadAllUser().execute();
+			new DownloadAllUser(act).execute();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

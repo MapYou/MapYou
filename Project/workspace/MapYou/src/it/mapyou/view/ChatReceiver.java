@@ -7,18 +7,14 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
-
-import java.util.HashMap;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 /**
@@ -93,28 +89,15 @@ public class ChatReceiver extends BroadcastReceiver{
 		}
 	}
 
-	class UpdateNotification extends AsyncTask<ChatMessage, Void, ChatMessage>{
+	class UpdateNotification extends AbstractAsyncTask<ChatMessage, Void, ChatMessage>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-
-		private Context act;
-
+		/**
+		 * @param act
+		 */
 		public UpdateNotification(Context act) {
-			this.act = act;
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
-
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(act.getApplicationContext()))
-				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-
-		}
-
-		// CHAT CHAT_BROADCAST
 		@Override
 		protected ChatMessage doInBackground(ChatMessage... params) {
 
@@ -132,9 +115,8 @@ public class ChatReceiver extends BroadcastReceiver{
 			}
 		}
 		@Override
-		protected void onPostExecute(ChatMessage result) {
-			super.onPostExecute(result);
-		 
+		protected void newOnPostExecute(ChatMessage result) {
+		
 			if(result != null){
 				if(isBroadcast)
 					BroadcastChat.updateGui(result);

@@ -6,11 +6,11 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.Notification;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.NotificationAdapter;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -18,7 +18,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -55,22 +54,16 @@ public class NotificationList extends Activity{
 	}
 	
 	private void retrieveAllPendingNotification(){
-		new RetrieveNotification().execute();
+		new RetrieveNotification(act, "Attempt while retrieving notifications...").execute();
 	}
 	
-	class RetrieveNotification extends AsyncTask<Void, Void, JSONObject>{
+	class RetrieveNotification extends AbstractAsyncTask<Void, Void, JSONObject>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-
+		public RetrieveNotification(Activity act, String message) {
+			super(act, message);
+			// TODO Auto-generated constructor stub
 		}
-		
+
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
@@ -84,15 +77,26 @@ public class NotificationList extends Activity{
 			return json;
 		}
 
+		/* (non-Javadoc)
+		 * @see it.mapyou.network.AbstractAsyncTask#newOnPostExecute(java.lang.Object)
+		 */
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(JSONObject result) {
 			if(result!=null) {
 				List<Notification> notifications = DeviceController.getInstance().getParsingController().getNotificationParser().parsingAllNotification(result);
 				if(notifications!=null)
 					listView.setAdapter(new NotificationAdapter(act, notifications));
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "There are no notifications...", 5000);
+		}
+
+		/* (non-Javadoc)
+		 * @see it.mapyou.network.AbstractAsyncTask#newOnPreExecute()
+		 */
+		@Override
+		protected void newOnPreExecute() {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 	

@@ -7,6 +7,7 @@ import it.mapyou.R;
 import it.mapyou.model.ChatMessage;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class ChatMessageAdapter extends BaseAdapter{
 		TextView dat = (TextView) convertView.findViewById(R.id.textMessageDate);
 		GregorianCalendar g = n.getDate();
 		if(g!=null)
-			dat.setText(sdf.format(g.getTime()));
+			dat.setText(getDay(g.get(Calendar.DAY_OF_WEEK))+"  "+sdf.format(g.getTime()));
 		else;
 		if(n.getNotifier().getModelID()==currentUserId)
 		{
@@ -90,6 +91,31 @@ public class ChatMessageAdapter extends BaseAdapter{
 
 
 		return convertView;
+	}
+
+	/**
+	 * @param i
+	 * @return
+	 */
+	private String getDay(int i) {
+		switch (i) {
+		case 2:
+			return "Lunedì";
+		case 3:
+			return "Martedì";
+		case 4:
+			return "Mercoledì";
+		case 5:
+			return "Giovedì";
+		case 6:
+			return "Venerdì";
+		case 7:
+			return "Sabato";
+		case 1:
+			return "Domenica";
+		default:
+			return "";
+		}
 	}
 
 }

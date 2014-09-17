@@ -6,23 +6,21 @@ import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.UserOnMapMe;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -31,8 +29,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.android.Util;
 
 public class AdapterUsersMapMe extends BaseAdapter {
 
@@ -97,33 +93,21 @@ public class AdapterUsersMapMe extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				new RetrieveMapping().execute(map.get(position).getModelID());
+				new RetrieveMapping(cont).execute(map.get(position).getModelID());
 			}
 		});
 		return convertView;
 	} 
 
-	class RetrieveMapping extends AsyncTask<Integer, Void, JSONObject>{
+	class RetrieveMapping extends AbstractAsyncTask<Integer, Void, JSONObject>{
 
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(cont))
-				UtilAndroid.makeToast(cont, "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(cont);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
+		/**
+		 * @param act
+		 */
+		public RetrieveMapping(Context act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
-
 
 		@Override
 		protected JSONObject doInBackground(Integer... params) {
@@ -140,10 +124,8 @@ public class AdapterUsersMapMe extends BaseAdapter {
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(JSONObject result) {
 
-			p.dismiss();
 			if(result==null){
 				UtilAndroid.makeToast(cont, "Please refresh....", 5000);
 			}else{

@@ -5,16 +5,15 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.EmailValidator;
 import it.mapyou.util.UtilAndroid;
 
 import java.net.URLEncoder;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -51,7 +50,7 @@ public class Register extends Activity{
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					new Registration().execute();
+					new Registration(act).execute();
 
 				}
 			}).start();
@@ -59,20 +58,17 @@ public class Register extends Activity{
 
 
 
-	class Registration extends AsyncTask<Void, Void, String>{
-		private String b;
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-	
-
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-			
+	class Registration extends AbstractAsyncTask<Void, Void, String>{
+		/**
+		 * @param act
+		 */
+		public Registration(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
+
+
+		private String b;
 
 		@Override
 		protected String doInBackground(Void... params) {
@@ -91,8 +87,7 @@ public class Register extends Activity{
 
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 			
 			if(!result.toString().contains("-1")){
 				UtilAndroid.makeToast(getApplicationContext(), "Registred", 5000);

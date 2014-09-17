@@ -2,33 +2,20 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.model.MapMe;
-import it.mapyou.model.Segment;
 import it.mapyou.model.User;
 import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +35,6 @@ public class Login extends FacebookController {
 	private SharedPreferences sp;
 	private User userLogin=null;
 	private String idnotification;
-	private Executor exc;
 	private Activity act;
 
 
@@ -61,7 +47,6 @@ public class Login extends FacebookController {
 		act = this;
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-		exc = Executors.newCachedThreadPool();
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
 		try {
@@ -78,7 +63,6 @@ public class Login extends FacebookController {
 	public void login (View v){
 		if(verifyField())
 			{
-//			new  LoginTask().execute();
 			new AbstractAsyncTask<Void, Void, Boolean>(act, "Loading...") {
 
 				private boolean isCorrectLogin;
@@ -161,90 +145,90 @@ public class Login extends FacebookController {
 	}  
 
 
-	class LoginTask extends AsyncTask<Void, Void, Boolean>{
-		private JSONObject jobj;
-		private boolean isCorrectLogin;
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-
-		private ProgressDialog p;
-
-		public LoginTask() {
-			p = new ProgressDialog(act);
-			p.setMessage("Loading...");
-			p.setIndeterminate(false);
-			p.setCancelable(true);
-			p.setCanceledOnTouchOutside(true);
-			p.setOnCancelListener(new OnCancelListener() {
-				
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					UtilAndroid.makeToast(act, "Dialog cancelled", 3000);
-					cancel(true);
-				}
-			});
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			p.show();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				{
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-				p.cancel();
-				}
-		
-
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-
-			try {
-
-				GCMRegistrar.checkDevice(Login.this);
-				GCMRegistrar.checkManifest(Login.this);
-
-				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
-					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
-				} else;
-
-				final String regId = GCMRegistrar.getRegistrationId(Login.this);
-				if(regId !=null && regId.length() >0){
-					idnotification=regId;
-					isCorrectLogin=true;
-					return isCorrectLogin;
-				}else
-					return false;
-
-			} catch (Exception e) {
-				return false;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
-			p.dismiss();
-			if(result && !isCancelled())
-				{
-//				new UpdateT().execute(result);
-				}
-			else
-				{
-				UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
-				}
-
-		}
-
-	}
-	
+//	class LoginTask extends AsyncTask<Void, Void, Boolean>{
+//		private JSONObject jobj;
+//		private boolean isCorrectLogin;
+//		private HashMap<String, String> parameters=new HashMap<String, String>();
+//
+//		private ProgressDialog p;
+//
+//		public LoginTask() {
+//			p = new ProgressDialog(act);
+//			p.setMessage("Loading...");
+//			p.setIndeterminate(false);
+//			p.setCancelable(true);
+//			p.setCanceledOnTouchOutside(true);
+//			p.setOnCancelListener(new OnCancelListener() {
+//				
+//				@Override
+//				public void onCancel(DialogInterface dialog) {
+//					UtilAndroid.makeToast(act, "Dialog cancelled", 3000);
+//					cancel(true);
+//				}
+//			});
+//		}
+//
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//			p.show();
+//			if(!UtilAndroid.findConnection(getApplicationContext()))
+//				{
+//				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
+//				p.cancel();
+//				}
+//		
+//
+//		}
+//
+//		@Override
+//		protected Boolean doInBackground(Void... params) {
+//
+//			try {
+//
+//				GCMRegistrar.checkDevice(Login.this);
+//				GCMRegistrar.checkManifest(Login.this);
+//
+//				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
+//					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
+//				} else;
+//
+//				final String regId = GCMRegistrar.getRegistrationId(Login.this);
+//				if(regId !=null && regId.length() >0){
+//					idnotification=regId;
+//					isCorrectLogin=true;
+//					return isCorrectLogin;
+//				}else
+//					return false;
+//
+//			} catch (Exception e) {
+//				return false;
+//			}
+//		}
+//
+//		@Override
+//		protected void onPostExecute(Boolean result) {
+//			super.onPostExecute(result);
+//			p.dismiss();
+//			if(result && !isCancelled())
+//				{
+////				new UpdateT().execute(result);
+//				}
+//			else
+//				{
+//				UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
+//				}
+//
+//		}
+//
+//	}
+//	
 	class UpdateT extends AbstractAsyncTask<Boolean, Void, JSONObject>{
 
 
 		private JSONObject jobj;
 		
-		public UpdateT(Activity act, String message) {
+		public UpdateT(Context act, String message) {
 			super(act, message);
 			// TODO Auto-generated constructor stub
 		}
@@ -329,47 +313,6 @@ public class Login extends FacebookController {
 			verify=true;
 		return verify;
 	}
-
-
-	class SaveMapMe extends AsyncTask<MapMe, Void, MapMe>{
-
-		String response="";
-		HashMap<String, String> parameters= new HashMap<String, String>();
-
-		@Override
-		protected MapMe doInBackground(MapMe... params) {
-
-
-			try {
-				Segment r= params[0].getSegment();
-				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().getNickname().toString(), "UTF-8"));
-
-				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
-				parameters.put("slat", ""+r.getStartPoint().getLatitude());
-				parameters.put("slon", ""+r.getStartPoint().getLongitude());
-				parameters.put("elat", ""+r.getEndPoint().getLatitude());
-				parameters.put("elon", ""+r.getEndPoint().getLongitude());
-				parameters.put("mnu", ""+params[0].getMaxNumUsers());
-				parameters.put("sadd", URLEncoder.encode(r.getStartPoint().getLocation().toString(), "UTF-8"));
-				parameters.put("eadd", URLEncoder.encode(r.getEndPoint().getLocation().toString(), "UTF-8"));
-				response=DeviceController.getInstance().getServer().
-						request(SettingsServer.NEW_MAPME, DeviceController.getInstance().getServer().setParameters(parameters));
-
-				return params[0];
-			} catch (UnsupportedEncodingException e) {
-				return null;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(MapMe result) {
-			super.onPostExecute(result);
-		}
-
-	}
-
-
 
 }
 

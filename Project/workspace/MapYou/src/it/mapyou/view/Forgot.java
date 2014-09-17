@@ -3,17 +3,15 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.EmailValidator;
 import it.mapyou.util.UtilAndroid;
-
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -43,23 +41,24 @@ public class Forgot extends Activity {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					new ForgotTask().execute();
+					new ForgotTask(getApplicationContext()).execute();
 				}
 			}).start();
 		}
 	}
 
-	class ForgotTask extends AsyncTask<Void, Void, String>{
+	class ForgotTask extends AbstractAsyncTask<Void, Void, String>{
+
+		/**
+		 * @param act
+		 */
+		public ForgotTask(Context act) {
+			super(act);
+			// TODO Auto-generated constructor stub
+		}
 
 		private String b;
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-		}
+		
 		@Override
 		protected String doInBackground(Void... params) {
 
@@ -74,8 +73,7 @@ public class Forgot extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 
 			if(result.equalsIgnoreCase("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "Please check your e-mail address", 5000);

@@ -2,6 +2,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.YourMapMeAdapter;
@@ -9,7 +10,6 @@ import it.mapyou.view.adapter.YourMapMeAdapterWithoutInclusion;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
@@ -47,22 +46,20 @@ public class YourMapMeActivity extends  Activity {
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
 		inclusion = getIntent().getBooleanExtra("inclusion", true);
-		new DownloadYourMapMe().execute(String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
+		new DownloadYourMapMe(act).execute(String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));
 	}
 
 
-	class DownloadYourMapMe extends AsyncTask<String, Void, JSONObject>{
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		 
-		@Override
-		protected void onPreExecute() {
-			
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else;
-		}
+	class DownloadYourMapMe extends AbstractAsyncTask<String, Void, JSONObject>{
 		
+		/**
+		 * @param act
+		 */
+		public DownloadYourMapMe(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
+		}
+
 		@Override
 		protected JSONObject doInBackground(String... params) {
 
@@ -79,9 +76,8 @@ public class YourMapMeActivity extends  Activity {
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
-		 
+		protected void newOnPostExecute(JSONObject result) {
+		
 			List<MapMe> allMapme= DeviceController.getInstance().getParsingController().getMapmeParser().parsingAllMapMe(result);
 			if(allMapme!=null){
 				listView.setAdapter(inclusion?

@@ -4,6 +4,7 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.User;
+import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.AdapterUsersMapMe;
@@ -11,7 +12,6 @@ import it.mapyou.view.adapter.AdapterUsersMapMeOnDeleteUser;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -20,11 +20,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -89,7 +87,7 @@ public class MapMeSecondTab_User extends Activity {
 			}
 		});
 
-		new DownloadAllUser().execute();
+		new DownloadAllUser(act).execute();
 		sendDialog();
 
 
@@ -142,7 +140,7 @@ public class MapMeSecondTab_User extends Activity {
 								@Override
 								public void run() {
 
-									new DownloadUserAndSend().execute(nickname);
+									new DownloadUserAndSend(act).execute(nickname);
 
 								}
 							}).start();
@@ -163,34 +161,23 @@ public class MapMeSecondTab_User extends Activity {
 	}
 
 
-	class DownloadAllUser extends AsyncTask<Void, Void, JSONObject>{
+	class DownloadAllUser extends AbstractAsyncTask<Void, Void, JSONObject>{
+		
 
-
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private JSONObject response;
-		private ProgressDialog p;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else{
-				p = new ProgressDialog(act);
-				p.setMessage("Loading...");
-				p.setIndeterminate(false);
-				p.setCancelable(false);
-				p.show();
-			}
-
-		}		
+		/**
+		 * @param act
+		 */
+		public DownloadAllUser(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
+		}
 
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 
 			try {
 				parameters.put("idm",String.valueOf(mapme.getModelID()));
-				response=DeviceController.getInstance().getServer().
+				JSONObject response=DeviceController.getInstance().getServer().
 						requestJson(SettingsServer.GET_ALL_USER, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
@@ -199,9 +186,7 @@ public class MapMeSecondTab_User extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
-			p.dismiss();
+		protected void newOnPostExecute(JSONObject result) {
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
@@ -223,21 +208,15 @@ public class MapMeSecondTab_User extends Activity {
 		}
 	}
 
-	class DownloadUserAndSend extends AsyncTask<String, Void, String>{
+	class DownloadUserAndSend extends AbstractAsyncTask<String, Void, String>{
 
-		private HashMap<String, String> parameters=new HashMap<String, String>();
-		private String response;
-	 
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if(!UtilAndroid.findConnection(getApplicationContext()))
-				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-			else;
+		/**
+		 * @param act
+		 */
+		public DownloadUserAndSend(Activity act) {
+			super(act);
+			// TODO Auto-generated constructor stub
 		}
-
-
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -250,7 +229,7 @@ public class MapMeSecondTab_User extends Activity {
 				parameters.put("title",  "MapYou: invite for mapme");
 				parameters.put("notif",  "You have received an invitation from "+mapme.getAdministrator().getNickname());
 
-				response=DeviceController.getInstance().getServer().
+				String response=DeviceController.getInstance().getServer().
 						request(SettingsServer.SEND_PARTECIPATION, DeviceController.getInstance().getServer().setParameters(parameters));
 
 				return response;
@@ -259,8 +238,7 @@ public class MapMeSecondTab_User extends Activity {
 			}
 		}
 		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected void newOnPostExecute(String result) {
 			 
 			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
@@ -276,7 +254,7 @@ public class MapMeSecondTab_User extends Activity {
 	}
 
 	public void refresh(View v){
-		new DownloadAllUser().execute();
+		new DownloadAllUser(act).execute();
 	}
 	
 	public void deleteUser(View v){
@@ -306,7 +284,7 @@ public class MapMeSecondTab_User extends Activity {
 		}else{
 			setContentView(R.layout.mapme_second_tab);
 			gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
-			new DownloadAllUser().execute();
+			new DownloadAllUser(act).execute();
 		}
 	}
 
