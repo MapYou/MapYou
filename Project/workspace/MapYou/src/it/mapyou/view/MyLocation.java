@@ -89,7 +89,6 @@ public class MyLocation implements LocationListener  {
 	@Override
 	public void onLocationChanged(Location location) {
 
-
 		if(location!=null){
 			try{
 				latitude=location.getLatitude();
