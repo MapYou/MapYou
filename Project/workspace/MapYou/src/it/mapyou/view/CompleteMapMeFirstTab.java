@@ -33,9 +33,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -65,8 +67,8 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 	public static MyLocation getMyloc() {
 		return myloc;
 	}
- 
-	
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
 				myloc = new MyLocation(this,sp);
 				myloc.start();
-			 
+
 				// download route
 				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 
@@ -163,7 +165,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 
 						@Override
 						public void run() {
-							 
+
 							try {
 								showMap();
 							} catch (Exception e) {
@@ -194,9 +196,6 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt).setPosition(new LatLng(end.getLatitude(), end.getLongitude()));
-
-				//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
-				//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
 			if (st != null) {
 				MarkerOptions opt = new MarkerOptions();
@@ -221,13 +220,18 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				MarkerOptions opt = new MarkerOptions();
 
 				opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
-				opt.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+				opt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 				opt.title(u.getNickname());
 				opt.snippet(p.getLocation());
 				opt.visible(true);
+
 				marker=googleMap.addMarker(opt);
 				listOfMarker.add(marker);
+
+				if(u.getNickname().equals(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""))){
+					CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
+					googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
+				}else;
 			}
 		} catch (Exception e) {
 			UtilAndroid.makeToast(getApplicationContext(), "Error drawing routes", 2000);
