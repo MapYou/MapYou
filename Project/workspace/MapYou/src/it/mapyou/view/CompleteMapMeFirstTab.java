@@ -229,7 +229,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				listOfMarker.add(marker);
 
 				if(u.getNickname().equals(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""))){
-					CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
+					CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(7).build();
 					googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 				}else;
 			}
