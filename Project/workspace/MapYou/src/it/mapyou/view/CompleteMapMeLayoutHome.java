@@ -44,11 +44,10 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		}
 		tabHost = getTabHost();
 
-		final CompleteMapMeFirstTab cc = new CompleteMapMeFirstTab();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
 		first_completeMapMeTab.setIndicator("Live", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
-		Intent mapmeTabIntent = new Intent(this, cc.getClass());
+		Intent mapmeTabIntent = new Intent(this, CompleteMapMeFirstTab.class);
 		first_completeMapMeTab.setContent(mapmeTabIntent);
 
 		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
@@ -64,11 +63,11 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 
 			@Override
 			public void onTabChanged(String tabId) {
-				MyLocation m = cc.getMyloc();
+				MyLocation m = CompleteMapMeFirstTab.getMyloc();
 				if(tabHost.getCurrentTab()==1){
 					if(m!=null)
 						m.stop();
-				}
+				}	
 			}
 		});
 	}
@@ -84,15 +83,7 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	//	@Override
-	//	public void onBackPressed() {
-	//		super.onBackPressed();
-	//		
-	//		startActivity(new Intent(this, MapMeLayoutHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-	//	}
+
 
 
 

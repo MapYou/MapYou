@@ -55,6 +55,8 @@ public class MyLocation implements LocationListener  {
 		location=null;
 		locationManager.removeUpdates(this);
 	}
+	
+
 
 	public void start(){
 		 

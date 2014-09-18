@@ -26,11 +26,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -54,7 +52,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 	private MapMe mapme;
 	private Context cont;
 	private Activity act;
-	private MyLocation myloc;
+	private static MyLocation myloc;
 	private List<MappingUser> mappings;
 	private FileControllerCache fileCache;
 	private List<Marker> listOfMarker;
@@ -64,26 +62,11 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 	/**
 	 * @return the myloc
 	 */
-	public MyLocation getMyloc() {
+	public static MyLocation getMyloc() {
 		return myloc;
 	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
-		myloc = new MyLocation(this,sp);
-		myloc.start();
-	}
+ 
 	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onPause()
-	 */
-	@Override
-	protected void onPause() {
-		if(myloc!=null)
-			myloc.stop();
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +81,11 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 
 			if (initilizeMap()) {
 				fileCache = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, cont);
-				 
 				mappings = new ArrayList<MappingUser>();
 				listOfMarker= new ArrayList<Marker>();
+				sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
+				myloc = new MyLocation(this,sp);
+				myloc.start();
 			 
 				// download route
 				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
@@ -114,10 +99,6 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 					}
 				};
 				t.schedule(tt, 5000, 15000);
-
-				//				}else
-				//					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
-
 			} else
 				UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
 		}
