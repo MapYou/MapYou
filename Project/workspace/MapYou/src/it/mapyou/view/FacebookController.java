@@ -53,7 +53,7 @@ import com.google.android.gcm.GCMRegistrar;
  */
 
 @SuppressWarnings("deprecation")
-public abstract class FacebookController extends Activity {
+public abstract class FacebookController extends MapyouActivity {
 
 	public static final String TAG = "FACEBOOK";
 	private Facebook mFacebook;
@@ -99,7 +99,7 @@ public abstract class FacebookController extends Activity {
 	}
 
 
-	//porco di Zukkkkemberg
+	//logout 
 	public void logoutFacebookSession(){
 		new AsyncTask<Void, Void, Boolean>(){
 

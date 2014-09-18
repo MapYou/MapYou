@@ -23,7 +23,7 @@ import android.widget.EditText;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class Register extends Activity{
+public class Register extends MapyouActivity{
 
 	private EditText nickname;
 	private EditText password;

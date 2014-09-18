@@ -7,6 +7,7 @@ import it.mapyou.util.UtilAndroid;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
@@ -58,14 +59,15 @@ public class FileControllerCache  {
 			while((line=reader.readLine()) !=null){
 				bf.append(line);
 			}
-			UtilAndroid.makeToast(c.getApplicationContext(), ""+bf.length(), 500);
+			UtilAndroid.makeToast(c.getApplicationContext(), ""+bf.length(), 2000);
 
 		} catch (Exception e) {
 			UtilAndroid.makeToast(c.getApplicationContext(), "Doesn't read from file", 500);
 
 		}
 		finally{
-			reader.close();
+			if(reader!=null)
+				reader.close();
 
 		}
 	}
@@ -86,11 +88,17 @@ public class FileControllerCache  {
 			return bf.toString();
 
 		} catch (Exception e) {
-			return null;
+			if( e instanceof FileNotFoundException)
+				{
+				FileOutputStream ff=c.openFileOutput(name_of_file, 0);
+				ff.close();
+				return readS();
+				}
+			else return null;
 		}
 		finally{
-
-			reader.close();
+			if(reader!=null)
+				reader.close();
 
 		}
 	}

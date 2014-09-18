@@ -74,6 +74,7 @@ public class AdapterChatHome extends BaseAdapter {
 			public void onClick(View v) {
 				User user = u.get(position);
 				Intent it = new Intent(cont, ChatUserToUser.class);
+				it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				Bundle b = new Bundle();
 				b.putSerializable("user", user);
 				it.putExtras(b);

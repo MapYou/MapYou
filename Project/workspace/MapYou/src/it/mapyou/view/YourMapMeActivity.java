@@ -21,12 +21,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 
-public class YourMapMeActivity extends  Activity {
+public class YourMapMeActivity extends  MapyouActivity {
 
 
 	private Activity act;
 	private ListView listView;
-	private SharedPreferences sp;
 	private boolean inclusion;
 
 	@Override
@@ -43,7 +42,6 @@ public class YourMapMeActivity extends  Activity {
 		setTitle("Your MapMe");
 		act = this;
 		listView = (ListView) findViewById(R.id.list);
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
 		inclusion = getIntent().getBooleanExtra("inclusion", true);
 		new DownloadYourMapMe(act).execute(String.valueOf(sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)));

@@ -1,7 +1,6 @@
 
 package it.mapyou.view;
 
-import it.mapyou.R;
 import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.network.SettingsServer;
@@ -12,9 +11,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
@@ -23,8 +20,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -48,10 +43,11 @@ public class MyLocation implements LocationListener  {
 	private SharedPreferences sp;
 
 
-	public MyLocation(Activity act) {
+	public MyLocation(Activity act,SharedPreferences sp) {
 		this.act = act;
-		sp=PreferenceManager.getDefaultSharedPreferences(act.getApplicationContext());
+		this.sp=sp;
 		fileCahce = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, act.getApplicationContext());
+		
 
 	}
 
@@ -61,10 +57,8 @@ public class MyLocation implements LocationListener  {
 	}
 
 	public void start(){
-
+		 
 		Criteria c = new Criteria();
-		//		c.setAccuracy(Criteria.ACCURACY_FINE);
-		//		c.setPowerRequirement(Criteria.POWER_LOW);
 		locationManager = (LocationManager)act.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -121,22 +115,17 @@ public class MyLocation implements LocationListener  {
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 
 	class UpdateLocationUser extends AsyncTask<Void, Void, String>{
 
 		private HashMap<String, String> parameters=new HashMap<String, String>();
-
 		private String resp;
 
 		@Override
@@ -192,11 +181,12 @@ public class MyLocation implements LocationListener  {
 				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
 			}else;
 		}
-		
+
 		@Override
 		protected JSONObject doInBackground(Void... params) {
 			try {
 				parameters.put("mapme", String.valueOf(sp.getInt("mapmeid", -1)));
+
 				JSONObject response=DeviceController.getInstance().getServer().requestJson(SettingsServer.GET_ALL_MAPPING, DeviceController.getInstance().getServer().setParameters(parameters));
 				return response;
 			} catch (Exception e) {
@@ -211,8 +201,9 @@ public class MyLocation implements LocationListener  {
 				UtilAndroid.makeToast(act.getApplicationContext(), "Please refresh Server....", 500);
 			}else{
 				try {
+
 					fileCahce.write(result.toString());
-					//fileCahce.read();
+	//				fileCahce.read();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -221,6 +212,6 @@ public class MyLocation implements LocationListener  {
 		}
 	}
 
-	
+
 
 }

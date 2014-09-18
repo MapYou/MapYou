@@ -51,7 +51,7 @@ public class DeleteAccount extends Setting{
 	
 	private void confirmPassword(){
 		Builder builder = new AlertDialog.Builder(act);
-		builder.setTitle("Insert nickname");
+		builder.setTitle("Help!");
 		builder.setCancelable(true);
 		LayoutInflater inflater = act.getLayoutInflater();
 		View sendView = inflater.inflate(R.layout.send_partecipation_dialog, null);
@@ -70,11 +70,14 @@ public class DeleteAccount extends Setting{
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String nickname = ed.getText().toString();
-				if(nickname.equals(
-						sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, "")))
+				if(nickname.equals(sp.getString(UtilAndroid.KEY_EMAIL_USER_LOGGED, "")))
 						delete(sp.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, ""));
-				else
+				else{
 					dialog.dismiss();
+					UtilAndroid.makeToast(act, "Email not correct", 2000);
+					
+				}
+					
 			}
 		});
 		builder.create().show();

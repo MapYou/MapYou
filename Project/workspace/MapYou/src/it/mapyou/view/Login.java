@@ -32,7 +32,6 @@ public class Login extends FacebookController {
 
 	private EditText user;
 	private EditText password;
-	private SharedPreferences sp;
 	private User userLogin=null;
 	private String idnotification;
 	private Activity act;
@@ -45,8 +44,6 @@ public class Login extends FacebookController {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 
 		act = this;
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
 		user=(EditText) findViewById(R.id.user_login_Login);
 		password=(EditText) findViewById(R.id.user_password_Login);
 		try {
@@ -145,84 +142,7 @@ public class Login extends FacebookController {
 	}  
 
 
-//	class LoginTask extends AsyncTask<Void, Void, Boolean>{
-//		private JSONObject jobj;
-//		private boolean isCorrectLogin;
-//		private HashMap<String, String> parameters=new HashMap<String, String>();
-//
-//		private ProgressDialog p;
-//
-//		public LoginTask() {
-//			p = new ProgressDialog(act);
-//			p.setMessage("Loading...");
-//			p.setIndeterminate(false);
-//			p.setCancelable(true);
-//			p.setCanceledOnTouchOutside(true);
-//			p.setOnCancelListener(new OnCancelListener() {
-//				
-//				@Override
-//				public void onCancel(DialogInterface dialog) {
-//					UtilAndroid.makeToast(act, "Dialog cancelled", 3000);
-//					cancel(true);
-//				}
-//			});
-//		}
-//
-//		@Override
-//		protected void onPreExecute() {
-//			super.onPreExecute();
-//			p.show();
-//			if(!UtilAndroid.findConnection(getApplicationContext()))
-//				{
-//				UtilAndroid.makeToast(getApplicationContext(), "Internet Connection not found", 5000);
-//				p.cancel();
-//				}
-//		
-//
-//		}
-//
-//		@Override
-//		protected Boolean doInBackground(Void... params) {
-//
-//			try {
-//
-//				GCMRegistrar.checkDevice(Login.this);
-//				GCMRegistrar.checkManifest(Login.this);
-//
-//				if (!GCMRegistrar.isRegisteredOnServer(Login.this)) {
-//					GCMRegistrar.register(Login.this, SettingsNotificationServer.GOOGLE_SENDER_ID);
-//				} else;
-//
-//				final String regId = GCMRegistrar.getRegistrationId(Login.this);
-//				if(regId !=null && regId.length() >0){
-//					idnotification=regId;
-//					isCorrectLogin=true;
-//					return isCorrectLogin;
-//				}else
-//					return false;
-//
-//			} catch (Exception e) {
-//				return false;
-//			}
-//		}
-//
-//		@Override
-//		protected void onPostExecute(Boolean result) {
-//			super.onPostExecute(result);
-//			p.dismiss();
-//			if(result && !isCancelled())
-//				{
-////				new UpdateT().execute(result);
-//				}
-//			else
-//				{
-//				UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
-//				}
-//
-//		}
-//
-//	}
-//	
+
 	class UpdateT extends AbstractAsyncTask<Boolean, Void, JSONObject>{
 
 
@@ -266,7 +186,7 @@ public class Login extends FacebookController {
 						if(userLogin!=null && userLogin.getModelID() >0){
 
 							Editor ed = sp.edit();
-							ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname());
+							ed.putString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, userLogin.getNickname().replaceAll(" ", ""));
 							ed.putString(UtilAndroid.KEY_EMAIL_USER_LOGGED, userLogin.getEmail());
 							ed.putInt(UtilAndroid.KEY_ID_USER_LOGGED, userLogin.getModelID());
 							ed.putString(UtilAndroid.KEY_NOTIFICATION,idnotification);

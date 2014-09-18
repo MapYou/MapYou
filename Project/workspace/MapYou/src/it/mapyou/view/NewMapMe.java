@@ -87,7 +87,7 @@ public class NewMapMe extends FragmentActivity {
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setTitle("New MapMe");
 		act=this;
-		
+
 		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		start= (EditText) findViewById(R.id.EditTextStartMapme);
 		dest= (EditText) findViewById(R.id.editTextDestinazione);
@@ -97,19 +97,19 @@ public class NewMapMe extends FragmentActivity {
 		seek.setMax(UtilAndroid.MAX_NUM_USER_IN_MAPME);
 		textMaxUsers.setText(String.valueOf(seek.getProgress()));
 		seek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			
+
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
@@ -117,11 +117,11 @@ public class NewMapMe extends FragmentActivity {
 			}
 		});
 		initilizeMap();
-		
+
 	}
-	
+
 	public void setMaxNumOfUsers(View v){
-		
+
 	}
 
 	public void save (View v){
@@ -131,38 +131,43 @@ public class NewMapMe extends FragmentActivity {
 		String nameMapMee= nameMapMe.getText().toString();
 		UtilAndroid.makeToast(getApplicationContext(), nickname, 5000);
 		if(nickname.length()>0 && nameMapMee!=null && nameMapMee.length()>0 && startMarker!=null && endMarker!=null){
-			double slat = startMarker.getPosition().latitude;
-			double slong = startMarker.getPosition().longitude;
-			String sadd = startMarker.getSnippet();
+			if(seek.getProgress() ==0)
+				UtilAndroid.makeToast(getApplicationContext(), "Please insert the maximum number of users!", 5000);
 
-			double elat = endMarker.getPosition().latitude;
-			double elong = endMarker.getPosition().longitude;
-			String eadd = endMarker.getSnippet();
+			else{
+				double slat = startMarker.getPosition().latitude;
+				double slong = startMarker.getPosition().longitude;
+				String sadd = startMarker.getSnippet();
 
-			MapMe mapMe = new MapMe();
-			Route route = new Route();
-			User admin = new User();
-			admin.setNickname(nickname);
-			admin.setModelID(iduser);
-			Point startPoint= new Point();
-			Point endPoint = new Point();
-			startPoint.setLatitude(slat);
-			startPoint.setLongitude(slong);
-			endPoint.setLatitude(elat);
-			endPoint.setLongitude(elong);
-			startPoint.setLocation(sadd);
-			endPoint.setLocation(eadd);
-			route.setStartPoint(startPoint);
-			route.setEndPoint(endPoint);
-			mapMe.setSegment(route);
-			mapMe.setName(nameMapMee);
-			mapMe.setAdministrator(admin);
-			mapMe.setMaxNumUsers(seek.getProgress());
-			SaveMapMe sv = new SaveMapMe(act);
-			sv.execute(mapMe);
+				double elat = endMarker.getPosition().latitude;
+				double elong = endMarker.getPosition().longitude;
+				String eadd = endMarker.getSnippet();
+
+				MapMe mapMe = new MapMe();
+				Route route = new Route();
+				User admin = new User();
+				admin.setNickname(nickname);
+				admin.setModelID(iduser);
+				Point startPoint= new Point();
+				Point endPoint = new Point();
+				startPoint.setLatitude(slat);
+				startPoint.setLongitude(slong);
+				endPoint.setLatitude(elat);
+				endPoint.setLongitude(elong);
+				startPoint.setLocation(sadd);
+				endPoint.setLocation(eadd);
+				route.setStartPoint(startPoint);
+				route.setEndPoint(endPoint);
+				mapMe.setSegment(route);
+				mapMe.setName(nameMapMee);
+				mapMe.setAdministrator(admin);
+				mapMe.setMaxNumUsers(seek.getProgress()+1);
+				SaveMapMe sv = new SaveMapMe(act);
+				sv.execute(mapMe);
+			}
 
 		}else
-			UtilAndroid.makeToast(getApplicationContext(), "Please insert all required information.", 5000);
+			UtilAndroid.makeToast(getApplicationContext(), "Please insert all required information!", 5000);
 
 	}
 
@@ -211,10 +216,10 @@ public class NewMapMe extends FragmentActivity {
 				int idmapme=Integer.parseInt(response.toString().replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "").replaceAll("\r", ""));
 				result.setModelID(idmapme);
 				UtilAndroid.CURRENT_MAPME = result;
-//				Bundle b = new Bundle();
-//				b.putParcelable("mapme", mapmeNew);
+				//				Bundle b = new Bundle();
+				//				b.putParcelable("mapme", mapmeNew);
 				Intent i = new Intent(act, MapMeLayoutHome.class);
-//				i.putExtras(b);
+				//				i.putExtras(b);
 				i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				startActivity(i);
 			}
@@ -230,7 +235,7 @@ public class NewMapMe extends FragmentActivity {
 		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(i);
 	}
-	
+
 	public void start (View v){
 
 		String add= start.getText().toString().replace(" ", "%20");
@@ -262,7 +267,7 @@ public class NewMapMe extends FragmentActivity {
 	}
 
 	public void cleanMap(View v){
-		 
+
 		if(googleMap!=null && (startMarker!=null || endMarker!=null)){
 			googleMap.clear();startMarker=null;endMarker=null;
 			Intent i= new Intent(act, NewMapMe.class);
@@ -275,7 +280,7 @@ public class NewMapMe extends FragmentActivity {
 
 	class SettingsTask extends AbstractAsyncTask<String, Void, List<HashMap<String,String>>>{
 
-		
+
 		SettingsTask(boolean isStartt, Activity a) {
 			super(a);
 			isStart=isStartt;
@@ -324,7 +329,7 @@ public class NewMapMe extends FragmentActivity {
 					address=null;
 					elements=null;
 					elements=getAllElements(allElements);
-					
+
 				}else;
 				if(address==null && count==0){
 					count=1;
@@ -334,7 +339,7 @@ public class NewMapMe extends FragmentActivity {
 					elements2=getAllElements(allElements);
 					count=0;
 					showDialog(DIALOG2);
-					
+
 				}
 				else{
 					double latitude= Double.parseDouble(""+lat);
@@ -516,10 +521,10 @@ public class NewMapMe extends FragmentActivity {
 
 		switch (id) {
 		case DIALOG: 
-			
+
 			return customDialogSelected();
-		
-			
+
+
 		case DIALOG2:
 			return customDialogSelected2();
 
@@ -528,8 +533,8 @@ public class NewMapMe extends FragmentActivity {
 			return null;
 		}
 	}
-	
-	 
+
+
 }
 
 

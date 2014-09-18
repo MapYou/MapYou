@@ -27,18 +27,17 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMeFirstTab extends Activity {
+public class MapMeFirstTab extends MapyouActivity {
 	private MapMe mapme;
 	private TextView textNickname, textStart, textend;
 	private ImageView img;
-	private SharedPreferences sppp;
+	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapme_first_tab);
-		sppp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		textNickname = (TextView) findViewById(R.id.textViewNickname);
 		textStart = (TextView) findViewById(R.id.textViewStartLocation);
 		textend = (TextView) findViewById(R.id.textViewEndLocation);
@@ -46,13 +45,13 @@ public class MapMeFirstTab extends Activity {
 		mapme = UtilAndroid.CURRENT_MAPME;
 		textNickname.setText(mapme.getAdministrator().getNickname());
 		Segment route = mapme.getSegment();
-		Point sp = route.getStartPoint();
+		Point spp = route.getStartPoint();
 		Point ep = route.getEndPoint();
 		textend.setText(ep.getLocation());
-		textStart.setText(sp.getLocation());
+		textStart.setText(spp.getLocation());
 
 
-		if(sppp.getString("facebook", "")!=""){
+		if(sp.getString("facebook", "")!=""){
 			Bitmap b= BitmapParser.getThumbnail(getApplicationContext());
 			img.setImageBitmap(b);
 		}
@@ -60,13 +59,7 @@ public class MapMeFirstTab extends Activity {
 
 	}
 
-
-	@Override
-	public void onBackPressed() {
-		Intent i = new Intent(this, DrawerMain.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(i);
-	}
+ 
 
 	public void live(View v){
 
@@ -74,7 +67,8 @@ public class MapMeFirstTab extends Activity {
 		LocationManager locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 		isGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		if(isGPS)
-			startActivity(new Intent(this, CompleteMapMeLayoutHome.class));
+			startActivity(new Intent(this, CompleteMapMeLayoutHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+		
 		else
 		{
 			alertGPS("GPS disabled", "Do you want enable gps?");
@@ -82,7 +76,7 @@ public class MapMeFirstTab extends Activity {
 			boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 			if(isGPSEnabled || isNetworkEnabled){
-				startActivity(new Intent(this, CompleteMapMeLayoutHome.class));
+				startActivity(new Intent(this, CompleteMapMeLayoutHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "Wait for GPS signal...", 5000);
 		}
@@ -106,5 +100,13 @@ public class MapMeFirstTab extends Activity {
 				startActivity(intent);
 			}
 		}).show();
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent i = new Intent(this, DrawerMain.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
 	}
 }

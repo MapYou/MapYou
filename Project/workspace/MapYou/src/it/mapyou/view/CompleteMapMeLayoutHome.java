@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 /**
@@ -32,17 +33,22 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		setTitle(UtilAndroid.CURRENT_MAPME.getName());
 		setContentView(R.layout.complete_mapme_layout);
 
-
-
-
 		Bundle bund = new Bundle();
 		bund.putParcelable("mapme", UtilAndroid.CURRENT_MAPME);
 
+		int id=0;
+		try {
+			id= getIntent().getIntExtra("currentTab", 0);
+		} catch (Exception e) {
+			id=0;
+		}
 		tabHost = getTabHost();
+
+		final CompleteMapMeFirstTab cc = new CompleteMapMeFirstTab();
 
 		TabSpec first_completeMapMeTab = tabHost.newTabSpec("MapMe");
 		first_completeMapMeTab.setIndicator("Live", getResources().getDrawable(R.drawable.icon_mepme_first_tab));
-		Intent mapmeTabIntent = new Intent(this, CompleteMapMeFirstTab.class);
+		Intent mapmeTabIntent = new Intent(this, cc.getClass());
 		first_completeMapMeTab.setContent(mapmeTabIntent);
 
 		TabSpec second_completeMapMeTab = tabHost.newTabSpec("Users");        
@@ -52,6 +58,19 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 
 		tabHost.addTab(first_completeMapMeTab);
 		tabHost.addTab(second_completeMapMeTab);
+
+		tabHost.setCurrentTab(id);
+		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+			@Override
+			public void onTabChanged(String tabId) {
+				MyLocation m = cc.getMyloc();
+				if(tabHost.getCurrentTab()==1){
+					if(m!=null)
+						m.stop();
+				}
+			}
+		});
 	}
 
 
@@ -63,6 +82,17 @@ public class CompleteMapMeLayoutHome extends TabActivity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 
+
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	//	@Override
+	//	public void onBackPressed() {
+	//		super.onBackPressed();
+	//		
+	//		startActivity(new Intent(this, MapMeLayoutHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+	//	}
 
 
 

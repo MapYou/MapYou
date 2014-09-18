@@ -5,15 +5,11 @@ import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
-import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.AdapterBoadcastChat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +17,9 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,9 +31,9 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class BroadcastChat extends Activity {
+public class BroadcastChat extends MapyouActivity {
 
-	private static SharedPreferences sp;
+	 
 	private EditText textMessage;
 	private static User currentUser;
 	private static List<ChatMessage>notification;
@@ -54,7 +49,6 @@ public class BroadcastChat extends Activity {
 
 		setContentView(R.layout.broadcastchat);
 		setTitle("MapYou Broadcast Chat");
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		textMessage=(EditText) findViewById(R.id.editTextB);
 		list=(ListView) findViewById(R.id.listView1);
 		numUs=(TextView) findViewById(R.id.textNumuserMaBrod);
@@ -97,7 +91,7 @@ public class BroadcastChat extends Activity {
 
 		}else;
 		notification.add(0, n);
-		list.setAdapter(new AdapterBoadcastChat(notification, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+		list.setAdapter(new AdapterBoadcastChat(notification, currentUser.getModelID()));
 	}
 
 	class SendMessageInBroadcast extends AsyncTask<String, Void, String>{
@@ -157,10 +151,12 @@ public class BroadcastChat extends Activity {
 	}
 
 	@Override
-	public void onBackPressed() {
-
-		super.onBackPressed();
+	public void onBackPressed() {	 
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
+		Intent i = new Intent(act, CompleteMapMeLayoutHome.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		i.putExtra("currentTab", 1);
+		act.startActivity(i);
 	}
 
 	class RetrieveBroadcastConversation extends AsyncTask<Void, Void, JSONObject>{

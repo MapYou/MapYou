@@ -23,6 +23,7 @@ public class UtilAndroid {
 	public static final String KEY_ID_USER_LOGGED = "id_user_logged";
 	public static final String KEY_NOTIFICATION = "id_notification";
 	public static final String ID_FACEBOOK = "facebook";
+	public static final String CURRENT_ACTIVITY_TAG = "currentAct";
 	
 	// NAME OF FILE FOR CACHE
 	

@@ -22,7 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -46,25 +48,42 @@ import com.google.android.gms.maps.model.PolylineOptions;
  * 
  */
 
-public class CompleteMapMeFirstTab extends Activity {
+public class CompleteMapMeFirstTab extends MapyouActivity {
 
 	private GoogleMap googleMap;
 	private MapMe mapme;
 	private Context cont;
-	private SharedPreferences sp;
 	private Activity act;
 	private MyLocation myloc;
 	private List<MappingUser> mappings;
 	private FileControllerCache fileCache;
-	private FileControllerCache fileCacheRoutes;
-	private static final double EARTH_RADIUS = 6378100.0;
-	private int offset;
 	private List<Marker> listOfMarker;
 	private Marker marker;
 
-	// distanza in metri del raggio centrato nel punto di arrivo della mapme
-	private static final double PROXIMITY_DISTANCE = 50;
 
+	/**
+	 * @return the myloc
+	 */
+	public MyLocation getMyloc() {
+		return myloc;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
+		myloc = new MyLocation(this,sp);
+		myloc.start();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		if(myloc!=null)
+			myloc.stop();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,33 +95,28 @@ public class CompleteMapMeFirstTab extends Activity {
 		mapme = UtilAndroid.CURRENT_MAPME;
 
 		if (mapme != null) {
-			sp = PreferenceManager.getDefaultSharedPreferences(cont);
-			sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
-			myloc = new MyLocation(this);
+
 			if (initilizeMap()) {
 				fileCache = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, cont);
-				//fileCacheRoutes= new FileControllerCache(UtilAndroid.ROUTES, cont);
+				 
 				mappings = new ArrayList<MappingUser>();
 				listOfMarker= new ArrayList<Marker>();
-				myloc.start();
+			 
+				// download route
+				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
 
-//				if(myloc.getLatitude()>0 && myloc.getLongitude()>0){
+				Timer t = new Timer();
+				TimerTask tt = new TimerTask() {
 
-					// download route
-					new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
+					@Override
+					public void run() {
+						new RetrieveMapping().execute();
+					}
+				};
+				t.schedule(tt, 5000, 15000);
 
-					Timer t = new Timer();
-					TimerTask tt = new TimerTask() {
-
-						@Override
-						public void run() {
-							new RetrieveMapping().execute();
-						}
-					};
-					t.schedule(tt, 5000, 15000);
-
-//				}else
-//					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
+				//				}else
+				//					UtilAndroid.makeToast(cont, "Attend GPS", 5000);
 
 			} else
 				UtilAndroid.makeToast(cont, "Error while creating live mode.", 5000);
@@ -116,9 +130,8 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		myloc.stop();
-		Intent i= new Intent(act, MapMeLayoutHome.class);
-		startActivity(i);
+		//super.onBackPressed();
+		alert("Alert!", "Are sure you want to come back? ");
 
 	}
 
@@ -169,19 +182,15 @@ public class CompleteMapMeFirstTab extends Activity {
 
 						@Override
 						public void run() {
-							//String routes;
+							 
 							try {
-//								routes = fileCacheRoutes.readS();
-//								if(routes!=null)
-//									drawRoutesOnMap(new JSONObject(routes));
-//								else;
 								showMap();
 							} catch (Exception e) {
 							}
 						}
 					});
 				} catch (Exception e) {
-					UtilAndroid.makeToast(cont, "Error while read postion!",5000);
+					UtilAndroid.makeToast(cont, "Waiting for detecting postion!",3000);
 				}
 			}
 		}
@@ -189,7 +198,7 @@ public class CompleteMapMeFirstTab extends Activity {
 
 	public void showMap() {
 		try {
-			
+
 			if(listOfMarker.size() >0)
 				removeAllMarker();
 			else;
@@ -204,7 +213,7 @@ public class CompleteMapMeFirstTab extends Activity {
 				opt.title(end.getLocation());
 				opt.snippet("Destination");
 				googleMap.addMarker(opt).setPosition(new LatLng(end.getLatitude(), end.getLongitude()));
-				
+
 				//				CameraPosition c = new CameraPosition.Builder().target(opt.getPosition()).zoom(4).build();
 				//				googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(c));
 			}
@@ -215,11 +224,11 @@ public class CompleteMapMeFirstTab extends Activity {
 						.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
 				opt.title(st.getLocation());
 				opt.snippet("Start");
-				
+
 				googleMap.addMarker(opt).setPosition(new LatLng(st.getLatitude(), st.getLongitude()));
 			} else;
 
-			
+
 			for (int i = 0; i < mappings.size(); i++) {
 				MappingUser m = mappings.get(i);
 				User u = m.getUser();
@@ -229,7 +238,7 @@ public class CompleteMapMeFirstTab extends Activity {
 					p.setLongitude(p.getLongitude() + 0.00001);
 				} else;
 				MarkerOptions opt = new MarkerOptions();
-				 
+
 				opt.position(new LatLng(p.getLatitude(), p.getLongitude()));
 				opt.icon(BitmapDescriptorFactory
 						.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -293,7 +302,7 @@ public class CompleteMapMeFirstTab extends Activity {
 			if(result!=null){
 				try {
 					//fileCacheRoutes.write(result.toString());
-				 
+
 					drawRoutesOnMap(result);
 				} catch (Exception e1) {
 
@@ -352,12 +361,40 @@ public class CompleteMapMeFirstTab extends Activity {
 		googleMap.addPolyline(lineOpt); 
 
 	}
-	
+
 	public void removeAllMarker (){
-		
+
 		for(int i=0; i<listOfMarker.size(); i++){
 			marker= listOfMarker.get(i);
 			marker.remove();
 		}
+	}
+
+
+
+	public void alert( String title, String message ){
+
+		new AlertDialog.Builder(this)
+		.setIcon(R.drawable.ic_launcher)
+		.setTitle( title )
+		.setMessage( message )
+		.setCancelable(false)
+		.setPositiveButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				arg0.dismiss();
+			}
+		})
+		.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+
+
+			public void onClick(DialogInterface arg0, int arg1) {
+				myloc.stop();
+				Intent i = new Intent(act, MapMeLayoutHome.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				act.startActivity(i);
+
+
+			}
+		}).show();
 	}
 }

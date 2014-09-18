@@ -15,7 +15,7 @@ import android.widget.ListView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class SettingsActivity extends Activity{
+public class SettingsActivity extends MapyouActivity{
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onBackPressed()

@@ -18,10 +18,13 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -31,12 +34,11 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ChatHome extends Activity {
+public class ChatHome extends MapyouActivity {
 
 	private Activity act;
 	private GridView gridView;
 	private List<User> users;
-	private SharedPreferences sp;
 	private TextView nameM;
 
 	@Override
@@ -48,14 +50,14 @@ public class ChatHome extends Activity {
 		gridView = (GridView) findViewById(R.id.gridView1);
 		nameM= (TextView) findViewById(R.id.textView1);
 		users = new ArrayList<User>();
-		sp=PreferenceManager.getDefaultSharedPreferences(this);
 		nameM.setText("Users in: "+UtilAndroid.CURRENT_MAPME.getName());
-		new DownloadAllUser(act).execute();
+		new DownloadAllUser(act,"Loading users...").execute();
 	}
 
 	public void broadcast(View v){
 
 		Intent i = new Intent(getApplicationContext(), BroadcastChat.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		Bundle b = new Bundle();
 		b.putInt("num_users", users.size());
 		i.putExtras(b);
@@ -65,11 +67,9 @@ public class ChatHome extends Activity {
 
 	class DownloadAllUser extends AbstractAsyncTask<Void, Void, JSONObject>{
 
-		/**
-		 * @param act
-		 */
-		public DownloadAllUser(Activity act) {
-			super(act);
+		
+		public DownloadAllUser(Activity act,String s) {
+			super(act,s);
 			// TODO Auto-generated constructor stub
 		}
 
@@ -119,10 +119,39 @@ public class ChatHome extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refreshNotification:
-			new DownloadAllUser(act).execute();
+			new DownloadAllUser(act,"Loading users...").execute();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+ 
+	@Override
+	public void onBackPressed() {
+		//super.onBackPressed();
+		
+		alert("Alert!", "Are sure you want to come back? ");
+		
+	}
+	
+	public void alert( String title, String message ){
+
+		new AlertDialog.Builder(this)
+		.setIcon(R.drawable.ic_launcher)
+		.setTitle( title )
+		.setMessage( message )
+		.setCancelable(false)
+		.setPositiveButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				arg0.dismiss();
+			}
+		})
+		.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				Intent i = new Intent(act, MapMeLayoutHome.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				act.startActivity(i);
+			}
+		}).show();
 	}
 }

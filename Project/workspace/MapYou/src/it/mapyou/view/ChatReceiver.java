@@ -29,7 +29,7 @@ import android.os.Bundle;
 public class ChatReceiver extends BroadcastReceiver{
 
 	private boolean isBroadcast = false;
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 
 
 	@Override

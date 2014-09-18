@@ -121,7 +121,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 						public void onClick(DialogInterface dialog, int which) {
 							UtilAndroid.CURRENT_MAPME = mp;
 							Intent i = new Intent(act, MapMeLayoutHome.class);
-							//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+							i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 							act.startActivity(i);
 						}
 					});
@@ -131,7 +131,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 				}else{
 					UtilAndroid.CURRENT_MAPME = mp;
 					Intent i = new Intent(act, MapMeLayoutHome.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					act.startActivity(i);	
 				}	
 			}

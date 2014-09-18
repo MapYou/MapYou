@@ -94,10 +94,7 @@ public class ChatMessageAdapter extends BaseAdapter{
 		return convertView;
 	}
 
-	/**
-	 * @param i
-	 * @return
-	 */
+ 
 	private String getDay(int i) {
 		switch (i) {
 		case 2:

@@ -5,8 +5,11 @@ import it.mapyou.network.NotificationServer;
 import it.mapyou.network.SettingsNotificationServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.BroadcastChat;
+import it.mapyou.view.ChatHome;
 import it.mapyou.view.ChatReceiver;
 import it.mapyou.view.ChatUserToUser;
+import it.mapyou.view.CompleteMapMeFirstTab;
+import it.mapyou.view.CompleteMapMeLayoutHome;
 import it.mapyou.view.DrawerMain;
 import it.mapyou.view.Login;
 import android.app.Activity;
@@ -43,14 +46,19 @@ public class GCMIntentService extends GCMBaseIntentService {
 		SharedPreferences sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		if(sp.contains(UtilAndroid.KEY_ID_USER_LOGGED))
 		{
-			boolean v = sp.getBoolean("isChatMode", false);
-			boolean b = sp.getBoolean("isBroadcastMode", true);
-			if(v)
-				act = ChatUserToUser.class;
-			else if(!b)
-				act = BroadcastChat.class;
-			else
+			try {
+				act=(Class<? extends Activity>) Class.forName(sp.getString(UtilAndroid.CURRENT_ACTIVITY_TAG, DrawerMain.class.getName()));
+			} catch (ClassNotFoundException e) {
 				act = DrawerMain.class;
+			}
+//			boolean v = sp.getBoolean("isChatMode", false);
+//			boolean b = sp.getBoolean("isBroadcastMode", true);
+//			if(v)
+//				act = ChatUserToUser.class;
+//			else if(!b)
+//				act = BroadcastChat.class;
+//			else
+//				act = DrawerMain.class;
 		}
 		else
 			act = Login.class;
@@ -100,7 +108,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		selectActivity();
 		String ty = intent.getExtras().getString("type");
-		if(ty.equals("CHAT") && (act == ChatUserToUser.class || act==BroadcastChat.class)){
+		if(ty.equals("CHAT") && (act == ChatUserToUser.class || act==BroadcastChat.class 
+				|| act == CompleteMapMeFirstTab.class || act==CompleteMapMeLayoutHome.class 
+				|| act == ChatHome.class )){
 			isChatNotification(context,
 					intent.getExtras().getString("price"),
 					Integer.parseInt(intent.getExtras().getString("idsender")),

@@ -44,29 +44,7 @@ public class MapMeLayoutHome extends TabActivity {
 		tabHost.addTab(usersTab);
 	}
 
-//	@Override
-//	public boolean onPrepareOptionsMenu(Menu menu) {
-//		// TODO Auto-generated method stub
-//		MenuInflater inflater = getMenuInflater();
-//		menu.clear();
-//		inflater.inflate(R.menu.menu, menu);
-//
-//		return super.onPrepareOptionsMenu(menu);
-//	}
-//	
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//		
-//		case R.id.delete_user:
-//			
-//			UtilAndroid.makeToast(getApplicationContext(), 
-//					tabHost.get.toString()
-//					, 5000);
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//	}
+
+
 
 }

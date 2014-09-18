@@ -1,21 +1,16 @@
-/**
- * 
- */
+
 package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
-import it.mapyou.network.AbstractAsyncTask;
 import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.ChatMessageAdapter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,17 +36,17 @@ import android.widget.TextView;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ChatUserToUser extends Activity{
+public class ChatUserToUser extends MapyouActivity{
 
 	private static User user;
 	private static User currentUser;
 
 	private EditText mess;
 	private Activity act;
-	private static SharedPreferences sp;
+ 
 	private static ListView listView;
 	private static List<ChatMessage> notif;
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	
 
 
 	@Override
@@ -59,7 +54,7 @@ public class ChatUserToUser extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatusertouser);
 		setTitle("MapYou Chat");
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		 
 		Bundle b = getIntent().getExtras();
 		if(b!=null && b.containsKey("user")){
 			user = (User) b.getSerializable("user");
@@ -103,7 +98,7 @@ public class ChatUserToUser extends Activity{
 			n.setNotifier(user);
 		}else;
 		notif.add(0, n);
-		listView.setAdapter(new ChatMessageAdapter(notif, sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)));
+		listView.setAdapter(new ChatMessageAdapter(notif,currentUser.getModelID()));
 	}
 
 	class SendMessage extends AsyncTask<String, Void, String>{
@@ -232,9 +227,11 @@ public class ChatUserToUser extends Activity{
 	 */
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
 		sp.edit().putBoolean("isChatMode", false).commit();
+		Intent i = new Intent(act, CompleteMapMeLayoutHome.class);
+		i.putExtra("currentTab", 1);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		act.startActivity(i);
 	}
 
 	@Override

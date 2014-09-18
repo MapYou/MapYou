@@ -20,10 +20,9 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-public class NotificationSecondTab extends Activity{
+public class NotificationSecondTab extends MapyouActivity{
 
 	private ListView listView;
-	private SharedPreferences sp;
 	private Activity act;
 
 
@@ -42,7 +41,6 @@ public class NotificationSecondTab extends Activity{
 		setContentView(R.layout.notification_list);
 		act = this;
 		listView = (ListView)findViewById(R.id.list);
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		retrieveAllPendingNotification();
 	}
 

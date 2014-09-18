@@ -37,7 +37,7 @@ import android.widget.ListAdapter;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMeSecondTab_User extends Activity {
+public class MapMeSecondTab_User extends MapyouActivity {
 
 	private MapMe mapme;
 	private Dialog sendDialog;
@@ -48,7 +48,7 @@ public class MapMeSecondTab_User extends Activity {
 	private AdapterUsersMapMe adapter;
 	private GridView gridview;
 	private List<User> reg;
-	private SharedPreferences sp;
+	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,6 @@ public class MapMeSecondTab_User extends Activity {
 		setContentView(R.layout.mapme_second_tab);
 		act = this;
 		mapme = UtilAndroid.CURRENT_MAPME;
-		sp=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		
 		reg = new ArrayList<User>();
 		gridview = (GridView) findViewById(R.id.gridViewMapMeUsers);
 		Button send = (Button) findViewById(R.id.buttonSendPartecipation);
@@ -75,10 +73,10 @@ public class MapMeSecondTab_User extends Activity {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
-				if(mapme.getAdministrator().getNickname().equals(
+				if(mapme.getAdministrator().getModelID()==
 						PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-						.getString(UtilAndroid.KEY_NICKNAME_USER_LOGGED, "")
-						)){
+						.getInt(UtilAndroid.KEY_ID_USER_LOGGED, -1)
+						){
 					showDialog(SEND_DIALOG);
 				}else{
 					UtilAndroid.makeToast(getApplicationContext(), "You are not administrator for send partecipation.", 5000);
@@ -89,17 +87,9 @@ public class MapMeSecondTab_User extends Activity {
 
 		new DownloadAllUser(act).execute();
 		sendDialog();
-
-
 	}
 
-	@Override
-	public void onBackPressed() {
-		Intent i = new Intent(this, DrawerMain.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(i);
-	}
-
+	 
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -132,8 +122,7 @@ public class MapMeSecondTab_User extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				final String nickname = ed.getText().toString();
 				if(nickname!=null && nickname.length()>0){
-					if(!nickname.equals(mapme.getAdministrator().getNickname())
-							 ){
+					if(!nickname.equals(mapme.getAdministrator().getNickname())){
 						if(mapme.getMaxNumUsers()>reg.size()){
 							new Thread(new Runnable() {
 
@@ -190,17 +179,14 @@ public class MapMeSecondTab_User extends Activity {
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				if(reg!=null)reg.clear();
+				if(reg!=null)
+					reg.clear();
 				else;
 				reg= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
 				if(reg!=null){
 					adapter = new AdapterUsersMapMe(act, reg, mapme);
 					gridview.setAdapter(adapter);
-					if(reg.size()<mapme.getMaxNumUsers())
-						((Button) findViewById(R.id.buttonSendPartecipation)).setVisibility(Button.VISIBLE);
-					else
-						((Button) findViewById(R.id.buttonSendPartecipation))
-							.setVisibility(Button.INVISIBLE);
+ 
 				}
 				else
 					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
@@ -301,5 +287,12 @@ public class MapMeSecondTab_User extends Activity {
 				changeLayout(false);	
 			}
 			}
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent i = new Intent(this, DrawerMain.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
 	}
 }

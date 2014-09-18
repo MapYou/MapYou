@@ -47,7 +47,7 @@ public class ParsingChatMessage {
 
 	public ChatMessage parsingNotificationFromMapme (JSONObject json){
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			ChatMessage m= new ChatMessage();
 			User notifier = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notifier"));
@@ -79,7 +79,7 @@ public class ParsingChatMessage {
 	
 	public ChatMessage parsingNotification (JSONObject json){
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		try {
 			ChatMessage m= new ChatMessage();
 			Date dt;
