@@ -2,14 +2,14 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.controller.cache.FileControllerCache;
+import it.mapyou.controller.navigator.ParserDataFromDirectionsApi;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
-import it.mapyou.navigator.PArserDataFromDirectionsApi;
 import it.mapyou.util.UtilAndroid;
 
 import java.util.ArrayList;
@@ -90,7 +90,8 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				myloc.start();
 
 				// download route
-				new DownlDataFromWebServer().execute(PArserDataFromDirectionsApi.getUrlFromDirectionApi(mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()));
+				new DownlDataFromWebServer().execute(new ParserDataFromDirectionsApi(
+						mapme.getSegment().getStartPoint(),mapme.getSegment().getEndPoint()).getUrlFromApi());
 
 				Timer t = new Timer();
 				TimerTask tt = new TimerTask() {
@@ -248,7 +249,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 
 			String data = "";
 			try {
-				data = PArserDataFromDirectionsApi.getData(url[0]);
+				data = ParserDataFromDirectionsApi.getData(url[0]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -313,7 +314,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 	}
 
 	public void drawRoutesOnMap(JSONObject result){
-		PArserDataFromDirectionsApi parser = new PArserDataFromDirectionsApi();
+		ParserDataFromDirectionsApi parser = new ParserDataFromDirectionsApi();
 		List<List<HashMap<String, String>>> myRoutes = null;
 		myRoutes = parser.parserJson(result);
 

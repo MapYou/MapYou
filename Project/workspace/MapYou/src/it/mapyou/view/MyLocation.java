@@ -1,9 +1,9 @@
 
 package it.mapyou.view;
 
-import it.mapyou.cache.FileControllerCache;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.network.SettingsServer;
+import it.mapyou.controller.cache.FileControllerCache;
+import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.util.HashMap;

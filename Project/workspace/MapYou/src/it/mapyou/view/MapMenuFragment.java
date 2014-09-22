@@ -4,7 +4,7 @@
 package it.mapyou.view;
 
 import it.mapyou.R;
-import it.mapyou.network.AbstractAsyncTask;
+import it.mapyou.controller.network.AbstractAsyncTask;
 import it.mapyou.util.UtilAndroid;
 import android.app.Fragment;
 import android.content.Context;

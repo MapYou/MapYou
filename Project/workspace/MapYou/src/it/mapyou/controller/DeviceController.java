@@ -1,10 +1,9 @@
  
 package it.mapyou.controller;
 
-import it.mapyou.execption.ServerConnectionNotFoundException;
-import it.mapyou.network.NotificationServer;
-import it.mapyou.network.Server;
-import it.mapyou.parsing.ParsingController;
+import it.mapyou.controller.network.NotificationServer;
+import it.mapyou.controller.network.Server;
+import it.mapyou.controller.parsing.ParsingController;
  
 
 /**
@@ -79,7 +78,7 @@ public class DeviceController implements Controller{
 			boolean serverConnected = server.isOpened();
 			
 			if(!serverConnected)
-				throw new ServerConnectionNotFoundException("Server connection not opened.");
+				throw new Exception("Server connection not opened.");
  
 		} catch (Exception e) {
 			 

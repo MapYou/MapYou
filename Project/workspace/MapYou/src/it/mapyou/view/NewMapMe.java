@@ -4,15 +4,15 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.controller.navigator.ConfigurationGeocodingApi;
+import it.mapyou.controller.navigator.ParserDataFromGeocoding;
+import it.mapyou.controller.network.AbstractAsyncTask;
+import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
 import it.mapyou.model.Route;
 import it.mapyou.model.Segment;
 import it.mapyou.model.User;
-import it.mapyou.navigator.ConfigurationGeocodingApi;
-import it.mapyou.navigator.ParserDataFromGeocoding;
-import it.mapyou.network.AbstractAsyncTask;
-import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
 import java.io.UnsupportedEncodingException;
@@ -243,7 +243,7 @@ public class NewMapMe extends FragmentActivity {
 			UtilAndroid.makeToast(getApplicationContext(), "Start location can be setted once", 5000);
 		else{
 			if(add!=null && add.length()>0){
-				String url= ConfigurationGeocodingApi.getUrlFrom(add);
+				String url= new ConfigurationGeocodingApi(add).getUrlFromApi();
 				new SettingsTask(true, act).execute(url);
 			}
 			else
@@ -258,7 +258,7 @@ public class NewMapMe extends FragmentActivity {
 			UtilAndroid.makeToast(getApplicationContext(), "Destionation location can be setted once", 5000);
 		else{
 			if(add!=null && add.length()>0){
-				String url= ConfigurationGeocodingApi.getUrlFrom(add);
+				String url= new ConfigurationGeocodingApi(add).getUrlFromApi();
 				new SettingsTask(false,act).execute(url);
 			}
 			else

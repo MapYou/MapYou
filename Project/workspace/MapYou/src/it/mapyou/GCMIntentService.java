@@ -1,8 +1,8 @@
 package it.mapyou;
 
 
-import it.mapyou.network.NotificationServer;
-import it.mapyou.network.SettingsNotificationServer;
+import it.mapyou.controller.network.NotificationServer;
+import it.mapyou.controller.network.SettingsNotificationServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.BroadcastChat;
 import it.mapyou.view.ChatHome;

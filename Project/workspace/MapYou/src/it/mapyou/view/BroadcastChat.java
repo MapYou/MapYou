@@ -3,9 +3,9 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.User;
-import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.AdapterBoadcastChat;
 

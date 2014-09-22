@@ -5,9 +5,9 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.controller.network.AbstractAsyncTask;
+import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.model.Notification;
-import it.mapyou.network.AbstractAsyncTask;
-import it.mapyou.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.adapter.NotificationAdapter;
 

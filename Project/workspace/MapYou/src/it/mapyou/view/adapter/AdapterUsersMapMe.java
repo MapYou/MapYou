@@ -2,12 +2,12 @@ package it.mapyou.view.adapter;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
+import it.mapyou.controller.network.AbstractAsyncTask;
+import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.User;
-import it.mapyou.network.AbstractAsyncTask;
-import it.mapyou.network.SettingsServer;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
 import it.mapyou.view.UserOnMapMe;
