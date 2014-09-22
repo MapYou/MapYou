@@ -3,7 +3,7 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.controller.cache.FileControllerCache;
+import it.mapyou.controller.FileControllerCache;
 import it.mapyou.controller.navigator.ParserDataFromDirectionsApi;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
@@ -56,7 +56,6 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 	private Activity act;
 	private static MyLocation myloc;
 	private List<MappingUser> mappings;
-	private FileControllerCache fileCache;
 	private List<Marker> listOfMarker;
 	private Marker marker;
 
@@ -82,7 +81,6 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 		if (mapme != null) {
 
 			if (initilizeMap()) {
-				fileCache = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, cont);
 				mappings = new ArrayList<MappingUser>();
 				listOfMarker= new ArrayList<Marker>();
 				sp.edit().putInt("mapmeid", mapme.getModelID()).commit();
@@ -148,7 +146,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				return fileCache.readS();
+				return FileControllerCache.getInstance(UtilAndroid.NAME_OF_FILE_CACHE).readS();
 			} catch (Exception e) {
 				return null;
 			}

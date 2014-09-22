@@ -48,22 +48,6 @@ public class DeviceController implements Controller{
 	public ModelCreator getCreator() {
 		return ModelCreator.getInstance();
 	}
-
-	 
-
-	 
-	@Override
-	public boolean disconnet(boolean applyCommit) {
-		return applyCommit;
-	 
-	}
-
-
-	@Override
-	public void partecipate() {
-
-	}
-
 	
 	@Override
 	public void init(Object... parameters) throws Exception {

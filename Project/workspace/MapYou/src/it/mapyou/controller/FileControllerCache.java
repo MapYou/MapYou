@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.controller.cache;
+package it.mapyou.controller;
 
 import it.mapyou.util.UtilAndroid;
 
@@ -18,15 +18,23 @@ import android.content.Context;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class FileControllerCache  {
+public class FileControllerCache implements Controller{
 
 	private String name_of_file;
 	private Context c;
+	private static FileControllerCache instance;
 
-	public FileControllerCache(String n, Context c) {
-
-		this.name_of_file=n;
-		this.c=c;
+	private FileControllerCache(String n) {
+		this.name_of_file = n;
+	}
+	
+	/**
+	 * @return the instance
+	 */
+	public static FileControllerCache getInstance(String n) {
+		if(instance==null)
+			instance = new FileControllerCache(n);
+		return instance;
 	}
 
 	public void write(String text) throws Exception{
@@ -101,6 +109,18 @@ public class FileControllerCache  {
 				reader.close();
 
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#init(java.lang.Object[])
+	 */
+	@Override
+	public void init(Object... parameters) throws Exception {
+		Object o = parameters[0];
+		if(o instanceof Context){
+			this.c = (Context)o;
+		}else
+			throw new IllegalArgumentException("The first argument of 'parameters' must be a Context object.");
 	}
 
 }

@@ -2,7 +2,7 @@
 package it.mapyou.view;
 
 import it.mapyou.controller.DeviceController;
-import it.mapyou.controller.cache.FileControllerCache;
+import it.mapyou.controller.FileControllerCache;
 import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.util.UtilAndroid;
 
@@ -36,7 +36,6 @@ public class MyLocation implements LocationListener  {
 	boolean canGetLocation = true;
 	private Location location; 
 	private Activity act;
-	private FileControllerCache fileCahce;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 6000; // 15 seconds
 	protected LocationManager locationManager;
@@ -46,8 +45,6 @@ public class MyLocation implements LocationListener  {
 	public MyLocation(Activity act,SharedPreferences sp) {
 		this.act = act;
 		this.sp=sp;
-		fileCahce = new FileControllerCache(UtilAndroid.NAME_OF_FILE_CACHE, act.getApplicationContext());
-		
 
 	}
 
@@ -203,7 +200,7 @@ public class MyLocation implements LocationListener  {
 			}else{
 				try {
 
-					fileCahce.write(result.toString());
+					FileControllerCache.getInstance(UtilAndroid.NAME_OF_FILE_CACHE).write(result.toString());
 	//				fileCahce.read();
 
 				} catch (Exception e) {
