@@ -9,29 +9,35 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
  
-public class ParsingPoint {
+public class ParsingPoint implements ParserInterface<Point> {
 	
 	public ParsingPoint(){
 		
 	}
-	// getPointByJson
-	public Point parsingSinglePoint (JSONArray jsonArr){
+	 
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public Point parseFromJsonObject(JSONObject o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public Point parseFromJsonArray(JSONArray jsonArr) throws Exception {
+		Point ptn= new Point();
+		JSONObject json = null;
+		for(int i=0; i<jsonArr.length(); i++){
 
-		try {
-			Point ptn= new Point();
-			JSONObject json = null;
-			for(int i=0; i<jsonArr.length(); i++){
-
-				json = jsonArr.getJSONObject(i);
-				ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
-				ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
-				ptn.setLocation(json.getString("location"));
-			}
-			return ptn;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			json = jsonArr.getJSONObject(i);
+			ptn.setLatitude(Double.parseDouble(json.getString("latitude")));
+			ptn.setLongitude(Double.parseDouble(json.getString("longitude")));
+			ptn.setLocation(json.getString("location"));
 		}
+		return ptn;
 	}
 
 }

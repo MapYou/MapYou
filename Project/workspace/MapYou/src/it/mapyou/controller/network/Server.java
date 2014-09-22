@@ -39,9 +39,6 @@ public class Server implements ServerInterface {
 		return isOpened;
 	}
 
-	/**
-	 * @return the server
-	 */
 	public static Server getServer() {
 		if(server==null)
 			server = new Server();

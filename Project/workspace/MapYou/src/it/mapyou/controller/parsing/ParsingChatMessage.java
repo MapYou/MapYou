@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ParsingChatMessage {
+public class ParsingChatMessage implements ParserInterface<ChatMessage> {
 
 
 	public ParsingChatMessage() {
@@ -51,8 +51,8 @@ public class ParsingChatMessage {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			ChatMessage m= new ChatMessage();
-			User notifier = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notifier"));
-			User notified = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notified"));
+			User notifier = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notifier"));
+			User notified = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notified"));
 			MapMe mapme = new MapMe();
 			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
 			mapme.setModelID(Integer.parseInt(json.getJSONArray("mapme").getJSONObject(0).getString("id")));
@@ -96,8 +96,8 @@ public class ParsingChatMessage {
 				m.setDate(g);
 			}else;
 
-			User notifier = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notifier"));
-			User notified = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notified"));
+			User notifier = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notifier"));
+			User notified = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notified"));
 			m.setNotified(notified);
 			m.setNotifier(notifier);
 			m.setMessage(json.getString("state"));
@@ -107,6 +107,24 @@ public class ParsingChatMessage {
 		}catch (Exception e) {
 			return null;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public ChatMessage parseFromJsonObject(JSONObject o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public ChatMessage parseFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

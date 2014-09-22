@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ParsingMapMe {
+public class ParsingMapMe implements ParserInterface<MapMe> {
 	
 	 
 	public ParsingMapMe() {
@@ -37,7 +37,7 @@ public class ParsingMapMe {
 				Route route = new Route();
 				Point startPoint= ParsingController.getParser().getPointParser().parsingSinglePoint((jjson.getJSONArray("segment").getJSONObject(0).getJSONArray("startPoint")));
 				Point endPoint = ParsingController.getParser().getPointParser().parsingSinglePoint(jjson.getJSONArray("segment").getJSONObject(0).getJSONArray("endPoint"));
-				User admin = ParsingController.getParser().getUserParser().getParsingUserJarr(((jjson.getJSONArray("administrator"))));
+				User admin = ParsingController.getParser().getUserParser().parseUserFromJsonArray(((jjson.getJSONArray("administrator"))));
 				if(admin!=null && startPoint!=null && endPoint!=null){
 					route.setStartPoint(startPoint);
 					route.setEndPoint(endPoint);
@@ -55,6 +55,24 @@ public class ParsingMapMe {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public MapMe parseFromJsonObject(JSONObject o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public MapMe parseFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

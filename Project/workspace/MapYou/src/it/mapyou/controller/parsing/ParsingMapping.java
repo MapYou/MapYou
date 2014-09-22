@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ParsingMapping {
+public class ParsingMapping implements ParserInterface<MappingUser> {
 
 	
 	public List< MappingUser> parsingAllMappings(JSONObject result){
@@ -43,7 +43,7 @@ public class ParsingMapping {
 
 		try {
 			MappingUser m= new MappingUser();
-			User admin = ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("user"));
+			User admin = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("user"));
 			Point point = ParsingController.getParser().getPointParser().parsingSinglePoint(json.getJSONArray("point"));
 			if(admin!=null && point!=null){
 				m.setModelID(Integer.parseInt(json.getString("id")));
@@ -54,5 +54,19 @@ public class ParsingMapping {
 		}catch (Exception e) {
 			return null;
 		}
+	}
+
+	 
+	@Override
+	public MappingUser parseFromJsonObject(JSONObject o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	 
+	@Override
+	public MappingUser parseFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

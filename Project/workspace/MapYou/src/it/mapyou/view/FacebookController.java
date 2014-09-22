@@ -331,7 +331,7 @@ public abstract class FacebookController extends MapyouActivity {
 				if(idnotification !=null && idnotification.length() >0){
 					if(result!=null ){
 
-						userLogin=DeviceController.getInstance().getParsingController().getUserParser().getParsingUserJobj(result);
+						userLogin=DeviceController.getInstance().getParsingController().getUserParser().parserUserFromJsonObject(result);
 						if(userLogin!=null && userLogin.getModelID() >0){
 
 							Editor ed = sp.edit();

@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ParsingNotification {
+public class ParsingNotification implements ParserInterface<Notification>{
 	
 	public ParsingNotification() {
 	 
@@ -29,8 +29,8 @@ public class ParsingNotification {
 
 		try {
 			Notification m= new Notification();
-			User notifier = ParsingController.getParser().getUserParser().getParsingUserJarr((json.getJSONArray("notifier")));
-			User notified =  ParsingController.getParser().getUserParser().getParsingUserJarr(json.getJSONArray("notified"));
+			User notifier = ParsingController.getParser().getUserParser().parseUserFromJsonArray((json.getJSONArray("notifier")));
+			User notified =  ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notified"));
 			MapMe mapme = new MapMe();
 			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
 			mapme.setModelID(Integer.parseInt(
