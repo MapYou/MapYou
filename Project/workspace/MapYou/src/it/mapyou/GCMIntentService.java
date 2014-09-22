@@ -8,8 +8,8 @@ import it.mapyou.view.BroadcastChat;
 import it.mapyou.view.ChatHome;
 import it.mapyou.view.ChatReceiver;
 import it.mapyou.view.ChatUserToUser;
-import it.mapyou.view.CompleteMapMeFirstTab;
-import it.mapyou.view.CompleteMapMeLayoutHome;
+import it.mapyou.view.LiveActivity;
+import it.mapyou.view.LiveTabHome;
 import it.mapyou.view.DrawerMain;
 import it.mapyou.view.Login;
 import android.app.Activity;
@@ -109,7 +109,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		selectActivity();
 		String ty = intent.getExtras().getString("type");
 		if(ty.equals("CHAT") && (act == ChatUserToUser.class || act==BroadcastChat.class 
-				|| act == CompleteMapMeFirstTab.class || act==CompleteMapMeLayoutHome.class 
+				|| act == LiveActivity.class || act==LiveTabHome.class 
 				|| act == ChatHome.class )){
 			isChatNotification(context,
 					intent.getExtras().getString("price"),

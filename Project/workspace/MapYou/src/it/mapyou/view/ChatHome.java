@@ -149,7 +149,7 @@ public class ChatHome extends MapyouActivity {
 		})
 		.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-				Intent i = new Intent(act, MapMeLayoutHome.class);
+				Intent i = new Intent(act, MapMeTab.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				act.startActivity(i);
 			}

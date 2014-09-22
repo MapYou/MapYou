@@ -228,7 +228,7 @@ public class ChatUserToUser extends MapyouActivity{
 	@Override
 	public void onBackPressed() {
 		sp.edit().putBoolean("isChatMode", false).commit();
-		Intent i = new Intent(act, CompleteMapMeLayoutHome.class);
+		Intent i = new Intent(act, LiveTabHome.class);
 		i.putExtra("currentTab", 1);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		act.startActivity(i);

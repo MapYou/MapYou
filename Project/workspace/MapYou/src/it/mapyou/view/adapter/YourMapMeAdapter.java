@@ -6,7 +6,7 @@ import it.mapyou.controller.network.SettingsServer;
 import it.mapyou.model.MapMe;
 import it.mapyou.util.BitmapParser;
 import it.mapyou.util.UtilAndroid;
-import it.mapyou.view.MapMeLayoutHome;
+import it.mapyou.view.MapMeTab;
 
 import java.util.List;
 
@@ -120,7 +120,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							UtilAndroid.CURRENT_MAPME = mp;
-							Intent i = new Intent(act, MapMeLayoutHome.class);
+							Intent i = new Intent(act, MapMeTab.class);
 							i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 							act.startActivity(i);
 						}
@@ -130,7 +130,7 @@ public class YourMapMeAdapter extends BaseAdapter{
 
 				}else{
 					UtilAndroid.CURRENT_MAPME = mp;
-					Intent i = new Intent(act, MapMeLayoutHome.class);
+					Intent i = new Intent(act, MapMeTab.class);
 					//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					act.startActivity(i);	
 				}	

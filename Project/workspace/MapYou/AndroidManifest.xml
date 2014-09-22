@@ -59,29 +59,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".sqlite.TestOpenDb" >
-        </activity>
         <activity android:name=".view.MapMeMenu" >
         </activity>
         <activity android:name="it.mapyou.view.Register" >
         </activity>
         <activity android:name=".view.Forgot" >
         </activity>
-         <activity android:name=".view.MapMeSecondTab_User" >
+         <activity android:name=".view.MapMeUserHome" >
         </activity>
-         <activity android:name=".view.MapMeFirstTab" >
+         <activity android:name=".view.MapMeHome" >
        </activity>
-    	<activity android:name=".view.MapMeLayoutHome" >
+    	<activity android:name=".view.MapMeTab" >
         </activity>
         <activity android:name=".view.DashBoardActivity" >
         </activity>
-        <activity android:name=".view.YourMapMeActivity" >
+        <activity android:name=".view.MapMeManagement" >
         </activity>
         <activity android:name=".view.UserOnMapMe" >
         </activity>
-         <activity android:name=".view.CompleteMapMeFirstTab" >
+         <activity android:name=".view.LiveActivity" >
        </activity>
-    	<activity android:name=".view.CompleteMapMeLayoutHome" >
+    	<activity android:name=".view.LiveTabHome" >
         </activity>
         <activity android:name=".view.NotificationList" >
         </activity>
@@ -102,8 +100,8 @@
         <activity android:name=".view.ChatUserToUser"></activity>
         <activity android:name=".view.BroadcastChat"></activity>
         <activity android:name=".view.ChatHome"></activity>
-        <activity android:name=".view.NotificationTabHome"></activity>
-        <activity android:name=".view.NotificationSecondTab"></activity>
+        <activity android:name=".view.NotificationTab"></activity>
+        <activity android:name=".view.NotificationChat"></activity>
         <receiver android:name=".view.ChatReceiver">
             <intent-filter>
                 <action android:name="it.mapyou.action.CHAT_MESSAGE" />

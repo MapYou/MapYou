@@ -49,7 +49,7 @@ public class UserOnMapMe extends FragmentActivity{
 	 */
 	@Override
 	public void onBackPressed() {
-		Intent i = new Intent(this, MapMeLayoutHome.class);
+		Intent i = new Intent(this, MapMeTab.class);
 		startActivity(i);
 	}
 

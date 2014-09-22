@@ -71,7 +71,7 @@ public class MyLocation implements LocationListener  {
 
 			locationManager.requestLocationUpdates(provider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		}else{
-			Intent i= new Intent(act, MapMeLayoutHome.class);
+			Intent i= new Intent(act, MapMeTab.class);
 			act.startActivity(i);
 		}
 	}

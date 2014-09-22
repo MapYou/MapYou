@@ -6,7 +6,6 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.view.adapter.SettingsAdapter;
 import it.mapyou.view.settings.DeleteAccount;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;

@@ -153,7 +153,7 @@ public class BroadcastChat extends MapyouActivity {
 	@Override
 	public void onBackPressed() {	 
 		sp.edit().putBoolean("isBroadcastMode", true).commit();
-		Intent i = new Intent(act, CompleteMapMeLayoutHome.class);
+		Intent i = new Intent(act, LiveTabHome.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		i.putExtra("currentTab", 1);
 		act.startActivity(i);
