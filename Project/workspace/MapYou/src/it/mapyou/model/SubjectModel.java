@@ -1,6 +1,4 @@
-S/**
- * 
- */
+ 
 package it.mapyou.model;
 
 /**
