@@ -14,13 +14,13 @@ import android.os.Parcelable;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class MapMe extends SubjectModel implements Parcelable {
+public class MapMe extends SubjectModel implements Parcelable, MapmeState {
 
 
 	private User administrator;
 	private GregorianCalendar creationDate;
 	private int numUsers, maxNumUsers;
-	private MapmeState state;
+	private String state;
 	private String name;
 	private Segment segment;
 	public static final Parcelable.Creator<MapMe> CREATOR = new Creator<MapMe>() {
@@ -48,14 +48,14 @@ public class MapMe extends SubjectModel implements Parcelable {
 	/**
 	 * @return the state
 	 */
-	public MapmeState getState() {
+	public String getState() {
 		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public void setMapmeState(MapmeState state) {
+	public void setMapmeState(String state) {
 		this.state = state;
 	}
 
@@ -68,7 +68,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 	public MapMe(Parcel s){
 		setName(s.readString());
 		setModelID(s.readInt());
-		setMapmeState((MapmeState) s.readParcelable(MapmeState.class.getClassLoader()));
+		setMapmeState(s.readString());
 		setNumUsers(s.readInt());
 		setMaxNumUsers(s.readInt());
 		GregorianCalendar g = new GregorianCalendar();
@@ -85,7 +85,7 @@ public class MapMe extends SubjectModel implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(name);
 		dest.writeInt(modelID);
-		dest.writeParcelable(state, flags);
+		dest.writeString(state);
 		dest.writeInt(numUsers);
 		dest.writeInt(maxNumUsers);
 		dest.writeLong(creationDate.getTimeInMillis());

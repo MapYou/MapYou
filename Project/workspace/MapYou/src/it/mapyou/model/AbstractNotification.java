@@ -13,12 +13,12 @@ import android.os.Parcelable;
  */
 public abstract class AbstractNotification<X, Y, Z> extends SubjectModel implements Parcelable{
 
-	private X notifier;
-	private Y notified;
-	private Z notificationObject;
-	private String notificationState;
-	private String notificationType;
-	private GregorianCalendar date;
+	protected X notifier;
+	protected Y notified;
+	protected Z notificationObject;
+	protected String notificationState;
+	protected String notificationType;
+	protected GregorianCalendar date;
 	
 	/**
 	 * @return the date

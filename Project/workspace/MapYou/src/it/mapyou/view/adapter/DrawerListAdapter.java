@@ -4,7 +4,7 @@
 package it.mapyou.view.adapter;
 
 import it.mapyou.R;
-import it.mapyou.model.NavDrawerItem;
+import it.mapyou.view.NavDrawerItem;
 
 import java.util.ArrayList;
 

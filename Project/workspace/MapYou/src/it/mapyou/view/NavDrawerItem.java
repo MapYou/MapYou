@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.model;
+package it.mapyou.view;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

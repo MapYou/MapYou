@@ -19,26 +19,26 @@ public class User extends SubjectModel implements Serializable{
 	private String nickname;
 	private String password;
 	private String email;
-	private String idNotification;
+	private String idRegistration;
 	
 	public User() {
 		this.nickname = "";
 		this.password = "";
 		this.email = "";
-		this.idNotification="";
+		this.idRegistration="";
 	}
 	
 	/**
 	 * @return the idNotification
 	 */
-	public String getIdNotification() {
-		return idNotification;
+	public String getIdRegistration() {
+		return idRegistration;
 	}
 	/**
 	 * @param idNotification the idNotification to set
 	 */
-	public void setIdNotification(String idNotification) {
-		this.idNotification = idNotification;
+	public void setIdRegistration(String idRegistration) {
+		this.idRegistration = idRegistration;
 	}
 	
 	/**
