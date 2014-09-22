@@ -159,7 +159,7 @@ public class CompleteMapMeFirstTab extends MapyouActivity {
 				UtilAndroid.makeToast(cont, "Please refresh da file....", 5000);
 			} else {
 				try {
-					mappings = DeviceController.getInstance().getParsingController().getMappingParser().parsingAllMappings(new JSONObject(result));
+					mappings = DeviceController.getInstance().getParsingController().getMappingParser().parseListFromJsonObject(new JSONObject(result));
 					act.runOnUiThread(new Runnable() {
 
 						@Override

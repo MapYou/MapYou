@@ -182,7 +182,7 @@ public class Login extends FacebookController {
 				if(idnotification !=null && idnotification.length() >0){
 					if(result!=null ){
 
-						userLogin=DeviceController.getInstance().getParsingController().getUserParser().parserUserFromJsonObject(result);
+						userLogin=DeviceController.getInstance().getParsingController().getUserParser().parseFromJsonObject(result);
 						if(userLogin!=null && userLogin.getModelID() >0){
 
 							Editor ed = sp.edit();

@@ -22,7 +22,6 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -182,14 +181,18 @@ public class MapMeSecondTab_User extends MapyouActivity {
 				if(reg!=null)
 					reg.clear();
 				else;
-				reg= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
-				if(reg!=null){
-					adapter = new AdapterUsersMapMe(act, reg, mapme);
-					gridview.setAdapter(adapter);
- 
+				try {
+					reg= DeviceController.getInstance().getParsingController().getUserParser().parseListFromJsonObject(result);
+					if(reg!=null){
+						adapter = new AdapterUsersMapMe(act, reg, mapme);
+						gridview.setAdapter(adapter);
+	 
+					}
+					else
+						UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
-				else
-					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
 			}
 		}
 	}

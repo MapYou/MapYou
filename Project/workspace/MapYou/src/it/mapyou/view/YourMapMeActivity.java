@@ -16,9 +16,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 
 public class YourMapMeActivity extends  MapyouActivity {
@@ -76,14 +74,18 @@ public class YourMapMeActivity extends  MapyouActivity {
 		@Override
 		protected void newOnPostExecute(JSONObject result) {
 		
-			List<MapMe> allMapme= DeviceController.getInstance().getParsingController().getMapmeParser().parsingAllMapMe(result);
-			if(allMapme!=null){
-				listView.setAdapter(inclusion?
-						new YourMapMeAdapter(act,allMapme,sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)):
-							new YourMapMeAdapterWithoutInclusion(act,allMapme));
-			}else
-				UtilAndroid.makeToast(act, "Error while fetching your mapme. Please Refresh", 5000);
+			try {
+				List<MapMe> allMapme= DeviceController.getInstance().getParsingController().getMapmeParser().parseListFromJsonObject(result);
+				if(allMapme!=null){
+					listView.setAdapter(inclusion?
+							new YourMapMeAdapter(act,allMapme,sp.getInt(UtilAndroid.KEY_ID_USER_LOGGED, 0)):
+								new YourMapMeAdapterWithoutInclusion(act,allMapme));
+				}else
+					UtilAndroid.makeToast(act, "Error while fetching your mapme. Please Refresh", 5000);
 
+			} catch (Exception e) {
+				UtilAndroid.makeToast(act, "Error while parsing your mapme. Please Refresh", 5000);
+			}
 		}
 	}
 }

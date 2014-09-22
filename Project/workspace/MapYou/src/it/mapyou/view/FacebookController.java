@@ -24,7 +24,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -331,7 +330,7 @@ public abstract class FacebookController extends MapyouActivity {
 				if(idnotification !=null && idnotification.length() >0){
 					if(result!=null ){
 
-						userLogin=DeviceController.getInstance().getParsingController().getUserParser().parserUserFromJsonObject(result);
+						userLogin=DeviceController.getInstance().getParsingController().getUserParser().parseFromJsonObject(result);
 						if(userLogin!=null && userLogin.getModelID() >0){
 
 							Editor ed = sp.edit();

@@ -14,9 +14,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -73,9 +71,13 @@ public class NotificationSecondTab extends MapyouActivity{
 		@Override
 		protected void newOnPostExecute(JSONObject result) {
 			if(result!=null) {
-				List<ChatMessage> notifications = DeviceController.getInstance().getParsingController().getChatMessageParser().parsingAllChatMessageNotifcation(result);
-				if(notifications!=null)
-					listView.setAdapter(new ChatNotificatioAdapter(act, notifications));
+				try {
+					List<ChatMessage> notifications = DeviceController.getInstance().getParsingController().getChatMessageParser().parseListFromJsonObject(result);
+					if(notifications!=null)
+						listView.setAdapter(new ChatNotificatioAdapter(act, notifications));
+				} catch (Exception e) {
+					UtilAndroid.makeToast(getApplicationContext(), "Error while parsing notifications...", 5000);
+				}
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "There are no notifications...", 5000);
 		}

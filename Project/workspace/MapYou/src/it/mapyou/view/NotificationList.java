@@ -83,9 +83,13 @@ public class NotificationList extends Activity{
 		@Override
 		protected void newOnPostExecute(JSONObject result) {
 			if(result!=null) {
-				List<Notification> notifications = DeviceController.getInstance().getParsingController().getNotificationParser().parsingAllNotification(result);
-				if(notifications!=null)
-					listView.setAdapter(new NotificationAdapter(act, notifications));
+				try {
+					List<Notification> notifications = DeviceController.getInstance().getParsingController().getNotificationParser().parseListFromJsonObject(result);
+					if(notifications!=null)
+						listView.setAdapter(new NotificationAdapter(act, notifications));
+				} catch (Exception e) {
+					UtilAndroid.makeToast(getApplicationContext(), "Error while parsing notifications...", 5000);
+				}
 			}else
 				UtilAndroid.makeToast(getApplicationContext(), "There are no notifications...", 5000);
 		}

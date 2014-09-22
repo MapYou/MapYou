@@ -15,7 +15,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -29,30 +28,13 @@ public class ParsingChatMessage implements ParserInterface<ChatMessage> {
 
 	}
 
-	public List<ChatMessage> parsingAllChatMessageNotifcation(JSONObject result){
-		try {
-			List<ChatMessage> notifications = new ArrayList<ChatMessage>();
-			JSONArray jsonArr = result.getJSONArray("");
-			for(int i=0; i<jsonArr.length(); i++){
-				ChatMessage mp= parsingNotificationFromMapme(jsonArr.getJSONObject(i));
-				if(mp!=null)
-					notifications.add(mp);
-			}
-			return notifications;
-		} catch (JSONException e) {
-
-			e.printStackTrace();
-			return new ArrayList<ChatMessage>();
-		}
-	}
-
 	public ChatMessage parsingNotificationFromMapme (JSONObject json){
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			ChatMessage m= new ChatMessage();
-			User notifier = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notifier"));
-			User notified = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notified"));
+			User notifier = ParsingController.getParser().getUserParser().parseFromJsonArray(json.getJSONArray("notifier"));
+			User notified = ParsingController.getParser().getUserParser().parseFromJsonArray(json.getJSONArray("notified"));
 			MapMe mapme = new MapMe();
 			mapme.setName(json.getJSONArray("mapme").getJSONObject(0).getString("name"));
 			mapme.setModelID(Integer.parseInt(json.getJSONArray("mapme").getJSONObject(0).getString("id")));
@@ -96,8 +78,8 @@ public class ParsingChatMessage implements ParserInterface<ChatMessage> {
 				m.setDate(g);
 			}else;
 
-			User notifier = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notifier"));
-			User notified = ParsingController.getParser().getUserParser().parseUserFromJsonArray(json.getJSONArray("notified"));
+			User notifier = ParsingController.getParser().getUserParser().parseFromJsonArray(json.getJSONArray("notifier"));
+			User notified = ParsingController.getParser().getUserParser().parseFromJsonArray(json.getJSONArray("notified"));
 			m.setNotified(notified);
 			m.setNotifier(notifier);
 			m.setMessage(json.getString("state"));
@@ -123,6 +105,32 @@ public class ParsingChatMessage implements ParserInterface<ChatMessage> {
 	 */
 	@Override
 	public ChatMessage parseFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public List<ChatMessage> parseListFromJsonObject(JSONObject o)
+			throws Exception {
+		List<ChatMessage> notifications = new ArrayList<ChatMessage>();
+		JSONArray jsonArr = o.getJSONArray("");
+		for(int i=0; i<jsonArr.length(); i++){
+			ChatMessage mp= parsingNotificationFromMapme(jsonArr.getJSONObject(i));
+			if(mp!=null)
+				notifications.add(mp);
+		}
+		return notifications;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public List<ChatMessage> parseListFromJsonArray(JSONArray o)
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

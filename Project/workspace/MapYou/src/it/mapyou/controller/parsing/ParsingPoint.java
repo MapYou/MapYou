@@ -3,6 +3,8 @@
  */
 package it.mapyou.controller.parsing;
 
+import java.util.List;
+
 import it.mapyou.model.Point;
 
 import org.json.JSONArray;
@@ -38,6 +40,24 @@ public class ParsingPoint implements ParserInterface<Point> {
 			ptn.setLocation(json.getString("location"));
 		}
 		return ptn;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public List<Point> parseListFromJsonObject(JSONObject o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public List<Point> parseListFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

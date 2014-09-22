@@ -18,28 +18,6 @@ import org.json.JSONObject;
 public class ParsingUser implements ParserInterface<User> {
 
 
-	public List<User> getParsingUsers (JSONObject json){
-
-		try {
-			List<User> u= new ArrayList<User>();
-			JSONArray jsonArray = json.getJSONArray("Users");
-			for(int i=0; i<jsonArray.length(); i++){
-				json = jsonArray.getJSONObject(i);
-				User user = new User();
-				user.setNickname(json.getString("nickname"));
-				user.setEmail(json.getString("email"));
-				user.setModelID(json.getInt("id"));
-				u.add(user);
-			}
-			return u;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<User>();
-		}
-
-	}
-
-
 	@Override
 	public User parseFromJsonObject(JSONObject json) throws Exception {
 		User user= new User();
@@ -66,5 +44,34 @@ public class ParsingUser implements ParserInterface<User> {
 			user.setModelID(json.getInt("id"));
 		}
 		return user;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonObject(org.json.JSONObject)
+	 */
+	@Override
+	public List<User> parseListFromJsonObject(JSONObject o) throws Exception {
+		List<User> u= new ArrayList<User>();
+		JSONArray jsonArray = o.getJSONArray("Users");
+		for(int i=0; i<jsonArray.length(); i++){
+			o = jsonArray.getJSONObject(i);
+			User user = new User();
+			user.setNickname(o.getString("nickname"));
+			user.setEmail(o.getString("email"));
+			user.setModelID(o.getInt("id"));
+			u.add(user);
+		}
+		return u;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.parsing.ParserInterface#parseListFromJsonArray(org.json.JSONArray)
+	 */
+	@Override
+	public List<User> parseListFromJsonArray(JSONArray o) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

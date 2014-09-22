@@ -194,7 +194,7 @@ public class BroadcastChat extends MapyouActivity {
 
 			if(result!=null){
 				try {
-					notification = DeviceController.getInstance().getParsingController().getChatMessageParser().parsingAllChatMessageNotifcation(result);
+					notification = DeviceController.getInstance().getParsingController().getChatMessageParser().parseListFromJsonObject(result);
 				} catch (Exception e) {
 					notification = new ArrayList<ChatMessage>();
 				}

@@ -21,10 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -95,13 +92,17 @@ public class ChatHome extends MapyouActivity {
 			if(result==null){
 				UtilAndroid.makeToast(getApplicationContext(), "Please refresh....", 5000);
 			}else{
-				users= DeviceController.getInstance().getParsingController().getUserParser().getParsingUsers(result);
-				if(users!=null){
-					getListWithoutAdmin(users);
-					gridView.setAdapter(new AdapterChatHome(act, users));
+				try {
+					users= DeviceController.getInstance().getParsingController().getUserParser().parseListFromJsonObject(result);
+					if(users!=null){
+						getListWithoutAdmin(users);
+						gridView.setAdapter(new AdapterChatHome(act, users));
+					}
+					else
+						UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
+				} catch (Exception e) {
+					UtilAndroid.makeToast(act, "Error while parsing your mapme.", 5000);
 				}
-				else
-					UtilAndroid.makeToast(act, "Error while fetching your mapme.", 5000);
 			}
 		}
 	}
