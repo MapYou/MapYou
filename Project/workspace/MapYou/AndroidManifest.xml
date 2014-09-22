@@ -59,8 +59,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MapMeMenu" >
-        </activity>
         <activity android:name="it.mapyou.view.Register" >
         </activity>
         <activity android:name=".view.Forgot" >
