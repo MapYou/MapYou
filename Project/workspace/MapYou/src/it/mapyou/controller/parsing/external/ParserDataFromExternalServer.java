@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.mapyou.controller.navigator;
+package it.mapyou.controller.parsing.external;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

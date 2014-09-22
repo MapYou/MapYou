@@ -1,4 +1,4 @@
-package it.mapyou.controller.navigator;
+package it.mapyou.controller.parsing.external;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

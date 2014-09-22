@@ -4,7 +4,7 @@ package it.mapyou.view;
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
 import it.mapyou.controller.FileControllerCache;
-import it.mapyou.controller.navigator.ParserDataFromDirectionsApi;
+import it.mapyou.controller.parsing.external.ParserDataFromDirectionsApi;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;

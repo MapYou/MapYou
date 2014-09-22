@@ -1,4 +1,4 @@
-package it.mapyou.controller.navigator;
+package it.mapyou.controller.parsing.external;
 
 
 public class ConfigurationGeocodingApi implements ConfigurationExternalAPI{

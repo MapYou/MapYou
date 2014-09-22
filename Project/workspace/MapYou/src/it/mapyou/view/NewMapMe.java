@@ -4,10 +4,10 @@ package it.mapyou.view;
 
 import it.mapyou.R;
 import it.mapyou.controller.DeviceController;
-import it.mapyou.controller.navigator.ConfigurationGeocodingApi;
-import it.mapyou.controller.navigator.ParserDataFromGeocoding;
 import it.mapyou.controller.network.AbstractAsyncTask;
 import it.mapyou.controller.network.SettingsServer;
+import it.mapyou.controller.parsing.external.ConfigurationGeocodingApi;
+import it.mapyou.controller.parsing.external.ParserDataFromGeocoding;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
 import it.mapyou.model.Route;

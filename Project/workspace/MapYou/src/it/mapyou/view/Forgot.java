@@ -91,14 +91,13 @@ public class Forgot extends Activity {
 
 	public boolean verifyField(){
 
-		EmailValidator e= new EmailValidator();
 		boolean verify=false;
 		String mail = email.getText().toString().replace(" ", "");
 
 		if(mail.equalsIgnoreCase("")){
 			UtilAndroid.makeToast(getApplicationContext(), "Email cannot be empty!", 5000);
 			verify=false;}
-		else if(!e.validate(mail)){ 
+		else if(!EmailValidator.validate(mail)){ 
 			UtilAndroid.makeToast(getApplicationContext(), "Email is not valid!", 5000);
 			verify=false;}
 		else 

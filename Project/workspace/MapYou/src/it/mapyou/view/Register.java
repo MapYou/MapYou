@@ -106,7 +106,6 @@ public class Register extends MapyouActivity{
 
 	public boolean verifyItems(){
 
-		EmailValidator val= new EmailValidator();
 		boolean correct=false;
 		if(nickname.getText().toString().equalsIgnoreCase("") || 
 				password.getText().toString().equalsIgnoreCase("") || 
@@ -125,7 +124,7 @@ public class Register extends MapyouActivity{
 				password.getText().toString().compareTo(confirmP.getText().toString())!=0){
 			UtilAndroid.makeToast(getApplicationContext(), "Password doesn't match", 4000);
 			correct=false;
-		}else if(!val.validate(email.getText().toString())){
+		}else if(!EmailValidator.validate(email.getText().toString())){
 			UtilAndroid.makeToast(getApplicationContext(), "Email is not ammissible", 4000);
 			correct=false;
 		}else

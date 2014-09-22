@@ -1,4 +1,4 @@
-package it.mapyou.controller.navigator;
+package it.mapyou.controller.parsing.external;
 import it.mapyou.model.Point;
 
 import java.io.BufferedReader;
