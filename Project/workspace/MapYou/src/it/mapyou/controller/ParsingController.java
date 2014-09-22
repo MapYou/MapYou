@@ -14,7 +14,7 @@ import it.mapyou.controller.parsing.ParsingUser;
  * @author mapyou (mapyouu@gmail.com)
  *
  */
-public class ParsingController {
+public class ParsingController implements Controller{
 	
 	
 	private static ParsingController parser;
@@ -70,6 +70,22 @@ public class ParsingController {
 		if(parsingNotification==null)
 			return parsingNotification = new ParsingNotification();
 		return parsingNotification;
+	}
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#init(java.lang.Object[])
+	 */
+	@Override
+	public void init(Object... parameters) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#isInitialized()
+	 */
+	@Override
+	public boolean isInitialized() throws Exception {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
 	

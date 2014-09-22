@@ -56,6 +56,7 @@ public class DeviceController implements Controller{
 			server = Server.getServer();
 			notificationServer= NotificationServer.getNotificationServer();
 			server.open(null, null);
+			ParsingController.getParser().init(parameters);
 			parsingController= ParsingController.getParser();
  
 			boolean serverConnected = server.isOpened();
@@ -68,6 +69,17 @@ public class DeviceController implements Controller{
 			throw new Exception(e.getMessage());
 		}
 		
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#isInitialized()
+	 */
+	@Override
+	public boolean isInitialized() throws Exception {
+		// TODO Auto-generated method stub
+		return server!=null && server.isOpened() && parsingController.isInitialized();
 	}
 
 

@@ -29,14 +29,9 @@ public class Server implements ServerInterface {
 
 	private static Server server;
 	private HttpURLConnection urlConnection;
-	private boolean isOpened;
-
+	
 	private Server(){
 		
-	}
-
-	public boolean isOpened() {
-		return isOpened;
 	}
 
 	public static Server getServer() {
@@ -59,10 +54,7 @@ public class Server implements ServerInterface {
 
 	@Override
 	public boolean open(String conn, String parameters) {
-
-		isOpened = true;
-		return isOpened;
-
+		return true;
 	}
 
 	@Override
@@ -170,5 +162,13 @@ public class Server implements ServerInterface {
 				parameters.append('&');
 		}
 		return parameters.toString();
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isOpened() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

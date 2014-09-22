@@ -123,4 +123,13 @@ public class FileControllerCache implements Controller{
 			throw new IllegalArgumentException("The first argument of 'parameters' must be a Context object.");
 	}
 
+	/* (non-Javadoc)
+	 * @see it.mapyou.controller.Controller#isInitialized()
+	 */
+	@Override
+	public boolean isInitialized() throws Exception {
+		// TODO Auto-generated method stub
+		return c!=null && (c instanceof Context);
+	}
+
 }

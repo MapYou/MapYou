@@ -10,4 +10,5 @@ public interface Controller {
 	
 	public void init(Object...parameters) throws Exception;
 
+	public boolean isInitialized() throws Exception;
 }
