@@ -134,13 +134,6 @@ public class NotificationServer extends Application  implements NotificationServ
 
 		wakeLock.acquire();
 	}
-	
-	public  void releaseWakeLock() {
-		if (wakeLock != null) 
-			wakeLock.release(); 
-		wakeLock = null;
-	}
-
 
 	public String setParameters(HashMap<String, String> params) {
 

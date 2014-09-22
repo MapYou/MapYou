@@ -1,7 +1,14 @@
 /**
  * 
  */
-package it.mapyou.controller.parsing;
+package it.mapyou.controller;
+
+import it.mapyou.controller.parsing.ParsingChatMessage;
+import it.mapyou.controller.parsing.ParsingMapMe;
+import it.mapyou.controller.parsing.ParsingMapping;
+import it.mapyou.controller.parsing.ParsingNotification;
+import it.mapyou.controller.parsing.ParsingPoint;
+import it.mapyou.controller.parsing.ParsingUser;
 
 /**
  * @author mapyou (mapyouu@gmail.com)

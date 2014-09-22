@@ -6,6 +6,7 @@ package it.mapyou.controller.parsing;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.mapyou.controller.ParsingController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Notification;
 import it.mapyou.model.User;

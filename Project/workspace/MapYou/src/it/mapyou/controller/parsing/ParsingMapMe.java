@@ -3,6 +3,7 @@
  */
 package it.mapyou.controller.parsing;
 
+import it.mapyou.controller.ParsingController;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.Point;
 import it.mapyou.model.Route;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
 public class ParsingMapMe {
 	
 	 
-	ParsingMapMe() {
+	public ParsingMapMe() {
 		 
 	}
 	

@@ -11,7 +11,7 @@ import org.json.JSONObject;
  
 public class ParsingPoint {
 	
-	ParsingPoint(){
+	public ParsingPoint(){
 		
 	}
 	// getPointByJson

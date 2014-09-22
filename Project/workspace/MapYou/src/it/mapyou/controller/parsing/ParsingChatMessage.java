@@ -3,6 +3,7 @@
  */
 package it.mapyou.controller.parsing;
 
+import it.mapyou.controller.ParsingController;
 import it.mapyou.model.ChatMessage;
 import it.mapyou.model.MapMe;
 import it.mapyou.model.User;

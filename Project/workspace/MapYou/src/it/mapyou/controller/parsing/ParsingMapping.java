@@ -3,6 +3,7 @@
  */
 package it.mapyou.controller.parsing;
 
+import it.mapyou.controller.ParsingController;
 import it.mapyou.model.MappingUser;
 import it.mapyou.model.Point;
 import it.mapyou.model.User;
