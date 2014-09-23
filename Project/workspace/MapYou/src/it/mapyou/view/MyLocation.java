@@ -201,8 +201,6 @@ public class MyLocation implements LocationListener  {
 				try {
 
 					FileControllerCache.getInstance(UtilAndroid.NAME_OF_FILE_CACHE).write(result.toString());
-	//				fileCahce.read();
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

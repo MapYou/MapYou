@@ -20,7 +20,7 @@ import android.content.Context;
  */
 public class FileControllerCache implements Controller{
 
-	private String name_of_file;
+	private static String name_of_file;
 	private Context c;
 	private static FileControllerCache instance;
 
@@ -32,8 +32,9 @@ public class FileControllerCache implements Controller{
 	 * @return the instance
 	 */
 	public static FileControllerCache getInstance(String n) {
+		name_of_file=n;
 		if(instance==null)
-			instance = new FileControllerCache(n);
+			instance = new FileControllerCache(name_of_file);
 		return instance;
 	}
 
