@@ -12,6 +12,7 @@ import it.mapyou.view.adapter.AdapterUsersMapMeOnDeleteUser;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -128,7 +130,7 @@ public class MapMeUserHome extends MapyouActivity {
 								@Override
 								public void run() {
 
-									new DownloadUserAndSend(act).execute(nickname);
+									new DownloadUserAndSend().execute(nickname);
 
 								}
 							}).start();
@@ -197,15 +199,21 @@ public class MapMeUserHome extends MapyouActivity {
 		}
 	}
 
-	class DownloadUserAndSend extends AbstractAsyncTask<String, Void, String>{
+	class DownloadUserAndSend extends AsyncTask<String, Void, String>{
 
-		/**
-		 * @param act
-		 */
-		public DownloadUserAndSend(Activity act) {
-			super(act);
-			// TODO Auto-generated constructor stub
+		private HashMap<String, String> parameters= new HashMap<String, String>();
+		
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if(!UtilAndroid.findConnection(act.getApplicationContext()))
+			{
+				UtilAndroid.makeToast(act.getApplicationContext(), "Internet Connection not found", 5000);
+			}else;
 		}
+		
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -227,7 +235,7 @@ public class MapMeUserHome extends MapyouActivity {
 			}
 		}
 		@Override
-		protected void newOnPostExecute(String result) {
+		protected void onPostExecute(String result) {
 			 
 			if(result.contains("send")){
 				UtilAndroid.makeToast(getApplicationContext(), "invite for "+mapme.getName()+" has been send!", 5000);
