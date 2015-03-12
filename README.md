@@ -3,18 +3,18 @@ MapYou
 
 Software Engineering Project
 
-
-MapYou Ë un sistema che consente ad un insieme di utenti, appartenenti ad una community (MapMe), 
-di raggiungere una location, tramite un percorso, e ìguidarliî al raggiungimento della stessa mediante 
+<p>
+MapYou √® un sistema che consente ad un insieme di utenti, appartenenti ad una community (MapMe), 
+di raggiungere una location, tramite un percorso, e ‚Äúguidarli‚Äù al raggiungimento della stessa mediante 
 un servizio di visione comune degli spostamenti effettuati dagli altri utenti.
 Tale servizio include:
-ï	una sezione interattiva (RTI: real-time interaction):
+‚Ä¢	una sezione interattiva (RTI: real-time interaction):
 	o	visualizzazione real-time delle posizioni degli utenti iscritti alla MapMe;
 	o	visualizzazione del percorso della MapMe;
-ï	lo scambio di messaggi tra utenti.
+‚Ä¢	lo scambio di messaggi tra utenti.
 
 Gli utenti sono classificati in due tipologie:
-
-ï	Mapper: utente amministratore della MapMe, che promuove una location;
-ï	Mapped: utente iscritto alla MapMe creata dal Mapper.
-
+<ul>
+<li>‚Ä¢	Mapper: utente amministratore della MapMe, che promuove una location;</li>
+<li>‚Ä¢	Mapped: utente iscritto alla MapMe creata dal Mapper.</li>
+</p>
