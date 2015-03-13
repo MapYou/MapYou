@@ -22,3 +22,6 @@ Gli utenti sono classificati in due tipologie:
 <li>Mapped: utente iscritto alla MapMe creata dal Mapper.</li>
 </ul>
 </p>
+<br><br>
+<p>
+MapYou è scritto in Java per piattaforma Android</p>
