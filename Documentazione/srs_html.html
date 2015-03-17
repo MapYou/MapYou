@@ -1,0 +1,950 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<p align="center">Software Requirements Specification</p>
+<p>&nbsp;</p>
+<p align="center"><strong>MapYou</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p align="center"><strong>Giuseppe Fusco</strong><br />
+  matricola:  399000091<br />
+  email: <a href="mailto:giuseppe.fusco.666@gmail.com">giuseppe.fusco.666@gmail.com</a></p>
+<p align="center"><strong>Giovanni Di Blasio</strong><br />
+  matricola:  399000090<br />
+  email: <a href="mailto:diblasiogiovanni48@gmail.com">diblasiogiovanni48@gmail.com</a></p>
+<p align="center">&nbsp;</p>
+<p>Indice</p>
+<ul>
+  <li>Introduzione</li>
+  <ul>
+    <li>Obiettivo</li>
+    <li>Scopo</li>
+    <li>Definizioni, acronimi e abbreviazioni</li>
+    <li>Riferimenti</li>
+    <li>Panoramica sul resto del documento</li>
+  </ul>
+</ul>
+<ul>
+  <li>Descrizione generale</li>
+  <ul>
+    <li>Prospettive del prodotto</li>
+    <li>Funzioni di prodotto</li>
+    <li>Caratteristiche utenti</li>
+    <li>Vincoli</li>
+    <li>Assunzioni e dipendenze</li>
+  </ul>
+</ul>
+<ul>
+  <li>Specifiche dei requisiti</li>
+  <ul>
+    <li>Requisiti delle interfacce esterne</li>
+    <ul>
+      <li>Interfacce utente</li>
+      <li>Interfacce hardware</li>
+      <li>Interfacce software</li>
+      <li>Interfacce di comunicazione</li>
+    </ul>
+    <li>Requisiti funzionali</li>
+    <li>Requisiti non funzionali</li>
+    <li>Vincoli di progettazione</li>
+    <li>Attributi del sistema</li>
+    <li>Altri requisiti</li>
+  </ul>
+</ul>
+<p>&nbsp;</p>
+<p>1. Introduzione</p>
+<p>1.1. Obiettivo</p>
+<p>L&rsquo;obiettivo del documento è fornire una  descrizione dettagliata dei requisiti per il sistema software &ldquo;MapYou&rdquo;.</p>
+<p><br />
+  1.2. Scopo<br />
+  <strong>Mapyou</strong> è un&rsquo;applicazione/sistema  mobile su piattaforma Android che consente ad un insieme di utenti,  appartenenti ad una community (<strong>Mapme</strong>), di raggiungere una location, tramite un percorso, e  &ldquo;guidarli&rdquo; al raggiungimento della stessa.<br />
+  L&rsquo;utilizzo  del sistema è consentito solo tramite registrazione.<br />
+  Mapyou  fornisce agli utenti iscritti ad una Mapme un  servizio di visione comune degli spostamenti effettuati dagli altri utenti per  facilitarne l&rsquo;indirizzamento verso la location di arrivo.<br />
+Tale  servizio include:</p>
+<ul>
+  <li>una sezione interattiva (<strong>RTI</strong>: real-time interaction):</li>
+  <ul>
+    <li>visualizzazione real-time delle posizioni degli  utenti iscritti alla Mapme;</li>
+    <li>visualizzazione del percorso della Mapme;</li>
+  </ul>
+  <li>lo scambio di messaggi tra utenti.</li>
+</ul>
+<p>Per fornire tale servizio il sistema necessita di  una connessione sia Internet che GPS per ottenere le informazioni geografiche  degli utenti.<br />
+  Lo scambio di messaggi tra utenti è realizzato  mediante un sistema di chat interno all&rsquo;applicazione mobile.<br />
+  Tutte le informazioni del sistema sono mantenute in  un database locato su un server.<br />
+  L&rsquo;applicazione potrà essere scaricata da qualsiasi  application store o servizi simili.</p>
+<p>1.3. Definizioni, acronimi e abbreviazioni</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="187" valign="top"><p><strong>Termine</strong></p></td>
+    <td width="465" valign="top"><p><strong>Definizione</strong></p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Mapyou</strong><strong> </strong></p></td>
+    <td width="465" valign="top"><p>Nome del sistema </p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Utente</strong></p></td>
+    <td width="465" valign="top"><p>Qualcuno    che interagisce con l&rsquo;applicazione mobile</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Location</strong></p></td>
+    <td width="465" valign="top"><p>Locazione fisica di un punto di arrivo/destinazione</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Mapper</strong></p></td>
+    <td width="465" valign="top"><p>Utente    che decide/sceglie/promuove una location di destinazione</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Mapme</strong></p></td>
+    <td width="465" valign="top"><p>Comunità/gruppo/insieme di utenti</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Mapped</strong></p></td>
+    <td width="465" valign="top"><p>Utente    che fa parte di una mapme</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>RTI</strong></p></td>
+    <td width="465" valign="top"><p>Modalità di interazione real-time con il sistema</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>GPS</strong></p></td>
+    <td width="465" valign="top"><p>Global    Positioning System</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>GPS-Navigator</strong></p></td>
+    <td width="465" valign="top"><p>Software installato sul dispositivo mobile che fornisce connessioni    GPS</p></td>
+  </tr>
+  <tr>
+    <td width="187" valign="top"><p><strong>Notification-System</strong></p></td>
+    <td width="465" valign="top"><p>Sistema    software di terze parti che permette l&rsquo;invio di notifiche verso dispositivi    mobile</p></td>
+  </tr>
+</table>
+<p>1.4. Riferimenti</p>
+<p>1.5. Panoramica sul resto del documento</p>
+<p>&nbsp;</p>
+<p>2. Descrizione generale</p>
+<p>&nbsp;</p>
+<p>2.1. Prospettive del prodotto<br />
+  2.2. Funzioni di prodotto<br />
+  2.3. Caratteristiche utenti<br />
+  Gli  utenti sono classificati in due tipologie:</p>
+<ul>
+  <li><strong>Mapper<em>: </em></strong>utente amministratore della Mapme, che promuove una location;<strong></strong></li>
+  <li><strong>Mapped<em>: </em></strong>utente iscritto alla Mapme creata dal Mapper.<strong></strong></li>
+</ul>
+<p>&nbsp;</p>
+<p>Una  Mapme è caratterizzata da </p>
+<ul>
+  <li>un punto di partenza;</li>
+  <li>un punto di arrivo;</li>
+  <li>un amministratore (Mapper);</li>
+  <li>un insieme di utenti (Mapped).</li>
+</ul>
+<p>Qualsiasi  utente può creare una Mapme, diventando il Mapper della  stessa.<br />
+  Ogni  Mapper può annullare le proprie Mapme.<br />
+  Un  Mapper può invitare alla propria Mapme un insieme di utenti, i quali  hanno facoltà di accettare o meno l&rsquo;invito. <br />
+  Un  utente può richiedere la partecipazione ad una Mapme  creata dal Mapper, il quale può decidere di accettare o rifiutare la  partecipazione.</p>
+<p>2.4. Vincoli<br />
+  2.5. Assunzioni e dipendenze</p>
+<p>&nbsp;</p>
+<p>3. Specifiche dei requisiti<br />
+La sezione  contiene tutti i requisiti funzionali e non funzionali del sistema. Fornisce  una descrizione dettagliata del sistema e delle sue funzionalità.</p>
+<p>3.1. Requisiti delle interfacce esterne<br />
+  La sezione fornisce una descrizione  dettagliata di tutti gli input e output del sistema. Fornisce anche una  descrizione delle interfacce hardware, software e di comunicazione e fornisce  dei prototipi base dell&rsquo;interfaccia utente.</p>
+<p>	3.1.1. Interfacce utente</p>
+<p><br />
+  3.1.1. Interfacce hardware<br />
+  D	al momento  che il sistema supporta la funzionalità della rilevazione della geoposizione,  il GPS fisico è gestito da un&rsquo;apposita applicazione interna al sistema  operativo. Anche la connessione hardware al database server viene gestita dal  sottostante sistema operativo.</p>
+<p><br />
+  3.1.1. Interfacce software<br />
+  Il sistema  comunica con l&rsquo;applicazione GPS per ottenere informazioni geografiche sulla  località dell&rsquo;utente e realizzarne una rappresentazione visuale</p>
+<p><br />
+  3.1.1. Interfacce di  comunicazione<br />
+  La  comunicazione tra le differenti parti del sistema è importante in quanto esse dipendono  l&rsquo;una dall&rsquo;altra. Ad ogni modo le comunicazioni tra il dispositivo ed il serve,  tra il server ed il Notification-System e quelle tra il Notification-System ed  il dispositivo mobile sono gestite dai rispettivi sistemi operativi.</p>
+<p>&nbsp;</p>
+<p>3.2. Requisiti funzionali<br />
+  Tale sezione  include i requisiti che specificano tutte le interazioni fondamentali con il  sistema software nel suo complesso.<br />
+User class 1 – L&rsquo;utente</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-1</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Accesso mediante nickname e password </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-2</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Accesso mediante social network </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-3</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Registrazione mediante nickname, password ed email </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-4</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Registrazione mediante social network </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-5</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Recupero della password mediante il nickname ed email </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-6</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Disconnessione dal sistema </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-7</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Cancellazione dell&rsquo;account </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="326" valign="top"><p align="center"><strong>ID: FR-8</strong></p></td>
+    <td width="326" valign="top"><p align="center"><strong>Tracciabilità delle informazioni agli utenti </strong></p></td>
+  </tr>
+  <tr>
+    <td width="326" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="326" valign="top"><p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="338" colspan="2" valign="top"><p align="center"><strong>ID: FR-9</strong></p></td>
+    <td width="319" valign="top"><p align="center"><strong>Creazione di una MapMe</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>La location di partenza;</li>
+      <li>La location di arrivo;</li>
+      <li>Il nome della MapMe;</li>
+      <li>La data di creazione;</li>
+      <li>Il numero massimo (m) di utenti che possono    essere iscritti alla MapMe;</li>
+      <li>Informazioni relative all&rsquo;utente che crea la    MapMe:</li>
+      <ul>
+        <li>Nickname;</li>
+        <li>Email;</li>
+        <li>Password.</li>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>La location di partenza è diversa da quella di    arrivo;</li>
+      <li>La data di creazione non è antecedente alla    data odierna;</li>
+      <li>m&gt;0;</li>
+      <li>Il nome della MapMe è diverso da quelli delle    altre MapMe create dall&rsquo;utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente viene notificato sull&rsquo;esito della    creazione della MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema è presente una nuova MapMe con le    seguenti informazioni:</li>
+      <ul>
+        <li>Location di partenza e di arrivo;</li>
+        <li>Nome;</li>
+        <li>Data di creazione;</li>
+        <li>numero massimo di utenti che possono essere    iscritti;</li>
+        <li>Numero di utenti iscritti pari a zero;</li>
+        <li>Amministratore della MapMe creata (corrisponde    all&rsquo;utente che ha creato la MapMe):</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email;</li>
+          <li>Password.</li>
+        </ul>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il    sistema fornisce all&rsquo;utente un modulo per inserire le informazioni relative    alla MapMe:</li>
+      <ul>
+        <li>Location di partenza e di arrivo;</li>
+        <li>Data di creazione;</li>
+        <li>Numero massimo di utenti che possono essere    iscritti alla MapMe;</li>
+        <li>Il nome della MapMe;</li>
+      </ul>
+      <li>Viene    eseguito il caso d&rsquo;uso &ldquo;<strong>Selezione    della location</strong>&rdquo; per inserire la location di partenza e di arrivo;</li>
+      <li>L&rsquo;utente    completa il riempimento del modulo con le seguenti informazioni:</li>
+      <ul>
+        <li>data di creazione;</li>
+        <li>numero massimo di utenti che possono essere    iscritti alla MapMe;</li>
+        <li>nome della MapMe.</li>
+      </ul>
+      <li>Il    sistema notifica l&rsquo;utente della corretta creazione della MapMe;</li>
+      <li>Il    caso d&rsquo;uso termina.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p>&nbsp;</p></td>
+    <td width="500" colspan="2" valign="top"><p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>2.    Viene eseguito uno scenario alternativo del caso d&rsquo;uso &ldquo;Selezione della    location&rdquo;<br />
+      2.1.    Il sistema notifica l&rsquo;utente con un messaggio d&rsquo;errore.<br />
+      2.2.    Il caso d&rsquo;uso riparte dal punto 2.</p></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>3. L&rsquo;utente non    inserisce correttamente le informazioni richieste<br />
+      3.1. Il sistema    notifica l&rsquo;utente con un messaggio d&rsquo;errore.<br />
+      3.2. Il caso    d&rsquo;uso riparte dal punto 3.</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="337" colspan="2" valign="top"><p align="center"><strong>ID: FR-10</strong></p></td>
+    <td width="320" valign="top"><p align="center"><strong>Richiesta di partecipazione ad una MapMe da parte di un utente</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>La MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>La MapMe è registrata nel sistema;</li>
+      <li>L&rsquo;utente non è iscritto alla MapMe;</li>
+      <li>L&rsquo;utente non è amministratore della MapMe;</li>
+      <li>Il numero di iscritti alla MapMe è    strettamente inferiore al numero massimo di utenti che possono essere    iscritti alla MapMe stessa.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente viene notificato sull&rsquo;esito della    creazione della richiesta di partecipazione.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema è presente una nuova richiesta di    partecipazione con le seguenti informazioni:</li>
+      <ul>
+        <li>Utente che ha richiesto la partecipazione;</li>
+        <li>MapMe.</li>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il sistema fornisce all&rsquo;utente un modulo per    l&rsquo;inserimento delle seguenti informazioni:</li>
+      <ul>
+        <li>La    MapMe</li>
+      </ul>
+      <li>L&rsquo;utente riempie il modulo con le informazioni    richieste;</li>
+      <li>Il sistema notifica l&rsquo;utente della corretta creazione    della richiesta di partecipazione;</li>
+      <li>Il caso d&rsquo;uso termina;</li>
+      <li>L&rsquo;amministratore della MapMe viene notificato,    eseguendo il caso d&rsquo;uso &ldquo;<strong>Gestione    notifiche (Request)</strong>&rdquo;.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente non inserisce correttamente le informazioni    richieste</li>
+      <ul>
+        <li>Il    sistema notifica l&rsquo;utente con un messaggio d&rsquo;errore.</li>
+        <li>Il caso    d&rsquo;uso riparte dal punto 2.</li>
+      </ul>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="337" colspan="2" valign="top"><p align="center"><strong>ID: FR-11</strong></p></td>
+    <td width="320" valign="top"><p align="center"><strong>Invito di un utente ad una MapMe da parte dell&rsquo;amministratore</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente destinatario;</li>
+      <li>La MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>L&rsquo;utente destinatario è registrato nel    sistema;</li>
+      <li>La MapMe è registrata nel sistema;</li>
+      <li>L&rsquo;utente è amministratore della MapMe;</li>
+      <li>Il numero di iscritti alla MapMe è    strettamente inferiore al numero massimo di utenti che possono essere    iscritti alla MapMe stessa.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente viene notificato sull&rsquo;esito della    creazione dell&rsquo;invito.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema è registrato un nuovo invito, con    le seguenti informazioni:</li>
+      <ul>
+        <li>Informazioni sull&rsquo;utente mittente</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email.</li>
+        </ul>
+        <li>Informazioni sull&rsquo;utente destinatario</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email.</li>
+        </ul>
+        <li>Informazioni sulla MapMe:</li>
+        <ul>
+          <li>Location di partenza e di arrivo;</li>
+          <li>Nome;</li>
+          <li>Data di creazione;</li>
+          <li>numero massimo di utenti che possono essere    iscritti;</li>
+          <li>Numero di utenti iscritti;</li>
+          <li>Amministratore della MapMe creata:</li>
+          <ul>
+            <li>Nickname;</li>
+            <li>Email;</li>
+            <li>Password.</li>
+          </ul>
+        </ul>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il    sistema fornisce all&rsquo;utente mittente un modulo per inserire le seguenti    informazioni:</li>
+      <ul>
+        <li>Utente destinatario;</li>
+        <li>MapMe.</li>
+      </ul>
+      <li>L&rsquo;utente    mittente riempie il modulo;</li>
+      <li>Il    sistema notifica l&rsquo;utente mittente della corretta creazione dell&rsquo;invito;</li>
+      <li>Il    caso d&rsquo;uso termina;</li>
+      <li>L&rsquo;utente    destinatario viene notificato, eseguendo il caso d&rsquo;uso &ldquo;<strong>Gestione notifiche (Invite)</strong>&rdquo;.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>2. L&rsquo;utente non    inserisce correttamente le informazioni richieste<br />
+      2.1. Il sistema    notifica l&rsquo;utente con un messaggio d&rsquo;errore.<br />
+      2.2. Il caso    d&rsquo;uso riparte dal punto 2.<strong></strong></p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="338" colspan="2" valign="top"><p align="center"><strong>ID: FR-12</strong></p></td>
+    <td width="319" valign="top"><p align="center"><strong>Selezione della location</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>La lista delle location.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>La lista non è vuota.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente viene notificato sull&rsquo;esito della    selezione.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema è presente una nuova selezione    della location con le seguenti informazioni:</li>
+      <ul>
+        <li>Informazioni relative all&rsquo;utente attore del    caso d&rsquo;uso:</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email;</li>
+          <li>Password.</li>
+        </ul>
+        <li>Informazioni relative alla location:</li>
+        <ul>
+          <li>Latitudine;</li>
+          <li>Longitudine.</li>
+        </ul>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il sistema mette a disposizione dell&rsquo;utente la lista    delle location;</li>
+      <li>L&rsquo;utente seleziona una location dalla lista;</li>
+      <li>Il sistema notifica l&rsquo;utente della corretta    selezione;</li>
+      <li>Il caso d&rsquo;uso termina.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>2. L&rsquo;utente non    seleziona una location dalla lista</p>
+      <ul>
+        <ul>
+          <li>Il    sistema notifica l&rsquo;utente con un messaggio d&rsquo;errore.</li>
+          <li>Il    sistema riparte dal punto 2.</li>
+        </ul>
+      </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="338" colspan="2" valign="top"><p align="center"><strong>ID: FR-13</strong></p></td>
+    <td width="319" valign="top"><p align="center"><strong>Invio di un messaggio privato ad un utente</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente destinatario;</li>
+      <li>Il testo del messaggio;</li>
+      <li>La data di invio.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>L&rsquo;utente destinatario è registrato nel    sistema;</li>
+      <li>L&rsquo;utente ha eseguito il caso d&rsquo;uso &ldquo;<strong>Accesso alla sezione RTI</strong>&rdquo;;</li>
+      <li> La    lunghezza del testo del messaggio è maggiore di zero;</li>
+      <li>La data di invio non è antecedente alla data    odierna.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente viene notificato sull&rsquo;esito    dell&rsquo;invio del messaggio.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema è registrato un nuovo messaggio,    con le seguenti informazioni:</li>
+      <ul>
+        <li>Informazioni sull&rsquo;utente mittente</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email.</li>
+        </ul>
+        <li>Informazioni sull&rsquo;utente destinatario</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email.</li>
+        </ul>
+        <li>Il testo del messaggio;</li>
+        <li>La data di invio.</li>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il    sistema fornisce all&rsquo;utente mittente un modulo per inserire le seguenti    informazioni:</li>
+      <ul>
+        <li>Utente destinatario;</li>
+        <li>Il testo del messaggio;</li>
+        <li>La data di invio.</li>
+      </ul>
+      <li>L&rsquo;utente    mittente riempie il modulo;</li>
+      <li>Viene    eseguito il caso d&rsquo;uso &ldquo;<strong>Gestione    notifiche (Message)</strong>&rdquo;.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>2. L&rsquo;utente non    inserisce correttamente le informazioni richieste<br />
+      2.1. Il sistema    notifica l&rsquo;utente con un messaggio d&rsquo;errore.<br />
+      2.2. Il caso    d&rsquo;uso riparte dal punto 2.<strong></strong></p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="338" colspan="2" valign="top"><p align="center"><strong>ID: FR-14</strong></p></td>
+    <td width="319" valign="top"><p align="center"><strong>Gestione notifiche (tipo di notifica)</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Sistema di notifica.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Messaggio di notifica:</li>
+      <ul>
+        <li>Utente    mittente;</li>
+        <li>Utente    destinatario;</li>
+        <li>Tipo    di messaggio:</li>
+        <ul>
+          <li>Invite:    invito di un utente ad una MapMe;</li>
+          <li>Request:    richiesta di partecipazione ad una MapMe;</li>
+          <li>Message:    messaggio privato tra utenti.</li>
+        </ul>
+      </ul>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente destinatario è registrato al sistema;</li>
+      <li>L&rsquo;utente mittente è registrato al sistema.</li>
+    </ul>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente mittente viene notificato sull&rsquo;esito    dell&rsquo;invio della notifica.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente destinatario riceve il messaggio di    notifica.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO </strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il sistema invia al Sistema di notifica il messaggio    della notifica;</li>
+      <li>Il Sistema di notifica invia all&rsquo;utente destinatario    il messaggio di notifica;</li>
+      <li>Il sistema notifica l&rsquo;utente mittente sul corretto    invio del messaggio;</li>
+      <li>Il caso d&rsquo;uso termina.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>2. Il Sistema di    notifica non invia all&rsquo;utente destinatario il messaggio di notifica</p>
+      <ul>
+        <ul>
+          <li> Il sistema notifica l&rsquo;utente    mittente con un messaggio d&rsquo;errore</li>
+          <li> Il caso d&rsquo;uso termina </li>
+        </ul>
+      </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="338" colspan="2" valign="top"><p align="center"><strong>ID: FR-15</strong></p></td>
+    <td width="319" valign="top"><p align="center"><strong>Accesso alla sezione RTI</strong></p></td>
+  </tr>
+  <tr>
+    <td width="657" colspan="3" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>ATTORI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Utente.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>INPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>La MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>PRECONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente è registrato nel sistema;</li>
+      <li>L&rsquo;utente è iscritto alla MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>OUTPUT</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>L&rsquo;utente visualizza la propria posizione e la    posizione degli utenti iscritti alla MapMe.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>POSTCONDIZIONI</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Nel sistema viene registrata la geoposizione    dell&rsquo;utente. </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    PRIMARIO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><ul>
+      <li>Il    sistema rileva la geoposizione dell&rsquo;utente;</li>
+      <li>Il    sistema rileva le geoposizioni degli utenti iscritti alla MapMe;</li>
+      <li>Il    sistema mostra le geoposizioni rilevate.</li>
+      <li>Il    sistema mostra il percorso tra la location di partenza e di arrivo della    MapMe;</li>
+      <li>Il    caso d&rsquo;uso termina.</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td width="157" valign="top"><p><strong>SCENARIO    ALTERNATIVO</strong></p></td>
+    <td width="500" colspan="2" valign="top"><p>1 e 2. Il    sistema non rileva la geoposizione<br />
+      a. Il sistema    notifica l&rsquo;utente con un messaggio d&rsquo;errore.<br />
+      b. Il caso d&rsquo;uso    termina.<strong></strong></p></td>
+  </tr>
+</table>
+<p>3.3. Requisiti non  funzionali</p>
+<p>3.4. Vincoli di progettazione<br />
+  Tale sezione  descrive i vincoli di progettazione definiti sui requisiti funzionali e non.</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><br />
+      <strong>ID: FR-2</strong></td>
+    <td width="451" valign="top"><p align="center"><strong>Accesso mediante social network </strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>L&rsquo;accesso mediante Facebook è consentito solo    se l&rsquo;utente ha un account Facebook.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-3</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Registrazione mediante nickname, password ed email </strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>La password deve essere confermata, cioè: la    password di conferma deve corrispondere alla password scelta;</li>
+      <li>La password scelta deve contenere almeno 6    caratteri alfanumerici;</li>
+      <li>L&rsquo;email deve essere verificata dall&rsquo;utente che    sta effettuando la registrazione;</li>
+      <li>Il nickname deve essere univoco.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-5</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Recupero della password mediante il nickname ed email </strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>Il nickname deve corrispondere allo stesso    nickname scelto in fase di registrazione;</li>
+      <li>L&rsquo;email deve corrispondere alla stessa email    scelta in fase di registrazione.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-7</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Cancellazione dell&rsquo;account </strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>La cancellazione dell&rsquo;account deve essere    confermata mediante la password scelta in fase di registrazione.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-8</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Tracciabilità delle informazioni agli utenti </strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>Gli utenti di una MapMe possono avere traccia    delle seguenti informazioni relative alla MapMe:</li>
+      <ul>
+        <li>Le location di partenza e di arrivo;</li>
+        <li>Informazioni relative agli utenti della MapMe:</li>
+        <ul>
+          <li>Nickname;</li>
+          <li>Email.</li>
+        </ul>
+      </ul>
+      <li>Gli utenti che <strong>non</strong> fanno parte di una MapMe possono avere traccia delle seguenti    informazioni relative alla MapMe:</li>
+      <ul>
+        <li>Le location di partenza e di arrivo;</li>
+        <li> Nickname    del Mapper.</li>
+      </ul>
+      <li>Ogni utente tiene traccia delle proprie    informazioni mediante un modulo contenente:</li>
+      <ul>
+        <li>Nickname;</li>
+        <li>Email;</li>
+        <li>Password;</li>
+        <li>La propria history all&rsquo;interno del sistema:</li>
+        <ul>
+          <li>Messaggi scambiati con gli altri utenti;</li>
+          <li>Notifiche per inviti e partecipazioni alle    MapMe.</li>
+        </ul>
+      </ul>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-9</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Creazione di una MapMe</strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>Il massimo numero di utenti che posso essere    iscritti ad una MapMe è al più 20.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-10</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Richiesta di partecipazione ad una MapMe da parte di un utente</strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>La richiesta di partecipazione ad una MapMe non    può essere effettuata se il numero di iscritti è pari al massimo consentito    dal requisito FR-9.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="206" valign="top"><p align="center"><strong>ID: FR-11</strong></p></td>
+    <td width="451" valign="top"><p align="center"><strong>Invito di un utente ad una MapMe da parte dell&rsquo;amministratore</strong></p></td>
+  </tr>
+  <tr>
+    <td width="206" valign="top"><p><strong>Descrizione</strong></p></td>
+    <td width="451" valign="top"><ul>
+      <li>Il Mapper sceglie gli utenti da invitare alla    propria MapMe da un opportuno sistema di memorizzazione contenente le    informazioni sugli utenti stessi;</li>
+      <li>Il Mapper può effettuare inviti, per ciascuna    MapMe, fino ad un massimo fissato dal requisito FR-9.</li>
+    </ul></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>3.5. Attributi del sistema<br />
+  3.6. Altri requisiti</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
