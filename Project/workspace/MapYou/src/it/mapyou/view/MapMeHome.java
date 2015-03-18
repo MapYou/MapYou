@@ -56,8 +56,6 @@ public class MapMeHome extends MapyouActivity {
 
 	}
 
- 
-
 	public void live(View v){
 
 		boolean isGPS=false;
