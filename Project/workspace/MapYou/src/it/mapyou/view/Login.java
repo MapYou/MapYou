@@ -59,7 +59,7 @@ public class Login extends FacebookController {
 	// onclick Login
 	public void login (View v){
 		if(verifyField())
-			{
+		{
 			new AbstractAsyncTask<Void, Void, Boolean>(act, "Loading...") {
 
 				private boolean isCorrectLogin;
@@ -70,16 +70,16 @@ public class Login extends FacebookController {
 					{
 						new UpdateT(act, "Please while starting application...").execute(result);
 					}
-				else
+					else
 					{
-					UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
+						UtilAndroid.makeToast(getApplicationContext(), "Please log-in!", 5000);
 					}
 				}
 
 				@Override
 				protected void newOnPreExecute() {
 					// TODO Auto-generated method stub
-					
+
 				}
 
 				@Override
@@ -106,7 +106,7 @@ public class Login extends FacebookController {
 					}
 				}
 			}.execute();
-			}
+		}
 	}
 
 	// onclick Registration
@@ -147,7 +147,7 @@ public class Login extends FacebookController {
 
 
 		private JSONObject jobj;
-		
+
 		public UpdateT(Context act, String message) {
 			super(act, message);
 			// TODO Auto-generated constructor stub
@@ -155,9 +155,9 @@ public class Login extends FacebookController {
 
 		@Override
 		protected void newOnPreExecute() {
-			
+
 		}
-		
+
 		@Override
 		protected JSONObject doInBackground(Boolean... params) {
 
