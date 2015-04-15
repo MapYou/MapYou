@@ -75,6 +75,7 @@ public class MapmeTest extends TestCase {
 	}
 
 	public void test_get_location(){
+		
 		String url= new ConfigurationGeocodingApi("napoli").getUrlFromApi();
 		List<HashMap<String, String>> listOfpoints= null;
 		ParserDataFromGeocoding parser= new ParserDataFromGeocoding();
