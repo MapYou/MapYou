@@ -80,6 +80,7 @@ public class MapmeTest extends TestCase {
 		List<HashMap<String, String>> listOfpoints= null;
 		ParserDataFromGeocoding parser= new ParserDataFromGeocoding();
 		String data= parser.retrieveData(url);
+
 		try {
 			listOfpoints= parser.parse(new JSONObject(data));
 //			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
