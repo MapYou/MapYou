@@ -21,7 +21,7 @@ public interface SettingsServer {
 	public static final String SELECT_PARTECIPATION = "retrieveInformationByInvite.php";
 	public static final String GET_ALL_USER = "getAllUserInMapMe.php";
 	public static final String GET_ALL_MAPPING = "getMapping.php";
-	public static final String GET_MAPME = "getMapme.php";
+	//public static final String GET_MAPME = "getMapme.php";
 	public static final String GET_ALL_NOTIFICATION = "getAllNotification.php";
 	public static final String CHAT="chatmessage.php";
 	public static final String DELETE_CHAT = "deleteChatMessage.php";

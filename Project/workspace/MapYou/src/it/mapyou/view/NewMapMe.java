@@ -190,7 +190,6 @@ public class NewMapMe extends FragmentActivity {
 			try {
 				Segment r= params[0].getSegment();
 				parameters.put("user", URLEncoder.encode(params[0].getAdministrator().getNickname().toString(), "UTF-8"));
-
 				parameters.put("name", URLEncoder.encode(params[0].getName().toString(), "UTF-8"));
 				parameters.put("slat", ""+r.getStartPoint().getLatitude());
 				parameters.put("slon", ""+r.getStartPoint().getLongitude());
