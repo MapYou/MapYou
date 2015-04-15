@@ -90,7 +90,8 @@ public class MapmeTest extends TestCase {
 //				String lat=m.get("lat");
 //				String lon=m.get("lng");
 				String address=m.get("formatted_address");
-				assertTrue("location diversa da napoli", address.contains("napoli"));
+				assertTrue("restituisce qualcosa", address.length()>0);
+				assertTrue("location diversa da napoli", address.contains("Naples"));
 			}
 
 		} catch (JSONException e) {
