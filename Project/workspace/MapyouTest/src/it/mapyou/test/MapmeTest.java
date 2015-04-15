@@ -83,12 +83,12 @@ public class MapmeTest extends TestCase {
 			listOfpoints= parser.parse(new JSONObject(data));
 //			List<HashMap<String, String>> allElements= new ArrayList<HashMap<String,String>>();
 			int size = listOfpoints.size();
-			assertTrue(size>=1);
+			assertTrue("dimensione maggiore di uno", size>=1);
 			for(HashMap<String, String> m: listOfpoints){
 //				String lat=m.get("lat");
 //				String lon=m.get("lng");
 				String address=m.get("formatted_address");
-				assertTrue(address.contains("napoli"));
+				assertTrue("location diversa da napoli", address.contains("napoli"));
 			}
 
 		} catch (JSONException e) {
