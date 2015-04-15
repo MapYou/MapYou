@@ -38,6 +38,7 @@ public class MapmeTest extends TestCase {
 	public void test_new_mapme(){
 
 		parameters.clear();
+		parameters.put("user", "cix");
 		parameters.put("name", "peppinoMapme");
 		parameters.put("slat", "12.545");
 		parameters.put("slon", "12.345");
