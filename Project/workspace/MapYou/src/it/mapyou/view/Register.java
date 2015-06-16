@@ -47,13 +47,13 @@ public class Register extends MapyouActivity{
 	public void register (View v){
 
 		if(verifyItems())
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
+//			new Thread(new Runnable() {
+//				@Override
+//				public void run() {
 					new Registration(act).execute();
 
-				}
-			}).start();
+//				}
+//			}).start();
 	}
 
 
